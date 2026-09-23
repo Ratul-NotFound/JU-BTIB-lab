@@ -1,0 +1,396 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  SUPER_ADMIN
+  EDITOR
+}
+
+enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  UPCOMING
+}
+
+enum PublicationType {
+  JOURNAL
+  CONFERENCE
+  BOOK_CHAPTER
+  PATENT
+  OTHER
+}
+
+enum MemberCategory {
+  PI_FACULTY
+  POSTDOC
+  PHD
+  MPHIL
+  MSC
+  BSC_THESIS
+  RESEARCH_ASSISTANT
+  ALUMNI
+}
+
+enum ActivityType {
+  SEMINAR
+  WORKSHOP
+  CONFERENCE
+  TRAINING
+  VISIT
+  ACHIEVEMENT
+}
+
+enum PostStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+}
+
+enum MessageStatus {
+  NEW
+  READ
+  ARCHIVED
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  PUBLISH
+  UNPUBLISH
+  LOGIN
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  passwordHash String
+  role         Role       @default(EDITOR)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  auditLogs    AuditLog[]
+}
+
+model SiteSetting {
+  id              String   @id @default("singleton")
+  labName         String   @default("Bioresources Technology and Industrial Biotechnology Laboratory")
+  labShortName    String   @default("BTIB Lab")
+  departmentName  String   @default("Department of Biotechnology & Genetic Engineering")
+  institutionName String   @default("Jahangirnagar University")
+  address         String   @default("Savar, Dhaka-1342, Bangladesh")
+  contactEmail    String   @default("rahmanms@bgeju.edu.bd")
+  tagline         String   @default("From bioresource to bioproduct")
+  heroHeading     String   @default("Pioneering Sustainable Biotechnology & Bioprocess Engineering")
+  heroSubheading  String   @default("Isolating natural bioresources, engineering microbial pathways, and scaling sustainable bioproducts for environmental and human well-being.")
+  socialLinks     Json?
+  defaultSeo      Json?
+  updatedAt       DateTime @updatedAt
+}
+
+model ContentBlock {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  title     String
+  content   Json
+  updatedAt DateTime @updatedAt
+}
+
+model ResearchArea {
+  id           String                        @id @default(cuid())
+  slug         String                        @unique
+  title        String
+  summary      String                        @db.Text
+  bodyHtml     String?                       @db.Text
+  glyphKey     String
+  coverImage   String?
+  order        Int                           @default(0)
+  published    Boolean                       @default(true)
+  createdAt    DateTime                      @default(now())
+  updatedAt    DateTime                      @updatedAt
+  projects     ResearchAreasOnProjects[]
+  publications ResearchAreasOnPublications[]
+
+  @@index([published, order])
+}
+
+model Project {
+  id          String                    @id @default(cuid())
+  slug        String                    @unique
+  title       String
+  summary     String                    @db.Text
+  bodyHtml    String?                   @db.Text
+  status      ProjectStatus             @default(ACTIVE)
+  funder      String?
+  startYear   Int
+  endYear     Int?
+  coverImage  String?
+  featured    Boolean                   @default(false)
+  order       Int                       @default(0)
+  published   Boolean                   @default(true)
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime                  @updatedAt
+  areas       ResearchAreasOnProjects[]
+  teamMembers TeamMembersOnProjects[]
+
+  @@index([published, order])
+  @@index([status])
+}
+
+model ResearchAreasOnProjects {
+  projectId      String
+  researchAreaId String
+  project        Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  researchArea   ResearchArea @relation(fields: [researchAreaId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, researchAreaId])
+}
+
+model Publication {
+  id          String                        @id @default(cuid())
+  title       String
+  authors     String[]
+  venue       String
+  year        Int
+  type        PublicationType               @default(JOURNAL)
+  doi         String?                       @unique
+  url         String?
+  pdfUrl      String?
+  abstract    String?                       @db.Text
+  bibtex      String?                       @db.Text
+  featured    Boolean                       @default(false)
+  needsReview Boolean                       @default(false)
+  published   Boolean                       @default(true)
+  createdAt   DateTime                      @default(now())
+  updatedAt   DateTime                      @updatedAt
+  areas       ResearchAreasOnPublications[]
+  teamMembers TeamMembersOnPublications[]
+
+  @@index([year(sort: Desc)])
+  @@index([published])
+}
+
+model ResearchAreasOnPublications {
+  publicationId  String
+  researchAreaId String
+  publication    Publication  @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+  researchArea   ResearchArea @relation(fields: [researchAreaId], references: [id], onDelete: Cascade)
+
+  @@id([publicationId, researchAreaId])
+}
+
+model TeamMember {
+  id           String                      @id @default(cuid())
+  slug         String                      @unique
+  name         String
+  category     MemberCategory              @default(BSC_THESIS)
+  title        String?
+  bio          String?                     @db.Text
+  photoUrl     String?
+  email        String?
+  profileLinks Json?
+  interests    String[]
+  joinYear     Int
+  leaveYear    Int?
+  order        Int                         @default(0)
+  published    Boolean                     @default(true)
+  createdAt    DateTime                    @default(now())
+  updatedAt    DateTime                    @updatedAt
+  projects     TeamMembersOnProjects[]
+  publications TeamMembersOnPublications[]
+
+  @@index([category, order])
+  @@index([published])
+}
+
+model TeamMembersOnProjects {
+  projectId    String
+  teamMemberId String
+  project      Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  teamMember   TeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  @@id([projectId, teamMemberId])
+}
+
+model TeamMembersOnPublications {
+  publicationId String
+  teamMemberId  String
+  publication   Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+  teamMember    TeamMember  @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  @@id([publicationId, teamMemberId])
+}
+
+model Equipment {
+  id             String   @id @default(cuid())
+  name           String
+  category       String
+  description    String?  @db.Text
+  specifications Json?
+  imageUrl       String?
+  order          Int      @default(0)
+  published      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([published, order])
+}
+
+model Activity {
+  id         String         @id @default(cuid())
+  slug       String         @unique
+  type       ActivityType   @default(SEMINAR)
+  title      String
+  date       DateTime
+  location   String?
+  bodyHtml   String?        @db.Text
+  coverImage String?
+  published  Boolean        @default(true)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  albums     GalleryAlbum[]
+
+  @@index([date(sort: Desc)])
+  @@index([published])
+}
+
+model GalleryAlbum {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  title       String
+  description String?        @db.Text
+  coverImage  String?
+  activityId  String?
+  order       Int            @default(0)
+  published   Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  activity    Activity?      @relation(fields: [activityId], references: [id], onDelete: SetNull)
+  images      GalleryImage[]
+
+  @@index([published, order])
+}
+
+model GalleryImage {
+  id                 String       @id @default(cuid())
+  albumId            String
+  cloudinaryPublicId String
+  url                String
+  width              Int
+  height             Int
+  alt                String
+  caption            String?
+  order              Int          @default(0)
+  createdAt          DateTime     @default(now())
+  album              GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+
+  @@index([albumId, order])
+}
+
+model BlogPost {
+  id              String     @id @default(cuid())
+  slug            String     @unique
+  title           String
+  excerpt         String     @db.Text
+  bodyHtml        String     @db.Text
+  coverImage      String?
+  authorName      String     @default("BTIB Editorial")
+  categoryId      String?
+  status          PostStatus @default(DRAFT)
+  publishedAt     DateTime?
+  readingTime     Int        @default(3)
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  category        Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags            PostTag[]
+
+  @@index([status, publishedAt(sort: Desc)])
+  @@index([slug])
+}
+
+model Category {
+  id        String     @id @default(cuid())
+  slug      String     @unique
+  name      String
+  posts     BlogPost[]
+  createdAt DateTime   @default(now())
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  name      String
+  posts     PostTag[]
+  createdAt DateTime  @default(now())
+}
+
+model PostTag {
+  postId String
+  tagId  String
+  post   BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+}
+
+model ContactMessage {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String        @db.Text
+  status    MessageStatus @default(NEW)
+  ipHash    String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status, createdAt(sort: Desc)])
+}
+
+model Media {
+  id           String   @id @default(cuid())
+  cloudinaryId String   @unique
+  url          String
+  width        Int
+  height       Int
+  format       String
+  bytes        Int
+  alt          String
+  folder       String?
+  createdAt    DateTime @default(now())
+}
+
+model AuditLog {
+  id        String      @id @default(cuid())
+  userId    String?
+  userName  String?
+  userEmail String?
+  action    AuditAction
+  entity    String
+  entityId  String?
+  details   Json?
+  timestamp DateTime    @default(now())
+  user      User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entity, entityId])
+  @@index([timestamp(sort: Desc)])
+}
+
+model LoginAttempt {
+  id            String    @id @default(cuid())
+  identifier    String    @unique
+  failedCount   Int       @default(0)
+  lockedUntil   DateTime?
+  lastAttemptAt DateTime  @default(now())
+
+  @@index([identifier])
+}
