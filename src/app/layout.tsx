@@ -62,7 +62,41 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var strip = function(el) {
+                    if (!el || !el.attributes) return;
+                    for (var i = el.attributes.length - 1; i >= 0; i--) {
+                      var name = el.attributes[i].name;
+                      if (name.indexOf('bis_') === 0 || name.indexOf('__processed_') === 0) {
+                        el.removeAttribute(name);
+                      }
+                    }
+                  };
+                  var observer = new MutationObserver(function(mutations) {
+                    for (var i = 0; i < mutations.length; i++) {
+                      var m = mutations[i];
+                      if (m.type === 'attributes' && m.target) {
+                        strip(m.target);
+                      }
+                    }
+                  });
+                  observer.observe(document.documentElement, {
+                    attributes: true,
+                    subtree: true
+                  });
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} font-sans min-h-screen flex flex-col bg-[var(--background)] text-[var(--text-primary)]`}
       >
         <ThemeProvider
