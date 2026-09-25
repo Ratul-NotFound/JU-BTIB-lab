@@ -11,9 +11,9 @@ export function SiteFooter() {
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--brand-primary)]/40 to-transparent" />
 
       <div className="w-full px-4 sm:px-12 lg:px-20 py-8 sm:py-16 lg:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 lg:gap-14">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 lg:gap-14">
           {/* Column 1: Lab identity */}
-          <div className="space-y-3 sm:space-y-4 sm:col-span-2 md:col-span-1">
+          <div className="space-y-3 sm:space-y-4 col-span-2 md:col-span-1">
             <div className="flex items-center gap-2.5 sm:gap-3">
               <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center">
                 <Image
@@ -46,7 +46,7 @@ export function SiteFooter() {
           </div>
 
           {/* Column 2: Research Areas */}
-          <div className="space-y-2.5 sm:space-y-3.5">
+          <div className="space-y-2.5 sm:space-y-3.5 col-span-1">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
               Core Branches
@@ -96,7 +96,7 @@ export function SiteFooter() {
           </div>
 
           {/* Column 3: Institutional Links & University Logo */}
-          <div className="space-y-2.5 sm:space-y-3.5">
+          <div className="space-y-2.5 sm:space-y-3.5 col-span-1">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
               Affiliations
@@ -107,9 +107,9 @@ export function SiteFooter() {
               href="https://juniv.edu"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-3 p-2.5 sm:p-3 rounded-xl border border-slate-800/90 bg-white/[0.03] hover:bg-white/[0.07] hover:border-[var(--brand-primary)]/50 transition-all shadow-xs"
+              className="group flex items-center gap-2.5 sm:gap-3 p-2 sm:p-3 rounded-xl border border-slate-800/90 bg-white/[0.03] hover:bg-white/[0.07] hover:border-[var(--brand-primary)]/50 transition-all shadow-xs"
             >
-              <div className="relative w-7 h-7 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center">
+              <div className="relative w-6 h-6 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center">
                 <Image
                   src="/images/ju-logo-white.png"
                   alt="Jahangirnagar University Crest"
@@ -118,15 +118,15 @@ export function SiteFooter() {
                   className="w-full h-full object-contain transition-transform group-hover:scale-105"
                 />
               </div>
-              <div className="text-xs">
-                <span className="font-bold text-white group-hover:text-[var(--brand-primary)] transition-colors block leading-tight">
-                  Jahangirnagar University
+              <div className="text-xs min-w-0">
+                <span className="font-bold text-white group-hover:text-[var(--brand-primary)] transition-colors block leading-tight truncate">
+                  JU
                 </span>
-                <span className="text-[10px] sm:text-[11px] text-slate-400 font-sans">
-                  Savar, Dhaka-1342, Bangladesh
+                <span className="text-[10px] sm:text-[11px] text-slate-400 font-sans hidden sm:block">
+                  Savar, Dhaka-1342
                 </span>
               </div>
-              <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-500 group-hover:text-[var(--brand-primary)] ml-auto transition-colors" />
+              <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-500 group-hover:text-[var(--brand-primary)] ml-auto transition-colors shrink-0" />
             </a>
 
             <ul className="space-y-2 sm:space-y-2.5 text-xs pt-0.5 sm:pt-1">
@@ -137,8 +137,8 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-slate-400 hover:text-[var(--brand-primary)] transition-colors group"
                 >
-                  <span>Dept. of Biotechnology & Genetic Engineering</span>
-                  <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-[var(--brand-primary)] transition-colors" />
+                  <span className="line-clamp-1">Dept. of BGE</span>
+                  <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-[var(--brand-primary)] transition-colors shrink-0" />
                 </a>
               </li>
               <li>
@@ -148,8 +148,8 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-slate-400 hover:text-[var(--brand-primary)] transition-colors group"
                 >
-                  <span>Graduate Programs (M.Phil / Ph.D.)</span>
-                  <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-[var(--brand-primary)] transition-colors" />
+                  <span className="line-clamp-1">Graduate Programs</span>
+                  <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-[var(--brand-primary)] transition-colors shrink-0" />
                 </a>
               </li>
               <li>
@@ -157,14 +157,14 @@ export function SiteFooter() {
                   href="/about#facilities"
                   className="inline-flex items-center gap-1.5 text-slate-400 hover:text-[var(--brand-primary)] transition-colors"
                 >
-                  Laboratory Equipment & Facilities
+                  <span className="line-clamp-1">Facilities</span>
                 </Link>
               </li>
             </ul>
           </div>
 
           {/* Column 4: Contact & Coordinates */}
-          <div className="space-y-2.5 sm:space-y-3.5">
+          <div className="space-y-2.5 sm:space-y-3.5 col-span-2 md:col-span-1">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
               Location & Contact
