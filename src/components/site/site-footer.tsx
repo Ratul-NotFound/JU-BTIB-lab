@@ -10,12 +10,12 @@ export function SiteFooter() {
       {/* Refined gradient accent hairline at top of footer */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--brand-primary)]/40 to-transparent" />
 
-      <div className="w-full px-6 sm:px-12 lg:px-20 py-16 sm:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 lg:gap-14">
+      <div className="w-full px-4 sm:px-12 lg:px-20 py-8 sm:py-16 lg:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 lg:gap-14">
           {/* Column 1: Lab identity */}
-          <div className="space-y-4 md:col-span-1">
-            <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 shrink-0 flex items-center justify-center">
+          <div className="space-y-3 sm:space-y-4 sm:col-span-2 md:col-span-1">
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center">
                 <Image
                   src="/images/btib-logo-white.png"
                   alt="BTIB Laboratory Logo"
@@ -24,7 +24,7 @@ export function SiteFooter() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span className="font-black text-lg text-white tracking-tight">
+              <span className="font-black text-base sm:text-lg text-white tracking-tight">
                 BTIB Laboratory
               </span>
             </div>
@@ -33,7 +33,7 @@ export function SiteFooter() {
               Translating indigenous microbial resources and microalgal bioprocesses into
               sustainable industrial applications and urban clean-air technologies.
             </p>
-            <div className="pt-1 text-xs space-y-1">
+            <div className="pt-0.5 text-xs space-y-1">
               <div className="text-slate-300 font-medium">
                 Dept. of Biotechnology & Genetic Engineering
               </div>
@@ -46,12 +46,12 @@ export function SiteFooter() {
           </div>
 
           {/* Column 2: Research Areas */}
-          <div className="space-y-3.5">
+          <div className="space-y-2.5 sm:space-y-3.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
               Core Branches
             </h4>
-            <ul className="space-y-2.5 text-xs">
+            <ul className="space-y-2 sm:space-y-2.5 text-xs">
               <li>
                 <Link
                   href="/research/microbial-biotechnology"
@@ -96,7 +96,7 @@ export function SiteFooter() {
           </div>
 
           {/* Column 3: Institutional Links & University Logo */}
-          <div className="space-y-3.5">
+          <div className="space-y-2.5 sm:space-y-3.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
               Affiliations
@@ -107,9 +107,9 @@ export function SiteFooter() {
               href="https://juniv.edu"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-3.5 p-3 rounded-xl border border-slate-800/90 bg-white/[0.03] hover:bg-white/[0.07] hover:border-[var(--brand-primary)]/50 transition-all shadow-xs"
+              className="group flex items-center gap-3 p-2.5 sm:p-3 rounded-xl border border-slate-800/90 bg-white/[0.03] hover:bg-white/[0.07] hover:border-[var(--brand-primary)]/50 transition-all shadow-xs"
             >
-              <div className="relative w-8 h-8 shrink-0 flex items-center justify-center">
+              <div className="relative w-7 h-7 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center">
                 <Image
                   src="/images/ju-logo-white.png"
                   alt="Jahangirnagar University Crest"
@@ -122,14 +122,14 @@ export function SiteFooter() {
                 <span className="font-bold text-white group-hover:text-[var(--brand-primary)] transition-colors block leading-tight">
                   Jahangirnagar University
                 </span>
-                <span className="text-[11px] text-slate-400 font-sans">
+                <span className="text-[10px] sm:text-[11px] text-slate-400 font-sans">
                   Savar, Dhaka-1342, Bangladesh
                 </span>
               </div>
-              <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-[var(--brand-primary)] ml-auto transition-colors" />
+              <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-500 group-hover:text-[var(--brand-primary)] ml-auto transition-colors" />
             </a>
 
-            <ul className="space-y-2.5 text-xs pt-1">
+            <ul className="space-y-2 sm:space-y-2.5 text-xs pt-0.5 sm:pt-1">
               <li>
                 <a
                   href="https://www.bgeju.edu.bd"
@@ -164,12 +164,12 @@ export function SiteFooter() {
           </div>
 
           {/* Column 4: Contact & Coordinates */}
-          <div className="space-y-3.5">
+          <div className="space-y-2.5 sm:space-y-3.5">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
               Location & Contact
             </h4>
-            <div className="space-y-3 text-xs text-slate-400 leading-relaxed font-light">
+            <div className="space-y-2 sm:space-y-3 text-xs text-slate-400 leading-relaxed font-light">
               <p>
                 Department of Biotechnology & Genetic Engineering,
                 <br />
@@ -177,8 +177,8 @@ export function SiteFooter() {
                 <br />
                 Jahangirnagar University, Savar, Dhaka-1342, Bangladesh.
               </p>
-              <div className="pt-1">
-                <span className="text-slate-500 block text-[10px] uppercase tracking-wider font-semibold mb-1">
+              <div className="pt-0.5">
+                <span className="text-slate-500 block text-[10px] uppercase tracking-wider font-semibold mb-0.5">
                   Official Inquiries
                 </span>
                 <a
@@ -193,9 +193,9 @@ export function SiteFooter() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <div className="flex items-center gap-3">
-            <div className="relative w-5 h-5 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
+        <div className="mt-8 sm:mt-14 pt-4 sm:pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs text-slate-400">
+          <div className="flex items-center gap-2.5 sm:gap-3 text-[11px] sm:text-xs text-center sm:text-left">
+            <div className="relative w-4 h-4 sm:w-5 sm:h-5 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
               <Image
                 src="/images/btib-logo-white.png"
                 alt="BTIB Logo"
@@ -204,7 +204,7 @@ export function SiteFooter() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="relative w-4 h-4 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
+            <div className="relative w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 opacity-80 hover:opacity-100 transition-opacity">
               <Image
                 src="/images/ju-logo-white.png"
                 alt="JU Logo"
@@ -213,9 +213,9 @@ export function SiteFooter() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <span>© {currentYear} BTIB Laboratory · Jahangirnagar University. All rights reserved.</span>
+            <span>© {currentYear} BTIB Laboratory · Jahangirnagar University.</span>
           </div>
-          <div className="flex items-center gap-5 text-xs font-sans">
+          <div className="flex items-center gap-3.5 sm:gap-5 text-[11px] sm:text-xs font-sans">
             <Link href="/about" className="text-slate-400 hover:text-white transition-colors">
               About
             </Link>
@@ -227,7 +227,7 @@ export function SiteFooter() {
             </Link>
             <Link
               href="/admin"
-              className="px-2.5 py-1 rounded-md bg-white/[0.05] border border-white/10 text-[var(--brand-primary)] hover:text-white hover:border-[var(--brand-primary)]/50 transition-all font-medium text-[11px]"
+              className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-white/[0.05] border border-white/10 text-[var(--brand-primary)] hover:text-white hover:border-[var(--brand-primary)]/50 transition-all font-medium text-[10px] sm:text-[11px]"
             >
               Admin Portal
             </Link>
