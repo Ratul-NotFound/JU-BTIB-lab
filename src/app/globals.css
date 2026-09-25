@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    /* ==========================================================================
+       Central Color System (OOP Single Source of Truth & Abstraction)
+       Primary Brand Accent: Vibrant Cerulean / Ocean Blue (#0092B8, RGB: 0, 146, 184)
+       ========================================================================== */
+    --brand-primary: #0092B8;
+    --brand-primary-hover: #007D9E;
+    --brand-primary-active: #006884;
+    --brand-primary-light: #EBF7FA;
+    --brand-primary-subtle: rgba(0, 146, 184, 0.12);
+    --brand-primary-border: rgba(0, 146, 184, 0.28);
+    --brand-primary-glow: rgba(0, 146, 184, 0.25);
+
+    /* Encapsulated Aliases for System-Wide Integration */
+    --bio-teal: var(--brand-primary);
+    --bio-teal-hover: var(--brand-primary-hover);
+    --bio-teal-muted: var(--brand-primary-light);
+    --bio-cyan: var(--brand-primary);
+    --bio-cyan-hover: var(--brand-primary-hover);
+
+    /* Secondary Academic Accents */
+    --bio-emerald: #059669;
+    --bio-emerald-hover: #047857;
+    --bio-amber: #D97706;
+    --bio-amber-muted: #FEF3C7;
+
+    /* Surfaces & Backgrounds (Light Theme: Clean Academic Alabaster & Pure White) */
+    --background: #F8FAFC;
+    --surface: #FFFFFF;
+    --surface-raised: #F1F5F9;
+    --surface-muted: #E2E8F0;
+    --border: #E2E8F0;
+    --border-strong: #CBD5E1;
+
+    /* Typography & Ink (Deep Navy Slate, exceptional readability) */
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted: #64748B;
+    --text-accent: var(--brand-primary);
+
+    /* Status & Focus Indicators */
+    --danger: #DC2626;
+    --danger-surface: #FEF2F2;
+    --success: #16A34A;
+    --success-surface: #F0FDF4;
+    --warning: #D97706;
+    --warning-surface: #FFFBEB;
+    --focus-ring: var(--brand-primary);
+  }
+
+  .dark {
+    /* Central Color System - Dark Theme Adaptations */
+    --brand-primary: #00A7D1;
+    --brand-primary-hover: #26C0E8;
+    --brand-primary-active: #53CEEE;
+    --brand-primary-light: #0C2833;
+    --brand-primary-subtle: rgba(0, 167, 209, 0.16);
+    --brand-primary-border: rgba(0, 167, 209, 0.35);
+    --brand-primary-glow: rgba(0, 167, 209, 0.3);
+
+    /* Encapsulated Aliases */
+    --bio-teal: var(--brand-primary);
+    --bio-teal-hover: var(--brand-primary-hover);
+    --bio-teal-muted: var(--brand-primary-light);
+    --bio-cyan: var(--brand-primary);
+    --bio-cyan-hover: var(--brand-primary-hover);
+
+    --bio-emerald: #10B981;
+    --bio-emerald-hover: #34D399;
+    --bio-amber: #F59E0B;
+    --bio-amber-muted: #451A03;
+
+    /* Surfaces & Backgrounds (Dark Theme: Deep Academic Slate & Obsidian) */
+    --background: #0B0F17;
+    --surface: #111827;
+    --surface-raised: #1F2937;
+    --surface-muted: #374151;
+    --border: #1F2937;
+    --border-strong: #374151;
+
+    /* Typography & Ink (Crisp Off-White & Cool Gray) */
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --text-accent: var(--brand-primary);
+
+    /* Status & Focus Indicators */
+    --danger: #EF4444;
+    --danger-surface: #450A0A;
+    --success: #22C55E;
+    --success-surface: #052E16;
+    --warning: #F59E0B;
+    --warning-surface: #451A03;
+    --focus-ring: var(--brand-primary);
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Font Classes */
+.font-serif {
+  font-family: var(--font-serif), "Newsreader", Georgia, Cambria, "Times New Roman", Times, serif;
+}
+.font-sans {
+  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Hairline borders */
+.border-subtle {
+  border-color: var(--border);
+}
+
+/* Editorial Eyebrow Label */
+.editorial-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+}
+
+/* Academic Specimen Tag */
+.specimen-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+  background-color: var(--surface-raised);
+  color: var(--text-secondary);
+}
+
+/* Focus Ring */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Accessibility: Respect Reduced Motion */
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-120px) translateX(6px);
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-260px) translateX(-4px);
+    opacity: 0;
+  }
+}
+
+.animate-bubble {
+  animation-name: bubbleRise;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Logo & Line-Art Theme Inversion (Class-Based, Independent of OS Scheme)
+   ========================================================================== */
+.theme-logo-light {
+  display: block !important;
+}
+.theme-logo-dark {
+  display: none !important;
+}
+.dark .theme-logo-light {
+  display: none !important;
+}
+.dark .theme-logo-dark {
+  display: block !important;
+}
+
+/* Explicit class-based dark mode inversion for monochromatic transparent line-art */
+.theme-invert-dark {
+  filter: none !important;
+}
+.dark .theme-invert-dark {
+  filter: invert(1) !important;
+}
+
