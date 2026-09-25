@@ -434,7 +434,7 @@ export default async function AboutPage() {
               <div className="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left space-y-3 sm:space-y-4">
                 <div className="relative w-32 h-32 sm:w-52 sm:h-52 rounded-xl sm:rounded-2xl border border-[var(--border)] overflow-hidden shadow-xs bg-[var(--surface-raised)]">
                   <Image
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80"
+                    src={pi.photoUrl || "/images/team/shahedur-rahman.jpg"}
                     alt={pi.name}
                     fill
                     className="object-cover object-top"

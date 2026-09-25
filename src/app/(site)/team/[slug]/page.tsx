@@ -1,5 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { ArrowLeft, BookOpen, ExternalLink, FolderKanban, Mail } from "lucide-react";
@@ -63,12 +64,25 @@ export default async function TeamMemberProfilePage({ params }: Props) {
         {/* Profile Card Header */}
         <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-4 sm:space-y-8 shadow-xs">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-            <div className="w-18 h-18 sm:w-28 sm:h-28 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-2xl sm:text-3xl font-serif font-bold text-[var(--bio-teal)] shrink-0 shadow-inner">
-              {member.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")
-                .slice(0, 2)}
+            <div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-xl sm:rounded-2xl border-2 border-[var(--brand-primary)]/40 bg-[var(--surface-raised)] overflow-hidden shrink-0 shadow-sm flex items-center justify-center">
+              {member.photoUrl ? (
+                <Image
+                  src={member.photoUrl}
+                  alt={member.name}
+                  fill
+                  className="object-cover object-top"
+                  sizes="112px"
+                  priority
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-2xl sm:text-3xl font-serif font-bold text-[var(--bio-teal)]">
+                  {member.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .slice(0, 2)}
+                </div>
+              )}
             </div>
 
             <div className="space-y-1 sm:space-y-1.5">
