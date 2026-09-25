@@ -17,28 +17,28 @@ export default async function ContactPage() {
   const settings = await getSiteSettings();
 
   return (
-    <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-16 space-y-6 sm:space-y-12">
       {/* Header */}
-      <section className="space-y-4 max-w-4xl">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.08]">
+      <section className="space-y-2 sm:space-y-4 max-w-4xl">
+        <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
           Contact the <span className="text-[var(--brand-primary)]">Laboratory</span>
         </h1>
 
-        <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed font-light">
+        <p className="text-xs sm:text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed font-light">
           For academic thesis inquiries, postdoctoral fellowships, industrial biotechnology partnerships,
           or analytical sample characterization requests, please contact our research desk.
         </p>
       </section>
 
       {/* Main Grid: Form on left, Address & Institution on right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-14 items-start">
         {/* Contact Form Column */}
-        <div className="lg:col-span-7 p-8 sm:p-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-6">
-          <div className="space-y-1.5">
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)]">
+        <div className="lg:col-span-7 p-4 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 sm:space-y-6">
+          <div className="space-y-1 sm:space-y-1.5">
+            <h2 className="text-xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)]">
               Send an <span className="text-[var(--brand-primary)]">Academic Inquiry</span>
             </h2>
-            <p className="text-sm text-[var(--text-secondary)] font-light">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light">
               Direct communication with faculty investigators and lab coordination staff.
             </p>
           </div>
@@ -47,11 +47,11 @@ export default async function ContactPage() {
         </div>
 
         {/* Institutional Coordinates Column */}
-        <div className="lg:col-span-5 space-y-8">
-          <div className="p-8 sm:p-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-6 shadow-xs">
+        <div className="lg:col-span-5 space-y-4 sm:space-y-8">
+          <div className="p-4 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-4 sm:space-y-6 shadow-xs">
             {/* Campus Header & University Logo */}
-            <div className="flex items-center gap-3.5 pb-2 border-b border-[var(--border)]">
-              <div className="relative w-10 h-10 shrink-0 flex items-center justify-center p-1 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+            <div className="flex items-center gap-3 pb-2 border-b border-[var(--border)]">
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center p-1 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
                 <Image
                   src="/images/ju-logo.png"
                   alt="Jahangirnagar University Logo"
@@ -61,17 +61,17 @@ export default async function ContactPage() {
                 />
               </div>
               <div>
-                <h3 className="font-bold text-base text-[var(--text-primary)] leading-tight">
+                <h3 className="font-bold text-sm sm:text-base text-[var(--text-primary)] leading-tight">
                   Jahangirnagar University
                 </h3>
-                <p className="text-xs text-[var(--text-muted)]">
+                <p className="text-[11px] sm:text-xs text-[var(--text-muted)]">
                   Department of Biotechnology & Genetic Engineering
                 </p>
               </div>
             </div>
 
             {/* Campus Image Header */}
-            <div className="relative aspect-[16/9] rounded-xl overflow-hidden border border-[var(--border)]">
+            <div className="relative aspect-[2.1/1] sm:aspect-[16/9] rounded-lg sm:rounded-xl overflow-hidden border border-[var(--border)]">
               <Image
                 src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80"
                 alt="Jahangirnagar University Campus grounds"
@@ -80,15 +80,15 @@ export default async function ContactPage() {
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-3 right-3 text-xs text-white/95 font-medium flex items-center justify-between">
+              <div className="absolute bottom-2 sm:bottom-3 left-2.5 sm:left-3 right-2.5 sm:right-3 text-[10px] sm:text-xs text-white/95 font-medium flex items-center justify-between">
                 <span>Jahangirnagar University Campus</span>
-                <span className="text-[10px] font-mono opacity-80">Savar, Dhaka</span>
+                <span className="text-[9px] sm:text-[10px] font-mono opacity-80">Savar, Dhaka</span>
               </div>
             </div>
 
-            <div className="space-y-5">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 relative shrink-0 p-1.5 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center">
+            <div className="space-y-3.5 sm:space-y-5">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 relative shrink-0 p-1 sm:p-1.5 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center">
                   <Image
                     src="/images/btib-logo.png"
                     alt="BTIB"

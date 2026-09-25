@@ -105,59 +105,59 @@ export default async function ResearchPage() {
   const researchAreas = await getResearchAreas();
 
   return (
-    <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16 space-y-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-16 space-y-8 sm:space-y-16">
       
       {/* 1. Header with Academic Metrics */}
-      <section className="space-y-5 max-w-4xl">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.08]">
+      <section className="space-y-3 sm:space-y-5 max-w-4xl">
+        <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
           Research Disciplines & <span className="text-[var(--brand-primary)]">Scientific Scope</span>
         </h1>
 
-        <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed font-light">
+        <p className="text-xs sm:text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed font-light">
           BTIB Lab organizes its scientific investigations across eight dedicated branches, spanning
           computational genomics to pilot-scale photobioreactors and sustainable industrial bioproducts
           at Jahangirnagar University.
         </p>
 
         {/* Scope Indicators Strip */}
-        <div className="pt-2 flex flex-wrap gap-3 text-xs font-mono text-[var(--text-muted)]">
-          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface)]">
-            <Atom className="w-4 h-4 text-[var(--bio-teal)]" />
+        <div className="pt-1 sm:pt-2 flex flex-wrap gap-2 sm:gap-3 text-[11px] sm:text-xs font-mono text-[var(--text-muted)]">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface)]">
+            <Atom className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--bio-teal)]" />
             <span>8 Scientific Divisions</span>
           </div>
-          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface)]">
-            <FlaskConical className="w-4 h-4 text-[var(--bio-teal)]" />
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface)]">
+            <FlaskConical className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--bio-teal)]" />
             <span>Pilot Bioprocess Facility</span>
           </div>
-          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface)]">
-            <Dna className="w-4 h-4 text-[var(--bio-teal)]" />
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface)]">
+            <Dna className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--bio-teal)]" />
             <span>Translational Bioresources</span>
           </div>
         </div>
       </section>
 
       {/* 2. Flagship Innovation Spotlight Banner */}
-      <section className="p-8 sm:p-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          <div className="lg:col-span-7 space-y-4">
+      <section className="p-4 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 lg:gap-12 items-center">
+          <div className="lg:col-span-7 space-y-3 sm:space-y-4">
             <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-md text-xs font-semibold bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/30">
+              <span className="px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/30">
                 Flagship Research Initiative
               </span>
-              <span className="text-xs text-[var(--text-muted)] font-medium">
+              <span className="text-[11px] sm:text-xs text-[var(--text-muted)] font-medium">
                 Campus Deployment · Savar
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
+            <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
               250L Liquid-Tree <span className="text-[var(--brand-primary)]">Urban Microalgae Photobioreactor</span>
             </h2>
 
-            <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
+            <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
               Pioneering Bangladesh&apos;s first operational urban microalgal carbon sequestration column. Operating on the Jahangirnagar University campus, the unit continuously fixes ambient CO2 and produces clean oxygen equivalent to two mature 10-year-old trees.
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono text-[var(--text-muted)]">
+            <div className="pt-1 sm:pt-2 flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] sm:text-xs font-mono text-[var(--text-muted)]">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 <span>Microalgae: Chlorella vulgaris</span>
@@ -168,10 +168,10 @@ export default async function ResearchPage() {
               </div>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-1 sm:pt-2">
               <Link
                 href="/projects/liquid-tree-photobioreactor"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_4px_16px_rgba(0,146,184,0.4)] transition-all active:scale-[0.98]"
+                className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_4px_16px_rgba(0,146,184,0.4)] transition-all active:scale-[0.98]"
               >
                 <span>Read Full Technical Dossier</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -179,7 +179,7 @@ export default async function ResearchPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative aspect-[16/10] rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-xs">
+          <div className="lg:col-span-5 relative aspect-[2.1/1] sm:aspect-[16/10] rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-xs">
             <Image
               src="/images/domains/algae-carbon.jpg"
               alt="Liquid-Tree photobioreactor column in Savar"
@@ -188,7 +188,7 @@ export default async function ResearchPage() {
               sizes="(max-width: 1024px) 100vw, 500px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            <div className="absolute bottom-3 left-3 right-3 text-xs text-white bg-black/60 backdrop-blur-md px-3.5 py-2 rounded-lg border border-white/15">
+            <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 text-[10px] sm:text-xs text-white bg-black/60 backdrop-blur-md px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg border border-white/15">
               <span>Operational Unit #01 · Savar Campus</span>
             </div>
           </div>
@@ -196,14 +196,14 @@ export default async function ResearchPage() {
       </section>
 
       {/* 3. Structured 3-Column Grid of 8 Research Areas */}
-      <section className="space-y-6">
-        <div className="space-y-1.5">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
+      <section className="space-y-3.5 sm:space-y-6">
+        <div className="space-y-1">
+          <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
             Explore All 8 <span className="text-[var(--brand-primary)]">Specialized Divisions</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {researchAreas.map((area, idx) => {
             const meta = AREA_METADATA[area.slug] || {
               photo: "/images/domains/microbial-biotech.jpg",
@@ -217,10 +217,10 @@ export default async function ResearchPage() {
               <Link
                 key={area.id}
                 href={`/research/${area.slug}`}
-                className="group rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] hover:shadow-[0_8px_24px_rgba(0,146,184,0.14)] transition-all flex flex-col justify-between overflow-hidden shadow-xs"
+                className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] hover:shadow-[0_8px_24px_rgba(0,146,184,0.14)] transition-all flex flex-col justify-between overflow-hidden shadow-xs"
               >
                 {/* Photo Banner with Standardized Aspect Ratio */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">
+                <div className="relative aspect-[2.1/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">
                   <Image
                     src={meta.photo}
                     alt={meta.alt}
@@ -231,42 +231,42 @@ export default async function ResearchPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                   {/* Division Index Badge */}
-                  <div className="absolute top-3.5 left-3.5">
-                    <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-semibold bg-black/60 backdrop-blur-md border border-white/20 text-white">
+                  <div className="absolute top-2.5 sm:top-3.5 left-2.5 sm:left-3.5">
+                    <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[10px] sm:text-[11px] font-mono font-semibold bg-black/60 backdrop-blur-md border border-white/20 text-white">
                       DIV 0{idx + 1}
                     </span>
                   </div>
 
                   {/* Facility Name Badge */}
-                  <div className="absolute top-3.5 right-3.5">
-                    <span className="px-2.5 py-1 rounded-md text-[10px] font-mono font-medium bg-black/50 backdrop-blur-md border border-white/10 text-slate-200">
+                  <div className="absolute top-2.5 sm:top-3.5 right-2.5 sm:right-3.5">
+                    <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[10px] font-mono font-medium bg-black/50 backdrop-blur-md border border-white/10 text-slate-200">
                       {meta.facility}
                     </span>
                   </div>
 
                   {/* Scientific Glyph */}
-                  <div className="absolute bottom-3 right-3 p-2 rounded-xl bg-[var(--surface)]/95 backdrop-blur-md border border-[var(--border)] text-[var(--brand-primary)] shadow-xs">
-                    <ResearchGlyph glyphKey={area.glyphKey} size={20} />
+                  <div className="absolute bottom-2.5 sm:bottom-3 right-2.5 sm:right-3 p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-[var(--surface)]/95 backdrop-blur-md border border-[var(--border)] text-[var(--brand-primary)] shadow-xs">
+                    <ResearchGlyph glyphKey={area.glyphKey} size={18} />
                   </div>
                 </div>
 
                 {/* Card Body */}
-                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-2.5">
-                    <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition-colors leading-snug">
+                <div className="p-3.5 sm:p-6 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
+                  <div className="space-y-1.5 sm:space-y-2.5">
+                    <h3 className="text-base sm:text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition-colors leading-snug">
                       {area.title}
                     </h3>
 
-                    <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light line-clamp-3">
+                    <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light line-clamp-2 sm:line-clamp-3">
                       {area.summary}
                     </p>
 
                     {/* Research Focus Tags */}
-                    <div className="flex flex-wrap gap-1.5 pt-1">
+                    <div className="flex flex-wrap gap-1 sm:gap-1.5 pt-0.5 sm:pt-1">
                       {meta.focusTags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2.5 py-0.5 rounded-md text-[10px] font-mono bg-[var(--surface-raised)] text-[var(--text-muted)] border border-[var(--border)]"
+                          className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--surface-raised)] text-[var(--text-muted)] border border-[var(--border)]"
                         >
                           {tag}
                         </span>
@@ -275,13 +275,13 @@ export default async function ResearchPage() {
                   </div>
 
                   {/* Card Footer */}
-                  <div className="pt-3.5 border-t border-[var(--border)] flex items-center justify-between text-xs font-mono text-[var(--text-muted)]">
+                  <div className="pt-2.5 sm:pt-3.5 border-t border-[var(--border)] flex items-center justify-between text-[11px] sm:text-xs font-mono text-[var(--text-muted)]">
                     <span>
                       {area._count.projects > 0 ? `${area._count.projects} Active Projects` : "Active Research"}
                       {area._count.publications > 0 && ` · ${area._count.publications} Pubs`}
                     </span>
                     <span className="text-[var(--bio-teal)] flex items-center gap-1 group-hover:translate-x-1 transition-transform font-medium">
-                      Division Dossier <ChevronRight className="w-3.5 h-3.5" />
+                      Dossier <ChevronRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </div>
@@ -292,26 +292,26 @@ export default async function ResearchPage() {
       </section>
 
       {/* 4. Methodological Core & Technical Capabilities */}
-      <section className="space-y-6">
-        <div className="space-y-1.5">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
+      <section className="space-y-3.5 sm:space-y-6">
+        <div className="space-y-1">
+          <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
             Core Scientific & <span className="text-[var(--brand-primary)]">Engineering Capabilities</span>
           </h2>
-          <p className="text-base text-[var(--text-secondary)] leading-relaxed font-light">
+          <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
             Standard operating procedures and analytical methodologies established across our laboratory units.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
           {RESEARCH_CAPABILITIES.map((cap) => (
             <div
               key={cap.title}
-              className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2.5 shadow-xs"
+              className="p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-1.5 sm:space-y-2.5 shadow-xs"
             >
-              <h3 className="font-bold text-base text-[var(--text-primary)]">
+              <h3 className="font-bold text-xs sm:text-base text-[var(--text-primary)]">
                 {cap.title}
               </h3>
-              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
+              <p className="text-[11px] sm:text-sm text-[var(--text-secondary)] leading-snug sm:leading-relaxed font-light line-clamp-3 sm:line-clamp-none">
                 {cap.description}
               </p>
             </div>
@@ -320,20 +320,20 @@ export default async function ResearchPage() {
       </section>
 
       {/* 5. Inquire for Graduate Research Placements Banner */}
-      <section className="p-8 sm:p-12 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xs">
-        <div className="space-y-2 max-w-2xl">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
+      <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-xs">
+        <div className="space-y-1.5 max-w-2xl">
+          <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
             Join One of Our <span className="text-[var(--brand-primary)]">Research Divisions</span>
           </h2>
-          <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
+          <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
             We are continuously recruiting B.Sc. Hon. thesis scholars and M.Sc./Ph.D. candidates passionate about bioprocess engineering and environmental biotechnology.
           </p>
         </div>
 
-        <div className="shrink-0">
+        <div className="shrink-0 pt-2 sm:pt-0">
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_4px_18px_rgba(0,146,184,0.4)] transition-all active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_4px_18px_rgba(0,146,184,0.4)] transition-all active:scale-[0.98]"
           >
             <span>Apply to Lab</span>
             <ArrowRight className="w-4 h-4" />

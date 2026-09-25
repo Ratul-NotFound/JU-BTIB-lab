@@ -73,9 +73,9 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
       {error && (
-        <div className="p-3.5 rounded-lg border border-[var(--danger)]/30 bg-[var(--danger-surface)] text-xs text-[var(--danger)]">
+        <div className="p-3 rounded-lg border border-[var(--danger)]/30 bg-[var(--danger-surface)] text-xs text-[var(--danger)]">
           {error}
         </div>
       )}
@@ -93,9 +93,9 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <label className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider block">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div className="space-y-1 sm:space-y-1.5">
+          <label className="text-[11px] sm:text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider block">
             Your Full Name *
           </label>
           <input
@@ -104,12 +104,12 @@ export function ContactForm() {
             placeholder="e.g. Dr. Jane Doe / Research Fellow"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-3.5 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)]"
+            className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] font-sans"
           />
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider block">
+        <div className="space-y-1 sm:space-y-1.5">
+          <label className="text-[11px] sm:text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider block">
             Institutional Email *
           </label>
           <input
@@ -118,43 +118,43 @@ export function ContactForm() {
             placeholder="e.g. name@university.edu"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full px-3.5 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)]"
+            className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] font-sans"
           />
         </div>
       </div>
 
-      <div className="space-y-1.5">
-        <label className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider block">
+      <div className="space-y-1 sm:space-y-1.5">
+        <label className="text-[11px] sm:text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider block">
           Subject / Inquiry Area *
         </label>
         <input
           type="text"
           required
-          placeholder="e.g. Inquiry regarding B.Sc. thesis placement / Industrial collaboration"
+          placeholder="e.g. Inquiry regarding thesis placement / Industrial collaboration"
           value={formData.subject}
           onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-          className="w-full px-3.5 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)]"
+          className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] font-sans"
         />
       </div>
 
-      <div className="space-y-1.5">
-        <label className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider block">
+      <div className="space-y-1 sm:space-y-1.5">
+        <label className="text-[11px] sm:text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider block">
           Message *
         </label>
         <textarea
           required
-          rows={5}
+          rows={4}
           placeholder="Please describe your background, thesis interest, or proposed research scope..."
           value={formData.message}
           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          className="w-full px-3.5 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] resize-y"
+          className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] resize-y font-sans"
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_4px_16px_rgba(0,146,184,0.4)] transition-all active:scale-[0.98] disabled:opacity-50"
+        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_4px_16px_rgba(0,146,184,0.4)] transition-all active:scale-[0.98] disabled:opacity-50"
       >
         {loading ? (
           <>
@@ -163,7 +163,7 @@ export function ContactForm() {
           </>
         ) : (
           <>
-            <Send className="w-4 h-4" />
+            <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span>Transmit Message</span>
           </>
         )}

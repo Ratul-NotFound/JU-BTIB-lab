@@ -248,8 +248,8 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
                 href={`/activities/${act.slug}`}
                 className="group relative flex flex-col sm:flex-row items-stretch rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/70 hover:shadow-md transition-all duration-200 overflow-hidden"
               >
-                {/* Left Thumbnail (Desktop: compact 220px, Mobile: 16:9 ratio) */}
-                <div className="relative w-full sm:w-52 md:w-56 h-36 sm:h-auto min-h-[130px] shrink-0 overflow-hidden bg-[var(--surface-raised)]">
+                {/* Left Thumbnail (Desktop: compact 220px, Mobile: compact height) */}
+                <div className="relative w-full sm:w-52 md:w-56 aspect-[2.4/1] sm:aspect-auto h-28 sm:h-auto shrink-0 overflow-hidden bg-[var(--surface-raised)]">
                   <Image
                     src={imageSrc}
                     alt={act.title}
@@ -261,7 +261,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
 
                   {/* Photo badge if albums exist */}
                   {photoCount > 0 && (
-                    <div className="absolute bottom-2 right-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-black/75 backdrop-blur-md text-white border border-white/10">
+                    <div className="absolute bottom-2 right-2 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-semibold bg-black/75 backdrop-blur-md text-white border border-white/10">
                       <Camera className="w-3 h-3 text-[var(--brand-primary)]" />
                       <span>{photoCount}</span>
                     </div>
@@ -269,7 +269,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
                 </div>
 
                 {/* Right Content */}
-                <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between gap-2.5">
+                <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between gap-2 sm:gap-2.5">
                   <div className="space-y-1.5">
                     {/* Meta Row: Type Badge + Date + Location */}
                     <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 text-xs">
@@ -338,8 +338,11 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
       {/* ================================================================= */}
       {/* COMPACT GRID VIEW (3 Columns)                                     */}
       {/* ================================================================= */}
+      {/* ================================================================= */}
+      {/* COMPACT GRID VIEW (3 Columns)                                     */}
+      {/* ================================================================= */}
       {viewMode === "grid" && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
           {filtered.map((act) => {
             const config = TYPE_CONFIG[act.type] || TYPE_CONFIG.SEMINAR;
             const IconComponent = config.icon;
@@ -357,7 +360,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
                 className="group flex flex-col rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/70 hover:shadow-md transition-all duration-200 overflow-hidden"
               >
                 {/* Shallow 16:9 Image */}
-                <div className="relative w-full aspect-[16/9] overflow-hidden bg-[var(--surface-raised)]">
+                <div className="relative w-full aspect-[2.1/1] sm:aspect-[16/9] overflow-hidden bg-[var(--surface-raised)]">
                   <Image
                     src={imageSrc}
                     alt={act.title}
@@ -368,28 +371,28 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
                   {/* Badge top-left */}
-                  <div className="absolute top-2.5 left-2.5">
+                  <div className="absolute top-2 left-2">
                     <span
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-black/65 backdrop-blur-md text-white border border-white/20`}
+                      className={`inline-flex items-center gap-1 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-md text-[9px] sm:text-[10px] font-semibold bg-black/65 backdrop-blur-md text-white border border-white/20`}
                     >
-                      <IconComponent className="w-3 h-3 text-[var(--brand-primary)]" />
+                      <IconComponent className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[var(--brand-primary)]" />
                       <span>{config.label.split("&")[0].trim()}</span>
                     </span>
                   </div>
 
                   {/* Photo count top-right */}
                   {photoCount > 0 && (
-                    <div className="absolute top-2.5 right-2.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-black/75 backdrop-blur-md text-white border border-white/10">
-                      <Camera className="w-3 h-3 text-[var(--brand-primary)]" />
+                    <div className="absolute top-2 right-2 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[9px] sm:text-[10px] font-medium bg-black/75 backdrop-blur-md text-white border border-white/10">
+                      <Camera className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[var(--brand-primary)]" />
                       <span>{photoCount}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="p-3.5 flex-1 flex flex-col justify-between gap-3">
-                  <div className="space-y-1.5">
-                    <div className="flex items-center gap-2 text-[11px] text-[var(--text-muted)] font-medium">
+                <div className="p-2.5 sm:p-3.5 flex-1 flex flex-col justify-between gap-2 sm:gap-3">
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-[var(--text-muted)] font-medium">
                       <Calendar className="w-3 h-3 text-[var(--brand-primary)]" />
                       <span>
                         {new Date(act.date).toLocaleDateString("en-US", {
@@ -398,28 +401,22 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
                           day: "numeric",
                         })}
                       </span>
-                      {act.location && (
-                        <>
-                          <span>•</span>
-                          <span className="truncate max-w-[120px]">{act.location}</span>
-                        </>
-                      )}
                     </div>
 
-                    <h3 className="text-sm font-bold font-sans text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-xs sm:text-sm font-bold font-sans text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition-colors line-clamp-2 leading-snug">
                       {act.title}
                     </h3>
 
                     {snippet && (
-                      <p className="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed font-light">
+                      <p className="text-[11px] sm:text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed font-light hidden sm:block">
                         {snippet}
                       </p>
                     )}
                   </div>
 
-                  <div className="pt-2 border-t border-[var(--border)]/50 flex items-center justify-between text-xs font-semibold text-[var(--brand-primary)]">
-                    <span>Read Details</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  <div className="pt-1.5 sm:pt-2 border-t border-[var(--border)]/50 flex items-center justify-between text-[11px] sm:text-xs font-semibold text-[var(--brand-primary)]">
+                    <span>Details</span>
+                    <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </Link>

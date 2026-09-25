@@ -30,39 +30,39 @@ export function PublicationsHistogram({ data, className = "" }: PublicationsHist
   const totalWidth = data.length * (barWidth + gap);
 
   return (
-    <div className={`p-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-3 ${className}`}>
+    <div className={`p-3.5 sm:p-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-3 ${className}`}>
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="specimen-tag text-[10px]">OUTPUT METRICS</span>
-            <span className="text-xs font-mono text-[var(--bio-teal)] font-medium">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="specimen-tag text-[9px] sm:text-[10px]">OUTPUT METRICS</span>
+            <span className="text-[10px] sm:text-xs font-mono text-[var(--bio-teal)] font-medium">
               ANNUAL RESEARCH OUTPUT
             </span>
           </div>
-          <h4 className="text-sm font-semibold text-[var(--text-primary)] mt-1">
+          <h4 className="text-xs sm:text-sm font-semibold text-[var(--text-primary)] mt-0.5 sm:mt-1">
             Peer-Reviewed Articles by Year
           </h4>
         </div>
 
         {hoveredPoint ? (
           <div className="text-right">
-            <span className="text-xs font-mono text-[var(--text-muted)]">Year {hoveredPoint.year}:</span>{" "}
-            <span className="text-xs font-mono font-bold text-[var(--bio-teal)]">
+            <span className="text-[10px] sm:text-xs font-mono text-[var(--text-muted)]">Year {hoveredPoint.year}:</span>{" "}
+            <span className="text-[10px] sm:text-xs font-mono font-bold text-[var(--bio-teal)]">
               {hoveredPoint.count} {hoveredPoint.count === 1 ? "publication" : "publications"}
             </span>
           </div>
         ) : (
-          <div className="text-xs font-mono text-[var(--text-muted)]">
+          <div className="text-[10px] sm:text-xs font-mono text-[var(--text-muted)]">
             Total indexed: {data.reduce((acc, curr) => acc + curr.count, 0)}
           </div>
         )}
       </div>
 
       {/* SVG Bar Chart */}
-      <div className="overflow-x-auto pt-2 pb-1">
+      <div className="overflow-x-auto pt-1 sm:pt-2 pb-1">
         <svg
           viewBox={`0 0 ${Math.max(totalWidth, 320)} ${chartHeight + 35}`}
-          className="w-full h-36"
+          className="w-full h-24 sm:h-36"
         >
           {/* Subtle horizontal grid lines */}
           <line

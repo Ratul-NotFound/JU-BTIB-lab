@@ -99,37 +99,37 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
   // Bento Span generator for geometric harmony on 3-column layouts
   const getBentoClasses = (index: number, total: number) => {
     if (total <= 2) {
-      return "col-span-1 min-h-[300px]";
+      return "col-span-1 min-h-[160px] sm:min-h-[300px]";
     }
 
     const pos = index % 8;
     switch (pos) {
       case 0:
         // Featured Hero (2 cols, 2 rows on desktop)
-        return "col-span-1 sm:col-span-2 lg:col-span-2 sm:row-span-2 min-h-[320px] sm:min-h-[520px] lg:min-h-[580px]";
+        return "col-span-2 sm:col-span-2 lg:col-span-2 sm:row-span-2 min-h-[220px] sm:min-h-[520px] lg:min-h-[580px]";
       case 1:
         // Top right stacked (1 col, 1 row)
-        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[220px] sm:min-h-[250px] lg:min-h-[275px]";
+        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[150px] sm:min-h-[250px] lg:min-h-[275px]";
       case 2:
         // Bottom right stacked (1 col, 1 row)
-        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[220px] sm:min-h-[250px] lg:min-h-[275px]";
+        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[150px] sm:min-h-[250px] lg:min-h-[275px]";
       case 3:
         // Standard (1 col, 1 row)
-        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[220px] sm:min-h-[250px] lg:min-h-[275px]";
+        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[150px] sm:min-h-[250px] lg:min-h-[275px]";
       case 4:
         // Wide Panorama banner (2 cols, 1 row)
-        return "col-span-1 sm:col-span-2 lg:col-span-2 row-span-1 min-h-[220px] sm:min-h-[250px] lg:min-h-[275px]";
+        return "col-span-2 sm:col-span-2 lg:col-span-2 row-span-1 min-h-[170px] sm:min-h-[250px] lg:min-h-[275px]";
       case 5:
         // Standard (1 col, 1 row)
-        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[220px] sm:min-h-[250px] lg:min-h-[275px]";
+        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[150px] sm:min-h-[250px] lg:min-h-[275px]";
       case 6:
         // Standard (1 col, 1 row)
-        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[220px] sm:min-h-[250px] lg:min-h-[275px]";
+        return "col-span-1 sm:col-span-1 lg:col-span-1 row-span-1 min-h-[150px] sm:min-h-[250px] lg:min-h-[275px]";
       case 7:
         // Standard (1 col, 1 row)
-        return "col-span-1 sm:col-span-2 lg:col-span-1 row-span-1 min-h-[220px] sm:min-h-[250px] lg:min-h-[275px]";
+        return "col-span-2 sm:col-span-2 lg:col-span-1 row-span-1 min-h-[150px] sm:min-h-[250px] lg:min-h-[275px]";
       default:
-        return "col-span-1 row-span-1 min-h-[240px]";
+        return "col-span-1 row-span-1 min-h-[150px] sm:min-h-[240px]";
     }
   };
 
@@ -256,7 +256,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
       {/* 1. CREATIVE BENTO GRID (Default)                                  */}
       {/* ================================================================= */}
       {viewMode === "bento" && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
           {allImages.map((img, idx) => {
             const bentoClasses = getBentoClasses(idx, allImages.length);
             const isHero = (idx % 8 === 0) && allImages.length > 2;
@@ -265,7 +265,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
               <div
                 key={img.id}
                 onClick={() => setLightboxIndex(idx)}
-                className={`group relative rounded-2xl sm:rounded-3xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 shadow-xs flex flex-col justify-end ${bentoClasses}`}
+                className={`group relative rounded-xl sm:rounded-3xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 shadow-xs flex flex-col justify-end ${bentoClasses}`}
               >
                 {/* Background Image */}
                 <Image
@@ -284,28 +284,28 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10 transition-opacity duration-300 group-hover:via-black/45" />
 
                 {/* Top Overlay Badges */}
-                <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 z-10">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-black/65 backdrop-blur-md text-white border border-white/20 shadow-xs">
-                    {isHero && <Sparkles className="w-3 h-3 text-[var(--brand-primary)]" />}
-                    <span className="truncate max-w-[180px]">{img.albumTitle}</span>
+                <div className="absolute top-2 sm:top-3.5 left-2 sm:left-3.5 right-2 sm:right-3.5 flex items-center justify-between gap-1.5 z-10">
+                  <span className="inline-flex items-center gap-1 sm:gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[9px] sm:text-[11px] font-semibold bg-black/65 backdrop-blur-md text-white border border-white/20 shadow-xs">
+                    {isHero && <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[var(--brand-primary)]" />}
+                    <span className="truncate max-w-[120px] sm:max-w-[180px]">{img.albumTitle}</span>
                   </span>
 
-                  <div className="w-7 h-7 rounded-full bg-black/65 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-70 group-hover:opacity-100 group-hover:scale-110 group-hover:bg-[var(--brand-primary)] transition-all shrink-0">
-                    <Maximize2 className="w-3.5 h-3.5" />
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/65 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-70 group-hover:opacity-100 group-hover:scale-110 group-hover:bg-[var(--brand-primary)] transition-all shrink-0">
+                    <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   </div>
                 </div>
 
                 {/* Bottom Content / Caption Lockup */}
-                <div className="relative p-4 sm:p-5 sm:pb-6 z-10 space-y-1">
-                  <div className="flex items-center gap-2 text-[10px] font-mono text-[var(--brand-primary)] uppercase tracking-wider font-semibold">
-                    <span>Specimen #{String(idx + 1).padStart(2, "0")}</span>
+                <div className="relative p-2.5 sm:p-5 sm:pb-6 z-10 space-y-0.5 sm:space-y-1">
+                  <div className="flex items-center gap-1 sm:gap-2 text-[9px] sm:text-[10px] font-mono text-[var(--brand-primary)] uppercase tracking-wider font-semibold">
+                    <span>#{String(idx + 1).padStart(2, "0")}</span>
                   </div>
 
                   <h3
                     className={`font-bold font-sans text-white leading-snug group-hover:text-[var(--brand-primary)] transition-colors ${
                       isHero
-                        ? "text-lg sm:text-2xl font-black line-clamp-2"
-                        : "text-sm sm:text-base line-clamp-2"
+                        ? "text-sm sm:text-2xl font-black line-clamp-2"
+                        : "text-xs sm:text-base line-clamp-2"
                     }`}
                   >
                     {img.alt}
@@ -315,8 +315,8 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
                     <p
                       className={`text-white/80 font-light leading-relaxed ${
                         isHero
-                          ? "text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 pt-0.5"
-                          : "text-[11px] sm:text-xs line-clamp-1 group-hover:line-clamp-2 pt-0.5"
+                          ? "text-[10px] sm:text-sm line-clamp-2 sm:line-clamp-3 pt-0.5"
+                          : "text-[10px] sm:text-xs line-clamp-1 group-hover:line-clamp-2 pt-0.5"
                       }`}
                     >
                       {img.caption}
@@ -333,7 +333,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
       {/* 2. FLOWING MASONRY COLUMNS                                        */}
       {/* ================================================================= */}
       {viewMode === "masonry" && (
-        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5 space-y-5">
+        <div className="columns-2 sm:columns-2 lg:columns-3 xl:columns-4 gap-2.5 sm:gap-5 space-y-2.5 sm:space-y-5">
           {allImages.map((img, idx) => {
             const aspectStyle =
               idx % 4 === 0
@@ -348,7 +348,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
               <div
                 key={img.id}
                 onClick={() => setLightboxIndex(idx)}
-                className="break-inside-avoid group relative rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl transition-all duration-300 shadow-xs"
+                className="break-inside-avoid group relative rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl transition-all duration-300 shadow-xs"
               >
                 <div className={`relative w-full ${aspectStyle} overflow-hidden bg-[var(--surface-raised)]`}>
                   <Image
@@ -361,22 +361,22 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 
                   {/* Top Badge */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-black/65 backdrop-blur-md text-white border border-white/15">
+                  <div className="absolute top-2 sm:top-3 left-2 sm:left-3 right-2 sm:right-3 flex items-center justify-between z-10">
+                    <span className="px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded text-[9px] sm:text-[10px] font-semibold bg-black/65 backdrop-blur-md text-white border border-white/15 truncate max-w-[120px]">
                       {img.albumTitle.split("&")[0].trim()}
                     </span>
-                    <div className="w-6 h-6 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Maximize2 className="w-3 h-3" />
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Maximize2 className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                     </div>
                   </div>
 
                   {/* Bottom Text */}
-                  <div className="absolute bottom-0 inset-x-0 p-4 z-10 space-y-0.5">
+                  <div className="absolute bottom-0 inset-x-0 p-2 sm:p-4 z-10 space-y-0.5">
                     <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-2 group-hover:text-[var(--brand-primary)] transition-colors">
                       {img.alt}
                     </h4>
                     {img.caption && (
-                      <p className="text-[11px] text-white/80 line-clamp-2 font-light">
+                      <p className="text-[10px] sm:text-[11px] text-white/80 line-clamp-2 font-light">
                         {img.caption}
                       </p>
                     )}
@@ -392,12 +392,12 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
       {/* 3. UNIFORM CLASSIC GRID                                           */}
       {/* ================================================================= */}
       {viewMode === "grid" && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-6">
           {allImages.map((img, idx) => (
             <div
               key={img.id}
               onClick={() => setLightboxIndex(idx)}
-              className="group relative aspect-[16/10] rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-lg transition-all duration-300 shadow-xs"
+              className="group relative aspect-[16/10] rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-lg transition-all duration-300 shadow-xs"
             >
               <Image
                 src={img.url}
@@ -409,19 +409,19 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
               {/* Top Tag */}
-              <div className="absolute top-3 left-3 z-10">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-black/70 backdrop-blur-md text-white border border-white/20">
+              <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-10">
+                <span className="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium bg-black/70 backdrop-blur-md text-white border border-white/20 truncate max-w-[120px] inline-block">
                   {img.albumTitle.split("&")[0].trim()}
                 </span>
               </div>
 
               {/* Bottom Caption */}
-              <div className="absolute bottom-0 inset-x-0 p-3.5 sm:p-4 z-10 space-y-0.5">
+              <div className="absolute bottom-0 inset-x-0 p-2.5 sm:p-4 z-10 space-y-0.5">
                 <span className="text-xs font-bold text-white line-clamp-2 group-hover:text-[var(--brand-primary)] transition-colors">
                   {img.alt}
                 </span>
                 {img.caption && (
-                  <span className="text-[11px] text-white/80 line-clamp-1 block font-light">
+                  <span className="text-[10px] sm:text-[11px] text-white/80 line-clamp-1 block font-light">
                     {img.caption}
                   </span>
                 )}

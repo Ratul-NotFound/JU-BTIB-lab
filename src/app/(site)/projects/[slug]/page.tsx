@@ -37,7 +37,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   const isLiquidTree = project.slug.includes("liquid-tree") || project.slug.includes("photobioreactor");
 
   return (
-    <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-16 space-y-6 sm:space-y-12">
       {/* Back button */}
       <div>
         <Link
@@ -50,58 +50,58 @@ export default async function ProjectDetailPage({ params }: Props) {
       </div>
 
       {/* Hero Header */}
-      <section className="p-8 sm:p-12 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-6 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-4 sm:space-y-6 shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-4">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded-md text-xs font-mono font-semibold bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/30">
+            <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md text-[10px] sm:text-xs font-mono font-semibold bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/30">
               PROJECT DOSSIER
             </span>
-            <span className="text-xs font-mono text-[var(--text-muted)]">
+            <span className="text-[10px] sm:text-xs font-mono text-[var(--text-muted)]">
               STATUS: {project.status}
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-            <Calendar className="w-4 h-4 text-[var(--bio-teal)]" />
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono text-[var(--text-muted)]">
+            <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--bio-teal)]" />
             <span>
               {project.startYear} – {project.endYear || "Ongoing"}
             </span>
           </div>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.08]">
+        <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
           {project.title}
         </h1>
 
-        <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed max-w-3xl font-light">
+        <p className="text-xs sm:text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed max-w-3xl font-light">
           {project.summary}
         </p>
 
         {/* Metadata stats bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[var(--border)]">
-          <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
-            <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 pt-3 sm:pt-4 border-t border-[var(--border)]">
+          <div className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+            <span className="text-[10px] sm:text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               Funding Agency
             </span>
-            <span className="text-sm font-semibold text-[var(--text-primary)]">
-              {project.funder || "University / Institutional Grant"}
+            <span className="text-xs sm:text-sm font-semibold text-[var(--text-primary)] truncate block">
+              {project.funder || "University Grant"}
             </span>
           </div>
 
-          <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
-            <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
+          <div className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+            <span className="text-[10px] sm:text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               Research Status
             </span>
-            <span className="text-sm font-semibold text-[var(--text-primary)]">
+            <span className="text-xs sm:text-sm font-semibold text-[var(--text-primary)]">
               {project.status} Phase
             </span>
           </div>
 
-          <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
-            <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
+          <div className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] col-span-2 sm:col-span-1">
+            <span className="text-[10px] sm:text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               Institution
             </span>
-            <span className="text-sm font-semibold text-[var(--text-primary)]">
+            <span className="text-xs sm:text-sm font-semibold text-[var(--text-primary)]">
               Jahangirnagar University
             </span>
           </div>
@@ -110,7 +110,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         {/* Rich body description */}
         {project.bodyHtml && (
           <div
-            className="prose dark:prose-invert max-w-none text-sm text-[var(--text-secondary)] pt-6 border-t border-[var(--border)] leading-relaxed font-light"
+            className="prose dark:prose-invert max-w-none text-xs sm:text-sm text-[var(--text-secondary)] pt-4 sm:pt-6 border-t border-[var(--border)] leading-relaxed font-light"
             dangerouslySetInnerHTML={{ __html: project.bodyHtml }}
           />
         )}
