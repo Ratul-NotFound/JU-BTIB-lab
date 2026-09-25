@@ -8,7 +8,7 @@ async function main() {
 
   // 1. Super Admin User
   const adminEmail = process.env.ADMIN_EMAIL || "rahmanms@bgeju.edu.bd";
-  const rawAdminPassword = process.env.ADMIN_PASSWORD || "BtibJu@2026!Admin";
+  const rawAdminPassword = process.env.ADMIN_PASSWORD || "BtibJu@Dev2026";
   const passwordHash = await bcrypt.hash(rawAdminPassword, 12);
 
   const adminUser = await prisma.user.upsert({

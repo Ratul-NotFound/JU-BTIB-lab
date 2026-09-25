@@ -75,8 +75,8 @@ Create a `.env.local` file in the root directory. Prisma CLI reads `.env`, while
 | `NEXTAUTH_URL` | Local | Base URL for authentication callbacks | `http://localhost:3000` |
 | `NEXT_PUBLIC_APP_URL` | Local | Public application URL for SEO and canonicals | `http://localhost:3000` |
 | `CLOUDINARY_CLOUD_NAME`| Cloud | Cloudinary cloud identifier | `your-cloud-name` |
-| `CLOUDINARY_API_KEY` | Cloud | Cloudinary API key | `123456789012345` |
-| `CLOUDINARY_API_SECRET`| Cloud | Cloudinary API secret | `abcdef1234567890` |
+| `CLOUDINARY_API_KEY` | Cloud | Cloudinary API key | `<your_cloudinary_key>` |
+| `CLOUDINARY_API_SECRET`| Cloud | Cloudinary API secret | `<your_cloudinary_secret>` |
 
 ---
 
@@ -120,8 +120,8 @@ npm run start
 
 ### Initial Super-Admin Credentials
 - **URL**: `/admin/login`
-- **Email**: `rahmanms@bgeju.edu.bd`
-- **Default Password**: `BtibJu@2026!Admin` *(Must be rotated after initial deployment)*
+- **Default Email**: Configured via `ADMIN_EMAIL` in `.env.local` (e.g. `rahmanms@bgeju.edu.bd`)
+- **Initial Password**: Configured via `ADMIN_PASSWORD` in your private `.env.local` before running `npm run prisma:seed`
 
 ### Admin Capabilities
 - **Dashboard (`/admin`)**: Live database record counters, system health, and real-time audit event feed.
