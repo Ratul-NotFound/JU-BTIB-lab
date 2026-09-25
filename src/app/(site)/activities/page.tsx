@@ -21,7 +21,7 @@ export default async function ActivitiesPage() {
         <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
           Academic Events & Milestones
         </div>
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
+        <h1 className="text-3xl sm:text-3xl lg:text-4xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
           Activities, Events & <span className="text-[var(--brand-primary)]">Achievements</span>
         </h1>
         <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">

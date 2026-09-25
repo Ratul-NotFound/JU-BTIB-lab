@@ -20,7 +20,7 @@ export default async function ContactPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-16 space-y-6 sm:space-y-12">
       {/* Header */}
       <section className="space-y-2 sm:space-y-4 max-w-4xl">
-        <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
+        <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
           Contact the <span className="text-[var(--brand-primary)]">Laboratory</span>
         </h1>
 
@@ -35,7 +35,7 @@ export default async function ContactPage() {
         {/* Contact Form Column */}
         <div className="lg:col-span-7 p-4 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 sm:space-y-6">
           <div className="space-y-1 sm:space-y-1.5">
-            <h2 className="text-xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)]">
+            <h2 className="text-2xl sm:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
               Send an <span className="text-[var(--brand-primary)]">Academic Inquiry</span>
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light">

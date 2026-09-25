@@ -64,7 +64,7 @@ export default async function ResearchAreaDetailPage({ params }: Props) {
           </div>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
+        <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
           {area.title}
         </h1>
 

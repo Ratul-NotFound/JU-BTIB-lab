@@ -95,7 +95,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)]">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)]">
                 {member.name}
               </h1>
 

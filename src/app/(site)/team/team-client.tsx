@@ -151,11 +151,11 @@ function TierHeader({
   subtitle: string;
 }) {
   return (
-    <div className="text-center space-y-1 mb-3.5 sm:mb-8">
-      <h2 className="text-lg sm:text-2xl font-black font-sans tracking-tight text-[var(--text-primary)]">
+    <div className="text-center space-y-1 mb-4 sm:mb-8">
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
         {title} <span className="text-[var(--brand-primary)]">{highlight}</span>
       </h2>
-      <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light max-w-xl mx-auto">
+      <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light max-w-xl mx-auto px-2">
         {subtitle}
       </p>
     </div>

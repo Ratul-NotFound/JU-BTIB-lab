@@ -189,7 +189,7 @@ export default async function AboutPage() {
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
                 Bridging Indigenous Bioresources & <span className="text-[var(--brand-primary)]">Scalable Biotechnology</span>
               </h1>
 
@@ -341,7 +341,7 @@ export default async function AboutPage() {
         {/* 4. Strategic Pillars: Mission, Vision & Scientific Values */}
         <section className="space-y-3.5 sm:space-y-6">
           <div className="space-y-1">
-            <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
               Mission, Vision & <span className="text-[var(--brand-primary)]">Core Values</span>
             </h2>
           </div>
@@ -390,7 +390,7 @@ export default async function AboutPage() {
         {/* 5. Core Research Facilities & Infrastructure */}
         <section className="space-y-3.5 sm:space-y-6">
           <div className="space-y-1">
-            <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
               Core Facilities & <span className="text-[var(--brand-primary)]">Laboratory Suites</span>
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
@@ -511,7 +511,7 @@ export default async function AboutPage() {
         {/* 7. Thesis Admissions & Collaborations CTA */}
         <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-xs">
           <div className="space-y-1.5 max-w-2xl">
-            <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
               Conduct Thesis Research or Establish Joint <span className="text-[var(--brand-primary)]">R&D Collaborations</span>
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">

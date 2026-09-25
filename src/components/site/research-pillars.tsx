@@ -49,7 +49,7 @@ export function ResearchPillars() {
         {/* Synchronized Left-Aligned Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
           <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
-            <h2 className="text-xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
               Explore our <span className="text-[var(--brand-primary)]">main research</span>
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">

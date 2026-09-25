@@ -45,7 +45,7 @@ export function LabIntroSection() {
         {/* Synchronized Section Header (Unified with all landing page sections) */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
           <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
-            <h2 className="text-xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
               From bioresource to <span className="text-[var(--brand-primary)]">bioproduct</span>
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">
