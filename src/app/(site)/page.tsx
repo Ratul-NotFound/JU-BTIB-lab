@@ -1,7 +1,7 @@
 import * as React from "react";
 import { getSiteSettings } from "@/server/queries/settings";
 import { getResearchAreas } from "@/server/queries/research-areas";
-import { getPublications } from "@/server/queries/publications";
+import { getPublicationsCount } from "@/server/queries/publications";
 import { FullscreenHero } from "@/components/site/fullscreen-hero";
 import { LabIntroSection } from "@/components/site/lab-intro-section";
 import { ResearchPillars } from "@/components/site/research-pillars";
@@ -11,10 +11,10 @@ import { ShortGallerySection } from "@/components/site/short-gallery-section";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [settings, researchAreas, allPubs] = await Promise.all([
+  const [settings, researchAreas, totalPublications] = await Promise.all([
     getSiteSettings(),
     getResearchAreas(),
-    getPublications(),
+    getPublicationsCount(),
   ]);
 
   return (
@@ -23,7 +23,7 @@ export default async function HomePage() {
       <FullscreenHero
         heroSubheading={settings?.heroSubheading}
         totalDivisions={researchAreas.length || 8}
-        totalPublications={allPubs.length}
+        totalPublications={totalPublications}
       />
 
       {/* Section 1: Short About, Motto, Mission, Target & Motive */}
