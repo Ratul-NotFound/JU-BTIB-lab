@@ -30,7 +30,7 @@ export default function DesignSystemPage() {
           </span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
-          Editorial-Scientific <span className="font-serif italic font-normal text-[var(--bio-teal)]">Design Language</span>
+          Editorial-Scientific Design Language
         </h1>
         <p className="text-sm text-[var(--text-muted)] max-w-2xl">
           Visual tokens, specimen catalogue tags, calibrated micrometer dividers, and accessible UI primitives for the BTIB Lab website.

@@ -123,7 +123,7 @@ export default async function ActivityDetailPage({ params }: Props) {
           <div className="flex items-center gap-2">
             <ImageIcon className="w-4 sm:w-5 h-4 sm:h-5 text-[var(--brand-primary)]" />
             <h2 className="text-xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)]">
-              Event Documentation <span className="text-[var(--brand-primary)]">Photos</span>
+              Event Documentation Photos
             </h2>
           </div>
 
