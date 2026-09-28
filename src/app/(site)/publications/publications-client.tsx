@@ -171,7 +171,7 @@ export function PublicationsClient({
           return (
             <div
               key={pub.id}
-              className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] hover:shadow-[0_8px_24px_rgba(0,146,184,0.12)] transition-all space-y-2 sm:space-y-3"
+              className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all space-y-2 sm:space-y-3"
             >
               <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
                 <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">

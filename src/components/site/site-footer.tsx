@@ -47,8 +47,7 @@ export function SiteFooter() {
 
           {/* Column 2: Research Areas */}
           <div className="space-y-2.5 sm:space-y-3.5 col-span-1">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100">
               Core Branches
             </h4>
             <ul className="space-y-2 sm:space-y-2.5 text-xs">
@@ -97,8 +96,7 @@ export function SiteFooter() {
 
           {/* Column 3: Institutional Links & University Logo */}
           <div className="space-y-2.5 sm:space-y-3.5 col-span-1">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100">
               Affiliations
             </h4>
 
@@ -165,8 +163,7 @@ export function SiteFooter() {
 
           {/* Column 4: Contact & Coordinates */}
           <div className="space-y-2.5 sm:space-y-3.5 col-span-2 md:col-span-1">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-100">
               Location & Contact
             </h4>
             <div className="space-y-2 sm:space-y-3 text-xs text-slate-400 leading-relaxed font-light">

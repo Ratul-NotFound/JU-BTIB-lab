@@ -46,7 +46,7 @@ export function LabIntroSection() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
           <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
-              From bioresource to <span className="text-[var(--brand-primary)]">bioproduct</span>
+              From Bioresource to Bioproduct
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">
               The Bioresources Technology and Industrial Biotechnology Laboratory at Jahangirnagar University
@@ -71,11 +71,11 @@ export function LabIntroSection() {
             return (
               <div
                 key={pillar.key}
-                className="p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] hover:shadow-[0_8px_24px_rgba(0,146,184,0.12)] transition-all flex flex-col justify-between space-y-2 sm:space-y-3 shadow-xs group"
+                className="p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between space-y-2 sm:space-y-3 shadow-xs group"
               >
                 <div className="space-y-1.5 sm:space-y-3">
                   <div className="flex items-center justify-between">
-                    <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center transition-colors group-hover:bg-[var(--brand-primary)] group-hover:text-white">
+                    <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center transition-colors group-hover:bg-[var(--brand-primary)]/20">
                       <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                     </div>
                     <span className="text-[10px] sm:text-xs font-mono font-medium text-[var(--brand-primary)] tracking-wide uppercase">

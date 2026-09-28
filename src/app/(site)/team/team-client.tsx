@@ -49,11 +49,11 @@ function TeamMemberCard({
   return (
     <Link
       href={`/team/${member.slug}`}
-      className={`group relative flex flex-col w-full rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 focus:outline-none overflow-hidden ${
+      className={`group relative flex flex-col w-full rounded-2xl border transition-all duration-300 hover:-translate-y-1 focus:outline-none overflow-hidden ${
         isDirector
-          ? "border-[var(--brand-primary)] bg-[var(--surface)] shadow-md hover:shadow-xl max-w-sm sm:max-w-md mx-auto"
+          ? "border-[var(--brand-primary)] bg-[var(--surface)] shadow-md hover:shadow-lg max-w-sm sm:max-w-md mx-auto"
           : isTeacher
-          ? "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 shadow-xs hover:shadow-xl hover:shadow-[var(--brand-primary)]/5"
+          ? "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 shadow-xs hover:shadow-md"
           : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/50 shadow-xs hover:shadow-md"
       }`}
     >
@@ -84,15 +84,15 @@ function TeamMemberCard({
         {/* Subtle Dark Scrim Overlay at the Bottom of Photo */}
         <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/45 via-black/15 to-transparent pointer-events-none" />
 
-        {/* Floating Category / Role Badge */}
+        {/* Clean Rectangular Category / Role Tag */}
         <div className="absolute top-2.5 left-2.5 z-10">
           <span
-            className={`inline-block px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10.5px] font-semibold tracking-tight shadow-md backdrop-blur-md ${
+            className={`inline-block px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-medium tracking-tight shadow-xs backdrop-blur-md ${
               isDirector
                 ? "bg-[var(--brand-primary)] text-white"
                 : isTeacher
-                ? "bg-black/65 text-white border border-white/20"
-                : "bg-black/55 text-white/90 border border-white/15"
+                ? "bg-black/70 text-white border border-white/20"
+                : "bg-black/60 text-white/90 border border-white/15"
             }`}
           >
             {badgeText}
@@ -139,7 +139,7 @@ function TeamMemberCard({
 }
 
 /**
- * Clean Section Header for Each Academic Tier (No Lines)
+ * Clean Section Header for Each Academic Tier (Single-Color Typography)
  */
 function TierHeader({
   title,
@@ -153,7 +153,7 @@ function TierHeader({
   return (
     <div className="text-center space-y-1 mb-4 sm:mb-8">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
-        {title} <span className="text-[var(--brand-primary)]">{highlight}</span>
+        {title} {highlight}
       </h2>
       <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light max-w-xl mx-auto px-2">
         {subtitle}

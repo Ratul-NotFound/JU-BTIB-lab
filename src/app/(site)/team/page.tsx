@@ -21,7 +21,7 @@ export default async function TeamPage() {
       {/* Header */}
       <section className="space-y-2 sm:space-y-4 max-w-3xl mx-auto text-center">
         <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
-          Research Team & <span className="text-[var(--brand-primary)]">Hierarchy</span>
+          Research Team & Investigators
         </h1>
 
         <p className="text-xs sm:text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed font-light">
@@ -36,7 +36,7 @@ export default async function TeamPage() {
       <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-xs">
         <div className="space-y-1.5 max-w-2xl">
           <h2 className="text-2xl sm:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
-            Join Our <span className="text-[var(--brand-primary)]">Research Group</span>
+            Join Our Research Group
           </h2>
           <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
             We are actively accepting inquiries for B.Sc. Hon. thesis placements, M.Sc. research fellowships,

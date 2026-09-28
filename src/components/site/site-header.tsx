@@ -105,7 +105,7 @@ export function SiteHeader() {
 
           <Link
             href="/contact"
-            className="hidden sm:inline-flex items-center px-4 py-2.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_3px_12px_rgba(0,146,184,0.35)] transition-all active:scale-[0.98]"
+            className="hidden sm:inline-flex items-center px-4 py-2.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
           >
             Contact Lab
           </Link>

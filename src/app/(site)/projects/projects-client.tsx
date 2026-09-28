@@ -61,7 +61,7 @@ export function ProjectsListClient({ projects }: { projects: ProjectItem[] }) {
               onClick={() => setSelectedStatus(status)}
               className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-semibold whitespace-nowrap transition-all ${
                 isActive
-                  ? "bg-[var(--brand-primary)] text-white shadow-[0_4px_14px_rgba(0,146,184,0.35)]"
+                  ? "bg-[var(--brand-primary)] text-white shadow-sm"
                   : "bg-[var(--surface)] text-[var(--text-secondary)] border border-[var(--border)] hover:bg-[var(--surface-raised)]"
               }`}
             >
@@ -82,7 +82,7 @@ export function ProjectsListClient({ projects }: { projects: ProjectItem[] }) {
             <Link
               key={project.id}
               href={`/projects/${project.slug}`}
-              className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] hover:shadow-[0_8px_24px_rgba(0,146,184,0.14)] transition-all flex flex-col justify-between overflow-hidden shadow-xs"
+              className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs"
             >
               {/* Image Banner with Standardized Aspect Ratio */}
               <div className="relative aspect-[2.1/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">

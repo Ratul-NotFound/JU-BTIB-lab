@@ -19,7 +19,7 @@ export default async function ProjectsPage() {
       {/* Header */}
       <section className="space-y-2 sm:space-y-4 max-w-4xl">
         <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
-          Research Projects & <span className="text-[var(--brand-primary)]">Field Deployments</span>
+          Research Projects & Field Deployments
         </h1>
 
         <p className="text-xs sm:text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed font-light">

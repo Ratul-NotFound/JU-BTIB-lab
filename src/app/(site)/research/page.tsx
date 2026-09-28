@@ -110,7 +110,7 @@ export default async function ResearchPage() {
       {/* 1. Header with Academic Metrics */}
       <section className="space-y-3 sm:space-y-5 max-w-4xl">
         <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
-          Research Disciplines & <span className="text-[var(--brand-primary)]">Scientific Scope</span>
+          Research Disciplines & Scientific Scope
         </h1>
 
         <p className="text-xs sm:text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed font-light">
@@ -150,7 +150,7 @@ export default async function ResearchPage() {
             </div>
 
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
-              250L Liquid-Tree <span className="text-[var(--brand-primary)]">Urban Microalgae Photobioreactor</span>
+              250L Liquid-Tree Urban Microalgae Photobioreactor
             </h2>
 
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
@@ -171,7 +171,7 @@ export default async function ResearchPage() {
             <div className="pt-1 sm:pt-2">
               <Link
                 href="/projects/liquid-tree-photobioreactor"
-                className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_4px_16px_rgba(0,146,184,0.4)] transition-all active:scale-[0.98]"
+                className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
               >
                 <span>Read Full Technical Dossier</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -199,7 +199,7 @@ export default async function ResearchPage() {
       <section className="space-y-3.5 sm:space-y-6">
         <div className="space-y-1">
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
-            Explore All 8 <span className="text-[var(--brand-primary)]">Specialized Divisions</span>
+            Explore All 8 Specialized Divisions
           </h2>
         </div>
 
@@ -217,7 +217,7 @@ export default async function ResearchPage() {
               <Link
                 key={area.id}
                 href={`/research/${area.slug}`}
-                className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] hover:shadow-[0_8px_24px_rgba(0,146,184,0.14)] transition-all flex flex-col justify-between overflow-hidden shadow-xs"
+                className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs"
               >
                 {/* Photo Banner with Standardized Aspect Ratio */}
                 <div className="relative aspect-[2.1/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">
@@ -295,7 +295,7 @@ export default async function ResearchPage() {
       <section className="space-y-3.5 sm:space-y-6">
         <div className="space-y-1">
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
-            Core Scientific & <span className="text-[var(--brand-primary)]">Engineering Capabilities</span>
+            Core Scientific & Engineering Capabilities
           </h2>
           <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
             Standard operating procedures and analytical methodologies established across our laboratory units.
@@ -323,7 +323,7 @@ export default async function ResearchPage() {
       <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-xs">
         <div className="space-y-1.5 max-w-2xl">
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
-            Join One of Our <span className="text-[var(--brand-primary)]">Research Divisions</span>
+            Join One of Our Research Divisions
           </h2>
           <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
             We are continuously recruiting B.Sc. Hon. thesis scholars and M.Sc./Ph.D. candidates passionate about bioprocess engineering and environmental biotechnology.
@@ -333,7 +333,7 @@ export default async function ResearchPage() {
         <div className="shrink-0 pt-2 sm:pt-0">
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_4px_18px_rgba(0,146,184,0.4)] transition-all active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
           >
             <span>Apply to Lab</span>
             <ArrowRight className="w-4 h-4" />

@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, BookOpen, FlaskConical } from "lucide-react";
+import { ArrowRight, BookOpen } from "lucide-react";
 
 interface FullscreenHeroProps {
   heroSubheading?: string;
@@ -126,15 +126,14 @@ export function FullscreenHero({
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3.5 mt-3.5 sm:mt-6">
           <Link
             href="/research"
-            className="inline-flex items-center gap-2 px-3.5 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-[0_4px_20px_rgba(0,146,184,0.45)] transition-all active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
           >
-            <FlaskConical className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span>Explore Research</span>
             <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </Link>
           <Link
             href="/publications"
-            className="inline-flex items-center gap-2 px-3.5 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold border border-white/20 bg-white/10 hover:bg-white/15 text-white backdrop-blur-md transition-all active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold border border-white/20 bg-white/10 hover:bg-white/15 text-white backdrop-blur-md transition-all active:scale-[0.98]"
           >
             <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
             <span>Publications</span>

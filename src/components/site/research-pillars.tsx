@@ -50,7 +50,7 @@ export function ResearchPillars() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
           <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
-              Explore our <span className="text-[var(--brand-primary)]">main research</span>
+              Core Research Disciplines
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">
               From indigenous microbial screening to continuous photobioreactor operation, our investigations
@@ -73,7 +73,7 @@ export function ResearchPillars() {
             <Link
               key={pillar.slug}
               href={`/research/${pillar.slug}`}
-              className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--background)] hover:border-[var(--brand-primary)] hover:shadow-[0_8px_24px_rgba(0,146,184,0.14)] transition-all flex flex-col justify-between overflow-hidden shadow-xs"
+              className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--background)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs"
             >
               {/* Image Container with Responsive Aspect Ratio */}
               <div className="relative aspect-[1.8/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">

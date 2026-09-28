@@ -21,7 +21,7 @@ export default async function ContactPage() {
       {/* Header */}
       <section className="space-y-2 sm:space-y-4 max-w-4xl">
         <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
-          Contact the <span className="text-[var(--brand-primary)]">Laboratory</span>
+          Contact the Laboratory
         </h1>
 
         <p className="text-xs sm:text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed font-light">
@@ -36,7 +36,7 @@ export default async function ContactPage() {
         <div className="lg:col-span-7 p-4 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 sm:space-y-6">
           <div className="space-y-1 sm:space-y-1.5">
             <h2 className="text-2xl sm:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
-              Send an <span className="text-[var(--brand-primary)]">Academic Inquiry</span>
+              Send an Academic Inquiry
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light">
               Direct communication with faculty investigators and lab coordination staff.

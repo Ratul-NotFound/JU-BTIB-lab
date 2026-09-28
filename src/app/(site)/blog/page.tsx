@@ -21,7 +21,7 @@ export default async function BlogPage() {
       {/* Header */}
       <section className="space-y-2 sm:space-y-4 max-w-4xl">
         <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
-          Blogs & <span className="text-[var(--brand-primary)]">Research Insights</span>
+          Scientific Articles & Research Insights
         </h1>
 
         <p className="text-xs sm:text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed font-light">
@@ -39,7 +39,7 @@ export default async function BlogPage() {
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
-              className="rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] hover:shadow-[0_8px_24px_rgba(0,146,184,0.14)] transition-all flex flex-col justify-between overflow-hidden group shadow-xs hover:shadow-lg"
+              className="rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group shadow-xs"
             >
               {/* Cover Photo */}
               <div className="relative aspect-[2.1/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">

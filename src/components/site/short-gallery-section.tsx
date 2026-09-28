@@ -42,7 +42,7 @@ export function ShortGallerySection() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
           <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
-              Laboratory <span className="text-[var(--brand-primary)]">in action</span>
+              Laboratory Facilities in Action
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">
               Authentic photographic archive documenting our bioreactor pilots, microbial cultures, and experimental benchwork.
@@ -75,7 +75,7 @@ export function ShortGallerySection() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
               
               <div className="absolute top-2 left-2 sm:top-3.5 sm:left-3.5">
-                <span className="text-[9px] sm:text-[10px] font-mono font-medium px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded bg-black/60 backdrop-blur-md text-teal-300 border border-white/15 shadow-xs">
+                <span className="text-[9px] sm:text-[10px] font-mono font-medium px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded bg-black/60 backdrop-blur-md text-white/90 border border-white/15 shadow-xs">
                   {item.tag}
                 </span>
               </div>
