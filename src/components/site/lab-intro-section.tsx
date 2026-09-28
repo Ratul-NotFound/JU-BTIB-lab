@@ -1,6 +1,9 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, Compass, Target, FlaskConical, Layers } from "lucide-react";
+import { Reveal, StaggerContainer, StaggerItem, InteractiveCard } from "@/components/ui/reveal";
 
 const ABOUT_PILLARS = [
   {
@@ -43,58 +46,66 @@ export function LabIntroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 space-y-4 sm:space-y-10">
         
         {/* Synchronized Section Header (Unified with all landing page sections) */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
-          <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
-              From Bioresource to Bioproduct
-            </h2>
-            <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">
-              The Bioresources Technology and Industrial Biotechnology Laboratory at Jahangirnagar University
-              translates biological wealth into scalable biotechnological applications, bringing together scientific
-              expertise to solve environmental, food security, and industrial challenges.
-            </p>
-          </div>
+        <Reveal direction="up" distance={18}>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
+            <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
+                From Bioresource to Bioproduct
+              </h2>
+              <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">
+                The Bioresources Technology and Industrial Biotechnology Laboratory at Jahangirnagar University
+                translates biological wealth into scalable biotechnological applications, bringing together scientific
+                expertise to solve environmental, food security, and industrial challenges.
+              </p>
+            </div>
 
-          <Link
-            href="/about"
-            className="text-xs font-bold font-sans text-[var(--brand-primary)] hover:underline inline-flex items-center gap-1.5 shrink-0 self-start sm:self-auto group"
-          >
-            <span>Explore history & vision</span>
-            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </div>
+            <Link
+              href="/about"
+              className="text-xs font-bold font-sans text-[var(--brand-primary)] hover:underline inline-flex items-center gap-1.5 shrink-0 self-start sm:self-auto group"
+            >
+              <span>Explore history & vision</span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </Reveal>
 
         {/* 4 Clean Tenets - 2-Column Mobile Grid for Vertical Efficiency */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-5 lg:gap-6">
+        <StaggerContainer
+          staggerDelay={0.08}
+          delayChildren={0.06}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-5 lg:gap-6"
+        >
           {ABOUT_PILLARS.map((pillar) => {
             const Icon = pillar.icon;
             return (
-              <div
-                key={pillar.key}
-                className="p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between space-y-2 sm:space-y-3 shadow-xs group"
-              >
-                <div className="space-y-1.5 sm:space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center transition-colors group-hover:bg-[var(--brand-primary)]/20">
-                      <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+              <StaggerItem key={pillar.key} yOffset={20}>
+                <InteractiveCard
+                  hoverY={-4}
+                  className="h-full p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between space-y-2 sm:space-y-3 shadow-xs group"
+                >
+                  <div className="space-y-1.5 sm:space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center transition-colors group-hover:bg-[var(--brand-primary)]/20">
+                        <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+                      </div>
+                      <span className="text-[10px] sm:text-xs font-mono font-medium text-[var(--brand-primary)] tracking-wide uppercase">
+                        {pillar.badge}
+                      </span>
                     </div>
-                    <span className="text-[10px] sm:text-xs font-mono font-medium text-[var(--brand-primary)] tracking-wide uppercase">
-                      {pillar.badge}
-                    </span>
+
+                    <h3 className="font-bold text-xs sm:text-base text-[var(--text-primary)] leading-snug group-hover:text-[var(--brand-primary)] transition-colors">
+                      {pillar.title}
+                    </h3>
+
+                    <p className="text-[11px] sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light line-clamp-3 sm:line-clamp-none">
+                      {pillar.description}
+                    </p>
                   </div>
-
-                  <h3 className="font-bold text-xs sm:text-base text-[var(--text-primary)] leading-snug group-hover:text-[var(--brand-primary)] transition-colors">
-                    {pillar.title}
-                  </h3>
-
-                  <p className="text-[11px] sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light line-clamp-3 sm:line-clamp-none">
-                    {pillar.description}
-                  </p>
-                </div>
-              </div>
+                </InteractiveCard>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerContainer>
 
       </div>
     </section>

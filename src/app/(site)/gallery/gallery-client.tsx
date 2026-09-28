@@ -11,6 +11,7 @@ import {
   Maximize2,
   X,
 } from "lucide-react";
+import { StaggerContainer, StaggerItem, InteractiveCard } from "@/components/ui/reveal";
 
 interface GalleryImageItem {
   id: string;
@@ -243,76 +244,84 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
       {/* 1. CREATIVE BENTO GRID (Default)                                  */}
       {/* ================================================================= */}
       {viewMode === "bento" && (
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
+        <StaggerContainer
+          key={`bento-${selectedAlbumId}`}
+          staggerDelay={0.06}
+          delayChildren={0.04}
+          className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6"
+        >
           {allImages.map((img, idx) => {
             const bentoClasses = getBentoClasses(idx, allImages.length);
             const isHero = (idx % 8 === 0) && allImages.length > 2;
 
             return (
-              <div
-                key={img.id}
-                onClick={() => setLightboxIndex(idx)}
-                className={`group relative rounded-xl sm:rounded-3xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 shadow-xs flex flex-col justify-end ${bentoClasses}`}
-              >
-                {/* Background Image */}
-                <Image
-                  src={img.url}
-                  alt={img.alt || "Laboratory specimen"}
-                  fill
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                  sizes={
-                    isHero
-                      ? "(max-width: 1024px) 100vw, 66vw"
-                      : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  }
-                />
-
-                {/* Subtle base gradient for legibility */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10 transition-opacity duration-300 group-hover:via-black/45" />
-
-                {/* Top Overlay Badges */}
-                <div className="absolute top-2 sm:top-3.5 left-2 sm:left-3.5 right-2 sm:right-3.5 flex items-center justify-between gap-1.5 z-10">
-                  <span className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[11px] font-medium bg-black/65 backdrop-blur-md text-white border border-white/20 shadow-xs">
-                    <span className="truncate max-w-[120px] sm:max-w-[180px]">{img.albumTitle}</span>
-                  </span>
-
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/65 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-70 group-hover:opacity-100 group-hover:scale-110 group-hover:bg-[var(--brand-primary)] transition-all shrink-0">
-                    <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                  </div>
-                </div>
-
-                {/* Bottom Content / Caption Lockup */}
-                <div className="relative p-2.5 sm:p-5 sm:pb-6 z-10 space-y-0.5 sm:space-y-1">
-                  <div className="flex items-center gap-1 sm:gap-2 text-[9px] sm:text-[10px] font-mono text-[var(--brand-primary)] uppercase tracking-wider font-semibold">
-                    <span>#{String(idx + 1).padStart(2, "0")}</span>
-                  </div>
-
-                  <h3
-                    className={`font-bold font-sans text-white leading-snug group-hover:text-[var(--brand-primary)] transition-colors ${
-                      isHero
-                        ? "text-sm sm:text-2xl font-black line-clamp-2"
-                        : "text-xs sm:text-base line-clamp-2"
-                    }`}
+              <StaggerItem key={img.id} yOffset={20} className={bentoClasses}>
+                <InteractiveCard hoverY={-3} className="w-full h-full">
+                  <div
+                    onClick={() => setLightboxIndex(idx)}
+                    className="group relative w-full h-full rounded-xl sm:rounded-3xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl transition-all duration-300 shadow-xs flex flex-col justify-end"
                   >
-                    {img.alt}
-                  </h3>
-
-                  {img.caption && (
-                    <p
-                      className={`text-white/80 font-light leading-relaxed ${
+                    {/* Background Image */}
+                    <Image
+                      src={img.url}
+                      alt={img.alt || "Laboratory specimen"}
+                      fill
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                      sizes={
                         isHero
-                          ? "text-[10px] sm:text-sm line-clamp-2 sm:line-clamp-3 pt-0.5"
-                          : "text-[10px] sm:text-xs line-clamp-1 group-hover:line-clamp-2 pt-0.5"
-                      }`}
-                    >
-                      {img.caption}
-                    </p>
-                  )}
-                </div>
-              </div>
+                          ? "(max-width: 1024px) 100vw, 66vw"
+                          : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      }
+                    />
+
+                    {/* Subtle base gradient for legibility */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10 transition-opacity duration-300 group-hover:via-black/45" />
+
+                    {/* Top Overlay Badges */}
+                    <div className="absolute top-2 sm:top-3.5 left-2 sm:left-3.5 right-2 sm:right-3.5 flex items-center justify-between gap-1.5 z-10">
+                      <span className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[11px] font-medium bg-black/65 backdrop-blur-md text-white border border-white/20 shadow-xs">
+                        <span className="truncate max-w-[120px] sm:max-w-[180px]">{img.albumTitle}</span>
+                      </span>
+
+                      <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/65 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-70 group-hover:opacity-100 group-hover:scale-110 group-hover:bg-[var(--brand-primary)] transition-all shrink-0">
+                        <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                      </div>
+                    </div>
+
+                    {/* Bottom Content / Caption Lockup */}
+                    <div className="relative p-2.5 sm:p-5 sm:pb-6 z-10 space-y-0.5 sm:space-y-1">
+                      <div className="flex items-center gap-1 sm:gap-2 text-[9px] sm:text-[10px] font-mono text-[var(--brand-primary)] uppercase tracking-wider font-semibold">
+                        <span>#{String(idx + 1).padStart(2, "0")}</span>
+                      </div>
+
+                      <h3
+                        className={`font-bold font-sans text-white leading-snug group-hover:text-[var(--brand-primary)] transition-colors ${
+                          isHero
+                            ? "text-sm sm:text-2xl font-black line-clamp-2"
+                            : "text-xs sm:text-base line-clamp-2"
+                        }`}
+                      >
+                        {img.alt}
+                      </h3>
+
+                      {img.caption && (
+                        <p
+                          className={`text-white/80 font-light leading-relaxed ${
+                            isHero
+                              ? "text-[10px] sm:text-sm line-clamp-2 sm:line-clamp-3 pt-0.5"
+                              : "text-[10px] sm:text-xs line-clamp-1 group-hover:line-clamp-2 pt-0.5"
+                          }`}
+                        >
+                          {img.caption}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </InteractiveCard>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerContainer>
       )}
 
       {/* ================================================================= */}

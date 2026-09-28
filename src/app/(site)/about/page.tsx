@@ -7,7 +7,6 @@ import {
   BookOpen,
   Compass,
   Mail,
-  Target,
   Award,
   Users,
   FlaskConical,
@@ -15,12 +14,18 @@ import {
   Layers,
   Cpu,
   Microscope,
-  CheckCircle2,
 } from "lucide-react";
 import { getSiteSettings, getContentBlocks } from "@/server/queries/settings";
 import { getTeamMembers } from "@/server/queries/team";
 import { MemberCategory } from "@prisma/client";
 import { getOrganizationJsonLd } from "@/lib/seo";
+import {
+  AboutSectionReveal,
+  AboutImpactMetrics,
+  AboutMilestonesList,
+  AboutFacilitiesGrid,
+  AboutStrategicPillars,
+} from "./about-interactive";
 
 export const metadata: Metadata = {
   title: "About the Laboratory & History | BTIB Lab - Jahangirnagar University",
@@ -229,110 +234,58 @@ export default async function AboutPage() {
         </section>
 
         {/* 2. Key Impact Metrics */}
-        <section className="space-y-3.5 sm:space-y-6">
+        <AboutSectionReveal className="space-y-3.5 sm:space-y-6">
           <div className="space-y-1">
             <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
               Laboratory Benchmarks & Impact
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
-            {ACHIEVEMENTS.map((ach) => {
-              const Icon = ach.icon;
-              return (
-                <div
-                  key={ach.label}
-                  className="p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-1.5 sm:space-y-3 shadow-xs hover:border-[var(--brand-primary)] transition-all flex flex-col justify-between"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="text-2xl sm:text-4xl font-extrabold text-[var(--brand-primary)] font-sans tracking-tight">
-                      {ach.metric}
-                    </div>
-                    <div className="p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)]">
-                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-bold text-xs sm:text-base text-[var(--text-primary)]">
-                      {ach.label}
-                    </div>
-                    <p className="text-[11px] sm:text-sm text-[var(--text-secondary)] leading-snug sm:leading-relaxed font-light line-clamp-2 sm:line-clamp-none mt-0.5 sm:mt-1">
-                      {ach.detail}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
+          <AboutImpactMetrics achievements={ACHIEVEMENTS} />
+        </AboutSectionReveal>
 
         {/* 3. Balanced 2-Column History: Narrative on Left, Chronological Milestones on Right */}
         <section className="space-y-4 sm:space-y-8">
-          <div className="space-y-1.5 max-w-3xl">
+          <AboutSectionReveal className="space-y-1.5 max-w-3xl">
             <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
               Full History: 2012 to Present
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
               From an exploratory academic screening initiative to a national center for bioprocess engineering and urban photobioreactors in Bangladesh.
             </p>
-          </div>
+          </AboutSectionReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 lg:gap-12 items-start">
             
             {/* Left Narrative Column (5 cols) */}
             <div className="lg:col-span-5 space-y-4 sm:space-y-6 lg:sticky lg:top-24">
-              <div className="p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-3 sm:space-y-5 shadow-xs">
-                <h3 className="text-base sm:text-2xl font-bold text-[var(--text-primary)] leading-snug">
-                  Transforming Local Biodiversity into Sustainable Bio-Solutions
-                </h3>
-                <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
-                  When Professor Mohammad Shahedur Rahman founded BTIB Lab in 2012, academic research in Bangladesh predominantly centered on basic organism isolation without industrial translation. BTIB was conceived to bridge this vital gap: connecting molecular biology with bioreactor scale-up engineering.
-                </p>
-                <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
-                  Over the past 14 years, the laboratory has systematically isolated and cryopreserved over 120 indigenous microbial strains, trained more than 50 research scholars, and produced patentable bioprocess breakthroughs in enzyme immobilization and photosynthetic microalgal carbon capture.
-                </p>
-                <div className="pt-3 sm:pt-4 border-t border-[var(--border)] flex items-center gap-2.5 sm:gap-3">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center font-serif font-bold text-xs sm:text-sm text-[var(--brand-primary)] shrink-0">
-                    SR
-                  </div>
-                  <div className="text-[11px] sm:text-xs">
-                    <span className="font-bold block text-[var(--text-primary)]">Prof. Mohammad Shahedur Rahman</span>
-                    <span className="text-[var(--text-muted)]">Founding Director & Principal Investigator</span>
+              <AboutSectionReveal>
+                <div className="p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-3 sm:space-y-5 shadow-xs">
+                  <h3 className="text-base sm:text-2xl font-bold text-[var(--text-primary)] leading-snug">
+                    Transforming Local Biodiversity into Sustainable Bio-Solutions
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
+                    When Professor Mohammad Shahedur Rahman founded BTIB Lab in 2012, academic research in Bangladesh predominantly centered on basic organism isolation without industrial translation. BTIB was conceived to bridge this vital gap: connecting molecular biology with bioreactor scale-up engineering.
+                  </p>
+                  <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
+                    Over the past 14 years, the laboratory has systematically isolated and cryopreserved over 120 indigenous microbial strains, trained more than 50 research scholars, and produced patentable bioprocess breakthroughs in enzyme immobilization and photosynthetic microalgal carbon capture.
+                  </p>
+                  <div className="pt-3 sm:pt-4 border-t border-[var(--border)] flex items-center gap-2.5 sm:gap-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center font-serif font-bold text-xs sm:text-sm text-[var(--brand-primary)] shrink-0">
+                      SR
+                    </div>
+                    <div className="text-[11px] sm:text-xs">
+                      <span className="font-bold block text-[var(--text-primary)]">Prof. Mohammad Shahedur Rahman</span>
+                      <span className="text-[var(--text-muted)]">Founding Director & Principal Investigator</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </AboutSectionReveal>
             </div>
 
             {/* Right Milestones Column (7 cols) */}
-            <div className="lg:col-span-7 space-y-2.5 sm:space-y-4">
-              {MILESTONES.map((m, idx) => (
-                <div
-                  key={m.year}
-                  className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all shadow-xs space-y-1.5 sm:space-y-2.5"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <span className="text-base sm:text-xl font-bold font-sans text-[var(--brand-primary)]">
-                        {m.year}
-                      </span>
-                      <span className="px-2 py-0.5 rounded text-[10px] sm:text-xs font-mono font-medium border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-muted)]">
-                        {m.tag}
-                      </span>
-                    </div>
-                    <span className="text-[10px] sm:text-xs font-mono text-[var(--text-muted)]">
-                      Phase 0{idx + 1}
-                    </span>
-                  </div>
-
-                  <h4 className="text-sm sm:text-lg font-bold font-sans text-[var(--text-primary)]">
-                    {m.title}
-                  </h4>
-
-                  <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
-                    {m.description}
-                  </p>
-                </div>
-              ))}
+            <div className="lg:col-span-7">
+              <AboutMilestonesList milestones={MILESTONES} />
             </div>
 
           </div>
@@ -340,85 +293,36 @@ export default async function AboutPage() {
 
         {/* 4. Strategic Pillars: Mission, Vision & Scientific Values */}
         <section className="space-y-3.5 sm:space-y-6">
-          <div className="space-y-1">
+          <AboutSectionReveal className="space-y-1">
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
               Mission, Vision & Core Values
             </h2>
-          </div>
+          </AboutSectionReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
-            <div className="p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-4 shadow-xs">
-              <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] w-fit">
-                <Target className="w-5 h-5 sm:w-6 sm:h-6" />
-              </div>
-              <h3 className="text-base sm:text-xl font-bold font-sans text-[var(--text-primary)]">
-                Our Mission
-              </h3>
-              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
-                {getBlockText(blockMap.get("about.mission")?.content) ||
-                  "To systematically harness indigenous biological diversity, engineer novel microbial biocatalysts, and develop cost-effective, sustainable bioprocess technologies that translate into scalable environmental and industrial solutions for Bangladesh and the global scientific community."}
-              </p>
-            </div>
-
-            <div className="p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-4 shadow-xs">
-              <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] w-fit">
-                <Compass className="w-5 h-5 sm:w-6 sm:h-6" />
-              </div>
-              <h3 className="text-base sm:text-xl font-bold font-sans text-[var(--text-primary)]">
-                Our Vision
-              </h3>
-              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
-                {getBlockText(blockMap.get("about.vision")?.content) ||
-                  "To establish Jahangirnagar University as a premier regional hub for bioresource valorization and bioprocess innovation, bridging the gap between fundamental molecular discoveries and industrial biotechnology applications."}
-              </p>
-            </div>
-
-            <div className="p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-4 shadow-xs">
-              <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] w-fit">
-                <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
-              </div>
-              <h3 className="text-base sm:text-xl font-bold font-sans text-[var(--text-primary)]">
-                Scientific Values
-              </h3>
-              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
-                Rigorous empirical methodology, environmental stewardship, open academic dissemination, and uncompromising dedication to mentoring next-generation biotechnology scholars in Bangladesh.
-              </p>
-            </div>
-          </div>
+          <AboutStrategicPillars
+            missionText={
+              getBlockText(blockMap.get("about.mission")?.content) ||
+              "To systematically harness indigenous biological diversity, engineer novel microbial biocatalysts, and develop cost-effective, sustainable bioprocess technologies that translate into scalable environmental and industrial solutions for Bangladesh and the global scientific community."
+            }
+            visionText={
+              getBlockText(blockMap.get("about.vision")?.content) ||
+              "To establish Jahangirnagar University as a premier regional hub for bioresource valorization and bioprocess innovation, bridging the gap between fundamental molecular discoveries and industrial biotechnology applications."
+            }
+          />
         </section>
 
         {/* 5. Core Research Facilities & Infrastructure */}
         <section className="space-y-3.5 sm:space-y-6">
-          <div className="space-y-1">
+          <AboutSectionReveal className="space-y-1">
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
               Core Facilities & Laboratory Suites
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
               Situated in the Department of Biotechnology & Genetic Engineering, BTIB Lab houses specialized suites for benchtop fermentation, molecular screening, and pilot-scale photobioreactors.
             </p>
-          </div>
+          </AboutSectionReveal>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
-            {CORE_FACILITIES.map((facility) => {
-              const Icon = facility.icon;
-              return (
-                <div
-                  key={facility.title}
-                  className="p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-3 shadow-xs"
-                >
-                  <div className="p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 border border-[var(--border)] text-[var(--brand-primary)] w-fit">
-                    <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </div>
-                  <h3 className="font-bold text-xs sm:text-base text-[var(--text-primary)]">
-                    {facility.title}
-                  </h3>
-                  <p className="text-[11px] sm:text-sm text-[var(--text-secondary)] leading-snug sm:leading-relaxed font-light line-clamp-3 sm:line-clamp-none">
-                    {facility.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+          <AboutFacilitiesGrid facilities={CORE_FACILITIES} />
         </section>
 
         {/* 6. Faculty Leadership Spotlight (PI) */}

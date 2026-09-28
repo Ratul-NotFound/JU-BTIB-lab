@@ -4,6 +4,7 @@ import * as React from "react";
 import { PublicationType } from "@prisma/client";
 import { Check, Copy, ExternalLink, FileText, Search, X } from "lucide-react";
 import { PublicationsHistogram } from "@/components/visuals/publications-histogram";
+import { StaggerContainer, StaggerItem, InteractiveCard } from "@/components/ui/reveal";
 
 interface PublicationItem {
   id: string;
@@ -162,82 +163,90 @@ export function PublicationsClient({
       </div>
 
       {/* Publications List */}
-      <div className="space-y-3 sm:space-y-4">
+      <StaggerContainer
+        key={`${selectedYear}-${selectedType}-${search}`}
+        staggerDelay={0.05}
+        delayChildren={0.03}
+        className="space-y-3 sm:space-y-4"
+      >
         {filtered.map((pub) => {
           const defaultBib =
             pub.bibtex ||
             `@article{btib_${pub.year}_${pub.id.slice(0, 5)},\n  title={${pub.title}},\n  author={${pub.authors.join(" and ")}},\n  journal={${pub.venue}},\n  year={${pub.year}},\n  ${pub.doi ? `doi={${pub.doi}}` : ""}\n}`;
 
           return (
-            <div
-              key={pub.id}
-              className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all space-y-2 sm:space-y-3"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
-                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                  <span className="px-2 py-0.5 rounded text-[10px] sm:text-xs font-mono font-semibold bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/25">
-                    {pub.year}
-                  </span>
-                  <span className="px-2 py-0.5 rounded text-[10px] sm:text-xs font-mono text-[var(--text-secondary)] border border-[var(--border)] bg-[var(--surface-raised)]">
-                    {pub.type}
-                  </span>
-                  {pub.areas.map(({ researchArea }) => (
-                    <span
-                      key={researchArea.id}
-                      className="text-[10px] sm:text-xs font-mono px-2 py-0.5 rounded bg-[var(--surface-raised)] text-[var(--text-muted)] border border-[var(--border)]"
-                    >
-                      {researchArea.title}
-                    </span>
-                  ))}
-                </div>
+            <StaggerItem key={pub.id} yOffset={16}>
+              <InteractiveCard hoverY={-2} className="w-full">
+                <div
+                  className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all space-y-2 sm:space-y-3"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                      <span className="px-2 py-0.5 rounded text-[10px] sm:text-xs font-mono font-semibold bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/25">
+                        {pub.year}
+                      </span>
+                      <span className="px-2 py-0.5 rounded text-[10px] sm:text-xs font-mono text-[var(--text-secondary)] border border-[var(--border)] bg-[var(--surface-raised)]">
+                        {pub.type}
+                      </span>
+                      {pub.areas.map(({ researchArea }) => (
+                        <span
+                          key={researchArea.id}
+                          className="text-[10px] sm:text-xs font-mono px-2 py-0.5 rounded bg-[var(--surface-raised)] text-[var(--text-muted)] border border-[var(--border)]"
+                        >
+                          {researchArea.title}
+                        </span>
+                      ))}
+                    </div>
 
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setActiveBibtex({ title: pub.title, bibtex: defaultBib })}
-                    className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[10px] sm:text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--bio-teal)] transition-colors"
-                  >
-                    <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                    <span>BibTeX</span>
-                  </button>
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setActiveBibtex({ title: pub.title, bibtex: defaultBib })}
+                        className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[10px] sm:text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--bio-teal)] transition-colors"
+                      >
+                        <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                        <span>BibTeX</span>
+                      </button>
 
-                  {pub.doi && (
-                    <a
-                      href={`https://doi.org/${pub.doi}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-mono border border-[var(--brand-primary)]/30 bg-[var(--brand-primary)]/5 text-[var(--brand-primary)] hover:bg-[var(--brand-primary)] hover:text-white transition-all"
-                    >
-                      <span>DOI</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
+                      {pub.doi && (
+                        <a
+                          href={`https://doi.org/${pub.doi}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-mono border border-[var(--brand-primary)]/30 bg-[var(--brand-primary)]/5 text-[var(--brand-primary)] hover:bg-[var(--brand-primary)] hover:text-white transition-all"
+                        >
+                          <span>DOI</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <h3 className="text-sm sm:text-lg font-semibold text-[var(--text-primary)] leading-snug">
+                    {pub.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-[var(--text-muted)] line-clamp-2 sm:line-clamp-none">
+                    {pub.authors.join(", ")}
+                  </p>
+
+                  <div className="text-[11px] sm:text-xs italic text-[var(--text-secondary)] font-serif">
+                    {pub.venue} ({pub.year})
+                  </div>
+
+                  {pub.abstract && (
+                    <details className="pt-1 sm:pt-2 text-xs text-[var(--text-secondary)] leading-relaxed group">
+                      <summary className="font-mono text-[10px] sm:text-[11px] text-[var(--bio-teal)] cursor-pointer hover:underline select-none">
+                        View Abstract
+                      </summary>
+                      <p className="mt-1.5 sm:mt-2 p-2.5 sm:p-3.5 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-xs font-light">
+                        {pub.abstract}
+                      </p>
+                    </details>
                   )}
                 </div>
-              </div>
-
-              <h3 className="text-sm sm:text-lg font-semibold text-[var(--text-primary)] leading-snug">
-                {pub.title}
-              </h3>
-
-              <p className="text-xs sm:text-sm text-[var(--text-muted)] line-clamp-2 sm:line-clamp-none">
-                {pub.authors.join(", ")}
-              </p>
-
-              <div className="text-[11px] sm:text-xs italic text-[var(--text-secondary)] font-serif">
-                {pub.venue} ({pub.year})
-              </div>
-
-              {pub.abstract && (
-                <details className="pt-1 sm:pt-2 text-xs text-[var(--text-secondary)] leading-relaxed group">
-                  <summary className="font-mono text-[10px] sm:text-[11px] text-[var(--bio-teal)] cursor-pointer hover:underline select-none">
-                    View Abstract
-                  </summary>
-                  <p className="mt-1.5 sm:mt-2 p-2.5 sm:p-3.5 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-xs font-light">
-                    {pub.abstract}
-                  </p>
-                </details>
-              )}
-            </div>
+              </InteractiveCard>
+            </StaggerItem>
           );
         })}
 
@@ -246,7 +255,7 @@ export function PublicationsClient({
             No publications match your criteria.
           </div>
         )}
-      </div>
+      </StaggerContainer>
 
       {/* BibTeX Modal */}
       {activeBibtex && (

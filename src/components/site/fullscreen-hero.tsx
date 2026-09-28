@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, BookOpen } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 
 interface FullscreenHeroProps {
   heroSubheading?: string;
@@ -40,6 +41,7 @@ export function FullscreenHero({
   totalPublications = 15,
 }: FullscreenHeroProps) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -48,6 +50,8 @@ export function FullscreenHero({
 
     return () => clearInterval(timer);
   }, []);
+
+  const easeCurve = [0.21, 0.47, 0.32, 0.98] as const;
 
   return (
     <section className="relative w-full min-h-[calc(100svh-3.5rem)] sm:min-h-[calc(100vh-4.5rem)] flex items-center justify-center overflow-hidden border-b border-[var(--border)]">
@@ -84,7 +88,12 @@ export function FullscreenHero({
       <div className="relative z-30 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8 lg:py-12 flex flex-col items-center text-center">
         
         {/* Institutional Dual Logos */}
-        <div className="flex items-center justify-center gap-3 sm:gap-5 mb-2.5 sm:mb-4">
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: easeCurve }}
+          className="flex items-center justify-center gap-3 sm:gap-5 mb-2.5 sm:mb-4"
+        >
           <div className="relative w-10 h-10 sm:w-14 sm:h-14 shrink-0 flex items-center justify-center">
             <Image
               src="/images/btib-logo-white.png"
@@ -109,39 +118,71 @@ export function FullscreenHero({
               className="w-full h-full object-contain drop-shadow-md"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Full Name of the Laboratory - Responsive Monumental Heading */}
-        <h1 className="text-xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-sans font-extrabold tracking-tight text-white leading-[1.12] max-w-4xl">
-          Bioresources Technology & Industrial Biotechnology Laboratory
-        </h1>
+        <motion.h1
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.08, ease: easeCurve }}
+          className="text-xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-sans font-extrabold tracking-tight text-white leading-[1.12] max-w-4xl"
+        >
+          Bioresources Technology &amp; Industrial Biotechnology Laboratory
+        </motion.h1>
 
         {/* Concise Description */}
-        <p className="mt-2.5 sm:mt-4 text-xs sm:text-base lg:text-lg text-slate-200 font-light leading-relaxed max-w-3xl line-clamp-3 sm:line-clamp-none">
+        <motion.p
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, delay: 0.18, ease: easeCurve }}
+          className="mt-2.5 sm:mt-4 text-xs sm:text-base lg:text-lg text-slate-200 font-light leading-relaxed max-w-3xl line-clamp-3 sm:line-clamp-none"
+        >
           {heroSubheading ||
             "Pioneering microbial bioprocess kinetics, urban microalgae photobioreactors, and circular bioproducts from Bangladesh's rich ecological bioresources."}
-        </p>
+        </motion.p>
 
         {/* Actions - Touch-Friendly Responsive Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3.5 mt-3.5 sm:mt-6">
-          <Link
-            href="/research"
-            className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.28, ease: easeCurve }}
+          className="flex flex-wrap items-center justify-center gap-2 sm:gap-3.5 mt-3.5 sm:mt-6"
+        >
+          <motion.div
+            whileHover={shouldReduceMotion ? {} : { y: -2, scale: 1.02 }}
+            whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
+            transition={{ duration: 0.2 }}
           >
-            <span>Explore Research</span>
-            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </Link>
-          <Link
-            href="/publications"
-            className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold border border-white/20 bg-white/10 hover:bg-white/15 text-white backdrop-blur-md transition-all active:scale-[0.98]"
+            <Link
+              href="/research"
+              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-shadow"
+            >
+              <span>Explore Research</span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </Link>
+          </motion.div>
+          <motion.div
+            whileHover={shouldReduceMotion ? {} : { y: -2, scale: 1.02 }}
+            whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
+            transition={{ duration: 0.2 }}
           >
-            <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
-            <span>Publications</span>
-          </Link>
-        </div>
+            <Link
+              href="/publications"
+              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold border border-white/20 bg-white/10 hover:bg-white/15 text-white backdrop-blur-md transition-colors"
+            >
+              <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
+              <span>Publications</span>
+            </Link>
+          </motion.div>
+        </motion.div>
 
         {/* Key Indicators Grid */}
-        <div className="mt-4 sm:mt-7 pt-3 sm:pt-5 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-6 w-full max-w-2xl text-center">
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.38, ease: easeCurve }}
+          className="mt-4 sm:mt-7 pt-3 sm:pt-5 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-6 w-full max-w-2xl text-center"
+        >
           <div className="py-0.5 sm:py-1">
             <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-[var(--brand-primary)] font-sans">
               {totalDivisions}
@@ -174,7 +215,7 @@ export function FullscreenHero({
               Indexed Papers
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>
