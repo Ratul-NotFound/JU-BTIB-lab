@@ -78,7 +78,7 @@ export function LabIntroSection() {
                     <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center transition-colors group-hover:bg-[var(--brand-primary)] group-hover:text-white">
                       <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                     </div>
-                    <span className="text-[9px] sm:text-xs font-semibold px-1.5 sm:px-2.5 py-0.5 rounded-md bg-[var(--surface-raised)] text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
+                    <span className="text-[10px] sm:text-xs font-mono font-medium text-[var(--brand-primary)] tracking-wide uppercase">
                       {pillar.badge}
                     </span>
                   </div>

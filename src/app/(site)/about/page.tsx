@@ -163,8 +163,8 @@ export default async function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-14 items-center">
             
             <div className="lg:col-span-7 space-y-4 sm:space-y-6">
-              {/* Institutional Dual Badge */}
-              <div className="flex items-center gap-2 sm:gap-3 w-fit p-1 sm:p-1.5 pr-3 sm:pr-4 rounded-full border border-[var(--border)] bg-[var(--surface-raised)]/70">
+              {/* Institutional Dual Attribution */}
+              <div className="flex items-center gap-2.5 sm:gap-3.5 pb-1">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 relative shrink-0 flex items-center justify-center">
                   <Image
                     src="/images/btib-logo.png"
@@ -174,7 +174,7 @@ export default async function AboutPage() {
                     className="w-full h-full object-contain theme-invert-dark"
                   />
                 </div>
-                <span className="w-px h-3.5 sm:h-4 bg-[var(--border)]" />
+                <span className="w-px h-4 sm:h-5 bg-[var(--border)]" />
                 <div className="w-5 h-5 sm:w-7 sm:h-7 relative shrink-0 flex items-center justify-center">
                   <Image
                     src="/images/ju-logo.png"
@@ -184,7 +184,7 @@ export default async function AboutPage() {
                     className="w-full h-full object-contain theme-invert-dark"
                   />
                 </div>
-                <span className="text-[11px] sm:text-xs font-semibold text-[var(--text-primary)]">
+                <span className="text-xs sm:text-sm font-semibold text-[var(--text-secondary)]">
                   BTIB Lab · Jahangirnagar University
                 </span>
               </div>

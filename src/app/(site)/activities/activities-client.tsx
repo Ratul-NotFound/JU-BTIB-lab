@@ -14,7 +14,7 @@ import {
   LayoutList,
   MapPin,
   Search,
-  Sparkles,
+  GraduationCap,
   Wrench,
   X,
   Layers,
@@ -73,7 +73,7 @@ const TYPE_CONFIG: Record<
     bg: "bg-blue-500/10",
     text: "text-blue-600 dark:text-blue-400",
     border: "border-blue-500/30",
-    icon: Sparkles,
+    icon: GraduationCap,
   },
   SEMINAR: {
     label: "Seminar & Lecture",

@@ -67,12 +67,12 @@ export default async function ActivityDetailPage({ params }: Props) {
           {/* Overlay Content */}
           <div className="absolute bottom-0 inset-x-0 p-4 sm:p-10 lg:p-12 space-y-2.5 sm:space-y-4 max-w-4xl text-white">
             {/* Meta Tags */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              <span className="px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[11px] sm:text-xs font-bold bg-[var(--brand-primary)] text-white shadow-sm">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
+              <span className="px-2.5 py-1 rounded text-[11px] sm:text-xs font-semibold bg-[var(--brand-primary)] text-white shadow-sm">
                 {activity.type}
               </span>
 
-              <span className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white/90 font-medium bg-black/40 backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-white/10">
+              <span className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white/90 font-medium bg-black/50 backdrop-blur-md px-2.5 py-1 rounded border border-white/10">
                 <Calendar className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-[var(--brand-primary)]" />
                 <span>
                   {new Date(activity.date).toLocaleDateString("en-US", {
@@ -84,7 +84,7 @@ export default async function ActivityDetailPage({ params }: Props) {
               </span>
 
               {activity.location && (
-                <span className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white/90 font-medium bg-black/40 backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-white/10">
+                <span className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white/90 font-medium bg-black/50 backdrop-blur-md px-2.5 py-1 rounded border border-white/10">
                   <MapPin className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-rose-400" />
                   <span className="truncate max-w-[150px] sm:max-w-none">{activity.location}</span>
                 </span>

@@ -15,21 +15,18 @@ export default async function ActivitiesPage() {
   const activities = await getActivities();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-5 sm:space-y-6">
-      {/* Compact Header */}
-      <section className="space-y-1.5 max-w-3xl">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
-          Academic Events & Milestones
-        </div>
-        <h1 className="text-3xl sm:text-3xl lg:text-4xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-16 space-y-6 sm:space-y-10">
+      {/* Header */}
+      <section className="space-y-2 sm:space-y-4 max-w-4xl">
+        <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.12] sm:leading-[1.08]">
           Activities, Events & <span className="text-[var(--brand-primary)]">Achievements</span>
         </h1>
-        <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
-          Chronicle of scientific seminars, competitive grant awards, field expeditions, and translational biotechnology milestones.
+        <p className="text-xs sm:text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed font-light">
+          Chronicle of scientific seminars, competitive grant awards, field expeditions, and translational biotechnology milestones at Jahangirnagar University.
         </p>
       </section>
 
-      {/* Compact Interactive Activities Listing */}
+      {/* Interactive Activities Listing */}
       <ActivitiesListClient activities={activities} />
     </div>
   );
