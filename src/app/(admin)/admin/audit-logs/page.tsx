@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { SpecimenLabel } from "@/components/ui/specimen-label";
+import { AuditPruneButton } from "./audit-prune-button";
 
 export const dynamic = "force-dynamic";
 
@@ -13,17 +14,20 @@ export default async function AdminAuditLogsPage() {
 
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-6">
-      <div className="border-b border-[var(--border)] pb-4">
-        <div className="flex items-center gap-2">
-          <SpecimenLabel code="SEC / AUDIT" subtext="LOG" />
-          <span className="text-xs font-mono text-[var(--bio-teal)]">TAMPER-EVIDENT TRAIL</span>
+      <div className="border-b border-[var(--border)] pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <SpecimenLabel code="SEC / AUDIT" subtext="LOG" />
+            <span className="text-xs font-mono text-[var(--bio-teal)]">TAMPER-EVIDENT TRAIL</span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] mt-1">
+            Security & Mutation Audit Logs
+          </h1>
+          <p className="text-xs text-[var(--text-muted)] mt-1">
+            Chronological audit trail of all repository modifications, administrative logins, and content updates.
+          </p>
         </div>
-        <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] mt-1">
-          Security & Mutation Audit Logs
-        </h1>
-        <p className="text-xs text-[var(--text-muted)] mt-1">
-          Chronological audit trail of all repository modifications, administrative logins, and content updates.
-        </p>
+        <AuditPruneButton />
       </div>
 
       <Table>

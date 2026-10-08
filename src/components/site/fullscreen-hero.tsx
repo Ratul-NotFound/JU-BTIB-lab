@@ -12,6 +12,7 @@ interface FullscreenHeroProps {
   totalPublications?: number;
   heroBgImage?: string | null;
   heroBgImageAlt?: string | null;
+  bannerImages?: unknown;
   labLogoWhiteUrl?: string | null;
   universityLogoWhiteUrl?: string | null;
 }
@@ -45,6 +46,7 @@ export function FullscreenHero({
   totalPublications = 15,
   heroBgImage,
   heroBgImageAlt,
+  bannerImages,
   labLogoWhiteUrl,
   universityLogoWhiteUrl,
 }: FullscreenHeroProps) {
@@ -52,6 +54,18 @@ export function FullscreenHero({
   const shouldReduceMotion = useReducedMotion();
 
   const heroSlides = React.useMemo(() => {
+    // 1. If custom structured bannerImages are configured in Admin Settings
+    if (Array.isArray(bannerImages) && bannerImages.length > 0) {
+      const customSlides = bannerImages
+        .filter((b): b is { src: string; alt?: string } => typeof b === "object" && b !== null && Boolean(b.src))
+        .map((b) => ({
+          src: b.src,
+          alt: b.alt || "BTIB Laboratory Main Research Facility",
+        }));
+      if (customSlides.length > 0) return customSlides;
+    }
+
+    // 2. Fallback to single heroBgImage if configured
     if (heroBgImage) {
       return [
         {
@@ -60,8 +74,10 @@ export function FullscreenHero({
         },
       ];
     }
+
+    // 3. Fallback to default verified lab photography
     return DEFAULT_HERO_IMAGES;
-  }, [heroBgImage, heroBgImageAlt]);
+  }, [bannerImages, heroBgImage, heroBgImageAlt]);
 
   React.useEffect(() => {
     if (heroSlides.length <= 1) return;

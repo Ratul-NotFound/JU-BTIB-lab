@@ -30,6 +30,7 @@ export default async function HomePage() {
         totalPublications={totalPublications}
         heroBgImage={settings?.heroBgImage}
         heroBgImageAlt={settings?.heroBgImageAlt}
+        bannerImages={settings?.bannerImages}
         labLogoWhiteUrl={settings?.labLogoWhiteUrl}
         universityLogoWhiteUrl={settings?.universityLogoWhiteUrl}
       />

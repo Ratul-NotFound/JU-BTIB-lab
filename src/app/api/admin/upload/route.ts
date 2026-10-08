@@ -12,11 +12,14 @@ export const dynamic = "force-dynamic";
 // Maximum allowed input file size before compression: 25 MB
 const MAX_RAW_FILE_SIZE = 25 * 1024 * 1024;
 
-// Configure Cloudinary if credentials exist in environment
+// Configure Cloudinary only if real non-placeholder credentials exist in environment
 const hasCloudinary = Boolean(
   process.env.CLOUDINARY_CLOUD_NAME &&
   process.env.CLOUDINARY_API_KEY &&
-  process.env.CLOUDINARY_API_SECRET
+  process.env.CLOUDINARY_API_SECRET &&
+  !process.env.CLOUDINARY_API_KEY.includes("your-") &&
+  !process.env.CLOUDINARY_CLOUD_NAME.includes("your-") &&
+  !process.env.CLOUDINARY_API_SECRET.includes("your-")
 );
 
 if (hasCloudinary) {

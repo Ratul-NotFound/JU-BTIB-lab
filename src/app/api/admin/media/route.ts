@@ -65,17 +65,49 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ message: "Media not found" }, { status: 404 });
     }
 
-    // Safe deletion guard: check if image URL is in active use
-    const [projectWithImage, areaWithImage] = await Promise.all([
+    // Safe deletion guard: check if image URL is in active use across the system
+    const [
+      projectWithImage,
+      areaWithImage,
+      galleryImageWithUrl,
+      albumWithCover,
+      memberWithPhoto,
+      equipmentWithImage,
+      activityWithCover,
+      blogWithCover,
+    ] = await Promise.all([
       db.project.findFirst({ where: { coverImage: media.url } }),
       db.researchArea.findFirst({ where: { coverImage: media.url } }),
+      db.galleryImage.findFirst({ where: { url: media.url } }),
+      db.galleryAlbum.findFirst({ where: { coverImage: media.url } }),
+      db.teamMember.findFirst({ where: { photoUrl: media.url } }),
+      db.equipment.findFirst({ where: { imageUrl: media.url } }),
+      db.activity.findFirst({ where: { coverImage: media.url } }),
+      db.blogPost.findFirst({ where: { coverImage: media.url } }),
     ]);
 
-    if (projectWithImage || areaWithImage) {
+    if (
+      projectWithImage ||
+      areaWithImage ||
+      galleryImageWithUrl ||
+      albumWithCover ||
+      memberWithPhoto ||
+      equipmentWithImage ||
+      activityWithCover ||
+      blogWithCover
+    ) {
+      let referencedIn = "an active section";
+      if (galleryImageWithUrl || albumWithCover) referencedIn = "Photo Gallery";
+      else if (projectWithImage) referencedIn = "Projects";
+      else if (areaWithImage) referencedIn = "Research Areas";
+      else if (memberWithPhoto) referencedIn = "Team Roster";
+      else if (equipmentWithImage) referencedIn = "Equipment";
+      else if (activityWithCover) referencedIn = "Activities";
+      else if (blogWithCover) referencedIn = "News & Blog";
+
       return NextResponse.json(
         {
-          message:
-            "Cannot delete media: asset is currently referenced by an active project or research area.",
+          message: `Cannot delete media: this asset is currently referenced and displayed in ${referencedIn}. Please remove it there first.`,
         },
         { status: 409 }
       );
