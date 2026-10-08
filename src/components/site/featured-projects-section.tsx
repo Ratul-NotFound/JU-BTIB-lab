@@ -3,10 +3,10 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronRight, Activity, Cpu, Leaf } from "lucide-react";
+import { ArrowRight, ChevronRight, Activity, Cpu, Leaf, LucideIcon } from "lucide-react";
 import { Reveal, StaggerContainer, StaggerItem, InteractiveCard } from "@/components/ui/reveal";
 
-const PROJECTS = [
+const DEFAULT_PROJECTS = [
   {
     title: "250L Urban Liquid-Tree Photobioreactor",
     tag: "Flagship Engineering",
@@ -42,7 +42,54 @@ const PROJECTS = [
   },
 ];
 
-export function FeaturedProjectsSection() {
+export interface FeaturedProjectInput {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  coverImage?: string | null;
+  status: string;
+  funder?: string | null;
+  startYear: number;
+  endYear?: number | null;
+  areas?: Array<{
+    researchArea: {
+      title: string;
+    };
+  }>;
+}
+
+export function FeaturedProjectsSection({ projects }: { projects?: FeaturedProjectInput[] }) {
+  const displayProjects = React.useMemo(() => {
+    if (projects && projects.length > 0) {
+      return projects.map((p, idx) => {
+        let defaultPhoto = "/images/fermentation.jpg";
+        if (p.slug.includes("liquid-tree") || p.slug.includes("photobioreactor") || p.slug.includes("algae")) {
+          defaultPhoto = "/images/liquid-tree.jpg";
+        } else if (p.slug.includes("biomaterial") || p.slug.includes("plastic")) {
+          defaultPhoto = "/images/bioplastics.jpg";
+        }
+
+        const icons: LucideIcon[] = [Leaf, Activity, Cpu];
+        const icon = icons[idx % icons.length];
+        const tag = p.areas?.[0]?.researchArea?.title || (p.status === "ACTIVE" ? "Active Research" : "Flagship Project");
+        const metrics = p.funder ? `Funder: ${p.funder}` : `${p.startYear} – ${p.endYear || "Ongoing"}`;
+
+        return {
+          title: p.title,
+          tag,
+          icon,
+          photo: p.coverImage || defaultPhoto,
+          alt: p.title,
+          description: p.summary,
+          metrics,
+          href: `/projects/${p.slug}`,
+        };
+      });
+    }
+    return DEFAULT_PROJECTS;
+  }, [projects]);
+
   return (
     <section className="w-full bg-[var(--background)] py-6 sm:py-16 lg:py-24 border-b border-[var(--border)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 space-y-4 sm:space-y-12">
@@ -75,7 +122,7 @@ export function FeaturedProjectsSection() {
           delayChildren={0.06}
           className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-6 lg:gap-8"
         >
-          {PROJECTS.map((project, index) => {
+          {displayProjects.map((project, index) => {
             const Icon = project.icon;
             const isFirst = index === 0;
             return (

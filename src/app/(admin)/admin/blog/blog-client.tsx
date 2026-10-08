@@ -10,9 +10,10 @@ import { Dialog } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/toast";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
+import { MediaPicker } from "@/components/admin/media-picker";
 import { createBlogPost, updateBlogPost, deleteBlogPost } from "@/server/actions/blog";
 import { PostStatus } from "@prisma/client";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, Trash2, Newspaper } from "lucide-react";
 
 export interface BlogPostItem {
   id: string;
@@ -20,6 +21,7 @@ export interface BlogPostItem {
   slug: string;
   excerpt: string;
   bodyHtml: string;
+  coverImage?: string | null;
   authorName: string;
   status: PostStatus;
   publishedAt: Date | null;
@@ -37,6 +39,7 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
   const [slug, setSlug] = React.useState("");
   const [excerpt, setExcerpt] = React.useState("");
   const [bodyHtml, setBodyHtml] = React.useState("<p></p>");
+  const [coverImage, setCoverImage] = React.useState("");
   const [authorName, setAuthorName] = React.useState("BTIB Editorial");
   const [status, setStatus] = React.useState<PostStatus>(PostStatus.DRAFT);
   const [readingTime, setReadingTime] = React.useState(3);
@@ -48,6 +51,7 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
     setSlug("");
     setExcerpt("");
     setBodyHtml("<p>Write article content here...</p>");
+    setCoverImage("");
     setAuthorName("BTIB Editorial");
     setStatus(PostStatus.DRAFT);
     setReadingTime(3);
@@ -60,6 +64,7 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
     setSlug(item.slug);
     setExcerpt(item.excerpt);
     setBodyHtml(item.bodyHtml);
+    setCoverImage(item.coverImage || "");
     setAuthorName(item.authorName);
     setStatus(item.status);
     setReadingTime(item.readingTime);
@@ -77,6 +82,7 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
           slug,
           excerpt,
           bodyHtml,
+          coverImage: coverImage || null,
           authorName,
           status,
           readingTime,
@@ -89,6 +95,7 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
           slug,
           excerpt,
           bodyHtml,
+          coverImage: coverImage || null,
           authorName,
           status,
           readingTime,
@@ -120,11 +127,27 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
   const columns: Column<BlogPostItem>[] = [
     {
       key: "title",
-      header: "Title & Excerpt",
+      header: "Title & Cover",
       render: (item) => (
-        <div className="space-y-0.5 max-w-md">
-          <div className="font-medium text-[var(--text-primary)]">{item.title}</div>
-          <div className="text-[11px] text-[var(--text-muted)] truncate">{item.excerpt}</div>
+        <div className="flex items-center gap-3">
+          {item.coverImage ? (
+            <div className="w-12 h-9 rounded-lg border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={item.coverImage}
+                alt={item.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-12 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
+              <Newspaper className="w-4 h-4" />
+            </div>
+          )}
+          <div className="space-y-0.5 max-w-md">
+            <div className="font-medium text-[var(--text-primary)]">{item.title}</div>
+            <div className="text-[11px] text-[var(--text-muted)] truncate">{item.excerpt}</div>
+          </div>
         </div>
       ),
     },
@@ -218,7 +241,7 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-mono text-[var(--text-secondary)]">SLUG</label>
+            <label className="text-xs font-mono text-[var(--text-secondary)]">SLUG *</label>
             <Input
               required
               value={slug}
@@ -226,6 +249,14 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
               placeholder="article-headline-slug"
             />
           </div>
+
+          {/* Article Featured / Cover Photo Picker */}
+          <MediaPicker
+            label="ARTICLE COVER / FEATURED PHOTO"
+            folder="blog"
+            value={coverImage}
+            onChange={(url) => setCoverImage(url)}
+          />
 
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-1">

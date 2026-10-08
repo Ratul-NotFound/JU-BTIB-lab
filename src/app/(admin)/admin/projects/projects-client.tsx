@@ -10,8 +10,9 @@ import { Dialog } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/toast";
 import { createProject, updateProject, deleteProject } from "@/server/actions/projects";
+import { MediaPicker } from "@/components/admin/media-picker";
 import { ProjectStatus } from "@prisma/client";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, Trash2, FolderKanban } from "lucide-react";
 
 export interface ProjectItem {
   id: string;
@@ -22,6 +23,7 @@ export interface ProjectItem {
   funder: string | null;
   startYear: number;
   endYear: number | null;
+  coverImage?: string | null;
   featured: boolean;
   published: boolean;
   areas?: { researchArea: { id: string; title: string } }[];
@@ -47,6 +49,7 @@ export function ProjectsClient({
   const [funder, setFunder] = React.useState("");
   const [startYear, setStartYear] = React.useState(new Date().getFullYear());
   const [endYear, setEndYear] = React.useState<number | "">("");
+  const [coverImage, setCoverImage] = React.useState("");
   const [featured, setFeatured] = React.useState(false);
   const [published, setPublished] = React.useState(true);
   const [selectedAreaIds, setSelectedAreaIds] = React.useState<string[]>([]);
@@ -61,6 +64,7 @@ export function ProjectsClient({
     setFunder("");
     setStartYear(new Date().getFullYear());
     setEndYear("");
+    setCoverImage("");
     setFeatured(false);
     setPublished(true);
     setSelectedAreaIds([]);
@@ -76,6 +80,7 @@ export function ProjectsClient({
     setFunder(item.funder || "");
     setStartYear(item.startYear);
     setEndYear(item.endYear ?? "");
+    setCoverImage(item.coverImage || "");
     setFeatured(item.featured);
     setPublished(item.published);
     setSelectedAreaIds(item.areas?.map((a) => a.researchArea.id) || []);
@@ -96,6 +101,7 @@ export function ProjectsClient({
           funder: funder || null,
           startYear,
           endYear: endYear === "" ? null : Number(endYear),
+          coverImage: coverImage || null,
           featured,
           published,
           areaIds: selectedAreaIds,
@@ -112,6 +118,7 @@ export function ProjectsClient({
           funder: funder || null,
           startYear,
           endYear: endYear === "" ? null : Number(endYear),
+          coverImage: coverImage || null,
           featured,
           published,
           areaIds: selectedAreaIds,
@@ -144,11 +151,27 @@ export function ProjectsClient({
   const columns: Column<ProjectItem>[] = [
     {
       key: "title",
-      header: "Project Title",
+      header: "Project Title & Photo",
       render: (item) => (
-        <div className="space-y-0.5 max-w-md">
-          <div className="font-medium text-[var(--text-primary)]">{item.title}</div>
-          <div className="text-[11px] text-[var(--text-muted)] truncate">{item.summary}</div>
+        <div className="flex items-center gap-3">
+          {item.coverImage ? (
+            <div className="w-12 h-9 rounded-lg border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={item.coverImage}
+                alt={item.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-12 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
+              <FolderKanban className="w-4 h-4" />
+            </div>
+          )}
+          <div className="space-y-0.5 max-w-md">
+            <div className="font-medium text-[var(--text-primary)]">{item.title}</div>
+            <div className="text-[11px] text-[var(--text-muted)] truncate">{item.summary}</div>
+          </div>
         </div>
       ),
     },
@@ -239,7 +262,7 @@ export function ProjectsClient({
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-mono text-[var(--text-secondary)]">SLUG</label>
+            <label className="text-xs font-mono text-[var(--text-secondary)]">SLUG *</label>
             <Input
               required
               value={slug}
@@ -247,6 +270,14 @@ export function ProjectsClient({
               placeholder="liquid-tree-photobioreactor"
             />
           </div>
+
+          {/* Project Cover / Header Photo Picker */}
+          <MediaPicker
+            label="PROJECT COVER / INITIATIVE PHOTO"
+            folder="projects"
+            value={coverImage}
+            onChange={(url) => setCoverImage(url)}
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">

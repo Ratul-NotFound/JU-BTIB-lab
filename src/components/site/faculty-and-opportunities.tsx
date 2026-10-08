@@ -3,7 +3,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, ArrowRight, GraduationCap, Building2, Quote } from "lucide-react";
 
-export function FacultyAndOpportunities() {
+export interface FacultyOpportunitiesData {
+  name?: string;
+  photoUrl?: string | null;
+  title?: string | null;
+  email?: string | null;
+}
+
+export function FacultyAndOpportunities({ piMember }: { piMember?: FacultyOpportunitiesData | null }) {
+  const photo = piMember?.photoUrl || "/images/team/shahedur-rahman.jpg";
+  const name = piMember?.name || "Prof. Mohammad Shahedur Rahman";
+  const title = piMember?.title || "Principal Investigator";
+  const email = piMember?.email || "rahmanms@bgeju.edu.bd";
+
   return (
     <section className="w-full bg-[var(--surface)] py-20 sm:py-28 border-b border-[var(--border)]">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 space-y-12">
@@ -33,8 +45,8 @@ export function FacultyAndOpportunities() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
                 <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shrink-0 shadow-xs">
                   <Image
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
-                    alt="Prof. Mohammad Shahedur Rahman, Principal Investigator at BTIB Lab"
+                    src={photo}
+                    alt={`${name}, Principal Investigator at BTIB Lab`}
                     fill
                     className="object-cover object-top"
                     sizes="96px"
@@ -42,10 +54,10 @@ export function FacultyAndOpportunities() {
                 </div>
                 <div className="space-y-1">
                   <span className="text-[11px] font-mono font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider block">
-                    Principal Investigator
+                    {title}
                   </span>
                   <h3 className="text-xl sm:text-2xl font-bold font-sans text-[var(--text-primary)] tracking-tight">
-                    Prof. Mohammad Shahedur Rahman
+                    {name}
                   </h3>
                   <p className="text-xs text-[var(--text-secondary)]">
                     Department of Biotechnology & Genetic Engineering
@@ -74,11 +86,11 @@ export function FacultyAndOpportunities() {
             {/* Direct Contact & Team Link */}
             <div className="pt-6 mt-6 border-t border-[var(--border)] flex flex-wrap items-center justify-between gap-4">
               <a
-                href="mailto:rahmanms@bgeju.edu.bd"
+                href={`mailto:${email}`}
                 className="inline-flex items-center gap-2 text-xs font-mono font-medium text-[var(--text-secondary)] hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
               >
                 <Mail className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
-                <span>rahmanms@bgeju.edu.bd</span>
+                <span>{email}</span>
               </a>
               <Link
                 href="/team"

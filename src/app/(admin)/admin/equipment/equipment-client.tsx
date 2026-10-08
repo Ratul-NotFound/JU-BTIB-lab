@@ -14,13 +14,15 @@ import {
   updateEquipment,
   deleteEquipment,
 } from "@/server/actions/equipment";
-import { Edit2, Trash2 } from "lucide-react";
+import { MediaPicker } from "@/components/admin/media-picker";
+import { Edit2, Trash2, Microscope } from "lucide-react";
 
 export interface EquipmentItem {
   id: string;
   name: string;
   category: string;
   description: string | null;
+  imageUrl?: string | null;
   order: number;
   published: boolean;
 }
@@ -35,6 +37,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
   const [name, setName] = React.useState("");
   const [category, setCategory] = React.useState("Bioprocess & Fermentation");
   const [description, setDescription] = React.useState("");
+  const [imageUrl, setImageUrl] = React.useState("");
   const [order, setOrder] = React.useState(0);
   const [published, setPublished] = React.useState(true);
   const [submitting, setSubmitting] = React.useState(false);
@@ -44,6 +47,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
     setName("");
     setCategory("Bioprocess & Fermentation");
     setDescription("");
+    setImageUrl("");
     setOrder(initialData.length + 1);
     setPublished(true);
     setDialogOpen(true);
@@ -54,6 +58,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
     setName(item.name);
     setCategory(item.category);
     setDescription(item.description || "");
+    setImageUrl(item.imageUrl || "");
     setOrder(item.order);
     setPublished(item.published);
     setDialogOpen(true);
@@ -69,6 +74,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
           name,
           category,
           description: description || null,
+          imageUrl: imageUrl || null,
           order,
           published,
         });
@@ -78,6 +84,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
           name,
           category,
           description: description || null,
+          imageUrl: imageUrl || null,
           order,
           published,
         });
@@ -107,12 +114,28 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
   const columns: Column<EquipmentItem>[] = [
     {
       key: "name",
-      header: "Instrument Name",
+      header: "Instrument & Photo",
       render: (item) => (
-        <div>
-          <div className="font-medium text-[var(--text-primary)]">{item.name}</div>
-          <div className="text-[11px] text-[var(--text-muted)] truncate max-w-sm">
-            {item.description || "No specifications noted"}
+        <div className="flex items-center gap-3">
+          {item.imageUrl ? (
+            <div className="w-10 h-10 rounded-lg border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={item.imageUrl}
+                alt={item.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-10 h-10 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
+              <Microscope className="w-4 h-4" />
+            </div>
+          )}
+          <div>
+            <div className="font-medium text-[var(--text-primary)]">{item.name}</div>
+            <div className="text-[11px] text-[var(--text-muted)] truncate max-w-sm">
+              {item.description || "No specifications noted"}
+            </div>
           </div>
         </div>
       ),
@@ -172,9 +195,9 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
         title={editingItem ? "Edit Equipment" : "Catalogue New Equipment"}
         description="Instrument specifications, technical capacity, and category."
       >
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 max-h-[75vh] overflow-y-auto px-1">
           <div className="space-y-1">
-            <label className="text-xs font-mono text-[var(--text-secondary)]">INSTRUMENT NAME</label>
+            <label className="text-xs font-mono text-[var(--text-secondary)]">INSTRUMENT NAME *</label>
             <Input
               required
               value={name}
@@ -185,7 +208,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="text-xs font-mono text-[var(--text-secondary)]">CATEGORY</label>
+              <label className="text-xs font-mono text-[var(--text-secondary)]">CATEGORY *</label>
               <Input
                 required
                 value={category}
@@ -202,6 +225,14 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
               />
             </div>
           </div>
+
+          {/* Instrument Photograph Picker */}
+          <MediaPicker
+            label="INSTRUMENT PHOTOGRAPH"
+            folder="instruments"
+            value={imageUrl}
+            onChange={(url) => setImageUrl(url)}
+          />
 
           <div className="space-y-1">
             <label className="text-xs font-mono text-[var(--text-secondary)]">DESCRIPTION & SPECS</label>

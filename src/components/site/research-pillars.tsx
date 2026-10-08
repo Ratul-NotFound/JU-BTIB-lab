@@ -6,7 +6,14 @@ import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { Reveal, StaggerContainer, StaggerItem, InteractiveCard } from "@/components/ui/reveal";
 
-const PILLARS = [
+const DEFAULT_FALLBACK_IMAGES: Record<string, string> = {
+  "microbial-biotechnology": "/images/domains/microbial-biotech.jpg",
+  "bioprocess-engineering": "/images/domains/bioprocess-eng.jpg",
+  "algae-biotechnology": "/images/domains/algae-carbon.jpg",
+  "biomaterial-processing": "/images/bioplastics.jpg",
+};
+
+const DEFAULT_PILLARS = [
   {
     title: "Microbial Biotechnology & Biocatalysis",
     slug: "microbial-biotechnology",
@@ -45,7 +52,30 @@ const PILLARS = [
   },
 ];
 
-export function ResearchPillars() {
+export interface ResearchPillarItem {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  coverImage?: string | null;
+  glyphKey?: string;
+}
+
+export function ResearchPillars({ areas }: { areas?: ResearchPillarItem[] }) {
+  const displayItems = React.useMemo(() => {
+    if (areas && areas.length > 0) {
+      return areas.map((area) => ({
+        title: area.title,
+        slug: area.slug,
+        summary: area.summary,
+        photo: area.coverImage || DEFAULT_FALLBACK_IMAGES[area.slug] || "/images/domains/microbial-biotech.jpg",
+        alt: area.title,
+        tag: "Core Division",
+      }));
+    }
+    return DEFAULT_PILLARS;
+  }, [areas]);
+
   return (
     <section className="w-full bg-[var(--surface)] py-6 sm:py-16 lg:py-24 border-b border-[var(--border)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 space-y-4 sm:space-y-12">
@@ -78,7 +108,7 @@ export function ResearchPillars() {
           delayChildren={0.06}
           className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6"
         >
-          {PILLARS.map((pillar) => (
+          {displayItems.map((pillar) => (
             <StaggerItem key={pillar.slug} yOffset={22}>
               <InteractiveCard hoverY={-4} className="h-full">
                 <Link

@@ -54,6 +54,7 @@ interface ResearchAreaItem {
   title: string;
   summary: string;
   glyphKey: string;
+  coverImage?: string | null;
   _count: {
     projects: number;
     publications: number;
@@ -91,10 +92,16 @@ export function ResearchShowcase({ areas }: { areas: ResearchAreaItem[] }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {areas.map((area) => {
-          const photo = AREA_IMAGES[area.slug] || {
+          const defaultPhoto = AREA_IMAGES[area.slug] || {
             url: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80",
             alt: area.title,
             tag: "Scientific Research",
+          };
+
+          const photo = {
+            url: area.coverImage || defaultPhoto.url,
+            alt: area.title || defaultPhoto.alt,
+            tag: defaultPhoto.tag,
           };
 
           return (

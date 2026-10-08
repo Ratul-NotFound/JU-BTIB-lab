@@ -227,53 +227,98 @@ export function MediaPicker({
 
       {/* Current Preview or Upload Button */}
       {value ? (
-        <div className="relative w-full h-44 rounded-2xl border border-[var(--border)] overflow-hidden bg-[var(--surface-raised)] group shadow-xs">
-          <Image
-            src={value}
-            alt="Selected preview"
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+        <div className="space-y-2">
+          <div className="relative w-full h-44 rounded-2xl border border-[var(--border)] overflow-hidden bg-[var(--surface-raised)] group shadow-xs">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={value}
+              alt="Selected preview"
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
 
-          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-4">
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-4">
+              <Button
+                type="button"
+                size="sm"
+                variant="secondary"
+                onClick={() => setOpen(true)}
+                className="gap-1.5 bg-white text-black hover:bg-neutral-100 shadow-md font-semibold"
+              >
+                <UploadCloud className="w-3.5 h-3.5" />
+                <span>Change Image / Upload New</span>
+              </Button>
+              <span className="text-[11px] text-white/90 truncate max-w-xs font-mono">{value}</span>
+            </div>
+
+            {compressionMetrics && (
+              <div className="absolute bottom-2 left-2 bg-emerald-600/90 backdrop-blur-md text-white text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
+                <CheckCircle2 className="w-3 h-3" />
+                <span>Compressed: {compressionMetrics.compressedKb} KB ({compressionMetrics.savedPercent}% reduced)</span>
+              </div>
+            )}
+          </div>
+
+          <div className="flex gap-2 items-center">
+            <Input
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              placeholder="Paste Image URL directly (https://... or /images/...)"
+              className="text-xs font-mono"
+            />
             <Button
               type="button"
+              variant="outline"
               size="sm"
-              variant="secondary"
               onClick={() => setOpen(true)}
-              className="gap-1.5 bg-white text-black hover:bg-neutral-100 shadow-md font-semibold"
+              className="shrink-0 text-xs gap-1"
             >
               <UploadCloud className="w-3.5 h-3.5" />
-              <span>Change Image / Upload New</span>
+              <span>Upload / Pick</span>
             </Button>
-            <span className="text-[11px] text-white/90 truncate max-w-xs font-mono">{value}</span>
           </div>
-
-          {compressionMetrics && (
-            <div className="absolute bottom-2 left-2 bg-emerald-600/90 backdrop-blur-md text-white text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
-              <CheckCircle2 className="w-3 h-3" />
-              <span>Compressed: {compressionMetrics.compressedKb} KB ({compressionMetrics.savedPercent}% reduced)</span>
-            </div>
-          )}
         </div>
       ) : (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="w-full h-32 rounded-2xl border-2 border-dashed border-[var(--border)] hover:border-[var(--brand-primary)] bg-[var(--surface)] hover:bg-[var(--surface-raised)] transition-all flex flex-col items-center justify-center gap-2 text-[var(--text-muted)] hover:text-[var(--brand-primary)] group focus:outline-none"
-        >
-          <div className="w-10 h-10 rounded-full bg-[var(--surface-raised)] group-hover:bg-[var(--brand-primary)]/10 flex items-center justify-center transition-colors">
-            <UploadCloud className="w-5 h-5 text-[var(--brand-primary)]" />
+        <div className="space-y-2">
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="w-full h-32 rounded-2xl border-2 border-dashed border-[var(--border)] hover:border-[var(--brand-primary)] bg-[var(--surface)] hover:bg-[var(--surface-raised)] transition-all flex flex-col items-center justify-center gap-2 text-[var(--text-muted)] hover:text-[var(--brand-primary)] group focus:outline-none"
+          >
+            <div className="w-10 h-10 rounded-full bg-[var(--surface-raised)] group-hover:bg-[var(--brand-primary)]/10 flex items-center justify-center transition-colors">
+              <UploadCloud className="w-5 h-5 text-[var(--brand-primary)]" />
+            </div>
+            <div className="text-center">
+              <p className="text-xs font-semibold text-[var(--text-primary)]">
+                Direct Upload Photo (Auto-compressed to KB)
+              </p>
+              <p className="text-[11px] text-[var(--text-muted)]">
+                Drag and drop or click to browse / select presets
+              </p>
+            </div>
+          </button>
+
+          <div className="flex gap-2 items-center">
+            <Input
+              value={urlInput}
+              onChange={(e) => {
+                setUrlInput(e.target.value);
+                onChange(e.target.value);
+              }}
+              placeholder="Or paste direct Image URL (https://... or /images/...)"
+              className="text-xs font-mono"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setOpen(true)}
+              className="shrink-0 text-xs gap-1"
+            >
+              <UploadCloud className="w-3.5 h-3.5" />
+              <span>Upload File</span>
+            </Button>
           </div>
-          <div className="text-center">
-            <p className="text-xs font-semibold text-[var(--text-primary)]">
-              Direct Upload Photo (Auto-compressed to KB)
-            </p>
-            <p className="text-[11px] text-[var(--text-muted)]">
-              Drag and drop or click to browse
-            </p>
-          </div>
-        </button>
+        </div>
       )}
 
       {/* Main Upload / Media Dialog */}

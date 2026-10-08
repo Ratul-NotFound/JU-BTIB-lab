@@ -222,7 +222,7 @@ export default async function ResearchPage() {
                 {/* Photo Banner with Standardized Aspect Ratio */}
                 <div className="relative aspect-[2.1/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">
                   <Image
-                    src={meta.photo}
+                    src={area.coverImage || meta.photo}
                     alt={meta.alt}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"

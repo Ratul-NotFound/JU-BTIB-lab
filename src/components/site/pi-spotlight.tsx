@@ -3,7 +3,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { Mail, ExternalLink, Quote } from "lucide-react";
 
-export function PiSpotlight() {
+export interface PiSpotlightData {
+  name?: string;
+  photoUrl?: string | null;
+  title?: string | null;
+  email?: string | null;
+}
+
+export function PiSpotlight({ piMember }: { piMember?: PiSpotlightData | null }) {
+  const photo = piMember?.photoUrl || "/images/team/shahedur-rahman.jpg";
+  const name = piMember?.name || "Prof. Mohammad Shahedur Rahman";
+  const title = piMember?.title || "Principal Investigator & Professor";
+  const email = piMember?.email || "rahmanms@bgeju.edu.bd";
+
   return (
     <section className="w-full border-t border-[var(--border)] bg-gradient-to-br from-[var(--surface-raised)]/50 via-[var(--surface)] to-[var(--surface)] px-6 sm:px-12 lg:px-20 py-20 sm:py-28">
       <div className="w-full">
@@ -12,24 +24,24 @@ export function PiSpotlight() {
           <div className="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left space-y-4">
             <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-2xl overflow-hidden border-2 border-[var(--border)] shadow-md group">
               <Image
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80"
-                alt="Prof. Mohammad Shahedur Rahman, Principal Investigator at BTIB Lab"
+                src={photo}
+                alt={`${name}, Principal Investigator at BTIB Lab`}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 640px) 176px, 208px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
               <div className="absolute bottom-2 left-2 right-2 text-[10px] font-mono text-white/90 bg-black/40 backdrop-blur-xs px-2 py-1 rounded">
-                Prof. M. Shahedur Rahman
+                {name}
               </div>
             </div>
 
             <div className="space-y-1">
               <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)]">
-                Prof. Mohammad Shahedur Rahman
+                {name}
               </h3>
               <p className="text-xs font-mono text-[var(--bio-teal)] font-medium">
-                Principal Investigator & Professor
+                {title}
               </p>
               <p className="text-xs text-[var(--text-muted)]">
                 Dept. of Biotechnology & Genetic Engineering
@@ -41,11 +53,11 @@ export function PiSpotlight() {
 
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
               <a
-                href="mailto:rahmanms@bgeju.edu.bd"
+                href={`mailto:${email}`}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] hover:border-[var(--bio-teal)] transition-colors"
               >
                 <Mail className="w-3.5 h-3.5" />
-                <span>rahmanms@bgeju.edu.bd</span>
+                <span>{email}</span>
               </a>
             </div>
           </div>

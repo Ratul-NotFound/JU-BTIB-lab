@@ -3,19 +3,31 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, ArrowRight, Quote } from "lucide-react";
 
-export function FacultyLeadership() {
+export interface FacultyLeadershipData {
+  name?: string;
+  photoUrl?: string | null;
+  title?: string | null;
+  email?: string | null;
+}
+
+export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipData | null }) {
+  const photo = piMember?.photoUrl || "/images/team/shahedur-rahman.jpg";
+  const name = piMember?.name || "Prof. Mohammad Shahedur Rahman";
+  const title = piMember?.title || "Principal Investigator & Professor";
+  const email = piMember?.email || "rahmanms@bgeju.edu.bd";
+
   return (
     <section className="w-full bg-[var(--surface)] py-20 sm:py-28 border-b border-[var(--border)]">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Portrait & Direct Contact */}
           <div className="lg:col-span-5 flex flex-col items-center sm:items-start text-center sm:text-left space-y-5">
-            <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-3xl overflow-hidden border border-[var(--border)] shadow-md group">
+            <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-3xl overflow-hidden border border-[var(--border)] shadow-md group bg-[var(--surface-raised)]">
               <Image
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80"
-                alt="Prof. Mohammad Shahedur Rahman, Principal Investigator at BTIB Lab"
+                src={photo}
+                alt={`${name}, Principal Investigator at BTIB Lab`}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 640px) 176px, 208px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -23,10 +35,10 @@ export function FacultyLeadership() {
 
             <div>
               <h3 className="text-2xl font-bold text-[var(--text-primary)]">
-                Prof. Mohammad Shahedur Rahman
+                {name}
               </h3>
               <p className="text-sm font-mono text-[var(--bio-teal)] font-medium mt-1">
-                Principal Investigator & Professor
+                {title}
               </p>
               <p className="text-xs text-[var(--text-muted)] mt-1 font-light leading-relaxed">
                 Department of Biotechnology & Genetic Engineering
@@ -37,11 +49,11 @@ export function FacultyLeadership() {
 
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <a
-                href="mailto:rahmanms@bgeju.edu.bd"
+                href={`mailto:${email}`}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] hover:border-[var(--bio-teal)] transition-colors"
               >
                 <Mail className="w-3.5 h-3.5" />
-                <span>rahmanms@bgeju.edu.bd</span>
+                <span>{email}</span>
               </a>
 
               <Link

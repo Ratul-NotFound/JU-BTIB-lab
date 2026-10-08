@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowRight, Camera } from "lucide-react";
 import { Reveal, StaggerContainer, StaggerItem, InteractiveCard } from "@/components/ui/reveal";
 
-const GALLERY_PREVIEWS = [
+const DEFAULT_GALLERY_PREVIEWS = [
   {
     title: "Liquid-Tree Outdoor Column",
     tag: "Pilot Facility",
@@ -37,7 +37,55 @@ const GALLERY_PREVIEWS = [
   },
 ];
 
-export function ShortGallerySection() {
+export interface GalleryAlbumInput {
+  id: string;
+  title: string;
+  slug: string;
+  coverImage?: string | null;
+  description?: string | null;
+  images?: Array<{
+    id: string;
+    url: string;
+    alt: string;
+    caption?: string | null;
+  }>;
+}
+
+export function ShortGallerySection({ albums }: { albums?: GalleryAlbumInput[] }) {
+  const items = React.useMemo(() => {
+    if (albums && albums.length > 0) {
+      const extracted: Array<{ title: string; tag: string; photo: string; alt: string; span: string }> = [];
+      for (const album of albums) {
+        if (album.coverImage) {
+          extracted.push({
+            title: album.title,
+            tag: "Laboratory Album",
+            photo: album.coverImage,
+            alt: album.title,
+            span: extracted.length === 0 || extracted.length === 3 ? "col-span-1 md:col-span-2 aspect-[4/3] md:aspect-[16/10]" : "col-span-1 md:col-span-1 aspect-[4/3] md:aspect-auto",
+          });
+        }
+        if (album.images) {
+          for (const img of album.images) {
+            if (img.url && !extracted.some((e) => e.photo === img.url)) {
+              extracted.push({
+                title: img.caption || album.title,
+                tag: "Laboratory Archive",
+                photo: img.url,
+                alt: img.alt || album.title,
+                span: extracted.length === 0 || extracted.length === 3 ? "col-span-1 md:col-span-2 aspect-[4/3] md:aspect-[16/10]" : "col-span-1 md:col-span-1 aspect-[4/3] md:aspect-auto",
+              });
+            }
+            if (extracted.length >= 4) break;
+          }
+        }
+        if (extracted.length >= 4) break;
+      }
+      if (extracted.length > 0) return extracted.slice(0, 4);
+    }
+    return DEFAULT_GALLERY_PREVIEWS;
+  }, [albums]);
+
   return (
     <section className="w-full bg-[var(--background)] py-6 sm:py-16 lg:py-24 border-b border-[var(--border)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 space-y-4 sm:space-y-12">
@@ -69,15 +117,15 @@ export function ShortGallerySection() {
           delayChildren={0.06}
           className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-5"
         >
-          {GALLERY_PREVIEWS.map((item) => (
+          {items.map((item, index) => (
             <StaggerItem
-              key={item.title}
+              key={`${item.title}-${index}`}
               yOffset={20}
               className={item.span}
             >
               <InteractiveCard hoverY={-3} className="w-full h-full">
                 <div
-                  className="group relative w-full h-full overflow-hidden rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs"
+                  className="group relative w-full h-full overflow-hidden rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs min-h-[140px] sm:min-h-[180px]"
                 >
                   <Image
                     src={item.photo}

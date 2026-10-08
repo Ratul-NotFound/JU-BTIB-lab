@@ -14,7 +14,8 @@ import {
   updateResearchArea,
   deleteResearchArea,
 } from "@/server/actions/research-areas";
-import { Edit2, Trash2 } from "lucide-react";
+import { MediaPicker } from "@/components/admin/media-picker";
+import { Edit2, Trash2, Image as ImageIcon } from "lucide-react";
 
 export interface AreaItem {
   id: string;
@@ -22,6 +23,7 @@ export interface AreaItem {
   slug: string;
   summary: string;
   glyphKey: string;
+  coverImage?: string | null;
   order: number;
   published: boolean;
 }
@@ -48,6 +50,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
   const [slug, setSlug] = React.useState("");
   const [summary, setSummary] = React.useState("");
   const [glyphKey, setGlyphKey] = React.useState("microbe");
+  const [coverImage, setCoverImage] = React.useState("");
   const [order, setOrder] = React.useState(0);
   const [published, setPublished] = React.useState(true);
   const [submitting, setSubmitting] = React.useState(false);
@@ -58,6 +61,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
     setSlug("");
     setSummary("");
     setGlyphKey("microbe");
+    setCoverImage("");
     setOrder(initialData.length + 1);
     setPublished(true);
     setDialogOpen(true);
@@ -69,6 +73,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
     setSlug(item.slug);
     setSummary(item.summary);
     setGlyphKey(item.glyphKey);
+    setCoverImage(item.coverImage || "");
     setOrder(item.order);
     setPublished(item.published);
     setDialogOpen(true);
@@ -85,6 +90,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
           slug,
           summary,
           glyphKey,
+          coverImage: coverImage || null,
           order,
           published,
         });
@@ -95,6 +101,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
           slug,
           summary,
           glyphKey,
+          coverImage: coverImage || null,
           order,
           published,
         });
@@ -124,11 +131,27 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
   const columns: Column<AreaItem>[] = [
     {
       key: "title",
-      header: "Title & Slug",
+      header: "Title & Image",
       render: (item) => (
-        <div>
-          <div className="font-medium text-[var(--text-primary)]">{item.title}</div>
-          <div className="font-mono text-[10px] text-[var(--text-muted)]">/{item.slug}</div>
+        <div className="flex items-center gap-3">
+          {item.coverImage ? (
+            <div className="w-10 h-10 rounded-lg border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={item.coverImage}
+                alt={item.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-10 h-10 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
+              <ImageIcon className="w-4 h-4" />
+            </div>
+          )}
+          <div>
+            <div className="font-medium text-[var(--text-primary)]">{item.title}</div>
+            <div className="font-mono text-[10px] text-[var(--text-muted)]">/{item.slug}</div>
+          </div>
         </div>
       ),
     },
@@ -190,11 +213,11 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         title={editingItem ? "Edit Research Area" : "New Research Area"}
-        description="Configure titles, summary abstract, and bespoke laboratory glyph."
+        description="Configure titles, summary abstract, cover photo, and laboratory glyph."
       >
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 max-h-[75vh] overflow-y-auto px-1">
           <div className="space-y-1">
-            <label className="text-xs font-mono text-[var(--text-secondary)]">TITLE</label>
+            <label className="text-xs font-mono text-[var(--text-secondary)]">TITLE *</label>
             <Input
               required
               value={title}
@@ -209,7 +232,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-mono text-[var(--text-secondary)]">SLUG</label>
+            <label className="text-xs font-mono text-[var(--text-secondary)]">SLUG *</label>
             <Input
               required
               value={slug}
@@ -217,6 +240,14 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
               placeholder="microbial-biotechnology"
             />
           </div>
+
+          {/* Cover Image / Photo Picker */}
+          <MediaPicker
+            label="COVER IMAGE / SCIENTIFIC PHOTO"
+            folder="research-areas"
+            value={coverImage}
+            onChange={(url) => setCoverImage(url)}
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
@@ -245,7 +276,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-mono text-[var(--text-secondary)]">SUMMARY ABSTRACT</label>
+            <label className="text-xs font-mono text-[var(--text-secondary)]">SUMMARY ABSTRACT *</label>
             <Textarea
               required
               value={summary}
