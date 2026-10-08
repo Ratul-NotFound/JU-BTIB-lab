@@ -9,7 +9,7 @@ import {
   type GalleryImageInput,
 } from "@/server/validators/schemas";
 import { Role } from "@prisma/client";
-import { revalidatePath } from "next/cache";
+import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
 
 export async function createGalleryAlbum(input: GalleryAlbumInput) {
   const user = await requireRole([Role.SUPER_ADMIN, Role.EDITOR]);
@@ -39,8 +39,8 @@ export async function createGalleryAlbum(input: GalleryAlbumInput) {
     },
   });
 
-  revalidatePath("/gallery");
-  revalidatePath("/admin/gallery");
+  invalidateCache(CACHE_TAGS.GALLERY);
+  invalidateCache(CACHE_TAGS.ACTIVITIES);
   return { success: true, data: album };
 }
 
@@ -72,8 +72,8 @@ export async function updateGalleryAlbum(id: string, input: Partial<GalleryAlbum
     },
   });
 
-  revalidatePath("/gallery");
-  revalidatePath("/admin/gallery");
+  invalidateCache(CACHE_TAGS.GALLERY);
+  invalidateCache(CACHE_TAGS.ACTIVITIES);
   return { success: true, data: album };
 }
 
@@ -96,8 +96,8 @@ export async function deleteGalleryAlbum(id: string) {
     },
   });
 
-  revalidatePath("/gallery");
-  revalidatePath("/admin/gallery");
+  invalidateCache(CACHE_TAGS.GALLERY);
+  invalidateCache(CACHE_TAGS.ACTIVITIES);
   return { success: true };
 }
 
@@ -130,8 +130,8 @@ export async function addGalleryImage(input: GalleryImageInput) {
     },
   });
 
-  revalidatePath("/gallery");
-  revalidatePath("/admin/gallery");
+  invalidateCache(CACHE_TAGS.GALLERY);
+  invalidateCache(CACHE_TAGS.ACTIVITIES);
   return { success: true, data: image };
 }
 
@@ -154,7 +154,7 @@ export async function deleteGalleryImage(id: string) {
     },
   });
 
-  revalidatePath("/gallery");
-  revalidatePath("/admin/gallery");
+  invalidateCache(CACHE_TAGS.GALLERY);
+  invalidateCache(CACHE_TAGS.ACTIVITIES);
   return { success: true };
 }

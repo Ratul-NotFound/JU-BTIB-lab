@@ -3,52 +3,55 @@ import { MemberCategory, Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
-const getCachedTeamMembers = unstable_cache(
-  async (category?: MemberCategory) => {
-    const where: Prisma.TeamMemberWhereInput = { published: true };
-    if (category) {
-      where.category = category;
-    }
+function getCachedTeamMembers(category?: MemberCategory) {
+  const cacheKey = ["team-members-list", category ?? "all"];
+  return unstable_cache(
+    async () => {
+      const where: Prisma.TeamMemberWhereInput = { published: true };
+      if (category) {
+        where.category = category;
+      }
 
-    return await db.teamMember.findMany({
-      where,
-      orderBy: [{ order: "asc" }, { joinYear: "asc" }],
-      include: {
-        projects: {
-          include: {
-            project: {
-              include: {
-                areas: {
-                  include: {
-                    researchArea: true,
+      return await db.teamMember.findMany({
+        where,
+        orderBy: [{ order: "asc" }, { joinYear: "asc" }],
+        include: {
+          projects: {
+            include: {
+              project: {
+                include: {
+                  areas: {
+                    include: {
+                      researchArea: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          publications: {
+            include: {
+              publication: {
+                include: {
+                  areas: {
+                    include: {
+                      researchArea: true,
+                    },
                   },
                 },
               },
             },
           },
         },
-        publications: {
-          include: {
-            publication: {
-              include: {
-                areas: {
-                  include: {
-                    researchArea: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-  },
-  ["team-members-list"],
-  {
-    tags: [CACHE_TAGS.TEAM],
-    revalidate: 3600,
-  }
-);
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.TEAM],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getTeamMembers(options?: {
   category?: MemberCategory;
@@ -101,46 +104,49 @@ export async function getTeamMembers(options?: {
   }
 }
 
-const getCachedTeamMemberBySlug = unstable_cache(
-  async (slug: string) => {
-    return await db.teamMember.findUnique({
-      where: { slug },
-      include: {
-        projects: {
-          include: {
-            project: {
-              include: {
-                areas: {
-                  include: {
-                    researchArea: true,
+function getCachedTeamMemberBySlug(slug: string) {
+  const cacheKey = ["team-member-by-slug", slug];
+  return unstable_cache(
+    async () => {
+      return await db.teamMember.findUnique({
+        where: { slug },
+        include: {
+          projects: {
+            include: {
+              project: {
+                include: {
+                  areas: {
+                    include: {
+                      researchArea: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          publications: {
+            include: {
+              publication: {
+                include: {
+                  areas: {
+                    include: {
+                      researchArea: true,
+                    },
                   },
                 },
               },
             },
           },
         },
-        publications: {
-          include: {
-            publication: {
-              include: {
-                areas: {
-                  include: {
-                    researchArea: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-  },
-  ["team-member-by-slug"],
-  {
-    tags: [CACHE_TAGS.TEAM],
-    revalidate: 3600,
-  }
-);
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.TEAM],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getTeamMemberBySlug(slug: string) {
   try {

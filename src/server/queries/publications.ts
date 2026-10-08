@@ -3,18 +3,20 @@ import { PublicationType, Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
-const getCachedPublicationsCount = unstable_cache(
-  async () => {
-    return await db.publication.count({
-      where: { published: true },
-    });
-  },
-  ["publications-count"],
-  {
-    tags: [CACHE_TAGS.PUBLICATIONS],
-    revalidate: 3600,
-  }
-);
+function getCachedPublicationsCount() {
+  return unstable_cache(
+    async () => {
+      return await db.publication.count({
+        where: { published: true },
+      });
+    },
+    ["publications-count"],
+    {
+      tags: [CACHE_TAGS.PUBLICATIONS],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getPublicationsCount() {
   try {
@@ -25,60 +27,69 @@ export async function getPublicationsCount() {
   }
 }
 
-const getCachedPublications = unstable_cache(
-  async (
-    year?: number,
-    type?: PublicationType,
-    areaSlug?: string,
-    featuredOnly?: boolean
-  ) => {
-    const where: Prisma.PublicationWhereInput = { published: true };
+function getCachedPublications(
+  year?: number,
+  type?: PublicationType,
+  areaSlug?: string,
+  featuredOnly?: boolean
+) {
+  const cacheKey = [
+    "publications-list",
+    year?.toString() ?? "any",
+    type ?? "any",
+    areaSlug ?? "any",
+    featuredOnly ? "featured" : "all",
+  ];
+  return unstable_cache(
+    async () => {
+      const where: Prisma.PublicationWhereInput = { published: true };
 
-    if (year) {
-      where.year = year;
-    }
+      if (year) {
+        where.year = year;
+      }
 
-    if (type) {
-      where.type = type;
-    }
+      if (type) {
+        where.type = type;
+      }
 
-    if (featuredOnly) {
-      where.featured = true;
-    }
+      if (featuredOnly) {
+        where.featured = true;
+      }
 
-    if (areaSlug) {
-      where.areas = {
-        some: {
-          researchArea: {
-            slug: areaSlug,
+      if (areaSlug) {
+        where.areas = {
+          some: {
+            researchArea: {
+              slug: areaSlug,
+            },
+          },
+        };
+      }
+
+      return await db.publication.findMany({
+        where,
+        orderBy: [{ year: "desc" }, { createdAt: "desc" }],
+        include: {
+          areas: {
+            include: {
+              researchArea: true,
+            },
+          },
+          teamMembers: {
+            include: {
+              teamMember: true,
+            },
           },
         },
-      };
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.PUBLICATIONS],
+      revalidate: 3600,
     }
-
-    return await db.publication.findMany({
-      where,
-      orderBy: [{ year: "desc" }, { createdAt: "desc" }],
-      include: {
-        areas: {
-          include: {
-            researchArea: true,
-          },
-        },
-        teamMembers: {
-          include: {
-            teamMember: true,
-          },
-        },
-      },
-    });
-  },
-  ["publications-list"],
-  {
-    tags: [CACHE_TAGS.PUBLICATIONS],
-    revalidate: 3600,
-  }
-);
+  )();
+}
 
 export async function getPublications(options?: {
   year?: number;
@@ -157,33 +168,35 @@ export async function getPublications(options?: {
   }
 }
 
-const getCachedPublicationsTimeline = unstable_cache(
-  async () => {
-    const publications = await db.publication.findMany({
-      where: { published: true },
-      select: { year: true },
-    });
+function getCachedPublicationsTimeline() {
+  return unstable_cache(
+    async () => {
+      const publications = await db.publication.findMany({
+        where: { published: true },
+        select: { year: true },
+      });
 
-    const yearCounts: Record<number, number> = {};
-    for (const pub of publications) {
-      yearCounts[pub.year] = (yearCounts[pub.year] || 0) + 1;
+      const yearCounts: Record<number, number> = {};
+      for (const pub of publications) {
+        yearCounts[pub.year] = (yearCounts[pub.year] || 0) + 1;
+      }
+
+      const sortedYears = Object.keys(yearCounts)
+        .map(Number)
+        .sort((a, b) => a - b);
+
+      return sortedYears.map((year) => ({
+        year,
+        count: yearCounts[year],
+      }));
+    },
+    ["publications-timeline"],
+    {
+      tags: [CACHE_TAGS.PUBLICATIONS],
+      revalidate: 3600,
     }
-
-    const sortedYears = Object.keys(yearCounts)
-      .map(Number)
-      .sort((a, b) => a - b);
-
-    return sortedYears.map((year) => ({
-      year,
-      count: yearCounts[year],
-    }));
-  },
-  ["publications-timeline"],
-  {
-    tags: [CACHE_TAGS.PUBLICATIONS],
-    revalidate: 3600,
-  }
-);
+  )();
+}
 
 export async function getPublicationsTimeline() {
   try {

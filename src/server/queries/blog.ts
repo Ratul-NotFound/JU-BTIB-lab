@@ -3,43 +3,55 @@ import { PostStatus, Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
-const getCachedBlogPosts = unstable_cache(
-  async (categorySlug?: string, tagSlug?: string, limit?: number) => {
-    const where: Prisma.BlogPostWhereInput = {
-      status: PostStatus.PUBLISHED,
-      publishedAt: { lte: new Date() },
-    };
-
-    if (categorySlug) {
-      where.category = { slug: categorySlug };
-    }
-
-    if (tagSlug) {
-      where.tags = {
-        some: {
-          tag: { slug: tagSlug },
-        },
+function getCachedBlogPosts(
+  categorySlug?: string,
+  tagSlug?: string,
+  limit?: number
+) {
+  const cacheKey = [
+    "blog-posts-list",
+    categorySlug ?? "any",
+    tagSlug ?? "any",
+    limit?.toString() ?? "unlimited",
+  ];
+  return unstable_cache(
+    async () => {
+      const where: Prisma.BlogPostWhereInput = {
+        status: PostStatus.PUBLISHED,
+        publishedAt: { lte: new Date() },
       };
-    }
 
-    return await db.blogPost.findMany({
-      where,
-      orderBy: { publishedAt: "desc" },
-      take: limit,
-      include: {
-        category: true,
-        tags: {
-          include: { tag: true },
+      if (categorySlug) {
+        where.category = { slug: categorySlug };
+      }
+
+      if (tagSlug) {
+        where.tags = {
+          some: {
+            tag: { slug: tagSlug },
+          },
+        };
+      }
+
+      return await db.blogPost.findMany({
+        where,
+        orderBy: { publishedAt: "desc" },
+        take: limit,
+        include: {
+          category: true,
+          tags: {
+            include: { tag: true },
+          },
         },
-      },
-    });
-  },
-  ["blog-posts-list"],
-  {
-    tags: [CACHE_TAGS.BLOG],
-    revalidate: 3600,
-  }
-);
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.BLOG],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getBlogPosts(options?: {
   status?: PostStatus;
@@ -95,24 +107,27 @@ export async function getBlogPosts(options?: {
   }
 }
 
-const getCachedBlogPostBySlug = unstable_cache(
-  async (slug: string) => {
-    return await db.blogPost.findUnique({
-      where: { slug },
-      include: {
-        category: true,
-        tags: {
-          include: { tag: true },
+function getCachedBlogPostBySlug(slug: string) {
+  const cacheKey = ["blog-post-by-slug", slug];
+  return unstable_cache(
+    async () => {
+      return await db.blogPost.findUnique({
+        where: { slug },
+        include: {
+          category: true,
+          tags: {
+            include: { tag: true },
+          },
         },
-      },
-    });
-  },
-  ["blog-post-by-slug"],
-  {
-    tags: [CACHE_TAGS.BLOG],
-    revalidate: 3600,
-  }
-);
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.BLOG],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getBlogPostBySlug(slug: string) {
   try {

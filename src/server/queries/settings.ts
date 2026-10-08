@@ -2,18 +2,20 @@ import { db } from "@/lib/db";
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
-const getCachedSiteSettings = unstable_cache(
-  async () => {
-    return await db.siteSetting.findUnique({
-      where: { id: "singleton" },
-    });
-  },
-  ["site-settings"],
-  {
-    tags: [CACHE_TAGS.SETTINGS],
-    revalidate: 3600,
-  }
-);
+function getCachedSiteSettings() {
+  return unstable_cache(
+    async () => {
+      return await db.siteSetting.findUnique({
+        where: { id: "singleton" },
+      });
+    },
+    ["site-settings"],
+    {
+      tags: [CACHE_TAGS.SETTINGS],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getSiteSettings() {
   try {
@@ -24,16 +26,18 @@ export async function getSiteSettings() {
   }
 }
 
-const getCachedContentBlocks = unstable_cache(
-  async () => {
-    return await db.contentBlock.findMany();
-  },
-  ["content-blocks-all"],
-  {
-    tags: [CACHE_TAGS.CONTENT_BLOCKS],
-    revalidate: 3600,
-  }
-);
+function getCachedContentBlocks() {
+  return unstable_cache(
+    async () => {
+      return await db.contentBlock.findMany();
+    },
+    ["content-blocks-all"],
+    {
+      tags: [CACHE_TAGS.CONTENT_BLOCKS],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getContentBlocks() {
   try {
@@ -44,18 +48,21 @@ export async function getContentBlocks() {
   }
 }
 
-const getCachedContentBlockByKey = unstable_cache(
-  async (key: string) => {
-    return await db.contentBlock.findUnique({
-      where: { key },
-    });
-  },
-  ["content-block-by-key"],
-  {
-    tags: [CACHE_TAGS.CONTENT_BLOCKS],
-    revalidate: 3600,
-  }
-);
+function getCachedContentBlockByKey(key: string) {
+  const cacheKey = ["content-block-by-key", key];
+  return unstable_cache(
+    async () => {
+      return await db.contentBlock.findUnique({
+        where: { key },
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.CONTENT_BLOCKS],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getContentBlockByKey(key: string) {
   try {

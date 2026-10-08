@@ -2,25 +2,27 @@ import { db } from "@/lib/db";
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
-const getCachedGalleryAlbums = unstable_cache(
-  async () => {
-    return await db.galleryAlbum.findMany({
-      where: { published: true },
-      orderBy: { order: "asc" },
-      include: {
-        images: {
-          orderBy: { order: "asc" },
+function getCachedGalleryAlbums() {
+  return unstable_cache(
+    async () => {
+      return await db.galleryAlbum.findMany({
+        where: { published: true },
+        orderBy: { order: "asc" },
+        include: {
+          images: {
+            orderBy: { order: "asc" },
+          },
+          activity: true,
         },
-        activity: true,
-      },
-    });
-  },
-  ["gallery-albums-list"],
-  {
-    tags: [CACHE_TAGS.GALLERY],
-    revalidate: 3600,
-  }
-);
+      });
+    },
+    ["gallery-albums-list"],
+    {
+      tags: [CACHE_TAGS.GALLERY],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getGalleryAlbums(includeUnpublished = false) {
   try {
@@ -43,24 +45,27 @@ export async function getGalleryAlbums(includeUnpublished = false) {
   }
 }
 
-const getCachedAlbumBySlug = unstable_cache(
-  async (slug: string) => {
-    return await db.galleryAlbum.findUnique({
-      where: { slug },
-      include: {
-        images: {
-          orderBy: { order: "asc" },
+function getCachedAlbumBySlug(slug: string) {
+  const cacheKey = ["gallery-album-by-slug", slug];
+  return unstable_cache(
+    async () => {
+      return await db.galleryAlbum.findUnique({
+        where: { slug },
+        include: {
+          images: {
+            orderBy: { order: "asc" },
+          },
+          activity: true,
         },
-        activity: true,
-      },
-    });
-  },
-  ["gallery-album-by-slug"],
-  {
-    tags: [CACHE_TAGS.GALLERY],
-    revalidate: 3600,
-  }
-);
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.GALLERY],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getAlbumBySlug(slug: string) {
   try {

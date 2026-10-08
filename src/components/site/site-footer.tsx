@@ -152,6 +152,14 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
+                  href="/equipment"
+                  className="inline-flex items-center gap-1.5 text-slate-400 hover:text-[var(--brand-primary)] transition-colors"
+                >
+                  <span className="line-clamp-1">Equipment & Chemicals</span>
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/about#facilities"
                   className="inline-flex items-center gap-1.5 text-slate-400 hover:text-[var(--brand-primary)] transition-colors"
                 >
@@ -215,6 +223,9 @@ export function SiteFooter() {
           <div className="flex items-center gap-3.5 sm:gap-5 text-[11px] sm:text-xs font-sans">
             <Link href="/about" className="text-slate-400 hover:text-white transition-colors">
               About
+            </Link>
+            <Link href="/equipment" className="text-slate-400 hover:text-white transition-colors">
+              Equipment & Chemicals
             </Link>
             <Link href="/publications" className="text-slate-400 hover:text-white transition-colors">
               Publications

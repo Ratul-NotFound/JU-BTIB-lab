@@ -3,51 +3,63 @@ import { ProjectStatus, Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
-const getCachedProjects = unstable_cache(
-  async (status?: ProjectStatus, areaSlug?: string, featuredOnly?: boolean) => {
-    const where: Prisma.ProjectWhereInput = { published: true };
+function getCachedProjects(
+  status?: ProjectStatus,
+  areaSlug?: string,
+  featuredOnly?: boolean
+) {
+  const cacheKey = [
+    "projects-list",
+    status ?? "any",
+    areaSlug ?? "any",
+    featuredOnly ? "featured" : "all",
+  ];
+  return unstable_cache(
+    async () => {
+      const where: Prisma.ProjectWhereInput = { published: true };
 
-    if (status) {
-      where.status = status;
-    }
+      if (status) {
+        where.status = status;
+      }
 
-    if (featuredOnly) {
-      where.featured = true;
-    }
+      if (featuredOnly) {
+        where.featured = true;
+      }
 
-    if (areaSlug) {
-      where.areas = {
-        some: {
-          researchArea: {
-            slug: areaSlug,
+      if (areaSlug) {
+        where.areas = {
+          some: {
+            researchArea: {
+              slug: areaSlug,
+            },
+          },
+        };
+      }
+
+      return await db.project.findMany({
+        where,
+        orderBy: [{ featured: "desc" }, { order: "asc" }, { startYear: "desc" }],
+        include: {
+          areas: {
+            include: {
+              researchArea: true,
+            },
+          },
+          teamMembers: {
+            include: {
+              teamMember: true,
+            },
           },
         },
-      };
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.PROJECTS],
+      revalidate: 3600,
     }
-
-    return await db.project.findMany({
-      where,
-      orderBy: [{ featured: "desc" }, { order: "asc" }, { startYear: "desc" }],
-      include: {
-        areas: {
-          include: {
-            researchArea: true,
-          },
-        },
-        teamMembers: {
-          include: {
-            teamMember: true,
-          },
-        },
-      },
-    });
-  },
-  ["projects-list"],
-  {
-    tags: [CACHE_TAGS.PROJECTS],
-    revalidate: 3600,
-  }
-);
+  )();
+}
 
 export async function getProjects(options?: {
   status?: ProjectStatus;
@@ -106,30 +118,33 @@ export async function getProjects(options?: {
   }
 }
 
-const getCachedProjectBySlug = unstable_cache(
-  async (slug: string) => {
-    return await db.project.findUnique({
-      where: { slug },
-      include: {
-        areas: {
-          include: {
-            researchArea: true,
+function getCachedProjectBySlug(slug: string) {
+  const cacheKey = ["project-by-slug", slug];
+  return unstable_cache(
+    async () => {
+      return await db.project.findUnique({
+        where: { slug },
+        include: {
+          areas: {
+            include: {
+              researchArea: true,
+            },
+          },
+          teamMembers: {
+            include: {
+              teamMember: true,
+            },
           },
         },
-        teamMembers: {
-          include: {
-            teamMember: true,
-          },
-        },
-      },
-    });
-  },
-  ["project-by-slug"],
-  {
-    tags: [CACHE_TAGS.PROJECTS],
-    revalidate: 3600,
-  }
-);
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.PROJECTS],
+      revalidate: 3600,
+    }
+  )();
+}
 
 export async function getProjectBySlug(slug: string) {
   try {

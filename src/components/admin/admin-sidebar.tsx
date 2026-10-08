@@ -27,7 +27,7 @@ const NAV_ITEMS = [
   { href: "/admin/projects", label: "Projects", icon: FolderGit2 },
   { href: "/admin/publications", label: "Publications", icon: BookOpen },
   { href: "/admin/team", label: "Team Roster", icon: Users },
-  { href: "/admin/equipment", label: "Equipment", icon: Sliders },
+  { href: "/admin/equipment", label: "Equipment & Chemicals", icon: Sliders },
   { href: "/admin/activities", label: "Activities", icon: Calendar },
   { href: "/admin/gallery", label: "Photo Gallery", icon: ImageIcon },
   { href: "/admin/blog", label: "News & Blog", icon: FileText },
