@@ -13,6 +13,8 @@ import {
   CheckCircle2,
   ShieldCheck,
   Sparkles,
+  Table as TableIcon,
+  LayoutGrid,
 } from "lucide-react";
 import { Dialog } from "@/components/ui/dialog";
 import { isChemicalItem } from "@/app/(admin)/admin/equipment/equipment-client";
@@ -31,6 +33,8 @@ export function EquipmentDirectoryClient({
 }: {
   items: PublicEquipmentItem[];
 }) {
+  // View mode: Table View is default as requested for scientific laboratory directory
+  const [viewMode, setViewMode] = React.useState<"table" | "grid">("table");
   // Tabs: "ALL" | "EQUIPMENT" | "CHEMICALS"
   const [activeTab, setActiveTab] = React.useState<"ALL" | "EQUIPMENT" | "CHEMICALS">("ALL");
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -131,25 +135,58 @@ export function EquipmentDirectoryClient({
             </button>
           </div>
 
-          {/* Real-time Search Input */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search instruments, chemicals, specs, grades..."
-              className="w-full pl-9 pr-4 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
-            />
-            {searchQuery && (
+          {/* Right controls: Search + View Mode Switcher */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1 lg:max-w-xl lg:justify-end">
+            {/* Real-time Search Input */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search instruments, chemicals, specs, grades..."
+                className="w-full pl-9 pr-8 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {/* View Layout Toggle: Table View (default) vs Grid View */}
+            <div className="flex items-center gap-1 p-1 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] shrink-0 self-start sm:self-auto">
               <button
                 type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                onClick={() => setViewMode("table")}
+                title="Scientific Table Directory"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                  viewMode === "table"
+                    ? "bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)] font-bold"
+                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }`}
               >
-                ✕
+                <TableIcon className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Table</span>
               </button>
-            )}
+              <button
+                type="button"
+                onClick={() => setViewMode("grid")}
+                title="Visual Card Grid"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                  viewMode === "grid"
+                    ? "bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)] font-bold"
+                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }`}
+              >
+                <LayoutGrid className="w-3.5 h-3.5" />
+                <span>Cards</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -222,7 +259,97 @@ export function EquipmentDirectoryClient({
             <div className="p-8 text-center rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] text-xs">
               No instruments match the selected filter.
             </div>
+          ) : viewMode === "table" ? (
+            /* SCIENTIFIC TABLE VIEW */
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm border-collapse min-w-[760px]">
+                  <thead>
+                    <tr className="border-b border-[var(--border)] bg-[var(--surface-raised)] text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                      <th className="py-3 px-4 w-14 text-center">Ref #</th>
+                      <th className="py-3 px-4 min-w-[280px]">Instrument & Model</th>
+                      <th className="py-3 px-4 min-w-[190px]">Laboratory Division</th>
+                      <th className="py-3 px-4 min-w-[320px]">Technical Specifications & Scope</th>
+                      <th className="py-3 px-4 min-w-[150px] text-center">Status</th>
+                      <th className="py-3 px-4 w-28 text-right">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--border)]">
+                    {filteredEquipment.map((item, index) => (
+                      <tr
+                        key={item.id}
+                        onClick={() => setSelectedItem(item)}
+                        className="group hover:bg-[var(--surface-raised)]/70 transition-colors cursor-pointer"
+                      >
+                        <td className="py-3.5 px-4 text-center font-mono text-xs text-[var(--text-muted)] font-semibold">
+                          {String(index + 1).padStart(2, "0")}
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 relative flex items-center justify-center">
+                              {item.imageUrl ? (
+                                <Image
+                                  src={item.imageUrl}
+                                  alt={item.name}
+                                  fill
+                                  className="object-cover group-hover:scale-105 transition-transform duration-200"
+                                  sizes="48px"
+                                />
+                              ) : (
+                                <Microscope className="w-5 h-5 text-emerald-500/50" />
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <span className="font-semibold text-xs sm:text-sm text-[var(--text-primary)] group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-1 block">
+                                {item.name}
+                              </span>
+                              <span className="text-[11px] font-mono text-[var(--text-muted)] block mt-0.5">
+                                BTIB · Ref #{item.order || index + 1}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-medium bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 whitespace-nowrap">
+                            {item.category}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <p className="text-xs text-[var(--text-secondary)] font-light line-clamp-2 leading-relaxed">
+                            {item.description || "Calibrated benchtop and pilot scientific apparatus for biotechnology operations."}
+                          </p>
+                        </td>
+                        <td className="py-3.5 px-4 text-center">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 whitespace-nowrap">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            Operational
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 text-right">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedItem(item);
+                            }}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--surface-raised)] group-hover:bg-emerald-600 group-hover:text-white text-[var(--text-secondary)] border border-[var(--border)] transition-all whitespace-nowrap shadow-xs"
+                          >
+                            <span>Specs</span>
+                            <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="p-3 bg-[var(--surface-raised)]/40 border-t border-[var(--border)] text-[11px] font-mono text-[var(--text-muted)] flex items-center justify-between">
+                <span>Showing {filteredEquipment.length} equipment items</span>
+                <span className="hidden sm:inline">Click any row to view full technical specifications & photos</span>
+              </div>
+            </div>
           ) : (
+            /* CARD GRID VIEW */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
               {filteredEquipment.map((item) => (
                 <div
@@ -315,7 +442,97 @@ export function EquipmentDirectoryClient({
             <div className="p-8 text-center rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] text-xs">
               No chemicals or reagents match the selected filter.
             </div>
+          ) : viewMode === "table" ? (
+            /* SCIENTIFIC CHEMICALS TABLE VIEW */
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm border-collapse min-w-[760px]">
+                  <thead>
+                    <tr className="border-b border-[var(--border)] bg-[var(--surface-raised)] text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                      <th className="py-3 px-4 w-14 text-center">Ref #</th>
+                      <th className="py-3 px-4 min-w-[280px]">Reagent / Compound</th>
+                      <th className="py-3 px-4 min-w-[190px]">Classification</th>
+                      <th className="py-3 px-4 min-w-[320px]">Grade, Purity & Specifications</th>
+                      <th className="py-3 px-4 min-w-[150px] text-center">Stock Status</th>
+                      <th className="py-3 px-4 w-28 text-right">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--border)]">
+                    {filteredChemicals.map((item, index) => (
+                      <tr
+                        key={item.id}
+                        onClick={() => setSelectedItem(item)}
+                        className="group hover:bg-[var(--surface-raised)]/70 transition-colors cursor-pointer"
+                      >
+                        <td className="py-3.5 px-4 text-center font-mono text-xs text-[var(--text-muted)] font-semibold">
+                          {String(index + 1).padStart(2, "0")}
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 relative flex items-center justify-center">
+                              {item.imageUrl ? (
+                                <Image
+                                  src={item.imageUrl}
+                                  alt={item.name}
+                                  fill
+                                  className="object-cover group-hover:scale-105 transition-transform duration-200"
+                                  sizes="48px"
+                                />
+                              ) : (
+                                <FlaskConical className="w-5 h-5 text-amber-500/50" />
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <span className="font-semibold text-xs sm:text-sm text-[var(--text-primary)] group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors line-clamp-1 block">
+                                {item.name}
+                              </span>
+                              <span className="text-[11px] font-mono text-[var(--text-muted)] block mt-0.5">
+                                BTIB · Stock #{item.order || index + 1}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-medium bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20 whitespace-nowrap">
+                            {item.category}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <p className="text-xs text-[var(--text-secondary)] font-light line-clamp-2 leading-relaxed">
+                            {item.description || "Analytical laboratory reagent standardized for research and experimental protocols."}
+                          </p>
+                        </td>
+                        <td className="py-3.5 px-4 text-center">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 whitespace-nowrap">
+                            <Sparkles className="w-3 h-3 text-amber-500" />
+                            AR / In Stock
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 text-right">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedItem(item);
+                            }}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--surface-raised)] group-hover:bg-amber-600 group-hover:text-white text-[var(--text-secondary)] border border-[var(--border)] transition-all whitespace-nowrap shadow-xs"
+                          >
+                            <span>Details</span>
+                            <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="p-3 bg-[var(--surface-raised)]/40 border-t border-[var(--border)] text-[11px] font-mono text-[var(--text-muted)] flex items-center justify-between">
+                <span>Showing {filteredChemicals.length} reagents catalogued</span>
+                <span className="hidden sm:inline">Click any row to view full specifications & reserve aliquots</span>
+              </div>
+            </div>
           ) : (
+            /* CHEMICALS CARD GRID VIEW */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
               {filteredChemicals.map((item) => (
                 <div
