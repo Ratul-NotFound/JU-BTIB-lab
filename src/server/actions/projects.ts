@@ -41,6 +41,7 @@ export async function createProject(input: ProjectInput) {
   });
 
   invalidateCache(CACHE_TAGS.PROJECTS);
+  invalidateCache(CACHE_TAGS.TEAM);
   return { success: true, data: project };
 }
 
@@ -86,6 +87,7 @@ export async function updateProject(id: string, input: Partial<ProjectInput>) {
   });
 
   invalidateCache(CACHE_TAGS.PROJECTS);
+  invalidateCache(CACHE_TAGS.TEAM);
   return { success: true, data: updated };
 }
 
@@ -109,6 +111,7 @@ export async function deleteProject(id: string) {
   });
 
   invalidateCache(CACHE_TAGS.PROJECTS);
+  invalidateCache(CACHE_TAGS.TEAM);
   return { success: true };
 }
 

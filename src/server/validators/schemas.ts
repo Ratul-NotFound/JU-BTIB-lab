@@ -97,6 +97,8 @@ export const teamMemberSchema = z.object({
   leaveYear: z.coerce.number().int().min(2000).max(2100).optional().nullable(),
   order: z.coerce.number().int().optional().default(0),
   published: z.boolean().optional().default(true),
+  projectIds: z.array(z.string()).optional().default([]),
+  publicationIds: z.array(z.string()).optional().default([]),
 });
 
 export type TeamMemberInput = z.infer<typeof teamMemberSchema>;

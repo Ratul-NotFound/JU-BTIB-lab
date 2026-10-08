@@ -10,10 +10,22 @@ export async function createTeamMember(input: TeamMemberInput) {
   const user = await requireRole([Role.SUPER_ADMIN, Role.EDITOR]);
   const validated = teamMemberSchema.parse(input);
 
+  const { projectIds = [], publicationIds = [], ...data } = validated;
+
   const member = await db.teamMember.create({
     data: {
-      ...validated,
-      profileLinks: validated.profileLinks ?? undefined,
+      ...data,
+      profileLinks: data.profileLinks ?? undefined,
+      projects: {
+        create: projectIds.map((projectId) => ({
+          projectId,
+        })),
+      },
+      publications: {
+        create: publicationIds.map((publicationId) => ({
+          publicationId,
+        })),
+      },
     },
   });
 
@@ -30,6 +42,8 @@ export async function createTeamMember(input: TeamMemberInput) {
   });
 
   invalidateCache(CACHE_TAGS.TEAM);
+  invalidateCache(CACHE_TAGS.PROJECTS);
+  invalidateCache(CACHE_TAGS.PUBLICATIONS);
   return { success: true, data: member };
 }
 
@@ -37,11 +51,29 @@ export async function updateTeamMember(id: string, input: Partial<TeamMemberInpu
   const user = await requireRole([Role.SUPER_ADMIN, Role.EDITOR]);
   const validated = teamMemberSchema.partial().parse(input);
 
+  const { projectIds, publicationIds, ...data } = validated;
+
   const updated = await db.teamMember.update({
     where: { id },
     data: {
-      ...validated,
-      profileLinks: validated.profileLinks ?? undefined,
+      ...data,
+      profileLinks: data.profileLinks !== undefined ? (data.profileLinks ?? undefined) : undefined,
+      ...(projectIds !== undefined && {
+        projects: {
+          deleteMany: {},
+          create: projectIds.map((projectId) => ({
+            projectId,
+          })),
+        },
+      }),
+      ...(publicationIds !== undefined && {
+        publications: {
+          deleteMany: {},
+          create: publicationIds.map((publicationId) => ({
+            publicationId,
+          })),
+        },
+      }),
     },
   });
 
@@ -58,6 +90,8 @@ export async function updateTeamMember(id: string, input: Partial<TeamMemberInpu
   });
 
   invalidateCache(CACHE_TAGS.TEAM);
+  invalidateCache(CACHE_TAGS.PROJECTS);
+  invalidateCache(CACHE_TAGS.PUBLICATIONS);
   return { success: true, data: updated };
 }
 
@@ -81,6 +115,8 @@ export async function deleteTeamMember(id: string) {
   });
 
   invalidateCache(CACHE_TAGS.TEAM);
+  invalidateCache(CACHE_TAGS.PROJECTS);
+  invalidateCache(CACHE_TAGS.PUBLICATIONS);
   return { success: true };
 }
 

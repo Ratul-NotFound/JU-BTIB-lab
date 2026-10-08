@@ -41,6 +41,7 @@ export async function createPublication(input: PublicationInput) {
   });
 
   invalidateCache(CACHE_TAGS.PUBLICATIONS);
+  invalidateCache(CACHE_TAGS.TEAM);
   return { success: true, data: publication };
 }
 
@@ -86,6 +87,7 @@ export async function updatePublication(id: string, input: Partial<PublicationIn
   });
 
   invalidateCache(CACHE_TAGS.PUBLICATIONS);
+  invalidateCache(CACHE_TAGS.TEAM);
   return { success: true, data: updated };
 }
 
@@ -109,5 +111,6 @@ export async function deletePublication(id: string) {
   });
 
   invalidateCache(CACHE_TAGS.PUBLICATIONS);
+  invalidateCache(CACHE_TAGS.TEAM);
   return { success: true };
 }

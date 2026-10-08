@@ -16,12 +16,28 @@ const getCachedTeamMembers = unstable_cache(
       include: {
         projects: {
           include: {
-            project: true,
+            project: {
+              include: {
+                areas: {
+                  include: {
+                    researchArea: true,
+                  },
+                },
+              },
+            },
           },
         },
         publications: {
           include: {
-            publication: true,
+            publication: {
+              include: {
+                areas: {
+                  include: {
+                    researchArea: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -50,12 +66,28 @@ export async function getTeamMembers(options?: {
         include: {
           projects: {
             include: {
-              project: true,
+              project: {
+                include: {
+                  areas: {
+                    include: {
+                      researchArea: true,
+                    },
+                  },
+                },
+              },
             },
           },
           publications: {
             include: {
-              publication: true,
+              publication: {
+                include: {
+                  areas: {
+                    include: {
+                      researchArea: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
@@ -76,12 +108,28 @@ const getCachedTeamMemberBySlug = unstable_cache(
       include: {
         projects: {
           include: {
-            project: true,
+            project: {
+              include: {
+                areas: {
+                  include: {
+                    researchArea: true,
+                  },
+                },
+              },
+            },
           },
         },
         publications: {
           include: {
-            publication: true,
+            publication: {
+              include: {
+                areas: {
+                  include: {
+                    researchArea: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
