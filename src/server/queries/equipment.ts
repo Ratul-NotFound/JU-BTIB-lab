@@ -19,12 +19,25 @@ function getCachedEquipmentList() {
   )();
 }
 
-export const getEquipmentList = cache(async function getEquipmentList(includeUnpublished = false) {
-  try {
-    if (includeUnpublished) {
+function getCachedAdminEquipmentList() {
+  return unstable_cache(
+    async () => {
       return await db.equipment.findMany({
         orderBy: [{ category: "asc" }, { order: "asc" }],
       });
+    },
+    ["admin-equipment-list"],
+    {
+      tags: [CACHE_TAGS.EQUIPMENT],
+      revalidate: 3600,
+    }
+  )();
+}
+
+export const getEquipmentList = cache(async function getEquipmentList(includeUnpublished = false) {
+  try {
+    if (includeUnpublished) {
+      return await getCachedAdminEquipmentList();
     }
 
     return await getCachedEquipmentList();

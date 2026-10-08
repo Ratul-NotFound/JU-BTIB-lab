@@ -62,29 +62,34 @@ function getCachedProjects(
   )();
 }
 
-export const getProjects = cache(async function getProjects(options?: {
-  status?: ProjectStatus;
-  areaSlug?: string;
-  featuredOnly?: boolean;
-  includeUnpublished?: boolean;
-}) {
-  try {
-    if (options?.includeUnpublished) {
+function getCachedAdminProjects(
+  status?: ProjectStatus,
+  areaSlug?: string,
+  featuredOnly?: boolean
+) {
+  const cacheKey = [
+    "admin-projects-list",
+    status ?? "any",
+    areaSlug ?? "any",
+    featuredOnly ? "featured" : "all",
+  ];
+  return unstable_cache(
+    async () => {
       const where: Prisma.ProjectWhereInput = {};
 
-      if (options?.status) {
-        where.status = options.status;
+      if (status) {
+        where.status = status;
       }
 
-      if (options?.featuredOnly) {
+      if (featuredOnly) {
         where.featured = true;
       }
 
-      if (options?.areaSlug) {
+      if (areaSlug) {
         where.areas = {
           some: {
             researchArea: {
-              slug: options.areaSlug,
+              slug: areaSlug,
             },
           },
         };
@@ -106,6 +111,28 @@ export const getProjects = cache(async function getProjects(options?: {
           },
         },
       });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.PROJECTS],
+      revalidate: 3600,
+    }
+  )();
+}
+
+export const getProjects = cache(async function getProjects(options?: {
+  status?: ProjectStatus;
+  areaSlug?: string;
+  featuredOnly?: boolean;
+  includeUnpublished?: boolean;
+}) {
+  try {
+    if (options?.includeUnpublished) {
+      return await getCachedAdminProjects(
+        options?.status,
+        options?.areaSlug,
+        options?.featuredOnly
+      );
     }
 
     return await getCachedProjects(

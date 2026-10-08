@@ -54,6 +54,36 @@ function getCachedBlogPosts(
   )();
 }
 
+function getCachedAdminBlogPosts(status?: PostStatus, categorySlug?: string) {
+  const cacheKey = ["admin-blog-posts-list", status ?? "all", categorySlug ?? "all"];
+  return unstable_cache(
+    async () => {
+      const where: Prisma.BlogPostWhereInput = {};
+      if (status) {
+        where.status = status;
+      }
+      if (categorySlug) {
+        where.category = { slug: categorySlug };
+      }
+      return await db.blogPost.findMany({
+        where,
+        orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+        include: {
+          category: true,
+          tags: {
+            include: { tag: true },
+          },
+        },
+      });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.BLOG],
+      revalidate: 3600,
+    }
+  )();
+}
+
 export const getBlogPosts = cache(async function getBlogPosts(options?: {
   status?: PostStatus;
   categorySlug?: string;
@@ -62,6 +92,10 @@ export const getBlogPosts = cache(async function getBlogPosts(options?: {
   includeUnpublished?: boolean;
 }) {
   try {
+    if (options?.includeUnpublished && !options?.tagSlug && !options?.limit) {
+      return await getCachedAdminBlogPosts(options?.status, options?.categorySlug);
+    }
+
     if (
       options?.includeUnpublished ||
       (options?.status && options.status !== PostStatus.PUBLISHED)

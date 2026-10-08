@@ -25,18 +25,30 @@ function getCachedGalleryAlbums() {
   )();
 }
 
-export const getGalleryAlbums = cache(async function getGalleryAlbums(includeUnpublished = false) {
-  try {
-    if (includeUnpublished) {
+function getCachedAdminGalleryAlbums() {
+  return unstable_cache(
+    async () => {
       return await db.galleryAlbum.findMany({
         orderBy: { order: "asc" },
         include: {
           images: {
             orderBy: { order: "asc" },
           },
-          activity: true,
         },
       });
+    },
+    ["admin-gallery-albums-list"],
+    {
+      tags: [CACHE_TAGS.GALLERY],
+      revalidate: 3600,
+    }
+  )();
+}
+
+export const getGalleryAlbums = cache(async function getGalleryAlbums(includeUnpublished = false) {
+  try {
+    if (includeUnpublished) {
+      return await getCachedAdminGalleryAlbums();
     }
 
     return await getCachedGalleryAlbums();

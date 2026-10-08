@@ -27,9 +27,9 @@ function getCachedResearchAreas() {
   )();
 }
 
-export const getResearchAreas = cache(async function getResearchAreas(includeUnpublished = false) {
-  try {
-    if (includeUnpublished) {
+function getCachedAdminResearchAreas() {
+  return unstable_cache(
+    async () => {
       return await db.researchArea.findMany({
         orderBy: { order: "asc" },
         include: {
@@ -41,6 +41,19 @@ export const getResearchAreas = cache(async function getResearchAreas(includeUnp
           },
         },
       });
+    },
+    ["admin-research-areas-all"],
+    {
+      tags: [CACHE_TAGS.RESEARCH_AREAS],
+      revalidate: 3600,
+    }
+  )();
+}
+
+export const getResearchAreas = cache(async function getResearchAreas(includeUnpublished = false) {
+  try {
+    if (includeUnpublished) {
+      return await getCachedAdminResearchAreas();
     }
     return await getCachedResearchAreas();
   } catch (error) {

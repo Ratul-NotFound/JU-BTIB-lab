@@ -15,43 +15,68 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+import { unstable_cache } from "next/cache";
+import { CACHE_TAGS } from "@/lib/cache-tags";
+
 export const dynamic = "force-dynamic";
 
-export default async function AdminDashboardPage() {
-  const [countsResult, recentAudits] = await Promise.all([
-    db.$queryRaw<{
-      areasCount: number;
-      projectsCount: number;
-      publicationsCount: number;
-      teamCount: number;
-      activitiesCount: number;
-      postsCount: number;
-      unreadMessagesCount: number;
-    }[]>`
-      SELECT 
-        (SELECT COUNT(*)::int FROM "ResearchArea") as "areasCount",
-        (SELECT COUNT(*)::int FROM "Project") as "projectsCount",
-        (SELECT COUNT(*)::int FROM "Publication") as "publicationsCount",
-        (SELECT COUNT(*)::int FROM "TeamMember") as "teamCount",
-        (SELECT COUNT(*)::int FROM "Activity") as "activitiesCount",
-        (SELECT COUNT(*)::int FROM "BlogPost") as "postsCount",
-        (SELECT COUNT(*)::int FROM "ContactMessage" WHERE status = 'NEW') as "unreadMessagesCount"
-    `,
-    db.auditLog.findMany({
-      take: 6,
-      orderBy: { timestamp: "desc" },
-    }),
-  ]);
+const getCachedDashboardData = unstable_cache(
+  async () => {
+    const [countsResult, recentAudits] = await Promise.all([
+      db.$queryRaw<{
+        areasCount: number;
+        projectsCount: number;
+        publicationsCount: number;
+        teamCount: number;
+        activitiesCount: number;
+        postsCount: number;
+        unreadMessagesCount: number;
+      }[]>`
+        SELECT 
+          (SELECT COUNT(*)::int FROM "ResearchArea") as "areasCount",
+          (SELECT COUNT(*)::int FROM "Project") as "projectsCount",
+          (SELECT COUNT(*)::int FROM "Publication") as "publicationsCount",
+          (SELECT COUNT(*)::int FROM "TeamMember") as "teamCount",
+          (SELECT COUNT(*)::int FROM "Activity") as "activitiesCount",
+          (SELECT COUNT(*)::int FROM "BlogPost") as "postsCount",
+          (SELECT COUNT(*)::int FROM "ContactMessage" WHERE status = 'NEW') as "unreadMessagesCount"
+      `,
+      db.auditLog.findMany({
+        take: 6,
+        orderBy: { timestamp: "desc" },
+      }),
+    ]);
 
-  const counts = countsResult[0] || {
-    areasCount: 0,
-    projectsCount: 0,
-    publicationsCount: 0,
-    teamCount: 0,
-    activitiesCount: 0,
-    postsCount: 0,
-    unreadMessagesCount: 0,
-  };
+    const counts = countsResult[0] || {
+      areasCount: 0,
+      projectsCount: 0,
+      publicationsCount: 0,
+      teamCount: 0,
+      activitiesCount: 0,
+      postsCount: 0,
+      unreadMessagesCount: 0,
+    };
+
+    return { counts, recentAudits };
+  },
+  ["admin-dashboard-aggregate"],
+  {
+    tags: [
+      CACHE_TAGS.RESEARCH_AREAS,
+      CACHE_TAGS.PROJECTS,
+      CACHE_TAGS.PUBLICATIONS,
+      CACHE_TAGS.TEAM,
+      CACHE_TAGS.ACTIVITIES,
+      CACHE_TAGS.BLOG,
+      CACHE_TAGS.CONTACT,
+      CACHE_TAGS.SETTINGS,
+    ],
+    revalidate: 60,
+  }
+);
+
+export default async function AdminDashboardPage() {
+  const { counts, recentAudits } = await getCachedDashboardData();
 
   const {
     areasCount,

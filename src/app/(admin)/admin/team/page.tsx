@@ -1,4 +1,6 @@
 import { db } from "@/lib/db";
+import { unstable_cache } from "next/cache";
+import { CACHE_TAGS } from "@/lib/cache-tags";
 import {
   TeamClient,
   PersonalProject,
@@ -9,8 +11,8 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminTeamPage() {
-  try {
+const getCachedAdminTeamPageData = unstable_cache(
+  async () => {
     const [members, memberProjects, memberPubs, projects, publications] = await Promise.all([
       db.teamMember.findMany({
         orderBy: [{ order: "asc" }, { joinYear: "asc" }],
@@ -89,6 +91,19 @@ export default async function AdminTeamPage() {
       projectIds: projMap.get(m.id) || [],
       publicationIds: pubMap.get(m.id) || [],
     }));
+
+    return { formattedMembers, projects, publications };
+  },
+  ["admin-team-page-data"],
+  {
+    tags: [CACHE_TAGS.TEAM, CACHE_TAGS.PROJECTS, CACHE_TAGS.PUBLICATIONS],
+    revalidate: 3600,
+  }
+);
+
+export default async function AdminTeamPage() {
+  try {
+    const { formattedMembers, projects, publications } = await getCachedAdminTeamPageData();
 
     return (
       <div className="p-6 md:p-8 max-w-7xl mx-auto">

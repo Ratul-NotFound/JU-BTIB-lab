@@ -35,15 +35,13 @@ function getCachedActivities(type?: ActivityType) {
   )();
 }
 
-export const getActivities = cache(async function getActivities(options?: {
-  type?: ActivityType;
-  includeUnpublished?: boolean;
-}) {
-  try {
-    if (options?.includeUnpublished) {
+function getCachedAdminActivities(type?: ActivityType) {
+  const cacheKey = ["admin-activities-list", type ?? "all"];
+  return unstable_cache(
+    async () => {
       const where: Prisma.ActivityWhereInput = {};
-      if (options?.type) {
-        where.type = options.type;
+      if (type) {
+        where.type = type;
       }
       return await db.activity.findMany({
         where,
@@ -58,6 +56,22 @@ export const getActivities = cache(async function getActivities(options?: {
           },
         },
       });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.ACTIVITIES],
+      revalidate: 3600,
+    }
+  )();
+}
+
+export const getActivities = cache(async function getActivities(options?: {
+  type?: ActivityType;
+  includeUnpublished?: boolean;
+}) {
+  try {
+    if (options?.includeUnpublished) {
+      return await getCachedAdminActivities(options?.type);
     }
 
     return await getCachedActivities(options?.type);

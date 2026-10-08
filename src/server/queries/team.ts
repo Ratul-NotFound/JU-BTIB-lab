@@ -54,15 +54,13 @@ function getCachedTeamMembers(category?: MemberCategory) {
   )();
 }
 
-export const getTeamMembers = cache(async function getTeamMembers(options?: {
-  category?: MemberCategory;
-  includeUnpublished?: boolean;
-}) {
-  try {
-    if (options?.includeUnpublished) {
+function getCachedAdminTeamMembers(category?: MemberCategory) {
+  const cacheKey = ["admin-team-members-list", category ?? "all"];
+  return unstable_cache(
+    async () => {
       const where: Prisma.TeamMemberWhereInput = {};
-      if (options?.category) {
-        where.category = options.category;
+      if (category) {
+        where.category = category;
       }
       return await db.teamMember.findMany({
         where,
@@ -96,6 +94,22 @@ export const getTeamMembers = cache(async function getTeamMembers(options?: {
           },
         },
       });
+    },
+    cacheKey,
+    {
+      tags: [CACHE_TAGS.TEAM],
+      revalidate: 3600,
+    }
+  )();
+}
+
+export const getTeamMembers = cache(async function getTeamMembers(options?: {
+  category?: MemberCategory;
+  includeUnpublished?: boolean;
+}) {
+  try {
+    if (options?.includeUnpublished) {
+      return await getCachedAdminTeamMembers(options?.category);
     }
 
     return await getCachedTeamMembers(options?.category);

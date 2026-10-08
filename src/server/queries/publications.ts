@@ -92,6 +92,33 @@ function getCachedPublications(
   )();
 }
 
+function getCachedAdminPublications() {
+  return unstable_cache(
+    async () => {
+      return await db.publication.findMany({
+        orderBy: [{ year: "desc" }, { createdAt: "desc" }],
+        include: {
+          areas: {
+            include: {
+              researchArea: true,
+            },
+          },
+          teamMembers: {
+            include: {
+              teamMember: true,
+            },
+          },
+        },
+      });
+    },
+    ["admin-publications-list"],
+    {
+      tags: [CACHE_TAGS.PUBLICATIONS],
+      revalidate: 3600,
+    }
+  )();
+}
+
 export const getPublications = cache(async function getPublications(options?: {
   year?: number;
   type?: PublicationType;
@@ -101,7 +128,11 @@ export const getPublications = cache(async function getPublications(options?: {
   includeUnpublished?: boolean;
 }) {
   try {
-    // If searching or requesting unpublished drafts, query database directly
+    if (options?.includeUnpublished && !options?.search && !options?.year && !options?.type && !options?.areaSlug && !options?.featuredOnly) {
+      return await getCachedAdminPublications();
+    }
+
+    // If searching or requesting unpublished drafts with filters, query database directly
     if (options?.includeUnpublished || options?.search) {
       const where: Prisma.PublicationWhereInput = {};
 
