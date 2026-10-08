@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { DataTable, Column } from "@/components/admin/data-table";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,6 @@ import {
   Globe,
   Search,
   CheckCircle2,
-  Layers,
   Sparkles,
 } from "lucide-react";
 
@@ -63,12 +63,6 @@ export interface AvailablePublication {
   venue: string;
 }
 
-export interface AvailableResearchArea {
-  id: string;
-  title: string;
-  slug: string;
-}
-
 const CATEGORY_LABELS: Record<MemberCategory, string> = {
   PI_FACULTY: "Principal Investigator / Faculty",
   POSTDOC: "Postdoctoral Researcher",
@@ -86,12 +80,10 @@ export function TeamClient({
   initialData,
   availableProjects = [],
   availablePublications = [],
-  availableResearchAreas = [],
 }: {
   initialData: TeamItem[];
   availableProjects?: AvailableProject[];
   availablePublications?: AvailablePublication[];
-  availableResearchAreas?: AvailableResearchArea[];
 }) {
   const router = useRouter();
   const { toast } = useToast();
@@ -289,12 +281,14 @@ export function TeamClient({
       header: "Member Profile",
       render: (item) => (
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 flex items-center justify-center font-bold text-xs text-[var(--bio-teal)]">
+          <div className="relative w-9 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 flex items-center justify-center font-bold text-xs text-[var(--bio-teal)]">
             {item.photoUrl ? (
-              <img
+              <Image
                 src={item.photoUrl}
                 alt={item.name}
-                className="w-full h-full object-cover"
+                fill
+                unoptimized
+                className="object-cover"
               />
             ) : (
               item.name

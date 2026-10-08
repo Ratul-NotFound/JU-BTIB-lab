@@ -4,7 +4,7 @@ import { TeamClient } from "./team-client";
 export const dynamic = "force-dynamic";
 
 export default async function AdminTeamPage() {
-  const [members, projects, publications, researchAreas] = await Promise.all([
+  const [members, projects, publications] = await Promise.all([
     db.teamMember.findMany({
       orderBy: [{ order: "asc" }, { joinYear: "asc" }],
       include: {
@@ -41,14 +41,6 @@ export default async function AdminTeamPage() {
       },
       orderBy: [{ year: "desc" }, { title: "asc" }],
     }),
-    db.researchArea.findMany({
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-      },
-      orderBy: { order: "asc" },
-    }),
   ]);
 
   const formattedMembers = members.map((m) => ({
@@ -76,7 +68,6 @@ export default async function AdminTeamPage() {
         initialData={formattedMembers}
         availableProjects={projects}
         availablePublications={publications}
-        availableResearchAreas={researchAreas}
       />
     </div>
   );
