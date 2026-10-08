@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Wind, Sun, CheckCircle2 } from "lucide-react";
 
-export function LiquidTreeFeature() {
+export function LiquidTreeFeature({ image }: { image?: string | null }) {
+  const photo = image || "/images/liquid-tree.jpg";
+
   return (
     <section className="w-full bg-[var(--surface)] py-20 sm:py-24 border-b border-[var(--border)]">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -12,7 +14,7 @@ export function LiquidTreeFeature() {
           {/* Left Column: Authentic Photography of the 250L Column */}
           <div className="lg:col-span-5 relative aspect-[4/3] lg:aspect-[4/5] rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-sm group">
             <Image
-              src="/images/liquid-tree.jpg"
+              src={photo}
               alt="250-Liter Liquid-Tree urban microalgal photobioreactor operating on campus grounds"
               fill
               sizes="(max-width: 1024px) 100vw, 42vw"

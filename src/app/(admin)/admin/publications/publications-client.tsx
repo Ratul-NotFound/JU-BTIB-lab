@@ -277,6 +277,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
       <Dialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
+        size="3xl"
         title={editingItem ? "Edit Publication" : "Add Publication"}
         description="Verify author order, DOI, and publication year."
       >

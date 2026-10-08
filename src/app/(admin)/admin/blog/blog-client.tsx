@@ -221,6 +221,7 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
       <Dialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
+        size="4xl"
         title={editingItem ? "Edit Article" : "Compose Article"}
         description="Rich-text editorial composition with automatic HTML sanitization."
       >

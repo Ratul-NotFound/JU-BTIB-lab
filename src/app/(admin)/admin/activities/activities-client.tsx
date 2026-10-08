@@ -229,6 +229,7 @@ export function ActivitiesClient({ initialData }: { initialData: ActivityItem[] 
       <Dialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
+        size="3xl"
         title={editingItem ? "Edit Activity" : "Catalogue Activity"}
         description="Event type, cover picture, schedule date, location, and briefing."
       >

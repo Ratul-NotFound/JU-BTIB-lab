@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import sharp from "sharp";
+import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/auth-guard";
 import { Role } from "@prisma/client";
@@ -10,6 +11,51 @@ export const dynamic = "force-dynamic";
 
 // Maximum allowed input file size before compression: 25 MB
 const MAX_RAW_FILE_SIZE = 25 * 1024 * 1024;
+
+// Configure Cloudinary if credentials exist in environment
+const hasCloudinary = Boolean(
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET
+);
+
+if (hasCloudinary) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true,
+  });
+}
+
+/**
+ * Upload a buffer to Cloudinary using upload_stream
+ */
+async function uploadToCloudinary(
+  buffer: Buffer,
+  folder: string,
+  publicId: string
+): Promise<UploadApiResponse> {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: `btib_lab/${folder}`,
+        public_id: publicId,
+        resource_type: "image",
+        format: "webp",
+      },
+      (error, result) => {
+        if (error || !result) {
+          reject(error || new Error("Cloudinary upload failed"));
+        } else {
+          resolve(result);
+        }
+      }
+    );
+
+    uploadStream.end(buffer);
+  });
+}
 
 export async function POST(req: Request) {
   try {
@@ -37,10 +83,8 @@ export async function POST(req: Request) {
 
     // Sanitize folder name
     const sanitizedFolder = folder.replace(/[^a-z0-9_-]/gi, "");
-    const uploadDir = path.join(process.cwd(), "public", "uploads", sanitizedFolder);
-    await fs.mkdir(uploadDir, { recursive: true });
 
-    // Generate clean filename
+    // Generate clean safe identifier
     const timestamp = Date.now();
     const randomSuffix = Math.random().toString(36).substring(2, 8);
     const safeBaseName = file.name
@@ -50,23 +94,22 @@ export async function POST(req: Request) {
       .slice(0, 40)
       .replace(/^-|-$/g, "");
     
-    const outputFilename = `${safeBaseName || "img"}-${timestamp}-${randomSuffix}.webp`;
-    const outputPath = path.join(uploadDir, outputFilename);
+    const outputFilename = `${safeBaseName || "img"}-${timestamp}-${randomSuffix}`;
 
     // Compress & Optimize Image using Sharp:
-    // 1. Max dimensions 1600x1200 (scale down if larger, never upscale)
-    // 2. Convert to WebP with balanced 80% quality (typically 60 KB - 180 KB)
-    // 3. Strip metadata to minimize byte overhead
+    // 1. Max dimensions 1800x1400 (scale down if larger, preserve aspect ratio)
+    // 2. Convert to WebP with balanced 82% quality (typically 50 KB - 180 KB)
+    // 3. Auto-orient based on EXIF
     const sharpInstance = sharp(inputBuffer)
-      .rotate() // auto-orient based on EXIF before stripping
+      .rotate()
       .resize({
-        width: 1600,
-        height: 1200,
+        width: 1800,
+        height: 1400,
         fit: "inside",
         withoutEnlargement: true,
       })
       .webp({
-        quality: 80,
+        quality: 82,
         effort: 5,
       });
 
@@ -74,16 +117,39 @@ export async function POST(req: Request) {
     const metadata = await sharp(compressedBuffer).metadata();
     const compressedSizeKb = Math.round(compressedBuffer.length / 1024);
 
-    // Write compressed file to public storage
-    await fs.writeFile(outputPath, compressedBuffer);
+    let publicUrl = "";
+    let cloudPublicId = `local_${randomSuffix}`;
 
-    const publicUrl = `/uploads/${sanitizedFolder}/${outputFilename}`;
+    // 1. If Cloudinary is configured, upload to Cloudinary CDN (production serverless / Vercel safe)
+    if (hasCloudinary) {
+      const cloudRes = await uploadToCloudinary(compressedBuffer, sanitizedFolder, outputFilename);
+      publicUrl = cloudRes.secure_url;
+      cloudPublicId = cloudRes.public_id;
+    } else {
+      // 2. Fallback to local storage (for local dev environments only)
+      try {
+        const uploadDir = path.join(process.cwd(), "public", "uploads", sanitizedFolder);
+        await fs.mkdir(uploadDir, { recursive: true });
+        const outputPath = path.join(uploadDir, `${outputFilename}.webp`);
+        await fs.writeFile(outputPath, compressedBuffer);
+        publicUrl = `/uploads/${sanitizedFolder}/${outputFilename}.webp`;
+      } catch (fsErr) {
+        console.error("Local filesystem write failed on serverless:", fsErr);
+        return NextResponse.json(
+          {
+            message:
+              "Serverless storage error: Local filesystem is read-only. Please configure CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in your Vercel/production environment variables.",
+          },
+          { status: 500 }
+        );
+      }
+    }
 
     // Index in Media database for audit and media management
     try {
       const media = await db.media.create({
         data: {
-          cloudinaryId: `local_${randomSuffix}`,
+          cloudinaryId: cloudPublicId,
           url: publicUrl,
           width: metadata.width || 1200,
           height: metadata.height || 800,
@@ -103,6 +169,7 @@ export async function POST(req: Request) {
           entityId: media.id,
           details: {
             url: publicUrl,
+            storage: hasCloudinary ? "cloudinary" : "local",
             sizeKb: compressedSizeKb,
             originalSizeKb,
             compressionRatio: `${Math.round((1 - compressedSizeKb / originalSizeKb) * 100)}%`,
@@ -116,13 +183,14 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       url: publicUrl,
-      filename: outputFilename,
+      filename: `${outputFilename}.webp`,
       sizeKb: compressedSizeKb,
       originalSizeKb,
       savedPercent: originalSizeKb > 0 ? Math.round((1 - compressedSizeKb / originalSizeKb) * 100) : 0,
       width: metadata.width,
       height: metadata.height,
       format: "webp",
+      storage: hasCloudinary ? "cloudinary" : "local",
     });
   } catch (error: unknown) {
     console.error("Direct image upload error:", error);

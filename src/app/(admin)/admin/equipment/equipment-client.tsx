@@ -192,6 +192,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
       <Dialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
+        size="3xl"
         title={editingItem ? "Edit Equipment" : "Catalogue New Equipment"}
         description="Instrument specifications, technical capacity, and category."
       >

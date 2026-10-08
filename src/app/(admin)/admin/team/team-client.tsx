@@ -621,6 +621,7 @@ export function TeamClient({
       <Dialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
+        size="4xl"
         title={editingItem ? `Edit Profile: ${editingItem.name}` : "Create Team Member Profile"}
         description="Configure academic role, credentials, research domains, personal projects, and publications."
       >

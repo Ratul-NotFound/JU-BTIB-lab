@@ -37,5 +37,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Uploaded assets (local development)
+/public/uploads
+
 # Prisma generated
 prisma/generated

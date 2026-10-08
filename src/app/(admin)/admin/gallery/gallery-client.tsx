@@ -343,6 +343,7 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
       <Dialog
         open={albumModalOpen}
         onOpenChange={setAlbumModalOpen}
+        size="3xl"
         title={editingAlbum ? "Edit Photo Album" : "Create New Photo Album"}
       >
         <form onSubmit={handleSaveAlbum} className="space-y-4">
@@ -433,6 +434,7 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
       <Dialog
         open={imageModalOpen}
         onOpenChange={setImageModalOpen}
+        size="2xl"
         title="Add Photo to Album"
       >
         <form onSubmit={handleAddImage} className="space-y-4">

@@ -28,6 +28,10 @@ export default async function HomePage() {
         heroSubheading={settings?.heroSubheading}
         totalDivisions={researchAreas.length || 8}
         totalPublications={totalPublications}
+        heroBgImage={settings?.heroBgImage}
+        heroBgImageAlt={settings?.heroBgImageAlt}
+        labLogoWhiteUrl={settings?.labLogoWhiteUrl}
+        universityLogoWhiteUrl={settings?.universityLogoWhiteUrl}
       />
 
       {/* Section 1: Short About, Motto, Mission, Target & Motive */}

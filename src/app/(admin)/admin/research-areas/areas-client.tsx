@@ -212,6 +212,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
       <Dialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
+        size="3xl"
         title={editingItem ? "Edit Research Area" : "New Research Area"}
         description="Configure titles, summary abstract, cover photo, and laboratory glyph."
       >

@@ -80,19 +80,30 @@ model User {
 }
 
 model SiteSetting {
-  id              String   @id @default("singleton")
-  labName         String   @default("Bioresources Technology and Industrial Biotechnology Laboratory")
-  labShortName    String   @default("BTIB Lab")
-  departmentName  String   @default("Department of Biotechnology & Genetic Engineering")
-  institutionName String   @default("Jahangirnagar University")
-  address         String   @default("Savar, Dhaka-1342, Bangladesh")
-  contactEmail    String   @default("rahmanms@bgeju.edu.bd")
-  tagline         String   @default("From bioresource to bioproduct")
-  heroHeading     String   @default("Pioneering Sustainable Biotechnology & Bioprocess Engineering")
-  heroSubheading  String   @default("Isolating natural bioresources, engineering microbial pathways, and scaling sustainable bioproducts for environmental and human well-being.")
-  socialLinks     Json?
-  defaultSeo      Json?
-  updatedAt       DateTime @updatedAt
+  id                     String   @id @default("singleton")
+  labName                String   @default("Bioresources Technology and Industrial Biotechnology Laboratory")
+  labShortName           String   @default("BTIB Lab")
+  departmentName         String   @default("Department of Biotechnology & Genetic Engineering")
+  institutionName        String   @default("Jahangirnagar University")
+  address                String   @default("Savar, Dhaka-1342, Bangladesh")
+  contactEmail           String   @default("rahmanms@bgeju.edu.bd")
+  tagline                String   @default("From bioresource to bioproduct")
+  heroHeading            String   @default("Pioneering Sustainable Biotechnology & Bioprocess Engineering")
+  heroSubheading         String   @default("Isolating natural bioresources, engineering microbial pathways, and scaling sustainable bioproducts for environmental and human well-being.")
+  heroBgImage            String?
+  heroBgImageAlt         String?
+  aboutHeroImage         String?
+  liquidTreeImage        String?
+  heritageCampusImage    String?
+  labIntroImage          String?
+  labLogoUrl             String?
+  labLogoWhiteUrl        String?
+  universityLogoUrl      String?
+  universityLogoWhiteUrl String?
+  bannerImages           Json?
+  socialLinks            Json?
+  defaultSeo             Json?
+  updatedAt              DateTime @updatedAt
 }
 
 model ContentBlock {

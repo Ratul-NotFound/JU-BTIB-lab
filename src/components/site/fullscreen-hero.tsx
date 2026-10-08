@@ -10,9 +10,13 @@ interface FullscreenHeroProps {
   heroSubheading?: string;
   totalDivisions?: number;
   totalPublications?: number;
+  heroBgImage?: string | null;
+  heroBgImageAlt?: string | null;
+  labLogoWhiteUrl?: string | null;
+  universityLogoWhiteUrl?: string | null;
 }
 
-const HERO_IMAGES = [
+const DEFAULT_HERO_IMAGES = [
   {
     src: "/images/hero-lab.jpg",
     alt: "Bioresources Technology and Industrial Biotechnology Laboratory Analytical Station",
@@ -39,17 +43,34 @@ export function FullscreenHero({
   heroSubheading,
   totalDivisions = 8,
   totalPublications = 15,
+  heroBgImage,
+  heroBgImageAlt,
+  labLogoWhiteUrl,
+  universityLogoWhiteUrl,
 }: FullscreenHeroProps) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const shouldReduceMotion = useReducedMotion();
 
+  const heroSlides = React.useMemo(() => {
+    if (heroBgImage) {
+      return [
+        {
+          src: heroBgImage,
+          alt: heroBgImageAlt || "BTIB Laboratory Main Research Complex",
+        },
+      ];
+    }
+    return DEFAULT_HERO_IMAGES;
+  }, [heroBgImage, heroBgImageAlt]);
+
   React.useEffect(() => {
+    if (heroSlides.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+      setCurrentIndex((prev) => (prev + 1) % heroSlides.length);
     }, 6000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [heroSlides.length]);
 
   const easeCurve = [0.21, 0.47, 0.32, 0.98] as const;
 
@@ -57,21 +78,21 @@ export function FullscreenHero({
     <section className="relative w-full min-h-[calc(100svh-3.5rem)] sm:min-h-[calc(100vh-4.5rem)] flex items-center justify-center overflow-hidden border-b border-[var(--border)]">
       {/* 1. Full-Bleed Multi-Image Crossfade Background */}
       <div className="absolute inset-0 z-0">
-        {HERO_IMAGES.map((img, idx) => (
+        {heroSlides.map((img, idx) => (
           <div
             key={img.src}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              idx === currentIndex
+              idx === currentIndex || heroSlides.length === 1
                 ? "opacity-100 z-10"
                 : "opacity-0 pointer-events-none z-0"
             }`}
-            aria-hidden={idx !== currentIndex}
+            aria-hidden={idx !== currentIndex && heroSlides.length > 1}
           >
             <Image
               src={img.src}
               alt={img.alt}
               fill
-              priority={idx === 0}
+              priority
               sizes="100vw"
               className="object-cover object-center scale-[1.02]"
             />
@@ -96,7 +117,7 @@ export function FullscreenHero({
         >
           <div className="relative w-10 h-10 sm:w-14 sm:h-14 shrink-0 flex items-center justify-center">
             <Image
-              src="/images/btib-logo-white.png"
+              src={labLogoWhiteUrl || "/images/btib-logo-white.png"}
               alt="BTIB Laboratory Logo"
               width={56}
               height={56}
@@ -110,7 +131,7 @@ export function FullscreenHero({
 
           <div className="relative w-9 h-9 sm:w-13 sm:h-13 shrink-0 flex items-center justify-center">
             <Image
-              src="/images/ju-logo-white.png"
+              src={universityLogoWhiteUrl || "/images/ju-logo-white.png"}
               alt="Jahangirnagar University Logo"
               width={52}
               height={52}

@@ -325,6 +325,7 @@ export function MediaPicker({
       <Dialog
         open={open}
         onOpenChange={setOpen}
+        size="3xl"
         title="Upload & Compress Laboratory Image"
         description="Directly upload local photos with automatic WebP compression to KB, or pick from existing presets."
       >

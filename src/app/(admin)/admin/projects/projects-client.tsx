@@ -242,6 +242,7 @@ export function ProjectsClient({
       <Dialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
+        size="3xl"
         title={editingItem ? "Edit Project" : "New Project"}
         description="Configure project title, timeline, funding agency, and linked research area."
       >

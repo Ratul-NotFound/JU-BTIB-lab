@@ -218,7 +218,7 @@ export default async function AboutPage() {
 
             <div className="lg:col-span-5 relative aspect-[2.1/1] sm:aspect-[4/3] rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-xs">
               <Image
-                src="/images/facilities/cleanroom-pilot.jpg"
+                src={settings?.aboutHeroImage || "/images/facilities/cleanroom-pilot.jpg"}
                 alt="Cleanroom pilot bioprocessing suite at Jahangirnagar University"
                 fill
                 priority

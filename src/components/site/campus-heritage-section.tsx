@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Trees, ArrowRight } from "lucide-react";
 
-export function CampusHeritageSection() {
+export function CampusHeritageSection({ image }: { image?: string | null }) {
+  const photo = image || "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=80";
+
   return (
     <section className="w-full border-t border-[var(--border)] bg-[var(--surface-raised)] px-6 sm:px-12 lg:px-20 py-20 sm:py-28">
       <div className="w-full">
@@ -94,7 +96,7 @@ export function CampusHeritageSection() {
           {/* Right Image Column */}
           <div className="lg:col-span-5 relative aspect-4/3 rounded-3xl overflow-hidden border border-[var(--border)] shadow-md group">
             <Image
-              src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=80"
+              src={photo}
               alt="Lush green botanical tree canopy at Jahangirnagar University campus reserve in Savar, Dhaka"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
