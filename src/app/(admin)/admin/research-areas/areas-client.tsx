@@ -42,8 +42,13 @@ const GLYPH_OPTIONS = [
 export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }) {
   const router = useRouter();
   const { toast } = useToast();
+  const [data, setData] = React.useState<AreaItem[]>(initialData);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [editingItem, setEditingItem] = React.useState<AreaItem | null>(null);
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Form State
   const [title, setTitle] = React.useState("");
@@ -108,10 +113,12 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
         toast("New research area created", "success");
       }
       setDialogOpen(false);
-      router.refresh();
+      setSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Operation failed", "error");
-    } finally {
       setSubmitting(false);
     }
   };
@@ -119,11 +126,17 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
   const handleDelete = async (id: string, name: string) => {
     if (!window.confirm(`Are you sure you want to delete "${name}"?`)) return;
 
+    const previousData = data;
+    setData((prev) => prev.filter((a) => a.id !== id));
+
     try {
       await deleteResearchArea(id);
       toast("Research area deleted", "success");
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Delete failed", "error");
     }
   };
@@ -185,7 +198,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
         title="Research Areas"
         description="Core multidisciplinary scientific divisions of the BTIB Laboratory."
         columns={columns}
-        data={initialData}
+        data={data}
         searchKey="title"
         onAdd={handleOpenCreate}
         addLabel="New Research Area"

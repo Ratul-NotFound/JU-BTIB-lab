@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { ActivityType, Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
 function getCachedActivities(type?: ActivityType) {
@@ -34,7 +35,7 @@ function getCachedActivities(type?: ActivityType) {
   )();
 }
 
-export async function getActivities(options?: {
+export const getActivities = cache(async function getActivities(options?: {
   type?: ActivityType;
   includeUnpublished?: boolean;
 }) {
@@ -64,7 +65,7 @@ export async function getActivities(options?: {
     console.error("Error fetching activities:", error);
     return [];
   }
-}
+});
 
 function getCachedActivityBySlug(slug: string) {
   const cacheKey = ["activity-by-slug", slug];
@@ -89,11 +90,11 @@ function getCachedActivityBySlug(slug: string) {
   )();
 }
 
-export async function getActivityBySlug(slug: string) {
+export const getActivityBySlug = cache(async function getActivityBySlug(slug: string) {
   try {
     return await getCachedActivityBySlug(slug);
   } catch (error) {
     console.error(`Error fetching activity by slug ${slug}:`, error);
     return null;
   }
-}
+});

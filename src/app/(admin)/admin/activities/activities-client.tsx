@@ -43,8 +43,13 @@ const PRESET_IMAGES = [
 export function ActivitiesClient({ initialData }: { initialData: ActivityItem[] }) {
   const router = useRouter();
   const { toast } = useToast();
+  const [data, setData] = React.useState<ActivityItem[]>(initialData);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [editingItem, setEditingItem] = React.useState<ActivityItem | null>(null);
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Form State
   const [title, setTitle] = React.useState("");
@@ -114,10 +119,12 @@ export function ActivitiesClient({ initialData }: { initialData: ActivityItem[] 
         toast("New activity catalogued successfully", "success");
       }
       setDialogOpen(false);
-      router.refresh();
+      setSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Operation failed", "error");
-    } finally {
       setSubmitting(false);
     }
   };
@@ -125,11 +132,17 @@ export function ActivitiesClient({ initialData }: { initialData: ActivityItem[] 
   const handleDelete = async (id: string, name: string) => {
     if (!window.confirm(`Delete activity "${name}"?`)) return;
 
+    const previousData = data;
+    setData((prev) => prev.filter((a) => a.id !== id));
+
     try {
       await deleteActivity(id);
       toast("Activity deleted", "success");
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Delete failed", "error");
     }
   };
@@ -202,7 +215,7 @@ export function ActivitiesClient({ initialData }: { initialData: ActivityItem[] 
         title="Laboratory Activities & Events"
         description="Seminars, workshops, national conferences, academic visits, and honors."
         columns={columns}
-        data={initialData}
+        data={data}
         searchKey="title"
         onAdd={handleOpenCreate}
         addLabel="Add Activity"

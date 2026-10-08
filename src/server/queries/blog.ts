@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { PostStatus, Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
 function getCachedBlogPosts(
@@ -53,7 +54,7 @@ function getCachedBlogPosts(
   )();
 }
 
-export async function getBlogPosts(options?: {
+export const getBlogPosts = cache(async function getBlogPosts(options?: {
   status?: PostStatus;
   categorySlug?: string;
   tagSlug?: string;
@@ -105,7 +106,7 @@ export async function getBlogPosts(options?: {
     console.error("Error fetching blog posts:", error);
     return [];
   }
-}
+});
 
 function getCachedBlogPostBySlug(slug: string) {
   const cacheKey = ["blog-post-by-slug", slug];
@@ -129,11 +130,11 @@ function getCachedBlogPostBySlug(slug: string) {
   )();
 }
 
-export async function getBlogPostBySlug(slug: string) {
+export const getBlogPostBySlug = cache(async function getBlogPostBySlug(slug: string) {
   try {
     return await getCachedBlogPostBySlug(slug);
   } catch (error) {
     console.error(`Error fetching blog post by slug ${slug}:`, error);
     return null;
   }
-}
+});

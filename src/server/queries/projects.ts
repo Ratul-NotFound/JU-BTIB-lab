@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { ProjectStatus, Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
 function getCachedProjects(
@@ -61,7 +62,7 @@ function getCachedProjects(
   )();
 }
 
-export async function getProjects(options?: {
+export const getProjects = cache(async function getProjects(options?: {
   status?: ProjectStatus;
   areaSlug?: string;
   featuredOnly?: boolean;
@@ -116,7 +117,7 @@ export async function getProjects(options?: {
     console.error("Error fetching projects:", error);
     return [];
   }
-}
+});
 
 function getCachedProjectBySlug(slug: string) {
   const cacheKey = ["project-by-slug", slug];
@@ -146,11 +147,11 @@ function getCachedProjectBySlug(slug: string) {
   )();
 }
 
-export async function getProjectBySlug(slug: string) {
+export const getProjectBySlug = cache(async function getProjectBySlug(slug: string) {
   try {
     return await getCachedProjectBySlug(slug);
   } catch (error) {
     console.error(`Error fetching project by slug ${slug}:`, error);
     return null;
   }
-}
+});

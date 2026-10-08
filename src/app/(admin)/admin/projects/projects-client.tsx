@@ -38,8 +38,13 @@ export function ProjectsClient({
 }) {
   const router = useRouter();
   const { toast } = useToast();
+  const [data, setData] = React.useState<ProjectItem[]>(initialData);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [editingItem, setEditingItem] = React.useState<ProjectItem | null>(null);
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Form State
   const [title, setTitle] = React.useState("");
@@ -128,10 +133,12 @@ export function ProjectsClient({
         toast("New project created successfully", "success");
       }
       setDialogOpen(false);
-      router.refresh();
+      setSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Operation failed", "error");
-    } finally {
       setSubmitting(false);
     }
   };
@@ -139,11 +146,17 @@ export function ProjectsClient({
   const handleDelete = async (id: string, name: string) => {
     if (!window.confirm(`Delete project "${name}"?`)) return;
 
+    const previousData = data;
+    setData((prev) => prev.filter((p) => p.id !== id));
+
     try {
       await deleteProject(id);
       toast("Project deleted", "success");
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Delete failed", "error");
     }
   };
@@ -215,7 +228,7 @@ export function ProjectsClient({
         title="Laboratory Projects"
         description="Active, completed, and upcoming scientific investigations and technology prototypes."
         columns={columns}
-        data={initialData}
+        data={data}
         searchKey="title"
         onAdd={handleOpenCreate}
         addLabel="New Project"

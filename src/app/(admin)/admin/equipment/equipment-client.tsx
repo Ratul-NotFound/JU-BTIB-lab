@@ -68,8 +68,13 @@ export function isChemicalItem(category: string): boolean {
 export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] }) {
   const router = useRouter();
   const { toast } = useToast();
+  const [data, setData] = React.useState<EquipmentItem[]>(initialData);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [editingItem, setEditingItem] = React.useState<EquipmentItem | null>(null);
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Active Filter Tab: "ALL" | "EQUIPMENT" | "CHEMICALS"
   const [activeTab, setActiveTab] = React.useState<"ALL" | "EQUIPMENT" | "CHEMICALS">("ALL");
@@ -86,18 +91,18 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
   const [published, setPublished] = React.useState(true);
   const [submitting, setSubmitting] = React.useState(false);
 
-  const equipmentCount = initialData.filter((i) => !isChemicalItem(i.category)).length;
-  const chemicalCount = initialData.filter((i) => isChemicalItem(i.category)).length;
+  const equipmentCount = data.filter((i) => !isChemicalItem(i.category)).length;
+  const chemicalCount = data.filter((i) => isChemicalItem(i.category)).length;
 
   const filteredData = React.useMemo(() => {
     if (activeTab === "EQUIPMENT") {
-      return initialData.filter((i) => !isChemicalItem(i.category));
+      return data.filter((i) => !isChemicalItem(i.category));
     }
     if (activeTab === "CHEMICALS") {
-      return initialData.filter((i) => isChemicalItem(i.category));
+      return data.filter((i) => isChemicalItem(i.category));
     }
-    return initialData;
-  }, [initialData, activeTab]);
+    return data;
+  }, [data, activeTab]);
 
   const handleOpenCreate = (preselectedType?: "EQUIPMENT" | "CHEMICALS") => {
     const chosenType = preselectedType || (activeTab === "CHEMICALS" ? "CHEMICALS" : "EQUIPMENT");
@@ -176,10 +181,12 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
         toast(`${itemType === "EQUIPMENT" ? "Equipment" : "Chemical"} catalogued successfully`, "success");
       }
       setDialogOpen(false);
-      router.refresh();
+      setSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Operation failed", "error");
-    } finally {
       setSubmitting(false);
     }
   };
@@ -187,11 +194,17 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
   const handleDelete = async (id: string, itemName: string) => {
     if (!window.confirm(`Delete item "${itemName}"?`)) return;
 
+    const previousData = data;
+    setData((prev) => prev.filter((i) => i.id !== id));
+
     try {
       await deleteEquipment(id);
       toast("Record deleted", "success");
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Delete failed", "error");
     }
   };

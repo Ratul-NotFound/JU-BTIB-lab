@@ -222,3 +222,14 @@ body {
   filter: invert(1) !important;
 }
 
+@keyframes adminProgress {
+  0% { transform: translateX(-100%); width: 30%; }
+  50% { transform: translateX(40%); width: 60%; }
+  100% { transform: translateX(200%); width: 40%; }
+}
+
+.animate-admin-progress {
+  animation: adminProgress 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+

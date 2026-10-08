@@ -134,9 +134,14 @@ export function TeamClient({
 }) {
   const router = useRouter();
   const { toast } = useToast();
+  const [data, setData] = React.useState<TeamItem[]>(initialData);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [editingItem, setEditingItem] = React.useState<TeamItem | null>(null);
   const [activeTab, setActiveTab] = React.useState<FormTab>("identity");
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Form State
   const [name, setName] = React.useState("");
@@ -454,10 +459,12 @@ export function TeamClient({
         toast("New team profile created successfully", "success");
       }
       setDialogOpen(false);
-      router.refresh();
+      setSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Operation failed", "error");
-    } finally {
       setSubmitting(false);
     }
   };
@@ -465,11 +472,17 @@ export function TeamClient({
   const handleDelete = async (id: string, memberName: string) => {
     if (!window.confirm(`Delete "${memberName}" from team roster?`)) return;
 
+    const previousData = data;
+    setData((prev) => prev.filter((m) => m.id !== id));
+
     try {
       await deleteTeamMember(id);
       toast("Member removed", "success");
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Delete failed", "error");
     }
   };
@@ -585,7 +598,7 @@ export function TeamClient({
         title="Team Directory & Researcher Profiles"
         description="Manage faculty, scholars, personal projects, publications, degrees, and dynamic repository links."
         columns={columns}
-        data={initialData}
+        data={data}
         searchKey="name"
         onAdd={handleOpenCreate}
         addLabel="Add Member Profile"

@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { MemberCategory, Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
 function getCachedTeamMembers(category?: MemberCategory) {
@@ -53,7 +54,7 @@ function getCachedTeamMembers(category?: MemberCategory) {
   )();
 }
 
-export async function getTeamMembers(options?: {
+export const getTeamMembers = cache(async function getTeamMembers(options?: {
   category?: MemberCategory;
   includeUnpublished?: boolean;
 }) {
@@ -102,7 +103,7 @@ export async function getTeamMembers(options?: {
     console.error("Error fetching team members:", error);
     return [];
   }
-}
+});
 
 function getCachedTeamMemberBySlug(slug: string) {
   const cacheKey = ["team-member-by-slug", slug];
@@ -148,11 +149,11 @@ function getCachedTeamMemberBySlug(slug: string) {
   )();
 }
 
-export async function getTeamMemberBySlug(slug: string) {
+export const getTeamMemberBySlug = cache(async function getTeamMemberBySlug(slug: string) {
   try {
     return await getCachedTeamMemberBySlug(slug);
   } catch (error) {
     console.error(`Error fetching team member by slug ${slug}:`, error);
     return null;
   }
-}
+});

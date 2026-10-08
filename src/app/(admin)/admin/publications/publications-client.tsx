@@ -38,8 +38,13 @@ export interface PublicationItem {
 export function PublicationsClient({ initialData }: { initialData: PublicationItem[] }) {
   const router = useRouter();
   const { toast } = useToast();
+  const [data, setData] = React.useState<PublicationItem[]>(initialData);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [editingItem, setEditingItem] = React.useState<PublicationItem | null>(null);
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // DOI Auto-fetch State
   const [doiQuery, setDoiQuery] = React.useState("");
@@ -174,10 +179,12 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
         toast("New publication saved", "success");
       }
       setDialogOpen(false);
-      router.refresh();
+      setSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Operation failed", "error");
-    } finally {
       setSubmitting(false);
     }
   };
@@ -185,11 +192,17 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
   const handleDelete = async (id: string, name: string) => {
     if (!window.confirm(`Delete publication "${name}"?`)) return;
 
+    const previousData = data;
+    setData((prev) => prev.filter((p) => p.id !== id));
+
     try {
       await deletePublication(id);
       toast("Publication deleted", "success");
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Delete failed", "error");
     }
   };
@@ -250,7 +263,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
         title="Scholarly Publications"
         description="Peer-reviewed journal papers, conference proceedings, and book chapters."
         columns={columns}
-        data={initialData}
+        data={data}
         searchKey="title"
         onAdd={handleOpenCreate}
         addLabel="Add Publication"

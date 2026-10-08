@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
 function getCachedEquipmentList() {
@@ -18,7 +19,7 @@ function getCachedEquipmentList() {
   )();
 }
 
-export async function getEquipmentList(includeUnpublished = false) {
+export const getEquipmentList = cache(async function getEquipmentList(includeUnpublished = false) {
   try {
     if (includeUnpublished) {
       return await db.equipment.findMany({
@@ -31,4 +32,4 @@ export async function getEquipmentList(includeUnpublished = false) {
     console.error("Error fetching equipment list:", error);
     return [];
   }
-}
+});

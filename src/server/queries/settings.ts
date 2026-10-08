@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
 function getCachedSiteSettings() {
@@ -17,14 +18,14 @@ function getCachedSiteSettings() {
   )();
 }
 
-export async function getSiteSettings() {
+export const getSiteSettings = cache(async function getSiteSettings() {
   try {
     return await getCachedSiteSettings();
   } catch (error) {
     console.error("Error fetching site settings:", error);
     return null;
   }
-}
+});
 
 function getCachedContentBlocks() {
   return unstable_cache(

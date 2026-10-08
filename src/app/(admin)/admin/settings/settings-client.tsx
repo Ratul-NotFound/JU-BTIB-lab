@@ -226,10 +226,12 @@ export function SettingsClient({
         universityLogoWhiteUrl: universityLogoWhiteUrl || null,
       });
       toast("Laboratory settings & section images saved successfully", "success");
-      router.refresh();
+      setSavingSettings(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Save failed", "error");
-    } finally {
       setSavingSettings(false);
     }
   };
@@ -244,10 +246,12 @@ export function SettingsClient({
         content: { text },
       });
       toast(`Block "${title}" updated`, "success");
-      router.refresh();
+      setSavingBlockKey(null);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Save failed", "error");
-    } finally {
       setSavingBlockKey(null);
     }
   };

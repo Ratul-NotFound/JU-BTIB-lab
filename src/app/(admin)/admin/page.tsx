@@ -18,7 +18,42 @@ import {
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const [
+  const [countsResult, recentAudits] = await Promise.all([
+    db.$queryRaw<{
+      areasCount: number;
+      projectsCount: number;
+      publicationsCount: number;
+      teamCount: number;
+      activitiesCount: number;
+      postsCount: number;
+      unreadMessagesCount: number;
+    }[]>`
+      SELECT 
+        (SELECT COUNT(*)::int FROM "ResearchArea") as "areasCount",
+        (SELECT COUNT(*)::int FROM "Project") as "projectsCount",
+        (SELECT COUNT(*)::int FROM "Publication") as "publicationsCount",
+        (SELECT COUNT(*)::int FROM "TeamMember") as "teamCount",
+        (SELECT COUNT(*)::int FROM "Activity") as "activitiesCount",
+        (SELECT COUNT(*)::int FROM "BlogPost") as "postsCount",
+        (SELECT COUNT(*)::int FROM "ContactMessage" WHERE status = 'NEW') as "unreadMessagesCount"
+    `,
+    db.auditLog.findMany({
+      take: 6,
+      orderBy: { timestamp: "desc" },
+    }),
+  ]);
+
+  const counts = countsResult[0] || {
+    areasCount: 0,
+    projectsCount: 0,
+    publicationsCount: 0,
+    teamCount: 0,
+    activitiesCount: 0,
+    postsCount: 0,
+    unreadMessagesCount: 0,
+  };
+
+  const {
     areasCount,
     projectsCount,
     publicationsCount,
@@ -26,20 +61,7 @@ export default async function AdminDashboardPage() {
     activitiesCount,
     postsCount,
     unreadMessagesCount,
-    recentAudits,
-  ] = await Promise.all([
-    db.researchArea.count(),
-    db.project.count(),
-    db.publication.count(),
-    db.teamMember.count(),
-    db.activity.count(),
-    db.blogPost.count(),
-    db.contactMessage.count({ where: { status: "NEW" } }),
-    db.auditLog.findMany({
-      take: 6,
-      orderBy: { timestamp: "desc" },
-    }),
-  ]);
+  } = counts;
 
   const STATS = [
     {
@@ -123,6 +145,7 @@ export default async function AdminDashboardPage() {
         <div className="flex items-center gap-2">
           <Link
             href="/admin/settings"
+            prefetch={false}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-raised)] transition-colors"
           >
             <Settings className="w-3.5 h-3.5" />
@@ -130,6 +153,7 @@ export default async function AdminDashboardPage() {
           </Link>
           <Link
             href="/admin/audit-logs"
+            prefetch={false}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-raised)] transition-colors"
           >
             <ShieldAlert className="w-3.5 h-3.5" />
@@ -146,6 +170,7 @@ export default async function AdminDashboardPage() {
             <Link
               key={stat.title}
               href={stat.href}
+              prefetch={false}
               className={`p-5 rounded border bg-[var(--surface)] hover:border-[var(--bio-teal)] transition-all group flex flex-col justify-between ${
                 stat.highlight
                   ? "border-[var(--bio-teal)] ring-1 ring-[var(--bio-teal)]/30"

@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { PublicationType, Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
 function getCachedPublicationsCount() {
@@ -18,14 +19,14 @@ function getCachedPublicationsCount() {
   )();
 }
 
-export async function getPublicationsCount() {
+export const getPublicationsCount = cache(async function getPublicationsCount() {
   try {
     return await getCachedPublicationsCount();
   } catch (error) {
     console.error("Error fetching publications count:", error);
     return 0;
   }
-}
+});
 
 function getCachedPublications(
   year?: number,
@@ -91,7 +92,7 @@ function getCachedPublications(
   )();
 }
 
-export async function getPublications(options?: {
+export const getPublications = cache(async function getPublications(options?: {
   year?: number;
   type?: PublicationType;
   areaSlug?: string;
@@ -166,7 +167,7 @@ export async function getPublications(options?: {
     console.error("Error fetching publications:", error);
     return [];
   }
-}
+});
 
 function getCachedPublicationsTimeline() {
   return unstable_cache(
@@ -198,11 +199,11 @@ function getCachedPublicationsTimeline() {
   )();
 }
 
-export async function getPublicationsTimeline() {
+export const getPublicationsTimeline = cache(async function getPublicationsTimeline() {
   try {
     return await getCachedPublicationsTimeline();
   } catch (error) {
     console.error("Error computing publications timeline:", error);
     return [];
   }
-}
+});

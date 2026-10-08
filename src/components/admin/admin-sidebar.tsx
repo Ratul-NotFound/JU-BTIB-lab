@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   FlaskConical,
@@ -40,6 +40,7 @@ const NAV_ITEMS = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   if (pathname === "/admin/login") {
     return null;
@@ -68,6 +69,10 @@ export function AdminSidebar() {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={false}
+                onMouseEnter={() => router.prefetch(item.href)}
+                onTouchStart={() => router.prefetch(item.href)}
+                onFocus={() => router.prefetch(item.href)}
                 className={cn(
                   "flex items-center gap-2.5 px-3 py-2 rounded text-xs font-medium transition-colors",
                   isActive

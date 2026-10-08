@@ -31,8 +31,13 @@ export interface BlogPostItem {
 export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
   const router = useRouter();
   const { toast } = useToast();
+  const [data, setData] = React.useState<BlogPostItem[]>(initialData);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [editingItem, setEditingItem] = React.useState<BlogPostItem | null>(null);
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Form State
   const [title, setTitle] = React.useState("");
@@ -104,10 +109,12 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
         toast("Article created", "success");
       }
       setDialogOpen(false);
-      router.refresh();
+      setSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Operation failed", "error");
-    } finally {
       setSubmitting(false);
     }
   };
@@ -115,11 +122,17 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
   const handleDelete = async (id: string, name: string) => {
     if (!window.confirm(`Delete article "${name}"?`)) return;
 
+    const previousData = data;
+    setData((prev) => prev.filter((b) => b.id !== id));
+
     try {
       await deleteBlogPost(id);
       toast("Article deleted", "success");
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Delete failed", "error");
     }
   };
@@ -194,7 +207,7 @@ export function BlogClient({ initialData }: { initialData: BlogPostItem[] }) {
         title="Articles & Lab News"
         description="Scientific breakthroughs, academic announcements, and departmental circulars."
         columns={columns}
-        data={initialData}
+        data={data}
         searchKey="title"
         onAdd={handleOpenCreate}
         addLabel="Compose Article"

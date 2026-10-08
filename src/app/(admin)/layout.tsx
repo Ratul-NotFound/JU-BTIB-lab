@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import * as React from "react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ArrowLeft } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { AdminTopProgress } from "@/components/admin/admin-top-progress";
 
 export default function AdminLayout({
   children,
@@ -11,6 +13,9 @@ export default function AdminLayout({
 }) {
   return (
     <div className="min-h-screen bg-[var(--background)] flex flex-col">
+      <React.Suspense fallback={null}>
+        <AdminTopProgress />
+      </React.Suspense>
       {/* Admin Top Navigation */}
       <header className="border-b border-[var(--border)] bg-[var(--surface)] px-4 sm:px-6 h-14 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-3">

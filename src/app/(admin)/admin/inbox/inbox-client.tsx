@@ -24,14 +24,24 @@ export interface MessageItem {
 export function InboxClient({ initialData }: { initialData: MessageItem[] }) {
   const router = useRouter();
   const { toast } = useToast();
+  const [data, setData] = React.useState<MessageItem[]>(initialData);
   const [activeMessage, setActiveMessage] = React.useState<MessageItem | null>(null);
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   const handleView = async (item: MessageItem) => {
     setActiveMessage(item);
     if (item.status === "NEW") {
+      setData((prev) =>
+        prev.map((m) => (m.id === item.id ? { ...m, status: MessageStatus.READ } : m))
+      );
       try {
         await updateContactMessageStatus(item.id, MessageStatus.READ);
-        router.refresh();
+        React.startTransition(() => {
+          router.refresh();
+        });
       } catch {
         // Status update error handled silently
       }
@@ -39,12 +49,20 @@ export function InboxClient({ initialData }: { initialData: MessageItem[] }) {
   };
 
   const handleArchive = async (id: string) => {
+    const previousData = data;
+    setData((prev) =>
+      prev.map((m) => (m.id === id ? { ...m, status: MessageStatus.ARCHIVED } : m))
+    );
+    setActiveMessage(null);
+
     try {
       await updateContactMessageStatus(id, MessageStatus.ARCHIVED);
       toast("Message moved to archive", "success");
-      setActiveMessage(null);
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Archive failed", "error");
     }
   };
@@ -52,12 +70,18 @@ export function InboxClient({ initialData }: { initialData: MessageItem[] }) {
   const handleDelete = async (id: string) => {
     if (!window.confirm("Permanently delete this inquiry?")) return;
 
+    const previousData = data;
+    setData((prev) => prev.filter((m) => m.id !== id));
+    setActiveMessage(null);
+
     try {
       await deleteContactMessage(id);
       toast("Message deleted", "success");
-      setActiveMessage(null);
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Delete failed", "error");
     }
   };
@@ -117,7 +141,7 @@ export function InboxClient({ initialData }: { initialData: MessageItem[] }) {
         title="Contact Inquiry Inbox"
         description="Public inquiries submitted through the official laboratory contact channel."
         columns={columns}
-        data={initialData}
+        data={data}
         searchKey="name"
         actions={(item) => (
           <>

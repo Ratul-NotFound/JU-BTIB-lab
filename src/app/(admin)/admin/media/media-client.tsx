@@ -25,7 +25,12 @@ export interface MediaItem {
 export function MediaClient({ initialData }: { initialData: MediaItem[] }) {
   const router = useRouter();
   const { toast } = useToast();
+  const [data, setData] = React.useState<MediaItem[]>(initialData);
   const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // Form State
   const [url, setUrl] = React.useState("");
@@ -56,16 +61,21 @@ export function MediaClient({ initialData }: { initialData: MediaItem[] }) {
       setDialogOpen(false);
       setUrl("");
       setAlt("");
-      router.refresh();
+      setSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Registration failed", "error");
-    } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm("Delete this media asset?")) return;
+
+    const previousData = data;
+    setData((prev) => prev.filter((m) => m.id !== id));
 
     try {
       const res = await fetch(`/api/admin/media?id=${id}`, {
@@ -78,8 +88,11 @@ export function MediaClient({ initialData }: { initialData: MediaItem[] }) {
       }
 
       toast("Media asset removed", "success");
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
+      setData(previousData);
       toast(err instanceof Error ? err.message : "Delete failed", "error");
     }
   };
@@ -102,7 +115,7 @@ export function MediaClient({ initialData }: { initialData: MediaItem[] }) {
         </Button>
       </div>
 
-      {initialData.length === 0 ? (
+      {data.length === 0 ? (
         <div className="p-12 text-center rounded border-2 border-dashed border-[var(--border)] bg-[var(--surface)] space-y-3">
           <Upload className="w-8 h-8 mx-auto text-[var(--text-muted)]" />
           <div className="text-sm font-medium text-[var(--text-primary)]">
@@ -117,7 +130,7 @@ export function MediaClient({ initialData }: { initialData: MediaItem[] }) {
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {initialData.map((item) => (
+          {data.map((item) => (
             <div
               key={item.id}
               className="rounded border border-[var(--border)] bg-[var(--surface)] overflow-hidden group flex flex-col justify-between"

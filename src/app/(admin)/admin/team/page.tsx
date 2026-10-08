@@ -11,21 +11,15 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminTeamPage() {
   try {
-    const [members, projects, publications] = await Promise.all([
+    const [members, memberProjects, memberPubs, projects, publications] = await Promise.all([
       db.teamMember.findMany({
         orderBy: [{ order: "asc" }, { joinYear: "asc" }],
-        include: {
-          projects: {
-            select: {
-              projectId: true,
-            },
-          },
-          publications: {
-            select: {
-              publicationId: true,
-            },
-          },
-        },
+      }),
+      db.teamMembersOnProjects.findMany({
+        select: { teamMemberId: true, projectId: true },
+      }),
+      db.teamMembersOnPublications.findMany({
+        select: { teamMemberId: true, publicationId: true },
       }),
       db.project.findMany({
         select: {
@@ -49,6 +43,18 @@ export default async function AdminTeamPage() {
         orderBy: [{ year: "desc" }, { title: "asc" }],
       }),
     ]);
+
+    const projMap = new Map<string, string[]>();
+    for (const mp of memberProjects) {
+      if (!projMap.has(mp.teamMemberId)) projMap.set(mp.teamMemberId, []);
+      projMap.get(mp.teamMemberId)!.push(mp.projectId);
+    }
+
+    const pubMap = new Map<string, string[]>();
+    for (const mp of memberPubs) {
+      if (!pubMap.has(mp.teamMemberId)) pubMap.set(mp.teamMemberId, []);
+      pubMap.get(mp.teamMemberId)!.push(mp.publicationId);
+    }
 
     const formattedMembers = (members || []).map((m) => ({
       id: m.id,
@@ -80,12 +86,8 @@ export default async function AdminTeamPage() {
       awards: Array.isArray(m.awards)
         ? (m.awards as unknown as AwardItem[])
         : [],
-      projectIds: Array.isArray(m.projects)
-        ? m.projects.map((p) => p.projectId).filter(Boolean)
-        : [],
-      publicationIds: Array.isArray(m.publications)
-        ? m.publications.map((p) => p.publicationId).filter(Boolean)
-        : [],
+      projectIds: projMap.get(m.id) || [],
+      publicationIds: pubMap.get(m.id) || [],
     }));
 
     return (

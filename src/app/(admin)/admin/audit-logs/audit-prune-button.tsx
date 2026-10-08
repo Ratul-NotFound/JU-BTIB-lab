@@ -22,7 +22,9 @@ export function AuditPruneButton() {
       const res = await pruneAuditLogsAction(90);
       if (res.success) {
         toast(`Successfully pruned ${res.count ?? 0} historical audit log(s)`, "success");
-        router.refresh();
+        React.startTransition(() => {
+          router.refresh();
+        });
       } else {
         toast(res.error || "Failed to prune logs", "error");
       }

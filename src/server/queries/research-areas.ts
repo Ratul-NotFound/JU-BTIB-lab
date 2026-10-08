@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 
 function getCachedResearchAreas() {
@@ -26,7 +27,7 @@ function getCachedResearchAreas() {
   )();
 }
 
-export async function getResearchAreas(includeUnpublished = false) {
+export const getResearchAreas = cache(async function getResearchAreas(includeUnpublished = false) {
   try {
     if (includeUnpublished) {
       return await db.researchArea.findMany({
@@ -46,7 +47,7 @@ export async function getResearchAreas(includeUnpublished = false) {
     console.error("Error fetching research areas:", error);
     return [];
   }
-}
+});
 
 function getCachedResearchAreaBySlug(slug: string) {
   const cacheKey = ["research-area-by-slug", slug];
@@ -76,11 +77,11 @@ function getCachedResearchAreaBySlug(slug: string) {
   )();
 }
 
-export async function getResearchAreaBySlug(slug: string) {
+export const getResearchAreaBySlug = cache(async function getResearchAreaBySlug(slug: string) {
   try {
     return await getCachedResearchAreaBySlug(slug);
   } catch (error) {
     console.error(`Error fetching research area by slug ${slug}:`, error);
     return null;
   }
-}
+});

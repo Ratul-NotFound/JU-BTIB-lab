@@ -110,10 +110,12 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
       }
 
       setAlbumModalOpen(false);
-      router.refresh();
+      setAlbumSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Failed to save album", "error");
-    } finally {
       setAlbumSubmitting(false);
     }
   };
@@ -128,7 +130,9 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
       if (selectedAlbum?.id === id) {
         setSelectedAlbum(null);
       }
-      router.refresh();
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Failed to delete album", "error");
     }
@@ -153,10 +157,12 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
       setImageUrl("");
       setImageAlt("");
       setImageCaption("");
-      router.refresh();
+      setImageSubmitting(false);
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Failed to add image", "error");
-    } finally {
       setImageSubmitting(false);
     }
   };
@@ -167,7 +173,15 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
     try {
       await deleteGalleryImage(imageId);
       toast("Image deleted", "success");
-      router.refresh();
+      if (selectedAlbum) {
+        setSelectedAlbum({
+          ...selectedAlbum,
+          images: selectedAlbum.images.filter((img) => img.id !== imageId),
+        });
+      }
+      React.startTransition(() => {
+        router.refresh();
+      });
     } catch (err: unknown) {
       toast(err instanceof Error ? err.message : "Failed to delete image", "error");
     }
