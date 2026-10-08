@@ -14,8 +14,9 @@ import {
   updatePublication,
   deletePublication,
 } from "@/server/actions/publications";
+import { fetchPublicationMetadataByDoi } from "@/server/actions/doi";
 import { PublicationType } from "@prisma/client";
-import { Edit2, Trash2, ExternalLink } from "lucide-react";
+import { Edit2, Trash2, ExternalLink, Sparkles, Loader2 } from "lucide-react";
 
 export interface PublicationItem {
   id: string;
@@ -40,6 +41,10 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [editingItem, setEditingItem] = React.useState<PublicationItem | null>(null);
 
+  // DOI Auto-fetch State
+  const [doiQuery, setDoiQuery] = React.useState("");
+  const [fetchingDoi, setFetchingDoi] = React.useState(false);
+
   // Form State
   const [title, setTitle] = React.useState("");
   const [authorsText, setAuthorsText] = React.useState("");
@@ -57,6 +62,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
 
   const handleOpenCreate = () => {
     setEditingItem(null);
+    setDoiQuery("");
     setTitle("");
     setAuthorsText("Mohammad Shahedur Rahman");
     setVenue("");
@@ -74,6 +80,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
 
   const handleOpenEdit = (item: PublicationItem) => {
     setEditingItem(item);
+    setDoiQuery(item.doi || "");
     setTitle(item.title);
     setAuthorsText(item.authors.join(", "));
     setVenue(item.venue);
@@ -87,6 +94,36 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
     setNeedsReview(item.needsReview);
     setPublished(item.published);
     setDialogOpen(true);
+  };
+
+  const handleAutoFetchDoi = async () => {
+    if (!doiQuery.trim()) {
+      toast("Please enter a DOI or DOI link first", "error");
+      return;
+    }
+
+    setFetchingDoi(true);
+    try {
+      const res = await fetchPublicationMetadataByDoi(doiQuery);
+      if (res.success && res.data) {
+        const meta = res.data;
+        if (meta.title) setTitle(meta.title);
+        if (meta.authors) setAuthorsText(meta.authors);
+        if (meta.venue) setVenue(meta.venue);
+        if (meta.year) setYear(meta.year);
+        if (meta.type) setType(meta.type);
+        if (meta.doi) setDoi(meta.doi);
+        if (meta.url) setUrl(meta.url);
+        if (meta.abstract) setAbstract(meta.abstract);
+        toast(`Auto-filled: "${meta.title.slice(0, 40)}..."`, "success");
+      } else {
+        toast(res.error || "DOI not found. You can enter details manually.", "error");
+      }
+    } catch {
+      toast("Failed to fetch DOI metadata. Please enter details manually.", "error");
+    } finally {
+      setFetchingDoi(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -244,8 +281,57 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
         description="Verify author order, DOI, and publication year."
       >
         <form onSubmit={handleSubmit} className="space-y-4 max-h-[75vh] overflow-y-auto px-1">
+          {/* DOI Magic Auto-Fill Helper Bar */}
+          <div className="p-3.5 rounded-xl border border-[var(--brand-primary)]/30 bg-[var(--brand-primary-subtle)] space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-mono font-bold text-[var(--brand-primary)] flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>AUTO-FETCH METADATA VIA DOI</span>
+              </label>
+              <span className="text-[10px] font-mono text-[var(--text-muted)]">
+                Instant fill via CrossRef / DOI.org
+              </span>
+            </div>
+
+            <div className="flex gap-2">
+              <Input
+                value={doiQuery}
+                onChange={(e) => setDoiQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleAutoFetchDoi();
+                  }
+                }}
+                placeholder="Paste DOI (e.g. 10.1016/j.biortech.2023.129400 or https://doi.org/...)"
+                className="text-xs bg-[var(--surface)] border-[var(--border)]"
+              />
+              <Button
+                type="button"
+                onClick={handleAutoFetchDoi}
+                disabled={fetchingDoi}
+                className="shrink-0 text-xs gap-1.5 bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-hover)]"
+              >
+                {fetchingDoi ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Fetching...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Auto-Fill</span>
+                  </>
+                )}
+              </Button>
+            </div>
+            <p className="text-[11px] text-[var(--text-secondary)] font-light">
+              Tip: You can auto-fill via DOI, or type/adjust any field manually below if DOI is missing.
+            </p>
+          </div>
+
           <div className="space-y-1">
-            <label className="text-xs font-mono text-[var(--text-secondary)]">TITLE</label>
+            <label className="text-xs font-mono text-[var(--text-secondary)]">TITLE *</label>
             <Input
               required
               value={title}

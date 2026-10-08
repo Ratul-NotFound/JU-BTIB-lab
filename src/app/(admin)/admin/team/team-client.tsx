@@ -12,6 +12,7 @@ import { Dialog } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/toast";
 import { createTeamMember, updateTeamMember, deleteTeamMember } from "@/server/actions/team";
+import { fetchPublicationMetadataByDoi } from "@/server/actions/doi";
 import { MediaPicker } from "@/components/admin/media-picker";
 import { MemberCategory } from "@prisma/client";
 import {
@@ -28,6 +29,7 @@ import {
   Plus,
   GraduationCap,
   Award,
+  Loader2,
 } from "lucide-react";
 
 export interface PersonalProject {
@@ -168,6 +170,11 @@ export function TeamClient({
   const [educationList, setEducationList] = React.useState<EducationItem[]>([]);
   const [awardsList, setAwardsList] = React.useState<AwardItem[]>([]);
 
+  // DOI Auto-Fetch State for Personal Publications
+  const [quickDoiInput, setQuickDoiInput] = React.useState("");
+  const [fetchingQuickDoi, setFetchingQuickDoi] = React.useState(false);
+  const [fetchingDoiIndex, setFetchingDoiIndex] = React.useState<number | null>(null);
+
   // Search Filters inside dialog
   const [projectSearch, setProjectSearch] = React.useState("");
   const [publicationSearch, setPublicationSearch] = React.useState("");
@@ -204,6 +211,7 @@ export function TeamClient({
     setEducationList([]);
     setAwardsList([]);
 
+    setQuickDoiInput("");
     setProjectSearch("");
     setPublicationSearch("");
     setDialogOpen(true);
@@ -240,6 +248,7 @@ export function TeamClient({
     setEducationList(item.education || []);
     setAwardsList(item.awards || []);
 
+    setQuickDoiInput("");
     setProjectSearch("");
     setPublicationSearch("");
     setDialogOpen(true);
@@ -263,7 +272,7 @@ export function TeamClient({
     ]);
   };
 
-  // Helper for adding Personal Publication
+  // Helper for adding Personal Publication Manually
   const handleAddPersonalPublication = () => {
     setPersonalPublications([
       ...personalPublications,
@@ -278,6 +287,73 @@ export function TeamClient({
         url: "",
       },
     ]);
+  };
+
+  // Helper: Quick-Add Personal Publication by Fetching from DOI
+  const handleQuickAddPersonalPublicationByDoi = async () => {
+    if (!quickDoiInput.trim()) {
+      toast("Please paste a DOI or DOI link first", "error");
+      return;
+    }
+
+    setFetchingQuickDoi(true);
+    try {
+      const res = await fetchPublicationMetadataByDoi(quickDoiInput);
+      if (res.success && res.data) {
+        const meta = res.data;
+        const newPub: PersonalPublication = {
+          id: `pub_${Date.now()}`,
+          title: meta.title,
+          authors: meta.authors || name || "Author",
+          venue: meta.venue || "",
+          year: meta.year || new Date().getFullYear(),
+          type: meta.type || "JOURNAL",
+          doi: meta.doi || quickDoiInput.trim(),
+          url: meta.url || "",
+        };
+        setPersonalPublications([newPub, ...personalPublications]);
+        setQuickDoiInput("");
+        toast(`Added: "${meta.title.slice(0, 45)}..."`, "success");
+      } else {
+        toast(res.error || "DOI not found. You can add it manually below.", "error");
+      }
+    } catch {
+      toast("Failed to fetch DOI metadata. Please add details manually.", "error");
+    } finally {
+      setFetchingQuickDoi(false);
+    }
+  };
+
+  // Helper: Auto-Fetch & Update a specific existing publication item via its DOI field
+  const handleAutoFetchDoiForItem = async (idx: number, rawDoi?: string) => {
+    if (!rawDoi || !rawDoi.trim()) {
+      toast("Please enter a DOI in the field first", "error");
+      return;
+    }
+
+    setFetchingDoiIndex(idx);
+    try {
+      const res = await fetchPublicationMetadataByDoi(rawDoi);
+      if (res.success && res.data) {
+        const meta = res.data;
+        const updated = [...personalPublications];
+        if (meta.title) updated[idx].title = meta.title;
+        if (meta.authors) updated[idx].authors = meta.authors;
+        if (meta.venue) updated[idx].venue = meta.venue;
+        if (meta.year) updated[idx].year = meta.year;
+        if (meta.type) updated[idx].type = meta.type;
+        if (meta.doi) updated[idx].doi = meta.doi;
+        if (meta.url) updated[idx].url = meta.url;
+        setPersonalPublications(updated);
+        toast(`Auto-filled: "${meta.title.slice(0, 45)}..."`, "success");
+      } else {
+        toast(res.error || "DOI not found. You can adjust details manually.", "error");
+      }
+    } catch {
+      toast("Failed to fetch DOI metadata.", "error");
+    } finally {
+      setFetchingDoiIndex(null);
+    }
   };
 
   // Helper for adding Education
@@ -1190,32 +1266,82 @@ export function TeamClient({
             {activeTab === "publications" && (
               <div className="space-y-6">
                 {/* SECTION A: Personal Publications */}
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
-                  <div className="flex items-center justify-between">
+                <div className="space-y-4 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
                     <div>
                       <h4 className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1.5">
                         <BookOpen className="w-3.5 h-3.5 text-[var(--bio-emerald)]" />
-                        Personal & External Publications ({personalPublications.length})
+                        <span>Personal & External Publications ({personalPublications.length})</span>
                       </h4>
                       <p className="text-[11px] text-[var(--text-muted)]">
-                        Add individual papers, previous research articles, or external book chapters.
+                        Add individual papers, previous research articles, or external book chapters with automated DOI lookup or manual typing.
                       </p>
                     </div>
+
                     <Button
                       type="button"
                       size="sm"
                       variant="outline"
                       onClick={handleAddPersonalPublication}
-                      className="text-xs gap-1"
+                      className="text-xs gap-1 shrink-0"
                     >
                       <Plus className="w-3.5 h-3.5" />
-                      <span>Add Personal Publication</span>
+                      <span>Add Manually</span>
                     </Button>
                   </div>
 
+                  {/* Quick-Add via DOI Box */}
+                  <div className="p-3 rounded-xl border border-[var(--bio-emerald)]/30 bg-[var(--bio-emerald)]/5 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[11px] font-mono font-bold text-[var(--bio-emerald)] flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>QUICK-ADD VIA DOI (MAGIC AUTO-FETCH)</span>
+                      </label>
+                      <span className="text-[10px] font-mono text-[var(--text-muted)]">
+                        CrossRef / DOI.org
+                      </span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Input
+                        value={quickDoiInput}
+                        onChange={(e) => setQuickDoiInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleQuickAddPersonalPublicationByDoi();
+                          }
+                        }}
+                        placeholder="Paste DOI (e.g. 10.1016/j.biortech.2023.129400 or https://doi.org/...)"
+                        className="text-xs bg-[var(--surface)] border-[var(--border)]"
+                      />
+                      <Button
+                        type="button"
+                        onClick={handleQuickAddPersonalPublicationByDoi}
+                        disabled={fetchingQuickDoi}
+                        className="shrink-0 text-xs gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs"
+                      >
+                        {fetchingQuickDoi ? (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            <span>Fetching...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="w-3.5 h-3.5" />
+                            <span>Fetch & Add</span>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
                   {personalPublications.length === 0 ? (
-                    <div className="p-3 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-lg bg-[var(--surface)]">
-                      No personal publications added yet. Click &ldquo;Add Personal Publication&rdquo; to add external articles.
+                    <div className="p-4 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-lg bg-[var(--surface)] space-y-1">
+                      <p>No personal publications added yet.</p>
+                      <p className="text-[11px] text-[var(--text-secondary)] font-sans">
+                        Paste a DOI above for instant auto-fill, or click &ldquo;Add Manually&rdquo; to type paper details directly.
+                      </p>
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -1241,6 +1367,48 @@ export function TeamClient({
                           </div>
 
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {/* Inline DOI Fetch Helper inside Card */}
+                            <div className="space-y-1 sm:col-span-2">
+                              <label className="text-[11px] font-mono text-[var(--text-secondary)] flex items-center justify-between">
+                                <span>DOI IDENTIFIER OR LINK</span>
+                                <span className="text-[10px] text-[var(--text-muted)]">
+                                  Click &apos;Auto-Fetch&apos; to populate details
+                                </span>
+                              </label>
+                              <div className="flex gap-2">
+                                <Input
+                                  value={pub.doi || ""}
+                                  onChange={(e) => {
+                                    const updated = [...personalPublications];
+                                    updated[idx].doi = e.target.value;
+                                    setPersonalPublications(updated);
+                                  }}
+                                  placeholder="10.1371/journal.pone.0292931 or https://doi.org/..."
+                                  className="text-xs"
+                                />
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  disabled={fetchingDoiIndex === idx}
+                                  onClick={() => handleAutoFetchDoiForItem(idx, pub.doi)}
+                                  className="shrink-0 text-xs gap-1 border-[var(--bio-emerald)]/40 text-[var(--bio-emerald)] hover:bg-[var(--bio-emerald)]/10"
+                                >
+                                  {fetchingDoiIndex === idx ? (
+                                    <>
+                                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                      <span>Fetching...</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Sparkles className="w-3.5 h-3.5" />
+                                      <span>Auto-Fetch</span>
+                                    </>
+                                  )}
+                                </Button>
+                              </div>
+                            </div>
+
                             <div className="space-y-1 sm:col-span-2">
                               <label className="text-[11px] font-mono text-[var(--text-secondary)]">
                                 ARTICLE / CHAPTER TITLE *
@@ -1301,24 +1469,9 @@ export function TeamClient({
                               />
                             </div>
 
-                            <div className="space-y-1">
+                            <div className="space-y-1 sm:col-span-2">
                               <label className="text-[11px] font-mono text-[var(--text-secondary)]">
-                                DOI (IDENTIFIER OR URL)
-                              </label>
-                              <Input
-                                value={pub.doi || ""}
-                                onChange={(e) => {
-                                  const updated = [...personalPublications];
-                                  updated[idx].doi = e.target.value;
-                                  setPersonalPublications(updated);
-                                }}
-                                placeholder="10.1371/journal.pone.0292931"
-                              />
-                            </div>
-
-                            <div className="space-y-1">
-                              <label className="text-[11px] font-mono text-[var(--text-secondary)]">
-                                DIRECT PAPER URL
+                                DIRECT PAPER / OPEN ACCESS URL
                               </label>
                               <Input
                                 value={pub.url || ""}
