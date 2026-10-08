@@ -1,8 +1,31 @@
-"use client";
-
 import * as React from "react";
-import { LucideIcon, Target, Compass, CheckCircle2 } from "lucide-react";
+import {
+  Target,
+  Compass,
+  CheckCircle2,
+  Calendar,
+  FlaskConical,
+  Award,
+  Users,
+  Cpu,
+  Microscope,
+  Layers,
+  Sparkles,
+} from "lucide-react";
 import { Reveal, StaggerContainer, StaggerItem, InteractiveCard } from "@/components/ui/reveal";
+
+const ICON_MAP = {
+  calendar: Calendar,
+  flask: FlaskConical,
+  award: Award,
+  users: Users,
+  cpu: Cpu,
+  microscope: Microscope,
+  layers: Layers,
+  sparkles: Sparkles,
+};
+
+export type IconKey = keyof typeof ICON_MAP;
 
 export function AboutSectionReveal({
   children,
@@ -22,7 +45,7 @@ export function AboutImpactMetrics({
   achievements,
 }: {
   achievements: Array<{
-    icon: LucideIcon;
+    iconKey?: IconKey;
     metric: string;
     label: string;
     detail: string;
@@ -35,7 +58,7 @@ export function AboutImpactMetrics({
       className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6"
     >
       {achievements.map((ach) => {
-        const Icon = ach.icon;
+        const Icon = (ach.iconKey && ICON_MAP[ach.iconKey]) || Sparkles;
         return (
           <StaggerItem key={ach.label} yOffset={20}>
             <InteractiveCard hoverY={-3} className="h-full">
@@ -118,7 +141,7 @@ export function AboutFacilitiesGrid({
   facilities,
 }: {
   facilities: Array<{
-    icon: LucideIcon;
+    iconKey?: IconKey;
     title: string;
     description: string;
   }>;
@@ -130,7 +153,7 @@ export function AboutFacilitiesGrid({
       className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6"
     >
       {facilities.map((facility) => {
-        const Icon = facility.icon;
+        const Icon = (facility.iconKey && ICON_MAP[facility.iconKey]) || FlaskConical;
         return (
           <StaggerItem key={facility.title} yOffset={20}>
             <InteractiveCard hoverY={-3} className="h-full">

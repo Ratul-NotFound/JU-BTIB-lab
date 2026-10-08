@@ -88,54 +88,63 @@ const MILESTONES = [
   },
 ];
 
-const ACHIEVEMENTS = [
+const ACHIEVEMENTS: Array<{
+  iconKey: "calendar" | "flask" | "award" | "users";
+  metric: string;
+  label: string;
+  detail: string;
+}> = [
   {
-    icon: Calendar,
+    iconKey: "calendar",
     metric: "2012",
     label: "Year Established",
     detail: "14+ years of continuous translational biotechnology research at Jahangirnagar University.",
   },
   {
-    icon: FlaskConical,
+    iconKey: "flask",
     metric: "250 L",
     label: "Liquid-Tree Photobioreactor",
     detail: "First operational urban microalgae carbon capture and oxygenation column in Bangladesh.",
   },
   {
-    icon: Award,
+    iconKey: "award",
     metric: "15+",
     label: "Peer-Reviewed Discoveries",
     detail: "Published across high-impact international journals indexed in PubMed, Elsevier, and Springer.",
   },
   {
-    icon: Users,
+    iconKey: "users",
     metric: "50+",
     label: "Alumni & Scholars Trained",
     detail: "B.Sc., M.Sc., and Ph.D. scholars now serving across global academic and industrial laboratories.",
   },
 ];
 
-const CORE_FACILITIES = [
+const CORE_FACILITIES: Array<{
+  iconKey: "flask" | "cpu" | "microscope" | "layers";
+  title: string;
+  description: string;
+}> = [
   {
-    icon: FlaskConical,
+    iconKey: "flask",
     title: "Fermentation Kinetics Cleanroom",
     description:
       "Equipped with automated stirred-tank bioreactor systems with digital control loops for dissolved oxygen, agitation, pH, and nutrient feed kinetics.",
   },
   {
-    icon: Cpu,
+    iconKey: "cpu",
     title: "Liquid-Tree Photobioreactor Yard",
     description:
       "Pilot-scale cultivation columns utilizing Chlorella vulgaris for volumetric carbon mitigation, microalgal biomass harvesting, and urban oxygenation.",
   },
   {
-    icon: Microscope,
+    iconKey: "microscope",
     title: "Microbial Culture & Cryo Repository",
     description:
       "Deep-freeze -80°C strain preservation bank cataloging indigenous bacterial, fungal, and microalgal isolates collected from diverse ecological zones.",
   },
   {
-    icon: Layers,
+    iconKey: "layers",
     title: "Analytical & Enzyme Assay Suite",
     description:
       "Dedicated chromatography, gel electrophoresis, and spectrophotometric instrumentation for catalytic rate determination and biopolymer characterization.",
