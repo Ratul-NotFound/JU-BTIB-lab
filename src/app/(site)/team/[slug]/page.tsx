@@ -25,19 +25,23 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const member = await getTeamMemberBySlug(slug);
+  try {
+    const { slug } = await params;
+    const member = await getTeamMemberBySlug(slug);
 
-  if (!member) {
-    return { title: "Team Member Not Found | BTIB Lab" };
+    if (!member) {
+      return { title: "Team Member Not Found | BTIB Lab" };
+    }
+
+    return {
+      title: `${member.name} | BTIB Lab - Jahangirnagar University`,
+      description:
+        member.bio ||
+        `${member.name} - ${member.title || "Researcher"} at Bioresources Technology and Industrial Biotechnology Laboratory, Jahangirnagar University.`,
+    };
+  } catch {
+    return { title: "Team Member | BTIB Lab" };
   }
-
-  return {
-    title: `${member.name} | BTIB Lab - Jahangirnagar University`,
-    description:
-      member.bio ||
-      `${member.name} - ${member.title || "Researcher"} at Bioresources Technology and Industrial Biotechnology Laboratory, Jahangirnagar University.`,
-  };
 }
 
 export const revalidate = 60;
@@ -93,7 +97,13 @@ interface AwardItem {
 
 export default async function TeamMemberProfilePage({ params }: Props) {
   const { slug } = await params;
-  const member = await getTeamMemberBySlug(slug);
+  let member = null;
+
+  try {
+    member = await getTeamMemberBySlug(slug);
+  } catch (err) {
+    console.error("Error fetching member by slug:", err);
+  }
 
   if (!member) {
     notFound();
@@ -106,43 +116,69 @@ export default async function TeamMemberProfilePage({ params }: Props) {
     bio: member.bio,
   });
 
-  // Collect unique affiliated research areas from connected projects and publications
+  // Collect unique affiliated research areas from connected projects and publications safely
   const uniqueResearchAreasMap = new Map<string, { id: string; title: string; slug: string }>();
 
-  member.projects.forEach(({ project }) => {
-    project.areas?.forEach(({ researchArea }) => {
-      if (researchArea) {
-        uniqueResearchAreasMap.set(researchArea.id, {
-          id: researchArea.id,
-          title: researchArea.title,
-          slug: researchArea.slug,
+  if (Array.isArray(member.projects)) {
+    member.projects.forEach((item) => {
+      if (item?.project?.areas && Array.isArray(item.project.areas)) {
+        item.project.areas.forEach((areaRel) => {
+          if (areaRel?.researchArea) {
+            uniqueResearchAreasMap.set(areaRel.researchArea.id, {
+              id: areaRel.researchArea.id,
+              title: areaRel.researchArea.title,
+              slug: areaRel.researchArea.slug,
+            });
+          }
         });
       }
     });
-  });
+  }
 
-  member.publications.forEach(({ publication }) => {
-    publication.areas?.forEach(({ researchArea }) => {
-      if (researchArea) {
-        uniqueResearchAreasMap.set(researchArea.id, {
-          id: researchArea.id,
-          title: researchArea.title,
-          slug: researchArea.slug,
+  if (Array.isArray(member.publications)) {
+    member.publications.forEach((item) => {
+      if (item?.publication?.areas && Array.isArray(item.publication.areas)) {
+        item.publication.areas.forEach((areaRel) => {
+          if (areaRel?.researchArea) {
+            uniqueResearchAreasMap.set(areaRel.researchArea.id, {
+              id: areaRel.researchArea.id,
+              title: areaRel.researchArea.title,
+              slug: areaRel.researchArea.slug,
+            });
+          }
         });
       }
     });
-  });
+  }
 
   const affiliatedResearchAreas = Array.from(uniqueResearchAreasMap.values());
 
-  const profileLinks = (member.profileLinks as Record<string, string> | null) || {};
-  const personalProjects = (member.personalProjects as PersonalProject[] | null) || [];
-  const personalPublications = (member.personalPublications as PersonalPublication[] | null) || [];
-  const educationList = (member.education as EducationItem[] | null) || [];
-  const awardsList = (member.awards as AwardItem[] | null) || [];
+  const profileLinks =
+    member.profileLinks && typeof member.profileLinks === "object"
+      ? (member.profileLinks as Record<string, string>)
+      : {};
 
-  const totalProjectsCount = member.projects.length + personalProjects.length;
-  const totalPublicationsCount = member.publications.length + personalPublications.length;
+  const personalProjects: PersonalProject[] = Array.isArray(member.personalProjects)
+    ? (member.personalProjects as unknown as PersonalProject[])
+    : [];
+
+  const personalPublications: PersonalPublication[] = Array.isArray(member.personalPublications)
+    ? (member.personalPublications as unknown as PersonalPublication[])
+    : [];
+
+  const educationList: EducationItem[] = Array.isArray(member.education)
+    ? (member.education as unknown as EducationItem[])
+    : [];
+
+  const awardsList: AwardItem[] = Array.isArray(member.awards)
+    ? (member.awards as unknown as AwardItem[])
+    : [];
+
+  const labProjects = Array.isArray(member.projects) ? member.projects : [];
+  const labPublications = Array.isArray(member.publications) ? member.publications : [];
+
+  const totalProjectsCount = labProjects.length + personalProjects.length;
+  const totalPublicationsCount = labPublications.length + personalPublications.length;
 
   return (
     <>
@@ -179,7 +215,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-3xl sm:text-4xl font-serif font-bold text-[var(--bio-teal)]">
-                  {member.name
+                  {(member.name || "BT")
                     .split(" ")
                     .map((n) => n[0])
                     .join("")
@@ -326,7 +362,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
           )}
 
           {/* Research Specializations & Domains */}
-          {member.interests && member.interests.length > 0 && (
+          {member.interests && Array.isArray(member.interests) && member.interests.length > 0 && (
             <div className="space-y-2 pt-4 border-t border-[var(--border)]">
               <h2 className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider">
                 Research Domains & Specializations
@@ -480,120 +516,127 @@ export default async function TeamMemberProfilePage({ params }: Props) {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {/* 1. Shared Lab Projects */}
-              {member.projects.map(({ project }) => (
-                <Link
-                  key={project.id}
-                  href={`/projects/${project.slug}`}
-                  className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${
-                            project.status === "ACTIVE"
-                              ? "border-[var(--brand-primary)]/40 bg-[var(--brand-primary-subtle)] text-[var(--brand-primary)]"
-                              : project.status === "COMPLETED"
-                              ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                              : "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400"
-                          }`}
-                        >
-                          {project.status}
-                        </span>
-                        <span className="px-1.5 py-0.5 rounded text-[9px] font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-muted)]">
-                          LAB INITIATIVE
+              {labProjects.map((item) => {
+                const project = item?.project;
+                if (!project) return null;
+                return (
+                  <Link
+                    key={project.id}
+                    href={`/projects/${project.slug}`}
+                    className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${
+                              project.status === "ACTIVE"
+                                ? "border-[var(--brand-primary)]/40 bg-[var(--brand-primary-subtle)] text-[var(--brand-primary)]"
+                                : project.status === "COMPLETED"
+                                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                                : "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                            }`}
+                          >
+                            {project.status}
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-muted)]">
+                            LAB INITIATIVE
+                          </span>
+                        </div>
+                        <span className="text-xs font-mono text-[var(--text-muted)]">
+                          {project.startYear} – {project.endYear || "Present"}
                         </span>
                       </div>
-                      <span className="text-xs font-mono text-[var(--text-muted)]">
-                        {project.startYear} – {project.endYear || "Present"}
-                      </span>
+
+                      <h3 className="font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition-colors line-clamp-2">
+                        {project.title}
+                      </h3>
+
+                      <p className="text-xs sm:text-sm text-[var(--text-secondary)] line-clamp-2 font-light leading-relaxed">
+                        {project.summary}
+                      </p>
                     </div>
 
-                    <h3 className="font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition-colors line-clamp-2">
-                      {project.title}
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-[var(--text-secondary)] line-clamp-2 font-light leading-relaxed">
-                      {project.summary}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-[var(--border)] mt-4 flex items-center justify-between text-xs">
-                    <span className="font-mono text-[11px] text-[var(--text-muted)]">
-                      {project.funder ? `Funder: ${project.funder}` : "BTIB Core Lab Grant"}
-                    </span>
-                    <span className="font-mono text-[var(--brand-primary)] font-semibold flex items-center gap-1">
-                      <span>View Dossier</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </span>
-                  </div>
-                </Link>
-              ))}
+                    <div className="pt-4 border-t border-[var(--border)] mt-4 flex items-center justify-between text-xs">
+                      <span className="font-mono text-[11px] text-[var(--text-muted)]">
+                        {project.funder ? `Funder: ${project.funder}` : "BTIB Core Lab Grant"}
+                      </span>
+                      <span className="font-mono text-[var(--brand-primary)] font-semibold flex items-center gap-1">
+                        <span>View Dossier</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
 
               {/* 2. Personal / Specific Projects */}
-              {personalProjects.map((p, idx) => (
-                <div
-                  key={p.id || idx}
-                  className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${
-                            p.status === "ACTIVE"
-                              ? "border-[var(--brand-primary)]/40 bg-[var(--brand-primary-subtle)] text-[var(--brand-primary)]"
-                              : "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                          }`}
-                        >
-                          {p.status || "ACTIVE"}
-                        </span>
-                        <span className="px-1.5 py-0.5 rounded text-[9px] font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-muted)]">
-                          PERSONAL PROJECT
-                        </span>
+              {personalProjects.map((p, idx) => {
+                if (!p || !p.title) return null;
+                return (
+                  <div
+                    key={p.id || idx}
+                    className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${
+                              p.status === "ACTIVE"
+                                ? "border-[var(--brand-primary)]/40 bg-[var(--brand-primary-subtle)] text-[var(--brand-primary)]"
+                                : "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                            }`}
+                          >
+                            {p.status || "ACTIVE"}
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-muted)]">
+                            PERSONAL PROJECT
+                          </span>
+                        </div>
+                        {(p.startYear || p.endYear) && (
+                          <span className="text-xs font-mono text-[var(--text-muted)]">
+                            {p.startYear} {p.endYear ? `– ${p.endYear}` : "– Present"}
+                          </span>
+                        )}
                       </div>
-                      {(p.startYear || p.endYear) && (
-                        <span className="text-xs font-mono text-[var(--text-muted)]">
-                          {p.startYear} {p.endYear ? `– ${p.endYear}` : "– Present"}
-                        </span>
+
+                      <h3 className="font-bold text-base text-[var(--text-primary)] line-clamp-2">
+                        {p.title}
+                      </h3>
+
+                      {p.role && (
+                        <p className="text-xs font-mono text-[var(--brand-primary)] font-semibold">
+                          Role: {p.role}
+                        </p>
+                      )}
+
+                      {p.summary && (
+                        <p className="text-xs sm:text-sm text-[var(--text-secondary)] line-clamp-2 font-light leading-relaxed">
+                          {p.summary}
+                        </p>
                       )}
                     </div>
 
-                    <h3 className="font-bold text-base text-[var(--text-primary)] line-clamp-2">
-                      {p.title}
-                    </h3>
-
-                    {p.role && (
-                      <p className="text-xs font-mono text-[var(--brand-primary)] font-semibold">
-                        Role: {p.role}
-                      </p>
-                    )}
-
-                    {p.summary && (
-                      <p className="text-xs sm:text-sm text-[var(--text-secondary)] line-clamp-2 font-light leading-relaxed">
-                        {p.summary}
-                      </p>
-                    )}
+                    <div className="pt-4 border-t border-[var(--border)] mt-4 flex items-center justify-between text-xs">
+                      <span className="font-mono text-[11px] text-[var(--text-muted)]">
+                        {p.funder ? `Institution/Grant: ${p.funder}` : "Independent Research"}
+                      </span>
+                      {p.link && (
+                        <a
+                          href={p.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-mono text-[var(--brand-primary)] font-semibold flex items-center gap-1 hover:underline"
+                        >
+                          <span>Project Link</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
                   </div>
-
-                  <div className="pt-4 border-t border-[var(--border)] mt-4 flex items-center justify-between text-xs">
-                    <span className="font-mono text-[11px] text-[var(--text-muted)]">
-                      {p.funder ? `Institution/Grant: ${p.funder}` : "Independent Research"}
-                    </span>
-                    {p.link && (
-                      <a
-                        href={p.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-mono text-[var(--brand-primary)] font-semibold flex items-center gap-1 hover:underline"
-                      >
-                        <span>Project Link</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>
@@ -630,130 +673,139 @@ export default async function TeamMemberProfilePage({ params }: Props) {
           ) : (
             <div className="space-y-4">
               {/* 1. Shared Lab Publications */}
-              {member.publications.map(({ publication }) => (
-                <div
-                  key={publication.id}
-                  className="p-5 sm:p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
-                >
-                  <div className="space-y-2 max-w-3xl">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-xs font-mono font-bold text-[var(--brand-primary)]">
-                        {publication.year}
-                      </span>
-                      <span className="text-[var(--border)]">•</span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)]">
-                        {publication.type}
-                      </span>
-                      {publication.venue && (
-                        <span className="text-xs text-[var(--text-muted)] font-mono">
-                          — {publication.venue}
+              {labPublications.map((item) => {
+                const publication = item?.publication;
+                if (!publication) return null;
+                return (
+                  <div
+                    key={publication.id}
+                    className="p-5 sm:p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
+                  >
+                    <div className="space-y-2 max-w-3xl">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-xs font-mono font-bold text-[var(--brand-primary)]">
+                          {publication.year}
                         </span>
-                      )}
+                        <span className="text-[var(--border)]">•</span>
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)]">
+                          {publication.type}
+                        </span>
+                        {publication.venue && (
+                          <span className="text-xs text-[var(--text-muted)] font-mono">
+                            — {publication.venue}
+                          </span>
+                        )}
+                      </div>
+
+                      <h3 className="font-bold text-base text-[var(--text-primary)] leading-snug">
+                        {publication.title}
+                      </h3>
+
+                      <p className="text-xs text-[var(--text-secondary)] font-light">
+                        {Array.isArray(publication.authors)
+                          ? publication.authors.join(", ")
+                          : String(publication.authors || "")}
+                      </p>
                     </div>
 
-                    <h3 className="font-bold text-base text-[var(--text-primary)] leading-snug">
-                      {publication.title}
-                    </h3>
+                    <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0">
+                      {publication.doi && (
+                        <a
+                          href={`https://doi.org/${publication.doi}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                        >
+                          <span>DOI</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
 
-                    <p className="text-xs text-[var(--text-secondary)] font-light">
-                      {publication.authors.join(", ")}
-                    </p>
+                      {publication.url && (
+                        <a
+                          href={publication.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                        >
+                          <FileText className="w-3.5 h-3.5" />
+                          <span>Paper</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
-
-                  <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0">
-                    {publication.doi && (
-                      <a
-                        href={`https://doi.org/${publication.doi}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
-                      >
-                        <span>DOI</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    )}
-
-                    {publication.url && (
-                      <a
-                        href={publication.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
-                      >
-                        <FileText className="w-3.5 h-3.5" />
-                        <span>Paper</span>
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
 
               {/* 2. Personal / External Publications */}
-              {personalPublications.map((pub, idx) => (
-                <div
-                  key={pub.id || idx}
-                  className="p-5 sm:p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
-                >
-                  <div className="space-y-2 max-w-3xl">
-                    <div className="flex flex-wrap items-center gap-2">
-                      {pub.year && (
-                        <span className="text-xs font-mono font-bold text-[var(--bio-emerald)]">
-                          {pub.year}
+              {personalPublications.map((pub, idx) => {
+                if (!pub || !pub.title) return null;
+                return (
+                  <div
+                    key={pub.id || idx}
+                    className="p-5 sm:p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
+                  >
+                    <div className="space-y-2 max-w-3xl">
+                      <div className="flex flex-wrap items-center gap-2">
+                        {pub.year && (
+                          <span className="text-xs font-mono font-bold text-[var(--bio-emerald)]">
+                            {pub.year}
+                          </span>
+                        )}
+                        <span className="text-[var(--border)]">•</span>
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)]">
+                          {pub.type || "JOURNAL"}
                         </span>
-                      )}
-                      <span className="text-[var(--border)]">•</span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)]">
-                        {pub.type || "JOURNAL"}
-                      </span>
-                      {pub.venue && (
-                        <span className="text-xs text-[var(--text-muted)] font-mono">
-                          — {pub.venue}
-                        </span>
+                        {pub.venue && (
+                          <span className="text-xs text-[var(--text-muted)] font-mono">
+                            — {pub.venue}
+                          </span>
+                        )}
+                      </div>
+
+                      <h3 className="font-bold text-base text-[var(--text-primary)] leading-snug">
+                        {pub.title}
+                      </h3>
+
+                      {pub.authors && (
+                        <p className="text-xs text-[var(--text-secondary)] font-light">
+                          {pub.authors}
+                        </p>
                       )}
                     </div>
 
-                    <h3 className="font-bold text-base text-[var(--text-primary)] leading-snug">
-                      {pub.title}
-                    </h3>
+                    <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0">
+                      {pub.doi && (
+                        <a
+                          href={
+                            pub.doi.startsWith("http")
+                              ? pub.doi
+                              : `https://doi.org/${pub.doi}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                        >
+                          <span>DOI</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
 
-                    {pub.authors && (
-                      <p className="text-xs text-[var(--text-secondary)] font-light">
-                        {pub.authors}
-                      </p>
-                    )}
+                      {pub.url && (
+                        <a
+                          href={pub.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                        >
+                          <FileText className="w-3.5 h-3.5" />
+                          <span>Paper</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
-
-                  <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0">
-                    {pub.doi && (
-                      <a
-                        href={
-                          pub.doi.startsWith("http")
-                            ? pub.doi
-                            : `https://doi.org/${pub.doi}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
-                      >
-                        <span>DOI</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    )}
-
-                    {pub.url && (
-                      <a
-                        href={pub.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
-                      >
-                        <FileText className="w-3.5 h-3.5" />
-                        <span>Paper</span>
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>

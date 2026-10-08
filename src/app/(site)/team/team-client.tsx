@@ -167,45 +167,47 @@ function TierHeader({
   );
 }
 
-export function TeamClient({ members }: { members: TeamMemberData[] }) {
+export function TeamClient({ members = [] }: { members?: TeamMemberData[] }) {
+  const safeMembers = Array.isArray(members) ? members : [];
+
   // 1. Leadership: Director & PI
   const director =
-    members.find(
+    safeMembers.find(
       (m) =>
         m.category === MemberCategory.PI_FACULTY &&
         m.slug === "mohammad-shahedur-rahman"
-    ) || members.find((m) => m.category === MemberCategory.PI_FACULTY);
+    ) || safeMembers.find((m) => m.category === MemberCategory.PI_FACULTY);
 
   // 2. Faculty Teachers (other PI_FACULTY)
-  const teachers = members.filter(
+  const teachers = safeMembers.filter(
     (m) =>
       m.category === MemberCategory.PI_FACULTY &&
       (!director || m.id !== director.id)
   );
 
   // 3. Postdocs
-  const postdocs = members.filter(
+  const postdocs = safeMembers.filter(
     (m) => m.category === MemberCategory.POSTDOC
   );
 
   // 4. Ph.D. Scholars
-  const phds = members.filter((m) => m.category === MemberCategory.PHD);
+  const phds = safeMembers.filter((m) => m.category === MemberCategory.PHD);
 
   // 5. M.Sc. Researchers
-  const mscs = members.filter((m) => m.category === MemberCategory.MSC);
+  const mscs = safeMembers.filter((m) => m.category === MemberCategory.MSC);
 
   // 6. Undergraduate Thesis Candidates
-  const bscs = members.filter(
+  const bscs = safeMembers.filter(
     (m) => m.category === MemberCategory.BSC_THESIS
   );
 
   // 7. Research Support Staff & Operations
-  const staff = members.filter(
+  const staff = safeMembers.filter(
     (m) => m.category === MemberCategory.RESEARCH_ASSISTANT
   );
 
   // 8. Alumni
-  const alumni = members.filter(
+  const alumni = safeMembers.filter(
     (m) => m.category === MemberCategory.ALUMNI
   );
 
