@@ -7,13 +7,6 @@ import {
   BookOpen,
   Compass,
   Mail,
-  Award,
-  Users,
-  FlaskConical,
-  Calendar,
-  Layers,
-  Cpu,
-  Microscope,
 } from "lucide-react";
 import { getSiteSettings, getContentBlocks } from "@/server/queries/settings";
 import { getTeamMembers } from "@/server/queries/team";
