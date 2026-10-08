@@ -1,5 +1,11 @@
 import { db } from "@/lib/db";
-import { TeamClient } from "./team-client";
+import {
+  TeamClient,
+  PersonalProject,
+  PersonalPublication,
+  EducationItem,
+  AwardItem,
+} from "./team-client";
 
 export const dynamic = "force-dynamic";
 
@@ -58,6 +64,10 @@ export default async function AdminTeamPage() {
     order: m.order,
     published: m.published,
     profileLinks: (m.profileLinks as Record<string, string> | null) || null,
+    personalProjects: (m.personalProjects as unknown as PersonalProject[] | null) || [],
+    personalPublications: (m.personalPublications as unknown as PersonalPublication[] | null) || [],
+    education: (m.education as unknown as EducationItem[] | null) || [],
+    awards: (m.awards as unknown as AwardItem[] | null) || [],
     projectIds: m.projects.map((p) => p.projectId),
     publicationIds: m.publications.map((p) => p.publicationId),
   }));

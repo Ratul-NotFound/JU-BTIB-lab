@@ -196,15 +196,19 @@ model TeamMember {
   photoUrl     String?
   email        String?
   profileLinks Json?
-  interests    String[]
-  joinYear     Int
-  leaveYear    Int?
-  order        Int                         @default(0)
-  published    Boolean                     @default(true)
-  createdAt    DateTime                    @default(now())
-  updatedAt    DateTime                    @updatedAt
-  projects     TeamMembersOnProjects[]
-  publications TeamMembersOnPublications[]
+  interests            String[]
+  personalProjects     Json?
+  personalPublications Json?
+  education            Json?
+  awards               Json?
+  joinYear             Int
+  leaveYear            Int?
+  order                Int                         @default(0)
+  published            Boolean                     @default(true)
+  createdAt            DateTime                    @default(now())
+  updatedAt            DateTime                    @updatedAt
+  projects             TeamMembersOnProjects[]
+  publications         TeamMembersOnPublications[]
 
   @@index([category, order])
   @@index([published])

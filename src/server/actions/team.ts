@@ -16,6 +16,10 @@ export async function createTeamMember(input: TeamMemberInput) {
     data: {
       ...data,
       profileLinks: data.profileLinks ?? undefined,
+      personalProjects: data.personalProjects ?? undefined,
+      personalPublications: data.personalPublications ?? undefined,
+      education: data.education ?? undefined,
+      awards: data.awards ?? undefined,
       projects: {
         create: projectIds.map((projectId) => ({
           projectId,
@@ -58,6 +62,10 @@ export async function updateTeamMember(id: string, input: Partial<TeamMemberInpu
     data: {
       ...data,
       profileLinks: data.profileLinks !== undefined ? (data.profileLinks ?? undefined) : undefined,
+      personalProjects: data.personalProjects !== undefined ? (data.personalProjects ?? undefined) : undefined,
+      personalPublications: data.personalPublications !== undefined ? (data.personalPublications ?? undefined) : undefined,
+      education: data.education !== undefined ? (data.education ?? undefined) : undefined,
+      awards: data.awards !== undefined ? (data.awards ?? undefined) : undefined,
       ...(projectIds !== undefined && {
         projects: {
           deleteMany: {},
