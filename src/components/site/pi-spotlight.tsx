@@ -22,7 +22,7 @@ export function PiSpotlight({ piMember }: { piMember?: PiSpotlightData | null })
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           {/* Portrait Column */}
           <div className="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left space-y-4">
-            <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-2xl overflow-hidden border-2 border-[var(--border)] shadow-md group">
+            <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-md overflow-hidden border-2 border-[var(--border)] shadow-md group">
               <Image
                 src={photo}
                 alt={`${name}, Principal Investigator at BTIB Lab`}
@@ -54,7 +54,7 @@ export function PiSpotlight({ piMember }: { piMember?: PiSpotlightData | null })
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
               <a
                 href={`mailto:${email}`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] hover:border-[var(--bio-teal)] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] hover:border-[var(--bio-teal)] transition-colors"
               >
                 <Mail className="w-3.5 h-3.5" />
                 <span>{email}</span>
@@ -86,19 +86,19 @@ export function PiSpotlight({ piMember }: { piMember?: PiSpotlightData | null })
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-1">
+              <div className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-1">
                 <div className="text-[11px] font-mono text-[var(--text-muted)] uppercase">Doctoral Guidance</div>
                 <div className="text-sm font-semibold text-[var(--text-primary)]">PhD & MPhil Theses</div>
                 <div className="text-[11px] text-[var(--text-muted)]">Bioprocess & Microalgae</div>
               </div>
 
-              <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-1">
+              <div className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-1">
                 <div className="text-[11px] font-mono text-[var(--text-muted)] uppercase">Publications</div>
                 <div className="text-sm font-semibold text-[var(--text-primary)]">Verified DOIs</div>
                 <div className="text-[11px] text-[var(--text-muted)]">Elsevier, Springer, Wiley</div>
               </div>
 
-              <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-1">
+              <div className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-1">
                 <div className="text-[11px] font-mono text-[var(--text-muted)] uppercase">Field Innovation</div>
                 <div className="text-sm font-semibold text-[var(--text-primary)]">Liquid-Tree PBR</div>
                 <div className="text-[11px] text-[var(--text-muted)]">Urban CO₂ Capture Pilot</div>

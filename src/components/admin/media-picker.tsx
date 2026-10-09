@@ -228,7 +228,7 @@ export function MediaPicker({
       {/* Current Preview or Upload Button */}
       {value ? (
         <div className="space-y-2">
-          <div className="relative w-full h-44 rounded-2xl border border-[var(--border)] overflow-hidden bg-[var(--surface-raised)] group shadow-xs">
+          <div className="relative w-full h-44 rounded-md border border-[var(--border)] overflow-hidden bg-[var(--surface-raised)] group shadow-xs">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={value}
@@ -251,7 +251,7 @@ export function MediaPicker({
             </div>
 
             {compressionMetrics && (
-              <div className="absolute bottom-2 left-2 bg-emerald-600/90 backdrop-blur-md text-white text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
+              <div className="absolute bottom-2 left-2 bg-emerald-600/90 backdrop-blur-md text-white text-[10px] font-semibold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm">
                 <CheckCircle2 className="w-3 h-3" />
                 <span>Compressed: {compressionMetrics.compressedKb} KB ({compressionMetrics.savedPercent}% reduced)</span>
               </div>
@@ -282,9 +282,9 @@ export function MediaPicker({
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="w-full h-32 rounded-2xl border-2 border-dashed border-[var(--border)] hover:border-[var(--brand-primary)] bg-[var(--surface)] hover:bg-[var(--surface-raised)] transition-all flex flex-col items-center justify-center gap-2 text-[var(--text-muted)] hover:text-[var(--brand-primary)] group focus:outline-none"
+            className="w-full h-32 rounded-md border-2 border-dashed border-[var(--border)] hover:border-[var(--brand-primary)] bg-[var(--surface)] hover:bg-[var(--surface-raised)] transition-all flex flex-col items-center justify-center gap-2 text-[var(--text-muted)] hover:text-[var(--brand-primary)] group focus:outline-none"
           >
-            <div className="w-10 h-10 rounded-full bg-[var(--surface-raised)] group-hover:bg-[var(--brand-primary)]/10 flex items-center justify-center transition-colors">
+            <div className="w-10 h-10 rounded-md bg-[var(--surface-raised)] group-hover:bg-[var(--brand-primary)]/10 flex items-center justify-center transition-colors">
               <UploadCloud className="w-5 h-5 text-[var(--brand-primary)]" />
             </div>
             <div className="text-center">
@@ -331,11 +331,11 @@ export function MediaPicker({
       >
         <div className="space-y-4">
           {/* Navigation Tabs */}
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)]">
+          <div className="flex items-center gap-1 p-1 rounded-md bg-[var(--surface-raised)] border border-[var(--border)]">
             <button
               type="button"
               onClick={() => setActiveTab("upload")}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded text-xs font-semibold transition-all ${
                 activeTab === "upload"
                   ? "bg-[var(--brand-primary)] text-white shadow-xs"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -348,7 +348,7 @@ export function MediaPicker({
             <button
               type="button"
               onClick={() => setActiveTab("presets")}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded text-xs font-semibold transition-all ${
                 activeTab === "presets"
                   ? "bg-[var(--brand-primary)] text-white shadow-xs"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -361,7 +361,7 @@ export function MediaPicker({
             <button
               type="button"
               onClick={() => setActiveTab("link")}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded text-xs font-semibold transition-all ${
                 activeTab === "link"
                   ? "bg-[var(--brand-primary)] text-white shadow-xs"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -400,7 +400,7 @@ export function MediaPicker({
                 }}
                 onDrop={handleDrop}
                 onClick={() => !uploading && fileInputRef.current?.click()}
-                className={`relative w-full h-44 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center p-6 text-center cursor-pointer ${
+                className={`relative w-full h-44 rounded-md border-2 border-dashed transition-all flex flex-col items-center justify-center p-6 text-center cursor-pointer ${
                   dragActive
                     ? "border-[var(--brand-primary)] bg-[var(--brand-primary)]/10 scale-[1.01]"
                     : "border-[var(--border)] bg-[var(--surface-raised)]/40 hover:border-[var(--brand-primary)] hover:bg-[var(--surface-raised)]"
@@ -418,7 +418,7 @@ export function MediaPicker({
                   </div>
                 ) : (
                   <div className="space-y-2 flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-[var(--brand-primary)]/10 flex items-center justify-center text-[var(--brand-primary)]">
+                    <div className="w-12 h-12 rounded-md bg-[var(--brand-primary)]/10 flex items-center justify-center text-[var(--brand-primary)]">
                       <UploadCloud className="w-6 h-6" />
                     </div>
                     <div>
@@ -434,7 +434,7 @@ export function MediaPicker({
               </div>
 
               {uploadError && (
-                <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs">
+                <div className="p-3 rounded-md bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs">
                   {uploadError}
                 </div>
               )}
@@ -450,7 +450,7 @@ export function MediaPicker({
                 />
               </div>
 
-              <div className="p-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[11px] text-[var(--text-secondary)] space-y-1">
+              <div className="p-3 rounded-md border border-[var(--border)] bg-[var(--surface)] text-[11px] text-[var(--text-secondary)] space-y-1">
                 <div className="font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
                   <FileCheck className="w-3.5 h-3.5 text-[var(--brand-primary)]" />
                   <span>Integrated KB Compression Engine</span>
@@ -480,13 +480,13 @@ export function MediaPicker({
                         setUrlInput(p.url);
                         setOpen(false);
                       }}
-                      className={`relative flex items-center gap-2 p-2 rounded-xl border text-left transition-all group ${
+                      className={`relative flex items-center gap-2 p-2 rounded-md border text-left transition-all group ${
                         isSelected
                           ? "border-[var(--brand-primary)] bg-[var(--brand-primary)]/10 ring-1 ring-[var(--brand-primary)]"
                           : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] hover:bg-[var(--surface-raised)]"
                       }`}
                     >
-                      <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-[var(--surface-raised)]">
+                      <div className="relative w-12 h-12 rounded overflow-hidden shrink-0 bg-[var(--surface-raised)]">
                         <Image src={p.url} alt={p.label} fill className="object-cover" />
                       </div>
                       <div className="min-w-0 flex-1">
@@ -519,7 +519,7 @@ export function MediaPicker({
               </div>
 
               {urlInput && (
-                <div className="relative w-full h-36 rounded-xl border border-[var(--border)] overflow-hidden bg-[var(--surface-raised)]">
+                <div className="relative w-full h-36 rounded-md border border-[var(--border)] overflow-hidden bg-[var(--surface-raised)]">
                   <Image
                     src={urlInput}
                     alt="Preview"

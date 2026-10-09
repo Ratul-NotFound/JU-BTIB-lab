@@ -21,7 +21,7 @@ export function EditorialHero({
           {/* Left Column: Narrative & Clear Actions */}
           <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             {/* Academic Credential Kicker */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-[var(--border)] bg-[var(--surface-raised)] text-xs font-mono text-[var(--bio-teal)]">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] text-xs font-mono text-[var(--bio-teal)]">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span>Jahangirnagar University · Dept. of BGE</span>
             </div>
@@ -42,7 +42,7 @@ export function EditorialHero({
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href="/research"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white shadow-sm transition-all hover:scale-[1.01] active:scale-[0.98]"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-md text-sm font-semibold bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white shadow-sm transition-all hover:scale-[1.01] active:scale-[0.98]"
               >
                 <span>Explore Research Domains</span>
                 <ArrowRight className="w-4 h-4" />
@@ -50,7 +50,7 @@ export function EditorialHero({
 
               <Link
                 href="/publications"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-raised)] text-[var(--text-primary)] transition-all active:scale-[0.98]"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-md text-sm font-semibold border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-raised)] text-[var(--text-primary)] transition-all active:scale-[0.98]"
               >
                 <BookOpen className="w-4 h-4 text-[var(--bio-teal)]" />
                 <span>Publications</span>
@@ -81,7 +81,7 @@ export function EditorialHero({
           </div>
 
           {/* Right Column: Authentic Documentary Photography */}
-          <div className="lg:col-span-5 relative aspect-4/3 sm:aspect-5/4 rounded-3xl overflow-hidden border border-[var(--border)] shadow-md group">
+          <div className="lg:col-span-5 relative aspect-4/3 sm:aspect-5/4 rounded-md overflow-hidden border border-[var(--border)] shadow-md group">
             <Image
               src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1200&q=85"
               alt="Researcher in clean laboratory coat conducting analytical measurements at BTIB Lab"
@@ -91,7 +91,7 @@ export function EditorialHero({
               sizes="(max-width: 1024px) 100vw, 42vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-2xl bg-black/60 backdrop-blur-md border border-white/15 text-xs text-white">
+            <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-xs text-white">
               <span className="font-semibold block">Analytical Biotechnology Suite</span>
               Department of Biotechnology & Genetic Engineering, Jahangirnagar University
             </div>

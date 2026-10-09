@@ -22,7 +22,7 @@ export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipDa
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Portrait & Direct Contact */}
           <div className="lg:col-span-5 flex flex-col items-center sm:items-start text-center sm:text-left space-y-5">
-            <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-3xl overflow-hidden border border-[var(--border)] shadow-md group bg-[var(--surface-raised)]">
+            <div className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-md overflow-hidden border border-[var(--border)] shadow-md group bg-[var(--surface-raised)]">
               <Image
                 src={photo}
                 alt={`${name}, Principal Investigator at BTIB Lab`}
@@ -50,7 +50,7 @@ export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipDa
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <a
                 href={`mailto:${email}`}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] hover:border-[var(--bio-teal)] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] hover:border-[var(--bio-teal)] transition-colors"
               >
                 <Mail className="w-3.5 h-3.5" />
                 <span>{email}</span>
@@ -85,7 +85,7 @@ export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipDa
             </div>
 
             {/* Dignified Quote */}
-            <div className="p-6 rounded-3xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-3 relative">
+            <div className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-3 relative">
               <Quote className="w-5 h-5 text-[var(--bio-teal)] opacity-60" />
               <p className="text-sm sm:text-base font-serif italic text-[var(--text-primary)] leading-relaxed">
                 &ldquo;Our mission is to translate Bangladesh&apos;s indigenous biological wealth into scalable biotechnological solutions that benefit our industry, environment, and scientific community.&rdquo;
@@ -101,7 +101,7 @@ export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipDa
                 {["Microbial Bioprocess Kinetics", "Enzymatic Biocatalysis", "Photobioreactor Design", "Bioresources Valorization"].map((tag) => (
                   <span
                     key={tag}
-                    className="px-3.5 py-1.5 rounded-full text-xs font-medium border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)]"
+                    className="px-3.5 py-1.5 rounded text-xs font-medium border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)]"
                   >
                     {tag}
                   </span>

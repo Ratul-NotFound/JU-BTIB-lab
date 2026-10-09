@@ -145,14 +145,14 @@ export function StudentHistoryClient({
   return (
     <div className="space-y-8">
       {/* 1. Header & Quick Metrics */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 sm:p-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-xs">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 sm:p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5">
+            <span className="px-3 py-1 rounded text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5" />
               <span>Research Logbook & Activity</span>
             </span>
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[var(--surface-raised)] text-[var(--text-secondary)] border border-[var(--border)]">
+            <span className="px-3 py-1 rounded text-xs font-mono font-semibold bg-[var(--surface-raised)] text-[var(--text-secondary)] border border-[var(--border)]">
               {logs.length} Entries Logged
             </span>
           </div>
@@ -163,7 +163,7 @@ export function StudentHistoryClient({
 
           <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light max-w-2xl">
             Official laboratory logbook documenting instrument operating hours, experimental procedures,
-            and supervisor verifications for {studentName} ({studentId}) · {program.replace("_", " ")}.
+            and supervisor verifications for {studentName} ({studentId || "Scholar"}) · {program ? program.replace("_", " ") : "Research Scholar"}.
           </p>
         </div>
 
@@ -181,7 +181,7 @@ export function StudentHistoryClient({
           <Button
             type="button"
             onClick={() => setShowForm(!showForm)}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs px-4 py-2.5 rounded-full flex items-center gap-2 shadow-sm"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs px-4 py-2.5 rounded-md flex items-center gap-2 shadow-sm"
           >
             <PlusCircle className="w-4 h-4" />
             <span>{showForm ? "Close Form" : "Log New Experiment"}</span>
@@ -191,8 +191,8 @@ export function StudentHistoryClient({
 
       {/* 2. Analytical Statistics Strip */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+        <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
+          <div className="w-12 h-12 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
             <Clock className="w-6 h-6" />
           </div>
           <div>
@@ -205,8 +205,8 @@ export function StudentHistoryClient({
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0">
+        <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
+          <div className="w-12 h-12 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0">
             <Award className="w-6 h-6" />
           </div>
           <div>
@@ -222,8 +222,8 @@ export function StudentHistoryClient({
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0">
+        <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
+          <div className="w-12 h-12 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0">
             <Microscope className="w-6 h-6" />
           </div>
           <div>
@@ -239,7 +239,7 @@ export function StudentHistoryClient({
 
       {/* 3. Success Message Alert */}
       {successMsg && (
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 flex items-center gap-3">
+        <div className="p-4 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 flex items-center gap-3">
           <CheckCircle2 className="w-5 h-5 shrink-0" />
           <p className="text-sm">{successMsg}</p>
         </div>
@@ -249,7 +249,7 @@ export function StudentHistoryClient({
       {showForm && (
         <form
           onSubmit={handleSubmit}
-          className="p-6 sm:p-8 rounded-3xl border border-emerald-500/30 bg-[var(--surface)] shadow-lg space-y-6 relative overflow-hidden"
+          className="p-6 sm:p-8 rounded-md border border-emerald-500/30 bg-[var(--surface)] shadow-lg space-y-6 relative overflow-hidden"
         >
           <div className="space-y-1">
             <h2 className="text-lg font-bold font-sans text-[var(--text-primary)] flex items-center gap-2">
@@ -262,7 +262,7 @@ export function StudentHistoryClient({
           </div>
 
           {error && (
-            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 text-xs flex items-center gap-2">
+            <div className="p-4 rounded-md bg-red-500/10 border border-red-500/20 text-red-600 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
@@ -289,7 +289,7 @@ export function StudentHistoryClient({
               <select
                 value={equipmentId}
                 onChange={(e) => setEquipmentId(e.target.value)}
-                className="w-full h-10 px-3 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                className="w-full h-10 px-3 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                 required
               >
                 {equipmentList.map((eq) => (
@@ -371,7 +371,7 @@ export function StudentHistoryClient({
             <Button
               type="submit"
               disabled={submitting}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-6 py-2.5 rounded-full font-medium"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-6 py-2.5 rounded-md font-medium"
             >
               {submitting ? "Saving to Logbook..." : "Save Log Entry"}
             </Button>
@@ -399,8 +399,8 @@ export function StudentHistoryClient({
         </div>
 
         {filteredLogs.length === 0 ? (
-          <div className="p-12 text-center rounded-3xl border border-dashed border-[var(--border)] bg-[var(--surface)]/50 space-y-4">
-            <div className="w-12 h-12 rounded-full bg-[var(--surface-raised)] text-[var(--text-secondary)] flex items-center justify-center mx-auto">
+          <div className="p-12 text-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)]/50 space-y-4">
+            <div className="w-12 h-12 rounded-md bg-[var(--surface-raised)] text-[var(--text-secondary)] flex items-center justify-center mx-auto">
               <FileText className="w-6 h-6" />
             </div>
             <div className="space-y-1">
@@ -425,12 +425,12 @@ export function StudentHistoryClient({
               return (
                 <div
                   key={log.id}
-                  className="p-5 sm:p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-emerald-500/30 transition-all space-y-4"
+                  className="p-5 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-emerald-500/30 transition-all space-y-4"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
+                        <span className="px-2.5 py-0.5 rounded text-[11px] font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
                           <Microscope className="w-3 h-3" />
                           <span>{log.equipment.name}</span>
                         </span>
@@ -450,14 +450,14 @@ export function StudentHistoryClient({
 
                     <div>
                       {isVerified ? (
-                        <div className="px-3 py-1.5 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5 shrink-0">
+                        <div className="px-3 py-1.5 rounded text-xs font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5 shrink-0">
                           <CheckCircle2 className="w-3.5 h-3.5" />
                           <span>
                             Verified by {log.faculty?.user?.name || log.verifiedBy || "Supervisor"}
                           </span>
                         </div>
                       ) : (
-                        <div className="px-3 py-1.5 rounded-full text-xs font-mono font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center gap-1.5 shrink-0">
+                        <div className="px-3 py-1.5 rounded text-xs font-mono font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center gap-1.5 shrink-0">
                           <AlertCircle className="w-3.5 h-3.5" />
                           <span>Pending Supervisor Verification</span>
                         </div>
@@ -470,7 +470,7 @@ export function StudentHistoryClient({
                       <span className="font-semibold text-[var(--text-primary)] block text-xs uppercase tracking-wider mb-1">
                         Protocol & Methodology:
                       </span>
-                      <p className="leading-relaxed bg-[var(--surface-raised)]/50 p-3 rounded-xl border border-[var(--border)] font-sans">
+                      <p className="leading-relaxed bg-[var(--surface-raised)]/50 p-3 rounded-md border border-[var(--border)] font-sans">
                         {log.protocolSummary}
                       </p>
                     </div>
@@ -480,7 +480,7 @@ export function StudentHistoryClient({
                         <span className="font-semibold text-[var(--text-primary)] block text-xs uppercase tracking-wider mb-1">
                           Observations / Findings:
                         </span>
-                        <p className="leading-relaxed bg-[var(--surface-raised)]/50 p-3 rounded-xl border border-[var(--border)] font-sans">
+                        <p className="leading-relaxed bg-[var(--surface-raised)]/50 p-3 rounded-md border border-[var(--border)] font-sans">
                           {log.observations}
                         </p>
                       </div>

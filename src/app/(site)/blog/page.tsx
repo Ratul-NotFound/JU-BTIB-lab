@@ -39,7 +39,7 @@ export default async function BlogPage() {
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
-              className="rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group shadow-xs"
+              className="rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group shadow-xs"
             >
               {/* Cover Photo */}
               <div className="relative aspect-[2.1/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">
@@ -106,7 +106,7 @@ export default async function BlogPage() {
       </div>
 
       {posts.length === 0 && (
-        <div className="p-12 text-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-sm font-mono text-[var(--text-muted)]">
+        <div className="p-12 text-center rounded-md border border-[var(--border)] bg-[var(--surface)] text-sm font-mono text-[var(--text-muted)]">
           <BookOpen className="w-8 h-8 text-[var(--text-muted)] mx-auto mb-3 opacity-60" />
           No blog posts published yet. Articles will appear here once published from the admin panel.
         </div>

@@ -63,7 +63,7 @@ export function ProjectsListClient({ projects }: { projects: ProjectItem[] }) {
               whileHover={{ y: -1 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setSelectedStatus(status)}
-              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-semibold whitespace-nowrap transition-colors ${
+              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded text-[11px] sm:text-xs font-semibold whitespace-nowrap transition-colors ${
                 isActive
                   ? "bg-[var(--brand-primary)] text-white shadow-sm"
                   : "bg-[var(--surface)] text-[var(--text-secondary)] border border-[var(--border)] hover:bg-[var(--surface-raised)]"
@@ -92,7 +92,7 @@ export function ProjectsListClient({ projects }: { projects: ProjectItem[] }) {
               <InteractiveCard hoverY={-4} className="h-full">
                 <Link
                   href={`/projects/${project.slug}`}
-                  className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs h-full"
+                  className="group rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs h-full"
                 >
                   {/* Image Banner with Standardized Aspect Ratio */}
                   <div className="relative aspect-[2.1/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">

@@ -52,7 +52,7 @@ export function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="p-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 space-y-4">
+      <div className="p-8 rounded-md border border-emerald-500/30 bg-emerald-500/5 space-y-4">
         <div className="flex items-center gap-3 text-emerald-500">
           <CheckCircle2 className="w-6 h-6" />
           <h3 className="text-lg font-bold">Inquiry Dispatched Successfully</h3>
@@ -64,7 +64,7 @@ export function ContactForm() {
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="px-4 py-2 rounded-lg text-xs font-mono border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] hover:border-[var(--bio-teal)] transition-colors"
+          className="px-4 py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] hover:border-[var(--bio-teal)] transition-colors"
         >
           Send another inquiry
         </button>
@@ -75,7 +75,7 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
       {error && (
-        <div className="p-3 rounded-lg border border-[var(--danger)]/30 bg-[var(--danger-surface)] text-xs text-[var(--danger)]">
+        <div className="p-3 rounded border border-[var(--danger)]/30 bg-[var(--danger-surface)] text-xs text-[var(--danger)]">
           {error}
         </div>
       )}
@@ -104,7 +104,7 @@ export function ContactForm() {
             placeholder="e.g. Dr. Jane Doe / Research Fellow"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] font-sans"
+            className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] font-sans"
           />
         </div>
 
@@ -118,7 +118,7 @@ export function ContactForm() {
             placeholder="e.g. name@university.edu"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] font-sans"
+            className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] font-sans"
           />
         </div>
       </div>
@@ -133,7 +133,7 @@ export function ContactForm() {
           placeholder="e.g. Inquiry regarding thesis placement / Industrial collaboration"
           value={formData.subject}
           onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-          className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] font-sans"
+          className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] font-sans"
         />
       </div>
 
@@ -147,14 +147,14 @@ export function ContactForm() {
           placeholder="Please describe your background, thesis interest, or proposed research scope..."
           value={formData.message}
           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] resize-y font-sans"
+          className="w-full px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm rounded border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] resize-y font-sans"
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-50"
+        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded text-xs sm:text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-50"
       >
         {loading ? (
           <>

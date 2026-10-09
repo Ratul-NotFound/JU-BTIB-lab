@@ -198,7 +198,7 @@ export function LivingColonyCanvas() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 overflow-hidden pointer-events-auto rounded-xl"
+      className="absolute inset-0 overflow-hidden pointer-events-auto rounded-md"
       aria-hidden="true"
     >
       <canvas ref={canvasRef} className="w-full h-full block" />

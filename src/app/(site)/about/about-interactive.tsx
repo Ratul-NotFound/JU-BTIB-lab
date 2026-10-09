@@ -62,12 +62,12 @@ export function AboutImpactMetrics({
         return (
           <StaggerItem key={ach.label} yOffset={20}>
             <InteractiveCard hoverY={-3} className="h-full">
-              <div className="h-full p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-1.5 sm:space-y-3 shadow-xs hover:border-[var(--brand-primary)]/60 transition-all flex flex-col justify-between">
+              <div className="h-full p-3 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-1.5 sm:space-y-3 shadow-xs hover:border-[var(--brand-primary)]/60 transition-all flex flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <div className="text-2xl sm:text-4xl font-extrabold text-[var(--brand-primary)] font-sans tracking-tight">
                     {ach.metric}
                   </div>
-                  <div className="p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)]">
+                  <div className="p-1.5 sm:p-2.5 rounded bg-[var(--brand-primary)]/10 text-[var(--brand-primary)]">
                     <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </div>
@@ -107,7 +107,7 @@ export function AboutMilestonesList({
       {milestones.map((m, idx) => (
         <StaggerItem key={m.year} yOffset={18}>
           <InteractiveCard hoverY={-2} className="w-full">
-            <div className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all shadow-xs space-y-1.5 sm:space-y-2.5">
+            <div className="p-3.5 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all shadow-xs space-y-1.5 sm:space-y-2.5">
               <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
                 <div className="flex items-center gap-2 sm:gap-3">
                   <span className="text-base sm:text-xl font-bold font-sans text-[var(--brand-primary)]">
@@ -157,9 +157,9 @@ export function AboutFacilitiesGrid({
         return (
           <StaggerItem key={facility.title} yOffset={20}>
             <InteractiveCard hoverY={-3} className="h-full">
-              <div className="h-full p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-3 shadow-xs hover:border-[var(--brand-primary)]/60 transition-all flex flex-col justify-between">
+              <div className="h-full p-3 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-3 shadow-xs hover:border-[var(--brand-primary)]/60 transition-all flex flex-col justify-between">
                 <div className="space-y-2 sm:space-y-3">
-                  <div className="p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 border border-[var(--border)] text-[var(--brand-primary)] w-fit">
+                  <div className="p-1.5 sm:p-2.5 rounded bg-[var(--brand-primary)]/10 border border-[var(--border)] text-[var(--brand-primary)] w-fit">
                     <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <h3 className="font-bold text-xs sm:text-base text-[var(--text-primary)]">
@@ -193,8 +193,8 @@ export function AboutStrategicPillars({
     >
       <StaggerItem yOffset={20}>
         <InteractiveCard hoverY={-3} className="h-full">
-          <div className="h-full p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-4 shadow-xs">
-            <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] w-fit">
+          <div className="h-full p-4 sm:p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-4 shadow-xs">
+            <div className="p-2 sm:p-3 rounded bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] w-fit">
               <Target className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <h3 className="text-base sm:text-xl font-bold font-sans text-[var(--text-primary)]">
@@ -209,8 +209,8 @@ export function AboutStrategicPillars({
 
       <StaggerItem yOffset={20}>
         <InteractiveCard hoverY={-3} className="h-full">
-          <div className="h-full p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-4 shadow-xs">
-            <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] w-fit">
+          <div className="h-full p-4 sm:p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-4 shadow-xs">
+            <div className="p-2 sm:p-3 rounded bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] w-fit">
               <Compass className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <h3 className="text-base sm:text-xl font-bold font-sans text-[var(--text-primary)]">
@@ -225,8 +225,8 @@ export function AboutStrategicPillars({
 
       <StaggerItem yOffset={20}>
         <InteractiveCard hoverY={-3} className="h-full">
-          <div className="h-full p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-4 shadow-xs">
-            <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] w-fit">
+          <div className="h-full p-4 sm:p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-4 shadow-xs">
+            <div className="p-2 sm:p-3 rounded bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] w-fit">
               <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <h3 className="text-base sm:text-xl font-bold font-sans text-[var(--text-primary)]">

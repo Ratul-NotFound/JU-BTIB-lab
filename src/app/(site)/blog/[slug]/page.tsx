@@ -110,7 +110,7 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Editorial Cover Image */}
         {post.coverImage && (
-          <div className="relative aspect-[2/1] sm:aspect-[16/9] w-full rounded-xl sm:rounded-2xl overflow-hidden border border-[var(--border)] shadow-md">
+          <div className="relative aspect-[2/1] sm:aspect-[16/9] w-full rounded-md overflow-hidden border border-[var(--border)] shadow-md">
             <Image
               src={post.coverImage}
               alt={post.title}
@@ -138,7 +138,7 @@ export default async function BlogPostPage({ params }: Props) {
               {post.tags.map(({ tag }) => (
                 <span
                   key={tag.id}
-                  className="px-2.5 py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)]"
+                  className="px-2.5 py-1 rounded text-[11px] sm:text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)]"
                 >
                   #{tag.name}
                 </span>
@@ -159,7 +159,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <Link
                   key={r.id}
                   href={`/blog/${r.slug}`}
-                  className="p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--bio-teal)] transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
+                  className="p-4 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--bio-teal)] transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
                 >
                   <div className="space-y-1.5 sm:space-y-2">
                     <span className="text-[11px] sm:text-xs font-mono text-[var(--text-muted)]">

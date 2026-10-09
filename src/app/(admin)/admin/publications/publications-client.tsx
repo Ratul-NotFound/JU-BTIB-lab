@@ -296,7 +296,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
       >
         <form onSubmit={handleSubmit} className="space-y-4 max-h-[75vh] overflow-y-auto px-1">
           {/* DOI Magic Auto-Fill Helper Bar */}
-          <div className="p-3.5 rounded-xl border border-[var(--brand-primary)]/30 bg-[var(--brand-primary-subtle)] space-y-2">
+          <div className="p-3.5 rounded-md border border-[var(--brand-primary)]/30 bg-[var(--brand-primary-subtle)] space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-xs font-mono font-bold text-[var(--brand-primary)] flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5" />

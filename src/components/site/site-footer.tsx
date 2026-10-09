@@ -105,7 +105,7 @@ export function SiteFooter() {
               href="https://juniv.edu"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2.5 sm:gap-3 p-2 sm:p-3 rounded-xl border border-slate-800/90 bg-white/[0.03] hover:bg-white/[0.07] hover:border-[var(--brand-primary)]/50 transition-all shadow-xs"
+              className="group flex items-center gap-2.5 sm:gap-3 p-2 sm:p-3 rounded-md border border-slate-800/90 bg-white/[0.03] hover:bg-white/[0.07] hover:border-[var(--brand-primary)]/50 transition-all shadow-xs"
             >
               <div className="relative w-6 h-6 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center">
                 <Image

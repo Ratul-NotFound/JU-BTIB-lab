@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 export default function NotFound() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
-      <div className="max-w-md w-full p-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] text-center space-y-6 shadow-xs">
+      <div className="max-w-md w-full p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] text-center space-y-6 shadow-xs">
         <div className="w-16 h-16 mx-auto relative flex items-center justify-center">
           <Image
             src="/images/btib-logo.png"
@@ -40,7 +40,7 @@ export default function NotFound() {
         <div className="pt-2">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-mono font-semibold bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white shadow-xs transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md text-xs font-mono font-semibold bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white shadow-xs transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Laboratory Home</span>

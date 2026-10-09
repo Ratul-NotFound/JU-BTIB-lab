@@ -120,10 +120,10 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
   return (
     <div className="space-y-6">
       {/* 1. Header Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 sm:p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1.5">
+            <span className="px-3 py-1 rounded-md text-xs font-mono font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1.5">
               <FileCheck2 className="w-3.5 h-3.5" />
               <span>Departmental Activity Tracer</span>
             </span>
@@ -143,7 +143,7 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
         </div>
 
         {pendingCount > 0 && (
-          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center gap-3 shrink-0">
+          <div className="p-4 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center gap-3 shrink-0">
             <AlertCircle className="w-5 h-5 shrink-0" />
             <div className="text-xs">
               <span className="font-bold">{pendingCount} log(s)</span> await your supervisor signature.
@@ -154,7 +154,7 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
 
       {message && (
         <div
-          className={`p-4 rounded-2xl border text-sm flex items-center gap-3 ${
+          className={`p-4 rounded-md border text-sm flex items-center gap-3 ${
             message.type === "success"
               ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-300"
               : "bg-red-500/10 border-red-500/20 text-red-600"
@@ -170,7 +170,7 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
       )}
 
       {/* 2. Search & Filter Bar */}
-      <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]" />
           <Input
@@ -192,7 +192,7 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
               <button
                 key={filter}
                 onClick={() => setStatusFilter(filter)}
-                className={`px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-md text-xs font-mono font-medium transition-all ${
                   statusFilter === filter
                     ? "bg-purple-600 text-white shadow-xs"
                     : "bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border)]"
@@ -207,7 +207,7 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
 
       {/* 3. Log Records Stream */}
       {filteredLogs.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl border border-dashed border-[var(--border)] bg-[var(--surface)]/50 space-y-3">
+        <div className="p-12 text-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)]/50 space-y-3">
           <FileCheck2 className="w-10 h-10 text-[var(--text-secondary)] mx-auto opacity-40" />
           <p className="text-sm font-semibold text-[var(--text-primary)]">No matching research logs</p>
           <p className="text-xs text-[var(--text-secondary)]">
@@ -227,12 +227,12 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
             return (
               <div
                 key={log.id}
-                className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-purple-500/30 transition-all space-y-4 shadow-2xs"
+                className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-purple-500/30 transition-all space-y-4 shadow-2xs"
               >
                 {/* Scholar & Meta Bar */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center font-bold text-sm shrink-0">
+                    <div className="w-10 h-10 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center font-bold text-sm shrink-0">
                       <GraduationCap className="w-5 h-5" />
                     </div>
                     <div>
@@ -266,7 +266,7 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
                     </div>
 
                     {isVerified ? (
-                      <div className="px-3 py-1.5 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5 shrink-0">
+                      <div className="px-3 py-1.5 rounded text-xs font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5 shrink-0">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         <span>Signed by {log.verifiedBy || "Supervisor"}</span>
                       </div>
@@ -274,7 +274,7 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
                       <Button
                         onClick={() => handleSignOff(log.id)}
                         disabled={signingId === log.id}
-                        className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-4 py-2 rounded-full font-medium flex items-center gap-1.5 shadow-xs shrink-0"
+                        className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-4 py-2 rounded-md font-medium flex items-center gap-1.5 shadow-xs shrink-0"
                       >
                         <Check className="w-3.5 h-3.5" />
                         <span>{signingId === log.id ? "Signing..." : "Verify & Sign Off"}</span>
@@ -296,7 +296,7 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                    <div className="p-3.5 rounded-xl bg-[var(--surface-raised)]/60 border border-[var(--border)] space-y-1">
+                    <div className="p-3.5 rounded-md bg-[var(--surface-raised)]/60 border border-[var(--border)] space-y-1">
                       <span className="font-semibold uppercase tracking-wider text-[10px] text-[var(--text-secondary)]">
                         Protocol & Methodology:
                       </span>
@@ -305,7 +305,7 @@ export function ActivityTracerClient({ logs: initialLogs, facultyName }: Activit
                       </p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-[var(--surface-raised)]/60 border border-[var(--border)] space-y-1">
+                    <div className="p-3.5 rounded-md bg-[var(--surface-raised)]/60 border border-[var(--border)] space-y-1">
                       <span className="font-semibold uppercase tracking-wider text-[10px] text-[var(--text-secondary)]">
                         Key Observations & Findings:
                       </span>

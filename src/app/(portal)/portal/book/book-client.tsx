@@ -40,6 +40,8 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
   const [endTimeStr, setEndTimeStr] = React.useState("13:00");
   const [purpose, setPurpose] = React.useState("");
   const [samples, setSamples] = React.useState("");
+  const [plannedConditions, setPlannedConditions] = React.useState("");
+  const [wasteNotes, setWasteNotes] = React.useState("");
 
   // Concurrency check state
   const [checking, setChecking] = React.useState(false);
@@ -54,6 +56,18 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
   const [confirmedBooking, setConfirmedBooking] = React.useState(false);
 
   const selectedEquipment = equipmentList.find((e) => e.id === selectedEquipmentId);
+
+  // Calculate duration in hours
+  const plannedDurationHours = React.useMemo(() => {
+    try {
+      const s = new Date(`${bookingDate}T${startTimeStr}:00`).getTime();
+      const e = new Date(`${bookingDate}T${endTimeStr}:00`).getTime();
+      if (isNaN(s) || isNaN(e) || e <= s) return null;
+      return Math.round(((e - s) / (1000 * 60 * 60)) * 10) / 10;
+    } catch {
+      return null;
+    }
+  }, [bookingDate, startTimeStr, endTimeStr]);
 
   // Debounced real-time cross-check
   React.useEffect(() => {
@@ -106,6 +120,8 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
         endTime: new Date(`${bookingDate}T${endTimeStr}:00`).toISOString(),
         purpose,
         samples,
+        plannedConditions,
+        wasteNotes,
       });
 
       if (!res.success) {
@@ -122,13 +138,13 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
 
   if (confirmedBooking) {
     return (
-      <div className="p-8 sm:p-12 rounded-3xl border border-emerald-500/30 bg-emerald-500/5 text-center space-y-6 max-w-xl mx-auto shadow-lg">
-        <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
+      <div className="p-8 sm:p-12 rounded-md border border-emerald-500/30 bg-emerald-500/5 text-center space-y-6 max-w-xl mx-auto shadow-lg">
+        <div className="w-16 h-16 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
           <CheckCircle2 className="w-10 h-10" />
         </div>
 
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs font-mono font-bold bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Instant Auto-Confirmation</span>
           </div>
@@ -140,7 +156,7 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
           </p>
         </div>
 
-        <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-left text-xs space-y-2 font-mono">
+        <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] text-left text-xs space-y-2 font-mono">
           <div className="flex justify-between">
             <span className="text-[var(--text-muted)]">Instrument:</span>
             <span className="font-bold text-[var(--text-primary)]">{selectedEquipment?.name}</span>
@@ -152,13 +168,19 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
           <div className="flex justify-between">
             <span className="text-[var(--text-muted)]">Time:</span>
             <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-              {startTimeStr} - {endTimeStr}
+              {startTimeStr} - {endTimeStr} {plannedDurationHours ? `(${plannedDurationHours} hrs)` : ""}
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-[var(--text-muted)]">Purpose:</span>
             <span className="text-[var(--text-secondary)] truncate max-w-[240px]">{purpose}</span>
           </div>
+          {plannedConditions && (
+            <div className="flex justify-between">
+              <span className="text-[var(--text-muted)]">Conditions:</span>
+              <span className="text-[var(--text-secondary)] truncate max-w-[240px]">{plannedConditions}</span>
+            </div>
+          )}
           <div className="flex justify-between">
             <span className="text-[var(--text-muted)]">Booking Status:</span>
             <span className="text-emerald-600 dark:text-emerald-400 font-bold">CONFIRMED (LOCKED)</span>
@@ -168,7 +190,7 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <Link
             href="/portal"
-            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white text-xs font-bold transition-all shadow-sm"
+            className="w-full sm:w-auto px-6 py-3 rounded-md bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white text-xs font-bold transition-all shadow-sm"
           >
             Go to My Dashboard
           </Link>
@@ -178,8 +200,10 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
               setConfirmedBooking(false);
               setPurpose("");
               setSamples("");
+              setPlannedConditions("");
+              setWasteNotes("");
             }}
-            className="w-full sm:w-auto px-5 py-3 rounded-xl bg-[var(--surface-raised)] hover:bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-semibold border border-[var(--border)] transition-all"
+            className="w-full sm:w-auto px-5 py-3 rounded-md bg-[var(--surface-raised)] hover:bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-semibold border border-[var(--border)] transition-all"
           >
             Book Another Slot
           </button>
@@ -191,7 +215,7 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {error && (
-        <div className="p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-xs text-red-600 dark:text-red-400 flex items-start gap-2.5">
+        <div className="p-4 rounded-md border border-red-500/30 bg-red-500/10 text-xs text-red-600 dark:text-red-400 flex items-start gap-2.5">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
           <span className="leading-relaxed">{error}</span>
         </div>
@@ -207,7 +231,7 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
         <select
           value={selectedEquipmentId}
           onChange={(e) => setSelectedEquipmentId(e.target.value)}
-          className="w-full h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-xs sm:text-sm font-semibold text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+          className="w-full h-11 px-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] text-xs sm:text-sm font-semibold text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
         >
           {equipmentList.map((eq) => (
             <option key={eq.id} value={eq.id}>
@@ -217,8 +241,8 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
         </select>
 
         {selectedEquipment && (
-          <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)]/50 flex items-center gap-4 text-xs">
-            <div className="w-14 h-14 rounded-xl border border-[var(--border)] bg-[var(--surface)] relative overflow-hidden shrink-0 flex items-center justify-center">
+          <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]/50 flex items-center gap-4 text-xs">
+            <div className="w-14 h-14 rounded border border-[var(--border)] bg-[var(--surface)] relative overflow-hidden shrink-0 flex items-center justify-center">
               {selectedEquipment.imageUrl ? (
                 <Image
                   src={selectedEquipment.imageUrl}
@@ -278,7 +302,7 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
               value={bookingDate}
               onChange={(e) => setBookingDate(e.target.value)}
               disabled={submitting}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
 
@@ -290,7 +314,7 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
               value={startTimeStr}
               onChange={(e) => setStartTimeStr(e.target.value)}
               disabled={submitting}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
 
@@ -302,14 +326,24 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
               value={endTimeStr}
               onChange={(e) => setEndTimeStr(e.target.value)}
               disabled={submitting}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
         </div>
 
+        {/* Planned Duration indicator */}
+        {plannedDurationHours && plannedDurationHours > 0 ? (
+          <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)] bg-[var(--surface-raised)]/70 px-3 py-2 rounded-md border border-[var(--border)]">
+            <Clock className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+            <span>
+              Planned Instrument Runtime: <strong className="text-[var(--text-primary)]">{plannedDurationHours} hours</strong>
+            </span>
+          </div>
+        ) : null}
+
         {/* Conflict Warning Box */}
         {availabilityState.checked && !availabilityState.available && (
-          <div className="p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-xs text-red-600 dark:text-red-400 flex items-start gap-2.5">
+          <div className="p-4 rounded-md border border-red-500/30 bg-red-500/10 text-xs text-red-600 dark:text-red-400 flex items-start gap-2.5">
             <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
             <div className="space-y-0.5">
               <span className="font-bold block">Scheduling Conflict Detected</span>
@@ -334,7 +368,7 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
             value={purpose}
             onChange={(e) => setPurpose(e.target.value)}
             disabled={submitting}
-            className="h-10 rounded-xl"
+            className="h-10 rounded-md"
           />
         </div>
 
@@ -347,22 +381,50 @@ export function BookEquipmentClient({ equipmentList }: { equipmentList: Equipmen
             value={samples}
             onChange={(e) => setSamples(e.target.value)}
             disabled={submitting}
-            className="min-h-[80px] rounded-xl text-xs"
+            className="min-h-[70px] rounded-md text-xs"
           />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono text-[var(--text-secondary)]">
+              Planned Operating Parameters (Optional)
+            </label>
+            <Input
+              placeholder="e.g. 37°C incubation, 12,000 RPM, UV 600nm scan"
+              value={plannedConditions}
+              onChange={(e) => setPlannedConditions(e.target.value)}
+              disabled={submitting}
+              className="h-10 rounded-md text-xs"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono text-[var(--text-secondary)]">
+              Hazard / Bio-Waste Disposal Plan (Optional)
+            </label>
+            <Input
+              placeholder="e.g. Autoclaved before disposal, neutralized in bio-bin"
+              value={wasteNotes}
+              onChange={(e) => setWasteNotes(e.target.value)}
+              disabled={submitting}
+              className="h-10 rounded-md text-xs"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-xs text-[var(--text-secondary)] flex items-start gap-2.5">
+      <div className="p-4 rounded-md border border-emerald-500/20 bg-emerald-500/5 text-xs text-[var(--text-secondary)] flex items-start gap-2.5">
         <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
         <span className="leading-relaxed font-light">
-          <strong>Instant Auto-Booking Policy:</strong> If the slot is conflict-free, your booking is confirmed automatically. You will receive an official reservation code to present upon entering the laboratory.
+          <strong>Instant Auto-Booking Policy:</strong> If the slot is conflict-free, your booking is confirmed automatically. After your session, update what work was accomplished so your supervisor can verify your machine hours.
         </span>
       </div>
 
       <Button
         type="submit"
         disabled={submitting || (availabilityState.checked && !availabilityState.available)}
-        className="w-full h-11 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white font-bold transition-all shadow-md disabled:opacity-50"
+        className="w-full h-11 rounded-md bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white font-bold transition-all shadow-md disabled:opacity-50"
         isLoading={submitting}
       >
         <Sparkles className="w-4 h-4 mr-2" />

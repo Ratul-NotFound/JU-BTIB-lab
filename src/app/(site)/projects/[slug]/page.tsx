@@ -50,7 +50,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       </div>
 
       {/* Hero Header */}
-      <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-4 sm:space-y-6 shadow-xs">
+      <section className="p-4 sm:p-8 lg:p-12 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-4 sm:space-y-6 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-4">
           <div className="flex items-center gap-2">
             <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md text-[10px] sm:text-xs font-mono font-semibold bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/30">
@@ -79,7 +79,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
         {/* Metadata stats bar */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 pt-3 sm:pt-4 border-t border-[var(--border)]">
-          <div className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+          <div className="p-2.5 sm:p-4 rounded border border-[var(--border)] bg-[var(--surface-raised)]">
             <span className="text-[10px] sm:text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               Funding Agency
             </span>
@@ -88,7 +88,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <div className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+          <div className="p-2.5 sm:p-4 rounded border border-[var(--border)] bg-[var(--surface-raised)]">
             <span className="text-[10px] sm:text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               Research Status
             </span>
@@ -97,7 +97,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <div className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] col-span-2 sm:col-span-1">
+          <div className="p-2.5 sm:p-4 rounded border border-[var(--border)] bg-[var(--surface-raised)] col-span-2 sm:col-span-1">
             <span className="text-[10px] sm:text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               Institution
             </span>
@@ -134,7 +134,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       {/* Linked Team Members & Research Areas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Research Areas */}
-        <div className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-4 shadow-xs">
+        <div className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-4 shadow-xs">
           <div className="flex items-center gap-2">
             <Layers className="w-4 h-4 text-[var(--bio-teal)]" />
             <h2 className="text-base font-bold text-[var(--text-primary)]">
@@ -147,7 +147,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               <Link
                 key={researchArea.id}
                 href={`/research/${researchArea.slug}`}
-                className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] hover:border-[var(--bio-teal)] transition-colors flex items-center justify-between text-xs group"
+                className="p-3.5 rounded border border-[var(--border)] bg-[var(--surface-raised)] hover:border-[var(--bio-teal)] transition-colors flex items-center justify-between text-xs group"
               >
                 <span className="font-semibold text-[var(--text-primary)] group-hover:text-[var(--bio-teal)]">
                   {researchArea.title}
@@ -159,7 +159,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         </div>
 
         {/* Project Investigators */}
-        <div className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-4 shadow-xs">
+        <div className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-4 shadow-xs">
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4 text-[var(--bio-teal)]" />
             <h2 className="text-base font-bold text-[var(--text-primary)]">
@@ -173,7 +173,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <Link
                   key={teamMember.id}
                   href={`/team/${teamMember.slug}`}
-                  className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] hover:border-[var(--bio-teal)] transition-colors flex items-center justify-between text-xs group"
+                  className="p-3.5 rounded border border-[var(--border)] bg-[var(--surface-raised)] hover:border-[var(--bio-teal)] transition-colors flex items-center justify-between text-xs group"
                 >
                   <span className="font-semibold text-[var(--text-primary)] group-hover:text-[var(--bio-teal)]">
                     {teamMember.name}

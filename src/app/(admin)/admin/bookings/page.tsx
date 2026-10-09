@@ -27,15 +27,13 @@ export default async function AdminBookingsPage() {
 
   const [floorSessions, scheduleRes] = await Promise.all([
     getActiveLabFloorActivity(),
-    getMasterScheduleAction(),
+    getMasterScheduleAction({ includeCancelled: true }),
   ]);
-
-  type BookingsProps = React.ComponentProps<typeof BookingsAdminClient>;
 
   return (
     <BookingsAdminClient
-      initialFloor={floorSessions as unknown as BookingsProps["initialFloor"]}
-      initialBookings={(scheduleRes.bookings || []) as unknown as BookingsProps["initialBookings"]}
+      initialFloor={floorSessions as unknown as React.ComponentProps<typeof BookingsAdminClient>["initialFloor"]}
+      initialBookings={(scheduleRes.bookings || []) as unknown as React.ComponentProps<typeof BookingsAdminClient>["initialBookings"]}
     />
   );
 }

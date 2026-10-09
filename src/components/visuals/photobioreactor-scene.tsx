@@ -21,7 +21,7 @@ export function PhotobioreactorScene() {
   }, []);
 
   return (
-    <div className="relative rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 overflow-hidden">
+    <div className="relative rounded-md border border-[var(--border)] bg-[var(--surface)] p-6 overflow-hidden">
       {/* Background ambient glow */}
       <div className="absolute top-0 right-0 w-72 h-72 bg-[var(--bio-teal)]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -47,7 +47,7 @@ export function PhotobioreactorScene() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Photobioreactor Column Diagram */}
         <div className="lg:col-span-5 flex justify-center">
-          <div className="relative w-48 h-80 rounded-3xl border-2 border-[var(--border-strong)] bg-gradient-to-b from-teal-950/20 via-emerald-900/30 to-teal-900/40 backdrop-blur-sm p-2 flex flex-col justify-between shadow-inner">
+          <div className="relative w-48 h-80 rounded-md border-2 border-[var(--border-strong)] bg-gradient-to-b from-teal-950/20 via-emerald-900/30 to-teal-900/40 backdrop-blur-sm p-2 flex flex-col justify-between shadow-inner">
             {/* Top sparger / gas outlet manifold */}
             <div className="w-full flex justify-between items-center px-3 py-1 border-b border-[var(--border)] text-[9px] font-mono text-[var(--text-muted)]">
               <span>O₂ PURGE</span>
@@ -71,7 +71,7 @@ export function PhotobioreactorScene() {
               ))}
 
               {/* Central fluid core representation */}
-              <div className="absolute inset-x-4 inset-y-6 rounded-2xl bg-gradient-to-t from-[var(--bio-teal)]/25 to-cyan-500/15 border border-[var(--bio-teal)]/30 flex items-center justify-center">
+              <div className="absolute inset-x-4 inset-y-6 rounded bg-gradient-to-t from-[var(--bio-teal)]/25 to-cyan-500/15 border border-[var(--bio-teal)]/30 flex items-center justify-center">
                 <span className="text-[10px] font-mono text-[var(--bio-teal)] font-semibold rotate-90 tracking-widest uppercase opacity-80 select-none">
                   Chlorella vulgaris
                 </span>
@@ -96,7 +96,7 @@ export function PhotobioreactorScene() {
           </p>
 
           <div className="grid grid-cols-2 gap-3 pt-2">
-            <div className="p-3.5 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
+            <div className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
               <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-muted)]">
                 <Wind className="w-3.5 h-3.5 text-[var(--bio-cyan)]" />
                 <span>Working Volume</span>
@@ -107,7 +107,7 @@ export function PhotobioreactorScene() {
               <p className="text-[11px] text-[var(--text-muted)]">Continuous pneumatic loop</p>
             </div>
 
-            <div className="p-3.5 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
+            <div className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
               <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-muted)]">
                 <SunMedium className="w-3.5 h-3.5 text-amber-500" />
                 <span>PAR Efficiency</span>
@@ -118,7 +118,7 @@ export function PhotobioreactorScene() {
               <p className="text-[11px] text-[var(--text-muted)]">Photosynthetic irradiance</p>
             </div>
 
-            <div className="p-3.5 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
+            <div className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
               <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-muted)]">
                 <Sparkles className="w-3.5 h-3.5 text-[var(--bio-teal)]" />
                 <span>Carbon Fixation</span>
@@ -129,7 +129,7 @@ export function PhotobioreactorScene() {
               <p className="text-[11px] text-[var(--text-muted)]">Equivalent to adult tree</p>
             </div>
 
-            <div className="p-3.5 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
+            <div className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
               <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-muted)]">
                 <Activity className="w-3.5 h-3.5 text-emerald-500" />
                 <span>Biomass Coproduct</span>

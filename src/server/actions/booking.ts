@@ -12,6 +12,8 @@ const bookEquipmentSchema = z.object({
   endTime: z.string().datetime("Valid end time required"),
   purpose: z.string().min(5, "Please state the experiment / thesis objective"),
   samples: z.string().optional(),
+  plannedConditions: z.string().optional(),
+  wasteNotes: z.string().optional(),
 });
 
 export type BookEquipmentInput = z.infer<typeof bookEquipmentSchema>;
@@ -144,6 +146,18 @@ export async function autoBookEquipmentAction(input: BookEquipmentInput) {
     }
 
     // 3. Atomically create confirmed booking
+    let finalPurpose = validated.purpose.trim();
+    if (validated.plannedConditions?.trim()) {
+      finalPurpose += `\n[Conditions: ${validated.plannedConditions.trim()}]`;
+    }
+
+    let finalSamples = validated.samples?.trim() || null;
+    if (validated.wasteNotes?.trim()) {
+      finalSamples = finalSamples
+        ? `${finalSamples} | Waste: ${validated.wasteNotes.trim()}`
+        : `Waste: ${validated.wasteNotes.trim()}`;
+    }
+
     const booking = await db.equipmentBooking.create({
       data: {
         equipmentId: validated.equipmentId,
@@ -151,8 +165,8 @@ export async function autoBookEquipmentAction(input: BookEquipmentInput) {
         facultyProfileId,
         startTime: start,
         endTime: end,
-        purpose: validated.purpose.trim(),
-        samples: validated.samples?.trim() || null,
+        purpose: finalPurpose,
+        samples: finalSamples,
         status: BookingStatus.CONFIRMED,
       },
       include: {
@@ -259,17 +273,23 @@ export async function getActiveLabFloorActivity() {
 }
 
 /**
- * Master Timetable Query:
- * Returns all bookings for a given date or equipment.
+ * Master Timetable & Equipment Booking History Query:
+ * Returns all bookings with reserver info, equipment info, and post-run experiment logs.
  */
 export async function getMasterScheduleAction(options?: {
   date?: string;
   equipmentId?: string;
+  status?: BookingStatus | "ALL";
+  includeCancelled?: boolean;
 }) {
   try {
-    const where: Prisma.EquipmentBookingWhereInput = {
-      status: { in: [BookingStatus.CONFIRMED, BookingStatus.IN_PROGRESS, BookingStatus.COMPLETED] },
-    };
+    const where: Prisma.EquipmentBookingWhereInput = {};
+
+    if (options?.status && options.status !== "ALL") {
+      where.status = options.status;
+    } else if (!options?.includeCancelled) {
+      where.status = { in: [BookingStatus.CONFIRMED, BookingStatus.IN_PROGRESS, BookingStatus.COMPLETED] };
+    }
 
     if (options?.equipmentId) {
       where.equipmentId = options.equipmentId;
@@ -285,10 +305,15 @@ export async function getMasterScheduleAction(options?: {
     const bookings = await db.equipmentBooking.findMany({
       where,
       include: {
-        equipment: { select: { id: true, name: true, category: true } },
+        equipment: { select: { id: true, name: true, category: true, imageUrl: true } },
         studentProfile: {
           include: {
             user: { select: { name: true, email: true } },
+            supervisor: {
+              include: {
+                user: { select: { name: true } },
+              },
+            },
           },
         },
         facultyProfile: {
@@ -296,13 +321,214 @@ export async function getMasterScheduleAction(options?: {
             user: { select: { name: true, email: true } },
           },
         },
+        experimentLog: {
+          include: {
+            faculty: {
+              include: {
+                user: { select: { name: true } },
+              },
+            },
+          },
+        },
       },
-      orderBy: { startTime: "asc" },
+      orderBy: { startTime: "desc" },
     });
 
     return { success: true, bookings };
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Failed to fetch master schedule.";
+    return { success: false, error: msg };
+  }
+}
+
+/**
+ * Post-Session Run Log Update:
+ * Allows a scholar or booker to record what they actually executed during their booked time window.
+ * Saves directly into their academic profile and links to the booking.
+ */
+const postRunLogSchema = z.object({
+  bookingId: z.string().min(1, "Booking ID is required"),
+  title: z.string().min(3, "Experiment / run title is required"),
+  protocolSummary: z.string().min(10, "Please summarize the laboratory protocol executed"),
+  observations: z.string().optional(),
+  actualHoursUsed: z.number().min(0.1, "Please enter hours used"),
+  cleanupNotes: z.string().optional(),
+});
+
+export type PostRunLogInput = z.infer<typeof postRunLogSchema>;
+
+export async function updateBookingPostRunLogAction(input: PostRunLogInput) {
+  try {
+    const user = await requireAuth();
+    const validated = postRunLogSchema.parse(input);
+
+    const booking = await db.equipmentBooking.findUnique({
+      where: { id: validated.bookingId },
+      include: {
+        equipment: { select: { id: true, name: true } },
+        studentProfile: true,
+        facultyProfile: true,
+        experimentLog: true,
+      },
+    });
+
+    if (!booking) {
+      return { success: false, error: "Booking record not found." };
+    }
+
+    const isStudentAuthor = booking.studentProfile?.userId === user.id;
+    const isFacultyAuthor = booking.facultyProfile?.userId === user.id;
+    const isAdmin = user.role === Role.SUPER_ADMIN || user.role === Role.EDITOR;
+
+    if (!isStudentAuthor && !isFacultyAuthor && !isAdmin) {
+      return { success: false, error: "You are not authorized to update this session log." };
+    }
+
+    // Determine studentProfileId
+    let studentProfileId = booking.studentProfileId;
+    if (!studentProfileId) {
+      let profile = await db.studentProfile.findFirst({
+        where: { userId: user.id },
+      });
+      if (!profile && isAdmin) {
+        const faculty = await db.facultyProfile.findFirst();
+        profile = await db.studentProfile.create({
+          data: {
+            userId: user.id,
+            studentId: "ADM-" + user.id.slice(-6).toUpperCase(),
+            program: "PHD",
+            department: "Department of Biotechnology & Genetic Engineering",
+            institution: "Jahangirnagar University",
+            sessionYear: "2023-2024",
+            batch: "Lead Investigator",
+            phone: "+880 1700-000000",
+            supervisorId: faculty?.id || null,
+            status: BookingStatus.CONFIRMED === "CONFIRMED" ? "ACTIVE" : "ACTIVE",
+            thesisTitle: "Advanced Bioprocess Engineering & Lab Instrumentation",
+          },
+        });
+      }
+      studentProfileId = profile?.id || null;
+      if (studentProfileId) {
+        await db.equipmentBooking.update({
+          where: { id: booking.id },
+          data: { studentProfileId },
+        });
+      }
+    }
+
+    // Prepare observations with optional cleanup notes
+    let fullObservations = validated.observations?.trim() || "";
+    if (validated.cleanupNotes?.trim()) {
+      fullObservations += fullObservations
+        ? `\n\n[Post-Run Maintenance & Cleanup]: ${validated.cleanupNotes.trim()}`
+        : `[Post-Run Maintenance & Cleanup]: ${validated.cleanupNotes.trim()}`;
+    }
+
+    // Upsert linked ExperimentLog
+    let experimentLog;
+    if (booking.experimentLog) {
+      experimentLog = await db.experimentLog.update({
+        where: { id: booking.experimentLog.id },
+        data: {
+          title: validated.title.trim(),
+          protocolSummary: validated.protocolSummary.trim(),
+          observations: fullObservations || null,
+          actualHoursUsed: validated.actualHoursUsed,
+          dateConducted: new Date(),
+        },
+      });
+    } else if (studentProfileId) {
+      experimentLog = await db.experimentLog.create({
+        data: {
+          studentProfileId,
+          bookingId: booking.id,
+          equipmentId: booking.equipmentId,
+          title: validated.title.trim(),
+          protocolSummary: validated.protocolSummary.trim(),
+          observations: fullObservations || null,
+          actualHoursUsed: validated.actualHoursUsed,
+          dateConducted: new Date(),
+        },
+      });
+    }
+
+    // Update booking status to COMPLETED
+    const updatedBooking = await db.equipmentBooking.update({
+      where: { id: booking.id },
+      data: { status: BookingStatus.COMPLETED },
+    });
+
+    await db.auditLog.create({
+      data: {
+        userId: user.id,
+        userName: user.name,
+        userEmail: user.email,
+        action: "UPDATE",
+        entity: "EquipmentBooking",
+        entityId: booking.id,
+        details: {
+          action: "POST_RUN_LOG_SUBMITTED",
+          title: validated.title,
+          actualHoursUsed: validated.actualHoursUsed,
+          instrumentName: booking.equipment.name,
+        },
+      },
+    });
+
+    revalidatePath("/portal");
+    revalidatePath("/portal/book");
+    revalidatePath("/portal/history");
+    revalidatePath("/admin/bookings");
+    revalidatePath("/admin");
+    revalidatePath("/faculty");
+
+    return {
+      success: true,
+      message: "Post-slot experiment run log saved successfully and recorded in your research dossier.",
+      booking: updatedBooking,
+      experimentLog,
+    };
+  } catch (error: unknown) {
+    console.error("Update post run log error:", error);
+    if (error instanceof z.ZodError) {
+      return { success: false, error: error.errors[0]?.message || "Validation error." };
+    }
+    const msg = error instanceof Error ? error.message : "Failed to record post-run log.";
+    return { success: false, error: msg };
+  }
+}
+
+/**
+ * Admin: Update booking status & administrative notes
+ */
+export async function updateBookingAdminAction(input: {
+  bookingId: string;
+  status: BookingStatus;
+  adminNotes?: string;
+}) {
+  try {
+    const user = await requireAuth();
+    if (user.role !== Role.SUPER_ADMIN && user.role !== Role.EDITOR) {
+      return { success: false, error: "Administrative privileges required." };
+    }
+
+    const updated = await db.equipmentBooking.update({
+      where: { id: input.bookingId },
+      data: {
+        status: input.status,
+        adminNotes: input.adminNotes !== undefined ? input.adminNotes.trim() : undefined,
+      },
+    });
+
+    revalidatePath("/portal");
+    revalidatePath("/portal/book");
+    revalidatePath("/portal/history");
+    revalidatePath("/admin/bookings");
+
+    return { success: true, message: "Booking record updated.", booking: updated };
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : "Failed to update booking.";
     return { success: false, error: msg };
   }
 }

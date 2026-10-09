@@ -192,7 +192,7 @@ export function FullscreenHero({
           >
             <Link
               href="/research"
-              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-shadow"
+              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-md text-xs sm:text-sm font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-shadow"
             >
               <span>Explore Research</span>
               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -205,7 +205,7 @@ export function FullscreenHero({
           >
             <Link
               href="/publications"
-              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold border border-white/20 bg-white/10 hover:bg-white/15 text-white backdrop-blur-md transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-md text-xs sm:text-sm font-semibold border border-white/20 bg-white/10 hover:bg-white/15 text-white backdrop-blur-md transition-colors"
             >
               <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
               <span>Publications</span>

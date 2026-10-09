@@ -29,7 +29,7 @@ const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/faculty", label: "Faculty Directory", icon: GraduationCap },
   { href: "/admin/students", label: "Student Scholars", icon: UserCheck },
-  { href: "/admin/bookings", label: "Bookings & Floor", icon: Clock },
+  { href: "/admin/bookings", label: "Equipment Bookings", icon: Clock },
   { href: "/admin/equipment", label: "Equipment & Instruments", icon: Sliders },
   { href: "/admin/research-areas", label: "Research Areas", icon: FlaskConical },
   { href: "/admin/projects", label: "Projects", icon: FolderGit2 },

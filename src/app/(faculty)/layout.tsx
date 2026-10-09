@@ -31,7 +31,7 @@ export default async function FacultyLayout({
         <div className="flex items-center gap-4">
           <Link
             href="/"
-            className="text-[var(--text-muted)] hover:text-[var(--text-primary)] p-1.5 rounded-lg hover:bg-[var(--surface-raised)] transition-colors"
+            className="text-[var(--text-muted)] hover:text-[var(--text-primary)] p-1.5 rounded-md hover:bg-[var(--surface-raised)] transition-colors"
             title="Return to Public Site"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -52,7 +52,7 @@ export default async function FacultyLayout({
                 <span className="font-bold text-sm tracking-tight text-[var(--text-primary)]">
                   BTIB Lab
                 </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
                   FACULTY PORTAL
                 </span>
               </div>

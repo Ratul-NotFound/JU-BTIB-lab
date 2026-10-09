@@ -65,7 +65,7 @@ export function Dialog({
       {/* Dialog Window */}
       <div
         className={clsx(
-          "relative z-10 w-full rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6 shadow-2xl animate-in fade-in-0 zoom-in-95 max-h-[90vh] flex flex-col overflow-hidden",
+          "relative z-10 w-full rounded-md border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6 shadow-2xl animate-in fade-in-0 zoom-in-95 max-h-[90vh] flex flex-col overflow-hidden",
           SIZE_CLASSES[size || "lg"],
           className
         )}
@@ -84,7 +84,7 @@ export function Dialog({
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="rounded-lg p-1.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)] transition-colors"
+            className="rounded-md p-1.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)] transition-colors"
             aria-label="Close dialog"
           >
             <X className="w-4 h-4" />

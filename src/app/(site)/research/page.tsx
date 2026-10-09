@@ -121,15 +121,15 @@ export default async function ResearchPage() {
 
         {/* Scope Indicators Strip */}
         <div className="pt-1 sm:pt-2 flex flex-wrap gap-2 sm:gap-3 text-[11px] sm:text-xs font-mono text-[var(--text-muted)]">
-          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface)]">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded border border-[var(--border)] bg-[var(--surface)]">
             <Atom className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--bio-teal)]" />
             <span>8 Scientific Divisions</span>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface)]">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded border border-[var(--border)] bg-[var(--surface)]">
             <FlaskConical className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--bio-teal)]" />
             <span>Pilot Bioprocess Facility</span>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface)]">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded border border-[var(--border)] bg-[var(--surface)]">
             <Dna className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--bio-teal)]" />
             <span>Translational Bioresources</span>
           </div>
@@ -137,11 +137,11 @@ export default async function ResearchPage() {
       </section>
 
       {/* 2. Flagship Innovation Spotlight Banner */}
-      <section className="p-4 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs">
+      <section className="p-4 sm:p-8 lg:p-10 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-7 space-y-3 sm:space-y-4">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/30">
+              <span className="px-2.5 py-0.5 rounded text-[11px] sm:text-xs font-semibold bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/30">
                 Flagship Research Initiative
               </span>
               <span className="text-[11px] sm:text-xs text-[var(--text-muted)] font-medium">
@@ -171,7 +171,7 @@ export default async function ResearchPage() {
             <div className="pt-1 sm:pt-2">
               <Link
                 href="/projects/liquid-tree-photobioreactor"
-                className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+                className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
               >
                 <span>Read Full Technical Dossier</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -179,7 +179,7 @@ export default async function ResearchPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative aspect-[2.1/1] sm:aspect-[16/10] rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-xs">
+          <div className="lg:col-span-5 relative aspect-[2.1/1] sm:aspect-[16/10] rounded-md overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-xs">
             <Image
               src="/images/domains/algae-carbon.jpg"
               alt="Liquid-Tree photobioreactor column in Savar"
@@ -188,7 +188,7 @@ export default async function ResearchPage() {
               sizes="(max-width: 1024px) 100vw, 500px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 text-[10px] sm:text-xs text-white bg-black/60 backdrop-blur-md px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg border border-white/15">
+            <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 text-[10px] sm:text-xs text-white bg-black/60 backdrop-blur-md px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded border border-white/15">
               <span>Operational Unit #01 · Savar Campus</span>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default async function ResearchPage() {
               <Link
                 key={area.id}
                 href={`/research/${area.slug}`}
-                className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs"
+                className="group rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs"
               >
                 {/* Photo Banner with Standardized Aspect Ratio */}
                 <div className="relative aspect-[2.1/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">
@@ -245,7 +245,7 @@ export default async function ResearchPage() {
                   </div>
 
                   {/* Scientific Glyph */}
-                  <div className="absolute bottom-2.5 sm:bottom-3 right-2.5 sm:right-3 p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-[var(--surface)]/95 backdrop-blur-md border border-[var(--border)] text-[var(--brand-primary)] shadow-xs">
+                  <div className="absolute bottom-2.5 sm:bottom-3 right-2.5 sm:right-3 p-1.5 sm:p-2 rounded bg-[var(--surface)]/95 backdrop-blur-md border border-[var(--border)] text-[var(--brand-primary)] shadow-xs">
                     <ResearchGlyph glyphKey={area.glyphKey} size={18} />
                   </div>
                 </div>
@@ -306,7 +306,7 @@ export default async function ResearchPage() {
           {RESEARCH_CAPABILITIES.map((cap) => (
             <div
               key={cap.title}
-              className="p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-1.5 sm:space-y-2.5 shadow-xs"
+              className="p-3 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-1.5 sm:space-y-2.5 shadow-xs"
             >
               <h3 className="font-bold text-xs sm:text-base text-[var(--text-primary)]">
                 {cap.title}
@@ -320,7 +320,7 @@ export default async function ResearchPage() {
       </section>
 
       {/* 5. Inquire for Graduate Research Placements Banner */}
-      <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-xs">
+      <section className="p-4 sm:p-8 lg:p-12 rounded-md border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-xs">
         <div className="space-y-1.5 max-w-2xl">
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
             Join One of Our Research Divisions
@@ -333,7 +333,7 @@ export default async function ResearchPage() {
         <div className="shrink-0 pt-2 sm:pt-0">
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3.5 rounded text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
           >
             <span>Apply to Lab</span>
             <ArrowRight className="w-4 h-4" />

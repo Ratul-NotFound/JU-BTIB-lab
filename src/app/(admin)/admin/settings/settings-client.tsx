@@ -442,7 +442,7 @@ export function SettingsClient({
             <CardHeader>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2.5 rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
+                  <div className="p-2.5 rounded-md bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <div>
@@ -485,7 +485,7 @@ export function SettingsClient({
                 {heroSlides.map((slide, idx) => (
                   <div
                     key={slide.id}
-                    className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-4 transition-all hover:border-[var(--brand-primary)]/40 shadow-xs"
+                    className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-4 transition-all hover:border-[var(--brand-primary)]/40 shadow-xs"
                   >
                     {/* Slide Header Toolbar */}
                     <div className="flex items-center justify-between pb-2 border-b border-[var(--border)]">
@@ -540,7 +540,7 @@ export function SettingsClient({
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
                       {/* Thumbnail Preview */}
                       <div className="md:col-span-4">
-                        <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-[var(--border)] bg-black/20 group">
+                        <div className="relative aspect-[16/10] w-full rounded-md overflow-hidden border border-[var(--border)] bg-black/20 group">
                           {slide.src ? (
                             <>
                               <Image
@@ -618,7 +618,7 @@ export function SettingsClient({
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* About Page Facility Banner */}
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-3 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold font-sans uppercase tracking-wide text-[var(--text-primary)]">
                       About Page Facility Banner
@@ -637,7 +637,7 @@ export function SettingsClient({
                     )}
                   </div>
                   {aboutHeroImage && (
-                    <div className="relative aspect-[21/9] w-full rounded-lg overflow-hidden border border-[var(--border)] bg-black/20">
+                    <div className="relative aspect-[21/9] w-full rounded-md overflow-hidden border border-[var(--border)] bg-black/20">
                       <Image src={aboutHeroImage} alt="About facility banner preview" fill className="object-cover" />
                     </div>
                   )}
@@ -653,7 +653,7 @@ export function SettingsClient({
                 </div>
 
                 {/* Liquid-Tree Photobioreactor Banner */}
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-3 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold font-sans uppercase tracking-wide text-[var(--text-primary)]">
                       Liquid-Tree Photobioreactor Banner
@@ -672,7 +672,7 @@ export function SettingsClient({
                     )}
                   </div>
                   {liquidTreeImage && (
-                    <div className="relative aspect-[21/9] w-full rounded-lg overflow-hidden border border-[var(--border)] bg-black/20">
+                    <div className="relative aspect-[21/9] w-full rounded-md overflow-hidden border border-[var(--border)] bg-black/20">
                       <Image src={liquidTreeImage} alt="Liquid-Tree banner preview" fill className="object-cover" />
                     </div>
                   )}
@@ -688,7 +688,7 @@ export function SettingsClient({
                 </div>
 
                 {/* Campus Heritage Picture */}
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-3 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold font-sans uppercase tracking-wide text-[var(--text-primary)]">
                       Campus Heritage Picture
@@ -707,7 +707,7 @@ export function SettingsClient({
                     )}
                   </div>
                   {heritageCampusImage && (
-                    <div className="relative aspect-[21/9] w-full rounded-lg overflow-hidden border border-[var(--border)] bg-black/20">
+                    <div className="relative aspect-[21/9] w-full rounded-md overflow-hidden border border-[var(--border)] bg-black/20">
                       <Image src={heritageCampusImage} alt="Campus heritage picture preview" fill className="object-cover" />
                     </div>
                   )}
@@ -723,7 +723,7 @@ export function SettingsClient({
                 </div>
 
                 {/* Lab Intro / Mission Banner */}
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-3 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold font-sans uppercase tracking-wide text-[var(--text-primary)]">
                       Lab Intro / Mission Banner
@@ -742,7 +742,7 @@ export function SettingsClient({
                     )}
                   </div>
                   {labIntroImage && (
-                    <div className="relative aspect-[21/9] w-full rounded-lg overflow-hidden border border-[var(--border)] bg-black/20">
+                    <div className="relative aspect-[21/9] w-full rounded-md overflow-hidden border border-[var(--border)] bg-black/20">
                       <Image src={labIntroImage} alt="Lab intro picture preview" fill className="object-cover" />
                     </div>
                   )}
@@ -773,7 +773,7 @@ export function SettingsClient({
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-3 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold font-sans uppercase tracking-wide text-[var(--text-primary)]">
                       BTIB Laboratory Logo
@@ -795,7 +795,7 @@ export function SettingsClient({
                     )}
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] flex flex-col items-center justify-center min-h-[70px]">
+                    <div className="p-3 rounded-md border border-[var(--border)] bg-[var(--surface)] flex flex-col items-center justify-center min-h-[70px]">
                       {labLogoUrl ? (
                         <div className="relative h-10 w-full">
                           <Image src={labLogoUrl} alt="Lab logo standard preview" fill className="object-contain" />
@@ -804,7 +804,7 @@ export function SettingsClient({
                         <span className="text-[10px] text-[var(--text-muted)]">No Standard Logo</span>
                       )}
                     </div>
-                    <div className="p-3 rounded-lg border border-slate-700 bg-slate-900 flex flex-col items-center justify-center min-h-[70px]">
+                    <div className="p-3 rounded-md border border-slate-700 bg-slate-900 flex flex-col items-center justify-center min-h-[70px]">
                       {labLogoWhiteUrl ? (
                         <div className="relative h-10 w-full">
                           <Image src={labLogoWhiteUrl} alt="Lab logo white preview" fill className="object-contain" />
@@ -828,7 +828,7 @@ export function SettingsClient({
                   />
                 </div>
 
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-3 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold font-sans uppercase tracking-wide text-[var(--text-primary)]">
                       Jahangirnagar University Logo
@@ -850,7 +850,7 @@ export function SettingsClient({
                     )}
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] flex flex-col items-center justify-center min-h-[70px]">
+                    <div className="p-3 rounded-md border border-[var(--border)] bg-[var(--surface)] flex flex-col items-center justify-center min-h-[70px]">
                       {universityLogoUrl ? (
                         <div className="relative h-10 w-full">
                           <Image src={universityLogoUrl} alt="University logo standard preview" fill className="object-contain" />
@@ -859,7 +859,7 @@ export function SettingsClient({
                         <span className="text-[10px] text-[var(--text-muted)]">No Standard Logo</span>
                       )}
                     </div>
-                    <div className="p-3 rounded-lg border border-slate-700 bg-slate-900 flex flex-col items-center justify-center min-h-[70px]">
+                    <div className="p-3 rounded-md border border-slate-700 bg-slate-900 flex flex-col items-center justify-center min-h-[70px]">
                       {universityLogoWhiteUrl ? (
                         <div className="relative h-10 w-full">
                           <Image src={universityLogoWhiteUrl} alt="University logo white preview" fill className="object-contain" />
@@ -949,7 +949,7 @@ export function SettingsClient({
           <Card>
             <CardHeader>
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
+                <div className="p-2.5 rounded-md bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
                   <KeyRound className="w-5 h-5" />
                 </div>
                 <div>
@@ -1023,7 +1023,7 @@ export function SettingsClient({
               </div>
 
               <div className="pt-2">
-                <div className="p-3.5 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] text-xs text-[var(--text-muted)] space-y-1">
+                <div className="p-3.5 rounded-md bg-[var(--surface-raised)] border border-[var(--border)] text-xs text-[var(--text-muted)] space-y-1">
                   <div className="flex items-center gap-1.5 font-medium text-[var(--text-secondary)]">
                     <ShieldCheck className="w-4 h-4 text-[var(--bio-teal)]" />
                     <span>Password Security Guidelines</span>

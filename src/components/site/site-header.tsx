@@ -88,7 +88,7 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`px-3.5 py-2 rounded-md text-sm font-medium transition-all ${
                   isActive
                     ? "text-[var(--brand-primary)] bg-[var(--surface-raised)] border border-[var(--brand-primary)]/30 font-semibold shadow-xs"
                     : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]/70"
@@ -106,7 +106,7 @@ export function SiteHeader() {
 
           <Link
             href="/portal"
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--surface-raised)] hover:bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] transition-all shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold bg-[var(--surface-raised)] hover:bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] transition-all shadow-xs"
             title="Student & Faculty Lab Portal"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -115,7 +115,7 @@ export function SiteHeader() {
 
           <Link
             href="/contact"
-            className="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+            className="hidden sm:inline-flex items-center px-4 py-2 rounded-md text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
           >
             Contact Lab
           </Link>
@@ -124,7 +124,7 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-1.5 sm:p-2 rounded-lg sm:rounded-xl border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)] focus:outline-none transition-colors"
+            className="lg:hidden p-1.5 sm:p-2 rounded-md border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)] focus:outline-none transition-colors"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
@@ -138,7 +138,7 @@ export function SiteHeader() {
           <nav className="grid grid-cols-2 gap-1.5">
             <Link
               href="/"
-              className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center justify-between ${
+              className={`px-3 py-2 rounded-md text-xs font-semibold transition-colors flex items-center justify-between ${
                 pathname === "/"
                   ? "text-[var(--brand-primary)] bg-[var(--surface-raised)] border border-[var(--brand-primary)]/30"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
@@ -152,7 +152,7 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center justify-between ${
+                  className={`px-3 py-2 rounded-md text-xs font-semibold transition-colors flex items-center justify-between ${
                     isActive
                       ? "text-[var(--brand-primary)] bg-[var(--surface-raised)] border border-[var(--brand-primary)]/30"
                       : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
@@ -164,14 +164,14 @@ export function SiteHeader() {
             })}
             <Link
               href="/portal"
-              className={`col-span-2 px-3 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-2 border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)]`}
+              className={`col-span-2 px-3 py-2 rounded-md text-xs font-semibold transition-colors flex items-center justify-center gap-2 border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)]`}
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Lab Scholar & Faculty Portal</span>
             </Link>
             <Link
               href="/contact"
-              className={`col-span-2 px-3 py-2 rounded-lg text-xs font-semibold transition-colors text-center ${
+              className={`col-span-2 px-3 py-2 rounded-md text-xs font-semibold transition-colors text-center ${
                 pathname === "/contact"
                   ? "text-[var(--brand-primary)] bg-[var(--surface-raised)] border border-[var(--brand-primary)]/30"
                   : "bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-hover)]"

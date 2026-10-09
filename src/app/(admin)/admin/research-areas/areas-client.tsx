@@ -148,7 +148,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
       render: (item) => (
         <div className="flex items-center gap-3">
           {item.coverImage ? (
-            <div className="w-10 h-10 rounded-lg border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
+            <div className="w-10 h-10 rounded border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.coverImage}
@@ -157,7 +157,7 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
               />
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
+            <div className="w-10 h-10 rounded border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
               <ImageIcon className="w-4 h-4" />
             </div>
           )}

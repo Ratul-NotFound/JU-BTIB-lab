@@ -506,7 +506,7 @@ export function TeamClient({
       header: "Member Profile",
       render: (item) => (
         <div className="flex items-center gap-3">
-          <div className="relative w-9 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 flex items-center justify-center font-bold text-xs text-[var(--bio-teal)]">
+          <div className="relative w-9 h-9 rounded border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 flex items-center justify-center font-bold text-xs text-[var(--bio-teal)]">
             {item.photoUrl ? (
               <Image
                 src={item.photoUrl}
@@ -644,7 +644,7 @@ export function TeamClient({
             <button
               type="button"
               onClick={() => setActiveTab("identity")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
                 activeTab === "identity"
                   ? "bg-[var(--brand-primary)] text-white font-semibold"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
@@ -657,7 +657,7 @@ export function TeamClient({
             <button
               type="button"
               onClick={() => setActiveTab("bio")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
                 activeTab === "bio"
                   ? "bg-[var(--brand-primary)] text-white font-semibold"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
@@ -670,7 +670,7 @@ export function TeamClient({
             <button
               type="button"
               onClick={() => setActiveTab("links")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
                 activeTab === "links"
                   ? "bg-[var(--brand-primary)] text-white font-semibold"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
@@ -683,7 +683,7 @@ export function TeamClient({
             <button
               type="button"
               onClick={() => setActiveTab("projects")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
                 activeTab === "projects"
                   ? "bg-[var(--brand-primary)] text-white font-semibold"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
@@ -696,7 +696,7 @@ export function TeamClient({
             <button
               type="button"
               onClick={() => setActiveTab("publications")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
                 activeTab === "publications"
                   ? "bg-[var(--brand-primary)] text-white font-semibold"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
@@ -709,7 +709,7 @@ export function TeamClient({
             <button
               type="button"
               onClick={() => setActiveTab("education")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
                 activeTab === "education"
                   ? "bg-[var(--brand-primary)] text-white font-semibold"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
@@ -764,7 +764,7 @@ export function TeamClient({
                       ACADEMIC ROLE CATEGORY *
                     </label>
                     <select
-                      className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text-primary)] focus:outline-none"
+                      className="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text-primary)] focus:outline-none"
                       value={category}
                       onChange={(e) => setCategory(e.target.value as MemberCategory)}
                     >
@@ -991,7 +991,7 @@ export function TeamClient({
             {activeTab === "projects" && (
               <div className="space-y-6">
                 {/* SECTION A: Personal / Specific Projects */}
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-3 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1.5">
@@ -1015,7 +1015,7 @@ export function TeamClient({
                   </div>
 
                   {personalProjects.length === 0 ? (
-                    <div className="p-3 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-lg bg-[var(--surface)]">
+                    <div className="p-3 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-md bg-[var(--surface)]">
                       No personal projects added yet. Click &ldquo;Add Personal Project&rdquo; to add thesis or individual research.
                     </div>
                   ) : (
@@ -1023,7 +1023,7 @@ export function TeamClient({
                       {personalProjects.map((p, idx) => (
                         <div
                           key={p.id || idx}
-                          className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-3 shadow-2xs"
+                          className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-3 shadow-2xs"
                         >
                           <div className="flex items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
                             <span className="text-xs font-bold font-mono text-[var(--brand-primary)]">
@@ -1077,7 +1077,7 @@ export function TeamClient({
                                 STATUS
                               </label>
                               <select
-                                className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--text-primary)]"
+                                className="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--text-primary)]"
                                 value={p.status || "ACTIVE"}
                                 onChange={(e) => {
                                   const updated = [...personalProjects];
@@ -1219,7 +1219,7 @@ export function TeamClient({
 
                   {/* Projects List */}
                   {filteredProjects.length === 0 ? (
-                    <div className="p-4 text-center text-xs font-mono text-[var(--text-muted)] border border-[var(--border)] rounded-xl">
+                    <div className="p-4 text-center text-xs font-mono text-[var(--text-muted)] border border-[var(--border)] rounded-md">
                       No matching projects found.
                     </div>
                   ) : (
@@ -1236,7 +1236,7 @@ export function TeamClient({
                                   : [...selectedProjectIds, project.id]
                               );
                             }}
-                            className={`p-3 rounded-xl border transition-all cursor-pointer flex items-start justify-between gap-3 ${
+                            className={`p-3 rounded-md border transition-all cursor-pointer flex items-start justify-between gap-3 ${
                               isSelected
                                 ? "border-[var(--brand-primary)] bg-[var(--brand-primary-subtle)]"
                                 : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/50"
@@ -1280,7 +1280,7 @@ export function TeamClient({
             {activeTab === "publications" && (
               <div className="space-y-6">
                 {/* SECTION A: Personal Publications */}
-                <div className="space-y-4 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-4 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
                     <div>
                       <h4 className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1.5">
@@ -1305,7 +1305,7 @@ export function TeamClient({
                   </div>
 
                   {/* Quick-Add via DOI Box */}
-                  <div className="p-3 rounded-xl border border-[var(--bio-emerald)]/30 bg-[var(--bio-emerald)]/5 space-y-2">
+                  <div className="p-3 rounded-md border border-[var(--bio-emerald)]/30 bg-[var(--bio-emerald)]/5 space-y-2">
                     <div className="flex items-center justify-between">
                       <label className="text-[11px] font-mono font-bold text-[var(--bio-emerald)] flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5" />
@@ -1351,7 +1351,7 @@ export function TeamClient({
                   </div>
 
                   {personalPublications.length === 0 ? (
-                    <div className="p-4 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-lg bg-[var(--surface)] space-y-1">
+                    <div className="p-4 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-md bg-[var(--surface)] space-y-1">
                       <p>No personal publications added yet.</p>
                       <p className="text-[11px] text-[var(--text-secondary)] font-sans">
                         Paste a DOI above for instant auto-fill, or click &ldquo;Add Manually&rdquo; to type paper details directly.
@@ -1362,7 +1362,7 @@ export function TeamClient({
                       {personalPublications.map((pub, idx) => (
                         <div
                           key={pub.id || idx}
-                          className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-3 shadow-2xs"
+                          className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-3 shadow-2xs"
                         >
                           <div className="flex items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
                             <span className="text-xs font-bold font-mono text-[var(--bio-emerald)]">
@@ -1549,7 +1549,7 @@ export function TeamClient({
 
                   {/* Publications List */}
                   {filteredPublications.length === 0 ? (
-                    <div className="p-4 text-center text-xs font-mono text-[var(--text-muted)] border border-[var(--border)] rounded-xl">
+                    <div className="p-4 text-center text-xs font-mono text-[var(--text-muted)] border border-[var(--border)] rounded-md">
                       No matching publications found.
                     </div>
                   ) : (
@@ -1566,7 +1566,7 @@ export function TeamClient({
                                   : [...selectedPublicationIds, pub.id]
                               );
                             }}
-                            className={`p-3 rounded-xl border transition-all cursor-pointer flex items-start justify-between gap-3 ${
+                            className={`p-3 rounded-md border transition-all cursor-pointer flex items-start justify-between gap-3 ${
                               isSelected
                                 ? "border-[var(--bio-emerald)] bg-emerald-500/10 dark:bg-emerald-950/20"
                                 : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--bio-emerald)]/50"
@@ -1613,7 +1613,7 @@ export function TeamClient({
             {activeTab === "education" && (
               <div className="space-y-6">
                 {/* Education Section */}
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-3 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1.5">
@@ -1637,7 +1637,7 @@ export function TeamClient({
                   </div>
 
                   {educationList.length === 0 ? (
-                    <div className="p-3 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-lg bg-[var(--surface)]">
+                    <div className="p-3 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-md bg-[var(--surface)]">
                       No education records added yet. Click &ldquo;Add Degree&rdquo; to add qualifications.
                     </div>
                   ) : (
@@ -1645,7 +1645,7 @@ export function TeamClient({
                       {educationList.map((edu, idx) => (
                         <div
                           key={edu.id || idx}
-                          className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-3 shadow-2xs"
+                          className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-3 shadow-2xs"
                         >
                           <div className="flex items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
                             <span className="text-xs font-bold font-mono text-[var(--brand-primary)]">
@@ -1731,7 +1731,7 @@ export function TeamClient({
                 </div>
 
                 {/* Awards Section */}
-                <div className="space-y-3 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="space-y-3 p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1.5">
@@ -1755,7 +1755,7 @@ export function TeamClient({
                   </div>
 
                   {awardsList.length === 0 ? (
-                    <div className="p-3 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-lg bg-[var(--surface)]">
+                    <div className="p-3 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-md bg-[var(--surface)]">
                       No honors or awards recorded yet. Click &ldquo;Add Honor/Award&rdquo; to add accolades.
                     </div>
                   ) : (
@@ -1763,7 +1763,7 @@ export function TeamClient({
                       {awardsList.map((aw, idx) => (
                         <div
                           key={aw.id || idx}
-                          className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-3 shadow-2xs"
+                          className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-3 shadow-2xs"
                         >
                           <div className="flex items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
                             <span className="text-xs font-bold font-mono text-amber-600 dark:text-amber-400">

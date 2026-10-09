@@ -10,14 +10,34 @@ export class AuthError extends Error {
 }
 
 /**
- * Requires an authenticated user session.
+ * Requires an authenticated user session and resolves verified database user.
  */
 export async function requireAuth() {
   const session = await auth();
-  if (!session?.user?.id) {
+  if (!session?.user?.id && !session?.user?.email) {
     throw new AuthError("Authentication required to perform this action.", 401);
   }
-  return session.user;
+
+  const dbUser = await db.user.findFirst({
+    where: {
+      OR: [
+        ...(session.user?.id ? [{ id: session.user.id }] : []),
+        ...(session.user?.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
+      ],
+    },
+  });
+
+  if (!dbUser) {
+    throw new AuthError("User account not found. Please log in again.", 401);
+  }
+
+  return {
+    ...session.user,
+    id: dbUser.id,
+    name: dbUser.name,
+    email: dbUser.email,
+    role: dbUser.role,
+  };
 }
 
 /**
@@ -40,16 +60,35 @@ export async function requireActiveStudent() {
   const user = await requireAuth();
   if (
     user.role !== Role.STUDENT &&
-    user.role !== Role.SUPER_ADMIN
+    user.role !== Role.SUPER_ADMIN &&
+    user.role !== Role.EDITOR
   ) {
     throw new AuthError("Student access required.", 403);
   }
 
-  // Super admins bypass student verification check
-  if (user.role === Role.SUPER_ADMIN) {
-    const profile = await db.studentProfile.findFirst({
+  // Super admins and editors bypass student verification check and auto-provision profile if needed
+  if (user.role === Role.SUPER_ADMIN || user.role === Role.EDITOR) {
+    let profile = await db.studentProfile.findFirst({
       where: { userId: user.id },
     });
+    if (!profile) {
+      const faculty = await db.facultyProfile.findFirst();
+      profile = await db.studentProfile.create({
+        data: {
+          userId: user.id,
+          studentId: "ADM-" + user.id.slice(-6).toUpperCase(),
+          program: "PHD",
+          department: "Department of Biotechnology & Genetic Engineering",
+          institution: "Jahangirnagar University",
+          sessionYear: "2023-2024",
+          batch: "Lead Investigator",
+          phone: "+880 1700-000000",
+          supervisorId: faculty?.id || null,
+          status: "ACTIVE",
+          thesisTitle: "Advanced Bioprocess Engineering & Lab Instrumentation",
+        },
+      });
+    }
     return { user, profile };
   }
 

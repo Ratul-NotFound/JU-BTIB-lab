@@ -123,7 +123,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
   return (
     <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto">
       {/* 1. Header Banner */}
-      <div className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="specimen-tag text-[10px] py-0 px-2 font-bold uppercase">
@@ -145,7 +145,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
         </div>
 
         {pendingStudents.length > 0 && (
-          <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center gap-2.5 shrink-0">
+          <div className="p-3.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 flex items-center gap-2.5 shrink-0">
             <AlertTriangle className="w-5 h-5 shrink-0" />
             <div className="text-xs font-medium">
               <span className="font-bold">{pendingStudents.length} scholar(s)</span> await verification.
@@ -156,7 +156,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
 
       {feedback && (
         <div
-          className={`p-4 rounded-2xl border text-sm flex items-center gap-3 ${
+          className={`p-4 rounded-md border text-sm flex items-center gap-3 ${
             feedback.type === "success"
               ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-300"
               : "bg-red-500/10 border-red-500/20 text-red-600"
@@ -185,7 +185,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
             {pendingStudents.map((s) => (
               <div
                 key={s.id}
-                className="p-5 rounded-2xl border border-amber-500/30 bg-[var(--surface)] hover:border-amber-500/50 transition-all space-y-3"
+                className="p-5 rounded-md border border-amber-500/30 bg-[var(--surface)] hover:border-amber-500/50 transition-all space-y-3"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
@@ -196,12 +196,12 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
                       ID: {s.studentId} · {s.program.replace("_", " ")}
                     </div>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                  <span className="px-2.5 py-1 rounded text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                     PENDING APPROVAL
                   </span>
                 </div>
 
-                <div className="text-xs text-[var(--text-secondary)] space-y-1 bg-[var(--surface-raised)]/60 p-3 rounded-xl border border-[var(--border)]">
+                <div className="text-xs text-[var(--text-secondary)] space-y-1 bg-[var(--surface-raised)]/60 p-3 rounded border border-[var(--border)]">
                   <div>
                     <span className="font-semibold text-[var(--text-primary)]">Supervisor: </span>
                     {s.supervisor?.user?.name || s.supervisorName || "Not assigned"}
@@ -227,7 +227,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
                       size="sm"
                       onClick={() => handleApprove(s.id)}
                       disabled={processingId === s.id}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 h-8 rounded-full"
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3.5 h-8 rounded-md"
                     >
                       <Check className="w-3.5 h-3.5 mr-1" />
                       <span>Approve</span>
@@ -237,7 +237,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
                       variant="outline"
                       onClick={() => handleReject(s.id)}
                       disabled={processingId === s.id}
-                      className="text-xs px-2.5 h-8 rounded-full text-red-600 border-red-500/20 hover:bg-red-500/10"
+                      className="text-xs px-2.5 h-8 rounded-md text-red-600 border-red-500/20 hover:bg-red-500/10"
                     >
                       <UserX className="w-3.5 h-3.5" />
                     </Button>
@@ -250,7 +250,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
       )}
 
       {/* 3. Search & Filter Bar */}
-      <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]" />
           <Input
@@ -272,7 +272,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
               <button
                 key={filter}
                 onClick={() => setStatusFilter(filter)}
-                className={`px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-md text-xs font-mono font-medium transition-all ${
                   statusFilter === filter
                     ? "bg-[var(--text-primary)] text-[var(--background)] font-bold shadow-xs"
                     : "bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border)]"
@@ -298,11 +298,11 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
         </h2>
 
         {filteredStudents.length === 0 ? (
-          <div className="p-12 text-center rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] text-xs text-[var(--text-secondary)]">
+          <div className="p-12 text-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] text-xs text-[var(--text-secondary)]">
             No scholars match your current search and filters.
           </div>
         ) : (
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
+          <div className="rounded-md border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
@@ -352,17 +352,17 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
                         </td>
                         <td className="p-3.5">
                           {isPending && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                            <span className="px-2.5 py-1 rounded text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                               PENDING
                             </span>
                           )}
                           {!isPending && !isRejected && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                            <span className="px-2.5 py-1 rounded text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                               ACTIVE
                             </span>
                           )}
                           {isRejected && (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">
+                            <span className="px-2.5 py-1 rounded text-[10px] font-mono font-semibold bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">
                               REJECTED
                             </span>
                           )}
@@ -374,7 +374,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
                                 size="sm"
                                 onClick={() => handleApprove(s.id)}
                                 disabled={processingId === s.id}
-                                className="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] h-7 px-2.5 rounded-full"
+                                className="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] h-7 px-2.5 rounded-md"
                               >
                                 Approve
                               </Button>
@@ -383,7 +383,7 @@ export function StudentsAdminClient({ initialStudents }: StudentsAdminClientProp
                                 variant="outline"
                                 onClick={() => handleReject(s.id)}
                                 disabled={processingId === s.id}
-                                className="text-[11px] h-7 px-2 rounded-full text-red-600 border-red-500/20"
+                                className="text-[11px] h-7 px-2 rounded-md text-red-600 border-red-500/20"
                               >
                                 Reject
                               </Button>

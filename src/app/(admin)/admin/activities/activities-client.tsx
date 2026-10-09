@@ -152,7 +152,7 @@ export function ActivitiesClient({ initialData }: { initialData: ActivityItem[] 
       key: "coverImage",
       header: "Picture",
       render: (item) => (
-        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-[var(--surface-raised)] border border-[var(--border)] shrink-0">
+        <div className="relative w-12 h-12 rounded overflow-hidden bg-[var(--surface-raised)] border border-[var(--border)] shrink-0">
           {item.coverImage ? (
             <Image
               src={item.coverImage}
@@ -273,7 +273,7 @@ export function ActivitiesClient({ initialData }: { initialData: ActivityItem[] 
           </div>
 
           {/* Picture / Cover Image Feature */}
-          <div className="space-y-2 p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]/50">
+          <div className="space-y-2 p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]/50">
             <MediaPicker
               label="Activity Cover Picture"
               value={coverImage}
@@ -308,7 +308,7 @@ export function ActivitiesClient({ initialData }: { initialData: ActivityItem[] 
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-[var(--text-secondary)]">TYPE</label>
               <select
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+                className="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
                 value={type}
                 onChange={(e) => setType(e.target.value as ActivityType)}
               >

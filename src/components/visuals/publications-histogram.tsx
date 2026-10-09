@@ -17,7 +17,7 @@ export function PublicationsHistogram({ data, className = "" }: PublicationsHist
 
   if (!data || data.length === 0) {
     return (
-      <div className={`p-6 text-center text-xs font-mono text-[var(--text-muted)] border border-[var(--border)] rounded-xl bg-[var(--surface)] ${className}`}>
+      <div className={`p-6 text-center text-xs font-mono text-[var(--text-muted)] border border-[var(--border)] rounded-md bg-[var(--surface)] ${className}`}>
         No timeline data available
       </div>
     );
@@ -30,7 +30,7 @@ export function PublicationsHistogram({ data, className = "" }: PublicationsHist
   const totalWidth = data.length * (barWidth + gap);
 
   return (
-    <div className={`p-3.5 sm:p-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-3 ${className}`}>
+    <div className={`p-3.5 sm:p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-2 sm:space-y-3 ${className}`}>
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-1.5 sm:gap-2">

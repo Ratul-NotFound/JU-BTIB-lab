@@ -23,15 +23,29 @@ export default async function BookEquipmentPage() {
     redirect("/login");
   }
 
+  // Resolve verified DB user (handles stale session cookies safely)
+  const dbUser = await db.user.findFirst({
+    where: {
+      OR: [
+        ...(session.user.id ? [{ id: session.user.id }] : []),
+        ...(session.user.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
+      ],
+    },
+  });
+
+  if (!dbUser) {
+    redirect("/login");
+  }
+
   // Check student profile status
   const profile = await db.studentProfile.findUnique({
-    where: { userId: session.user.id },
+    where: { userId: dbUser.id },
   });
 
   if (profile && profile.status === AccountStatus.PENDING_APPROVAL) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
-        <div className="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
           <AlertTriangle className="w-8 h-8" />
         </div>
         <div className="space-y-2">
@@ -45,7 +59,7 @@ export default async function BookEquipmentPage() {
         <div>
           <Link
             href="/portal"
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] hover:border-emerald-500/50 transition-all"
+            className="inline-flex items-center justify-center px-5 py-2.5 rounded-md text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] hover:border-emerald-500/50 transition-all"
           >
             Return to Scholar Portal
           </Link>
@@ -57,7 +71,7 @@ export default async function BookEquipmentPage() {
   if (profile && profile.status === AccountStatus.SUSPENDED) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
-        <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 rounded-md bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center mx-auto">
           <Lock className="w-8 h-8" />
         </div>
         <div className="space-y-2">
@@ -86,7 +100,7 @@ export default async function BookEquipmentPage() {
   });
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
+    <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
       <BookEquipmentClient equipmentList={equipment} />
     </div>
   );

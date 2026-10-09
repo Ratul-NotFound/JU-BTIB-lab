@@ -33,7 +33,7 @@ export default async function ContactPage() {
       {/* Main Grid: Form on left, Address & Institution on right */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-14 items-start">
         {/* Contact Form Column */}
-        <div className="lg:col-span-7 p-4 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 sm:space-y-6">
+        <div className="lg:col-span-7 p-4 sm:p-8 lg:p-10 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 sm:space-y-6">
           <div className="space-y-1 sm:space-y-1.5">
             <h2 className="text-2xl sm:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
               Send an Academic Inquiry
@@ -48,10 +48,10 @@ export default async function ContactPage() {
 
         {/* Institutional Coordinates Column */}
         <div className="lg:col-span-5 space-y-4 sm:space-y-8">
-          <div className="p-4 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-4 sm:space-y-6 shadow-xs">
+          <div className="p-4 sm:p-8 lg:p-10 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-4 sm:space-y-6 shadow-xs">
             {/* Campus Header & University Logo */}
             <div className="flex items-center gap-3 pb-2 border-b border-[var(--border)]">
-              <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center p-1 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center p-1 rounded border border-[var(--border)] bg-[var(--surface-raised)]">
                 <Image
                   src="/images/ju-logo.png"
                   alt="Jahangirnagar University Logo"
@@ -71,7 +71,7 @@ export default async function ContactPage() {
             </div>
 
             {/* Campus Image Header */}
-            <div className="relative aspect-[2.1/1] sm:aspect-[16/9] rounded-lg sm:rounded-xl overflow-hidden border border-[var(--border)]">
+            <div className="relative aspect-[2.1/1] sm:aspect-[16/9] rounded-md overflow-hidden border border-[var(--border)]">
               <Image
                 src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80"
                 alt="Jahangirnagar University Campus grounds"
@@ -88,7 +88,7 @@ export default async function ContactPage() {
 
             <div className="space-y-3.5 sm:space-y-5">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 relative shrink-0 p-1 sm:p-1.5 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 relative shrink-0 p-1 sm:p-1.5 rounded border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center">
                   <Image
                     src="/images/btib-logo.png"
                     alt="BTIB"
@@ -114,7 +114,7 @@ export default async function ContactPage() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-2.5 rounded-xl bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] shrink-0">
+                <div className="p-2.5 rounded bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] shrink-0">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div className="text-xs space-y-1">
@@ -134,7 +134,7 @@ export default async function ContactPage() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-2.5 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--bio-teal)] shrink-0">
+                <div className="p-2.5 rounded bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--bio-teal)] shrink-0">
                   <Clock className="w-5 h-5" />
                 </div>
                 <div className="text-xs space-y-1">
@@ -150,7 +150,7 @@ export default async function ContactPage() {
               </div>
             </div>
 
-            <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-muted)] leading-relaxed space-y-1">
+            <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-muted)] leading-relaxed space-y-1">
               <strong className="text-[var(--text-primary)] block">
                 Visiting & Security Protocol
               </strong>

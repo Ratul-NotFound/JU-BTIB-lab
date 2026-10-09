@@ -90,15 +90,15 @@ export function EquipmentDirectoryClient({
   return (
     <div className="space-y-10 sm:space-y-16">
       {/* Interactive Controls Bar: Segmented Switcher & Search Bar */}
-      <div className="p-4 sm:p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4">
+      <div className="p-4 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4">
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
           
           {/* Main 2-Section Switcher Tabs */}
-          <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] text-xs font-semibold">
+          <div className="grid grid-cols-3 gap-1.5 p-1 rounded-md bg-[var(--surface-raised)] border border-[var(--border)] text-xs font-semibold">
             <button
               type="button"
               onClick={() => handleTabChange("ALL")}
-              className={`px-3 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 ${
+              className={`px-3 py-2 rounded transition-all text-center flex items-center justify-center gap-1.5 ${
                 activeTab === "ALL"
                   ? "bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)] font-bold"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -111,7 +111,7 @@ export function EquipmentDirectoryClient({
             <button
               type="button"
               onClick={() => handleTabChange("EQUIPMENT")}
-              className={`px-3 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 ${
+              className={`px-3 py-2 rounded transition-all text-center flex items-center justify-center gap-1.5 ${
                 activeTab === "EQUIPMENT"
                   ? "bg-emerald-600 text-white shadow-xs font-bold"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -124,7 +124,7 @@ export function EquipmentDirectoryClient({
             <button
               type="button"
               onClick={() => handleTabChange("CHEMICALS")}
-              className={`px-3 py-2 rounded-lg transition-all text-center flex items-center justify-center gap-1.5 ${
+              className={`px-3 py-2 rounded transition-all text-center flex items-center justify-center gap-1.5 ${
                 activeTab === "CHEMICALS"
                   ? "bg-amber-600 text-white shadow-xs font-bold"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -145,7 +145,7 @@ export function EquipmentDirectoryClient({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search instruments, chemicals, specs, grades..."
-                className="w-full pl-9 pr-8 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+                className="w-full pl-9 pr-8 py-2 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
               />
               {searchQuery && (
                 <button
@@ -159,12 +159,12 @@ export function EquipmentDirectoryClient({
             </div>
 
             {/* View Layout Toggle: Table View (default) vs Grid View */}
-            <div className="flex items-center gap-1 p-1 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] shrink-0 self-start sm:self-auto">
+            <div className="flex items-center gap-1 p-1 rounded-md bg-[var(--surface-raised)] border border-[var(--border)] shrink-0 self-start sm:self-auto">
               <button
                 type="button"
                 onClick={() => setViewMode("table")}
                 title="Scientific Table Directory"
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 rounded text-xs font-semibold flex items-center gap-1.5 transition-all ${
                   viewMode === "table"
                     ? "bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)] font-bold"
                     : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -177,7 +177,7 @@ export function EquipmentDirectoryClient({
                 type="button"
                 onClick={() => setViewMode("grid")}
                 title="Visual Card Grid"
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                className={`px-3 py-1.5 rounded text-xs font-semibold flex items-center gap-1.5 transition-all ${
                   viewMode === "grid"
                     ? "bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)] font-bold"
                     : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -248,7 +248,7 @@ export function EquipmentDirectoryClient({
             </div>
 
             <div className="shrink-0 flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 Calibrated & Operational
               </span>
@@ -256,12 +256,12 @@ export function EquipmentDirectoryClient({
           </div>
 
           {filteredEquipment.length === 0 ? (
-            <div className="p-8 text-center rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] text-xs">
+            <div className="p-8 text-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] text-xs">
               No instruments match the selected filter.
             </div>
           ) : viewMode === "table" ? (
             /* SCIENTIFIC TABLE VIEW */
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
+            <div className="rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm border-collapse min-w-[760px]">
                   <thead>
@@ -286,7 +286,7 @@ export function EquipmentDirectoryClient({
                         </td>
                         <td className="py-3.5 px-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 relative flex items-center justify-center">
+                            <div className="w-12 h-12 rounded border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 relative flex items-center justify-center">
                               {item.imageUrl ? (
                                 <Image
                                   src={item.imageUrl}
@@ -320,7 +320,7 @@ export function EquipmentDirectoryClient({
                           </p>
                         </td>
                         <td className="py-3.5 px-4 text-center">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 whitespace-nowrap">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                             Operational
                           </span>
@@ -332,7 +332,7 @@ export function EquipmentDirectoryClient({
                               e.stopPropagation();
                               setSelectedItem(item);
                             }}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--surface-raised)] group-hover:bg-emerald-600 group-hover:text-white text-[var(--text-secondary)] border border-[var(--border)] transition-all whitespace-nowrap shadow-xs"
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold bg-[var(--surface-raised)] group-hover:bg-emerald-600 group-hover:text-white text-[var(--text-secondary)] border border-[var(--border)] transition-all whitespace-nowrap shadow-xs"
                           >
                             <span>Specs</span>
                             <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -355,7 +355,7 @@ export function EquipmentDirectoryClient({
                 <div
                   key={item.id}
                   onClick={() => setSelectedItem(item)}
-                  className="group cursor-pointer rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-emerald-500/50 transition-all hover:shadow-md flex flex-col overflow-hidden"
+                  className="group cursor-pointer rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-emerald-500/50 transition-all hover:shadow-md flex flex-col overflow-hidden"
                 >
                   {/* Image Banner */}
                   <div className="relative aspect-[16/10] w-full bg-[var(--surface-raised)] overflow-hidden border-b border-[var(--border)]">
@@ -374,7 +374,7 @@ export function EquipmentDirectoryClient({
                       </div>
                     )}
                     <div className="absolute top-2.5 left-2.5">
-                      <span className="px-2.5 py-1 rounded-lg text-[10px] font-semibold backdrop-blur-md bg-black/60 text-white border border-white/20">
+                      <span className="px-2.5 py-1 rounded text-[10px] font-semibold backdrop-blur-md bg-black/60 text-white border border-white/20">
                         {item.category}
                       </span>
                     </div>
@@ -431,7 +431,7 @@ export function EquipmentDirectoryClient({
             </div>
 
             <div className="shrink-0 flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                 <Sparkles className="w-3.5 h-3.5" />
                 AR / Molecular Grade
               </span>
@@ -439,12 +439,12 @@ export function EquipmentDirectoryClient({
           </div>
 
           {filteredChemicals.length === 0 ? (
-            <div className="p-8 text-center rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] text-xs">
+            <div className="p-8 text-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] text-xs">
               No chemicals or reagents match the selected filter.
             </div>
           ) : viewMode === "table" ? (
             /* SCIENTIFIC CHEMICALS TABLE VIEW */
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
+            <div className="rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm border-collapse min-w-[760px]">
                   <thead>
@@ -469,7 +469,7 @@ export function EquipmentDirectoryClient({
                         </td>
                         <td className="py-3.5 px-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 relative flex items-center justify-center">
+                            <div className="w-12 h-12 rounded border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden shrink-0 relative flex items-center justify-center">
                               {item.imageUrl ? (
                                 <Image
                                   src={item.imageUrl}
@@ -503,7 +503,7 @@ export function EquipmentDirectoryClient({
                           </p>
                         </td>
                         <td className="py-3.5 px-4 text-center">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 whitespace-nowrap">
                             <Sparkles className="w-3 h-3 text-amber-500" />
                             AR / In Stock
                           </span>
@@ -515,7 +515,7 @@ export function EquipmentDirectoryClient({
                               e.stopPropagation();
                               setSelectedItem(item);
                             }}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--surface-raised)] group-hover:bg-amber-600 group-hover:text-white text-[var(--text-secondary)] border border-[var(--border)] transition-all whitespace-nowrap shadow-xs"
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold bg-[var(--surface-raised)] group-hover:bg-amber-600 group-hover:text-white text-[var(--text-secondary)] border border-[var(--border)] transition-all whitespace-nowrap shadow-xs"
                           >
                             <span>Details</span>
                             <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -538,7 +538,7 @@ export function EquipmentDirectoryClient({
                 <div
                   key={item.id}
                   onClick={() => setSelectedItem(item)}
-                  className="group cursor-pointer rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-amber-500/50 transition-all hover:shadow-md flex flex-col overflow-hidden"
+                  className="group cursor-pointer rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-amber-500/50 transition-all hover:shadow-md flex flex-col overflow-hidden"
                 >
                   {/* Image / Header Banner */}
                   <div className="relative aspect-[16/10] w-full bg-[var(--surface-raised)] overflow-hidden border-b border-[var(--border)]">
@@ -557,7 +557,7 @@ export function EquipmentDirectoryClient({
                       </div>
                     )}
                     <div className="absolute top-2.5 left-2.5">
-                      <span className="px-2.5 py-1 rounded-lg text-[10px] font-semibold backdrop-blur-md bg-black/60 text-white border border-white/20">
+                      <span className="px-2.5 py-1 rounded text-[10px] font-semibold backdrop-blur-md bg-black/60 text-white border border-white/20">
                         {item.category}
                       </span>
                     </div>
@@ -603,7 +603,7 @@ export function EquipmentDirectoryClient({
           <div className="space-y-5 max-h-[75vh] overflow-y-auto px-1">
             {/* Modal Image */}
             {selectedItem.imageUrl ? (
-              <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)]">
+              <div className="relative aspect-[16/9] w-full rounded-md overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)]">
                 <Image
                   src={selectedItem.imageUrl}
                   alt={selectedItem.name}
@@ -615,11 +615,11 @@ export function EquipmentDirectoryClient({
             ) : null}
 
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--brand-primary)]">
+              <span className="px-3 py-1 rounded text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--brand-primary)]">
                 Division: {selectedItem.category}
               </span>
               <span
-                className={`px-3 py-1 rounded-lg text-xs font-semibold ${
+                className={`px-3 py-1 rounded text-xs font-semibold ${
                   isChemicalItem(selectedItem.category)
                     ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20"
                     : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
@@ -633,13 +633,13 @@ export function EquipmentDirectoryClient({
               <h4 className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">
                 Technical Specifications & Usage Notes
               </h4>
-              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light whitespace-pre-line bg-[var(--surface-raised)] p-4 rounded-xl border border-[var(--border)]">
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light whitespace-pre-line bg-[var(--surface-raised)] p-4 rounded-md border border-[var(--border)]">
                 {selectedItem.description ||
                   "Standard laboratory instrumentation maintained by the Department of Biotechnology & Genetic Engineering at Jahangirnagar University."}
               </p>
             </div>
 
-            <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="text-xs">
                 <span className="font-bold block text-[var(--text-primary)]">
                   Need to reserve this {isChemicalItem(selectedItem.category) ? "reagent" : "instrument"}?
@@ -650,7 +650,7 @@ export function EquipmentDirectoryClient({
               </div>
               <Link
                 href={`/contact?subject=${encodeURIComponent(`Inquiry regarding ${selectedItem.name}`)}`}
-                className="shrink-0 px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white transition-all shadow-xs"
+                className="shrink-0 px-4 py-2 rounded-md text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white transition-all shadow-xs"
               >
                 Submit Facility Inquiry →
               </Link>
@@ -660,7 +660,7 @@ export function EquipmentDirectoryClient({
       )}
 
       {/* Bottom Thesis & Research CTA */}
-      <section className="p-6 sm:p-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xs">
+      <section className="p-6 sm:p-10 rounded-md border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xs">
         <div className="space-y-1.5 max-w-2xl">
           <h3 className="text-xl sm:text-2xl font-black font-sans text-[var(--text-primary)]">
             Access Laboratory Equipment & Chemical Inventories
@@ -671,7 +671,7 @@ export function EquipmentDirectoryClient({
         </div>
         <Link
           href="/contact"
-          className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+          className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-md text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
         >
           <span>Contact Lab In-Charge</span>
           <ArrowRight className="w-4 h-4" />

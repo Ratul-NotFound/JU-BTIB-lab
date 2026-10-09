@@ -200,10 +200,10 @@ export default async function TeamMemberProfilePage({ params }: Props) {
         </div>
 
         {/* Profile Card Header */}
-        <section className="p-5 sm:p-8 lg:p-12 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-6 sm:space-y-8 shadow-xs">
+        <section className="p-5 sm:p-8 lg:p-12 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-6 sm:space-y-8 shadow-xs">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8">
             {/* Portrait Image or Monogram */}
-            <div className="relative w-24 h-24 sm:w-36 sm:h-36 rounded-2xl border-2 border-[var(--brand-primary)]/40 bg-[var(--surface-raised)] overflow-hidden shrink-0 shadow-sm flex items-center justify-center">
+            <div className="relative w-24 h-24 sm:w-36 sm:h-36 rounded-md border-2 border-[var(--brand-primary)]/40 bg-[var(--surface-raised)] overflow-hidden shrink-0 shadow-sm flex items-center justify-center">
               {member.photoUrl ? (
                 <Image
                   src={member.photoUrl}
@@ -261,7 +261,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
             {member.email && (
               <a
                 href={`mailto:${member.email}`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
               >
                 <Mail className="w-3.5 h-3.5 text-[var(--brand-primary)]" />
                 <span>{member.email}</span>
@@ -273,7 +273,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 href={profileLinks.googleScholar}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
               >
                 <GraduationCap className="w-3.5 h-3.5 text-blue-500" />
                 <span>Google Scholar</span>
@@ -286,7 +286,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 href={profileLinks.researchGate}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--bio-teal)] hover:text-[var(--bio-teal)] transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--bio-teal)] hover:text-[var(--bio-teal)] transition-colors shadow-2xs"
               >
                 <span className="font-bold text-[var(--bio-teal)]">RG</span>
                 <span>ResearchGate</span>
@@ -303,7 +303,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-emerald-500 hover:text-emerald-500 transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-emerald-500 hover:text-emerald-500 transition-colors shadow-2xs"
               >
                 <span className="font-bold text-emerald-500">iD</span>
                 <span>ORCID</span>
@@ -316,7 +316,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 href={profileLinks.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
               >
                 <span>LinkedIn</span>
                 <ExternalLink className="w-3 h-3 text-[var(--text-muted)]" />
@@ -328,7 +328,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 href={profileLinks.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--text-primary)] transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--text-primary)] transition-colors shadow-2xs"
               >
                 <span>GitHub</span>
                 <ExternalLink className="w-3 h-3 text-[var(--text-muted)]" />
@@ -340,7 +340,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 href={profileLinks.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
               >
                 <span>University Webpage</span>
                 <ExternalLink className="w-3 h-3 text-[var(--text-muted)]" />
@@ -371,7 +371,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 {member.interests.map((interest) => (
                   <span
                     key={interest}
-                    className="px-3 py-1 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:border-[var(--brand-primary)]/40 transition-colors"
+                    className="px-3 py-1 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:border-[var(--brand-primary)]/40 transition-colors"
                   >
                     {interest}
                   </span>
@@ -392,7 +392,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                   <Link
                     key={area.id}
                     href={`/research/${area.slug}`}
-                    className="px-3 py-1.5 rounded-xl text-xs font-semibold border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--brand-primary)] hover:border-[var(--brand-primary)] transition-all flex items-center gap-1.5 shadow-2xs group"
+                    className="px-3 py-1.5 rounded text-xs font-semibold border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--brand-primary)] hover:border-[var(--brand-primary)] transition-all flex items-center gap-1.5 shadow-2xs group"
                   >
                     <span>{area.title}</span>
                     <ExternalLink className="w-3 h-3 text-[var(--text-muted)] group-hover:text-[var(--brand-primary)]" />
@@ -407,7 +407,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
         {educationList.length > 0 && (
           <section className="space-y-4 sm:space-y-6">
             <div className="flex items-center gap-2.5 border-b border-[var(--border)] pb-3">
-              <div className="w-8 h-8 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--brand-primary)]">
+              <div className="w-8 h-8 rounded border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--brand-primary)]">
                 <GraduationCap className="w-4 h-4" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
@@ -419,7 +419,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
               {educationList.map((edu, idx) => (
                 <div
                   key={edu.id || idx}
-                  className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-1.5 shadow-xs"
+                  className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-1.5 shadow-xs"
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-sm text-[var(--text-primary)]">
@@ -449,7 +449,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
         {awardsList.length > 0 && (
           <section className="space-y-4 sm:space-y-6">
             <div className="flex items-center gap-2.5 border-b border-[var(--border)] pb-3">
-              <div className="w-8 h-8 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-amber-500">
+              <div className="w-8 h-8 rounded border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-amber-500">
                 <Award className="w-4 h-4" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
@@ -461,7 +461,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
               {awardsList.map((aw, idx) => (
                 <div
                   key={aw.id || idx}
-                  className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-1 shadow-xs"
+                  className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-1 shadow-xs"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-bold text-sm text-[var(--text-primary)] line-clamp-1">
@@ -488,7 +488,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
         <section className="space-y-4 sm:space-y-6">
           <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--brand-primary)]">
+              <div className="w-8 h-8 rounded border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--brand-primary)]">
                 <FolderKanban className="w-4 h-4" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
@@ -505,7 +505,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
           </div>
 
           {totalProjectsCount === 0 ? (
-            <div className="p-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-center space-y-2 shadow-xs">
+            <div className="p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] text-center space-y-2 shadow-xs">
               <p className="text-xs font-mono text-[var(--text-muted)]">
                 No specific research projects currently linked to this profile.
               </p>
@@ -523,7 +523,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                   <Link
                     key={project.id}
                     href={`/projects/${project.slug}`}
-                    className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
+                    className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
                   >
                     <div className="space-y-3">
                       <div className="flex items-center justify-between gap-2">
@@ -576,7 +576,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 return (
                   <div
                     key={p.id || idx}
-                    className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
+                    className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
                   >
                     <div className="space-y-3">
                       <div className="flex items-center justify-between gap-2">
@@ -645,7 +645,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
         <section className="space-y-4 sm:space-y-6">
           <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--brand-primary)]">
+              <div className="w-8 h-8 rounded border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--brand-primary)]">
                 <BookOpen className="w-4 h-4" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-black font-sans tracking-tight text-[var(--text-primary)]">
@@ -662,7 +662,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
           </div>
 
           {totalPublicationsCount === 0 ? (
-            <div className="p-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-center space-y-2 shadow-xs">
+            <div className="p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] text-center space-y-2 shadow-xs">
               <p className="text-xs font-mono text-[var(--text-muted)]">
                 No publications directly associated with this author profile in the repository.
               </p>
@@ -679,7 +679,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 return (
                   <div
                     key={publication.id}
-                    className="p-5 sm:p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
+                    className="p-5 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
                   >
                     <div className="space-y-2 max-w-3xl">
                       <div className="flex flex-wrap items-center gap-2">
@@ -714,7 +714,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                           href={`https://doi.org/${publication.doi}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
                         >
                           <span>DOI</span>
                           <ExternalLink className="w-3 h-3" />
@@ -726,7 +726,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                           href={publication.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
                         >
                           <FileText className="w-3.5 h-3.5" />
                           <span>Paper</span>
@@ -743,7 +743,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                 return (
                   <div
                     key={pub.id || idx}
-                    className="p-5 sm:p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
+                    className="p-5 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
                   >
                     <div className="space-y-2 max-w-3xl">
                       <div className="flex flex-wrap items-center gap-2">
@@ -784,7 +784,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                           }
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
                         >
                           <span>DOI</span>
                           <ExternalLink className="w-3 h-3" />
@@ -796,7 +796,7 @@ export default async function TeamMemberProfilePage({ params }: Props) {
                           href={pub.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)] transition-colors shadow-2xs"
                         >
                           <FileText className="w-3.5 h-3.5" />
                           <span>Paper</span>

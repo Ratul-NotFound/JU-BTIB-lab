@@ -19,7 +19,7 @@ export default async function EquipmentPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-16 space-y-8 sm:space-y-12">
       {/* 1. Institutional Hero & Overview Banner */}
-      <section className="p-4 sm:p-8 lg:p-12 rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs relative overflow-hidden">
+      <section className="p-4 sm:p-8 lg:p-12 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs relative overflow-hidden">
         <div className="relative z-10 space-y-4 sm:space-y-6 max-w-4xl">
           {/* Institutional Dual Attribution */}
           <div className="flex items-center gap-2.5 sm:gap-3.5 pb-1">
@@ -59,15 +59,15 @@ export default async function EquipmentPage() {
 
           {/* Capability Badges */}
           <div className="pt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono text-[var(--text-muted)]">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-emerald-500/20 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400">
               <Microscope className="w-4 h-4" />
               <span>1. Laboratory Equipment & Instrumentation</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400">
               <FlaskConical className="w-4 h-4" />
               <span>2. Chemicals & Reagents</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-[var(--border)] bg-[var(--surface-raised)]">
               <ShieldCheck className="w-4 h-4 text-[var(--brand-primary)]" />
               <span>BSL-1 / BSL-2 Compliant Cleanroom</span>
             </div>

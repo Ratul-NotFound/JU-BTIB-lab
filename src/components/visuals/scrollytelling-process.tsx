@@ -152,7 +152,7 @@ export function ScrollytellingProcess() {
               key={s.step}
               type="button"
               onClick={() => setActiveStep(idx)}
-              className={`p-4 sm:p-5 rounded-3xl border text-left transition-all flex flex-col justify-between gap-3 ${
+              className={`p-4 sm:p-5 rounded-md border text-left transition-all flex flex-col justify-between gap-3 ${
                 isActive
                   ? "border-[var(--bio-teal)] bg-[var(--surface)] shadow-md ring-1 ring-[var(--bio-teal)]/30"
                   : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)]"
@@ -164,7 +164,7 @@ export function ScrollytellingProcess() {
                 }`}>
                   STAGE {s.step}
                 </span>
-                <div className={`p-1.5 rounded-lg transition-colors ${
+                <div className={`p-1.5 rounded transition-colors ${
                   isActive 
                     ? "bg-[var(--bio-teal)]/10 text-[var(--bio-teal)]" 
                     : "text-[var(--text-muted)]"
@@ -189,7 +189,7 @@ export function ScrollytellingProcess() {
       </div>
 
       {/* Active Stage Detailed Exhibition Card */}
-      <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden shadow-xs">
+      <div className="rounded-md border border-[var(--border)] bg-[var(--surface)] overflow-hidden shadow-xs">
         <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[var(--border)]">
           {/* Left: Authentic Photography of This Stage */}
           <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between space-y-6">
@@ -207,7 +207,7 @@ export function ScrollytellingProcess() {
               </p>
             </div>
 
-            <div className="relative aspect-4/3 rounded-2xl overflow-hidden border border-[var(--border)] shadow-md group">
+            <div className="relative aspect-4/3 rounded-md overflow-hidden border border-[var(--border)] shadow-md group">
               <Image
                 src={current.image}
                 alt={current.imageAlt}
@@ -216,7 +216,7 @@ export function ScrollytellingProcess() {
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-3 right-3 text-xs text-white bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/15">
+              <div className="absolute bottom-3 left-3 right-3 text-xs text-white bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded border border-white/15">
                 {current.imageAlt}
               </div>
             </div>
@@ -227,7 +227,7 @@ export function ScrollytellingProcess() {
                 type="button"
                 disabled={activeStep === 0}
                 onClick={() => setActiveStep((prev) => Math.max(0, prev - 1))}
-                className="px-3.5 py-2 rounded-xl text-xs font-medium border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] disabled:opacity-40 transition-colors"
+                className="px-3.5 py-2 rounded-md text-xs font-medium border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] disabled:opacity-40 transition-colors"
               >
                 ← Previous Stage
               </button>
@@ -238,7 +238,7 @@ export function ScrollytellingProcess() {
                 type="button"
                 disabled={activeStep === STAGES.length - 1}
                 onClick={() => setActiveStep((prev) => Math.min(STAGES.length - 1, prev + 1))}
-                className="px-3.5 py-2 rounded-xl text-xs font-medium bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white disabled:opacity-40 transition-colors"
+                className="px-3.5 py-2 rounded-md text-xs font-medium bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white disabled:opacity-40 transition-colors"
               >
                 Next Stage →
               </button>
@@ -265,7 +265,7 @@ export function ScrollytellingProcess() {
                 {current.parameters.map((p) => (
                   <div
                     key={p.label}
-                    className="p-3.5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-1"
+                    className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-1"
                   >
                     <div className="text-[10px] font-mono text-[var(--text-muted)] uppercase">
                       {p.label}
@@ -280,7 +280,7 @@ export function ScrollytellingProcess() {
 
             {/* Inputs & Outputs Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-2.5">
+              <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-2.5">
                 <span className="text-xs font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
                   <Layers className="w-4 h-4 text-[var(--text-muted)]" />
                   Primary Research Inputs
@@ -295,7 +295,7 @@ export function ScrollytellingProcess() {
                 </ul>
               </div>
 
-              <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-2.5">
+              <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-2.5">
                 <span className="text-xs font-semibold text-[var(--bio-teal)] flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                   Verified Outputs & Milestones

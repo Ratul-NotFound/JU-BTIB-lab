@@ -54,7 +54,7 @@ export function LatestPublications({
             >
               <div className="space-y-2.5 max-w-4xl">
                 <div className="flex flex-wrap items-center gap-2 text-xs">
-                  <span className="font-mono font-bold px-2.5 py-0.5 rounded-full bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/20">
+                  <span className="font-mono font-bold px-2.5 py-0.5 rounded bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/20">
                     {pub.year}
                   </span>
                   <span className="font-mono uppercase text-[var(--text-muted)] font-medium">
@@ -82,7 +82,7 @@ export function LatestPublications({
                     href={`https://doi.org/${pub.doi}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-semibold border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] hover:border-[var(--bio-teal)] transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md text-xs font-mono font-semibold border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] hover:border-[var(--bio-teal)] transition-colors"
                   >
                     <span>DOI Link</span>
                     <ExternalLink className="w-3.5 h-3.5" />

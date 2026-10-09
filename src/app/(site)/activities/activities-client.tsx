@@ -140,7 +140,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
           <button
             type="button"
             onClick={() => setSelectedType("ALL")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+            className={`px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-all ${
               selectedType === "ALL"
                 ? "bg-[var(--brand-primary)] text-white shadow-xs"
                 : "bg-[var(--surface)] text-[var(--text-secondary)] border border-[var(--border)] hover:bg-[var(--surface-raised)] hover:text-[var(--text-primary)]"
@@ -158,7 +158,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
                 key={type}
                 type="button"
                 onClick={() => setSelectedType(type)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-all ${
                   isActive
                     ? "bg-[var(--brand-primary)] text-white shadow-xs"
                     : "bg-[var(--surface)] text-[var(--text-secondary)] border border-[var(--border)] hover:bg-[var(--surface-raised)] hover:text-[var(--text-primary)]"
@@ -181,7 +181,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search events..."
-              className="w-full text-xs h-8 pl-8 pr-7 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--brand-primary)] transition-all"
+              className="w-full text-xs h-8 pl-8 pr-7 rounded-md border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--brand-primary)] transition-all"
             />
             {searchQuery && (
               <button
@@ -196,7 +196,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
           </div>
 
           {/* View Toggle: List / Grid */}
-          <div className="flex items-center p-0.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] shrink-0">
+          <div className="flex items-center p-0.5 rounded-md border border-[var(--border)] bg-[var(--surface)] shrink-0">
             <button
               type="button"
               onClick={() => setViewMode("list")}
@@ -246,7 +246,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
               <Link
                 key={act.id}
                 href={`/activities/${act.slug}`}
-                className="group relative flex flex-col sm:flex-row items-stretch rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/70 hover:shadow-md transition-all duration-200 overflow-hidden"
+                className="group relative flex flex-col sm:flex-row items-stretch rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/70 hover:shadow-md transition-all duration-200 overflow-hidden"
               >
                 {/* Left Thumbnail (Desktop: compact 220px, Mobile: compact height) */}
                 <div className="relative w-full sm:w-52 md:w-56 aspect-[2.4/1] sm:aspect-auto h-28 sm:h-auto shrink-0 overflow-hidden bg-[var(--surface-raised)]">
@@ -357,7 +357,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
               <Link
                 key={act.id}
                 href={`/activities/${act.slug}`}
-                className="group flex flex-col rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/70 hover:shadow-md transition-all duration-200 overflow-hidden"
+                className="group flex flex-col rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/70 hover:shadow-md transition-all duration-200 overflow-hidden"
               >
                 {/* Shallow 16:9 Image */}
                 <div className="relative w-full aspect-[2.1/1] sm:aspect-[16/9] overflow-hidden bg-[var(--surface-raised)]">
@@ -427,7 +427,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
 
       {/* Empty State */}
       {filtered.length === 0 && (
-        <div className="p-10 text-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2.5">
+        <div className="p-10 text-center rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-2.5">
           <Layers className="w-8 h-8 text-[var(--text-muted)] mx-auto opacity-40" />
           <h4 className="text-sm font-bold text-[var(--text-primary)]">No events match your criteria</h4>
           <p className="text-xs text-[var(--text-secondary)]">
@@ -441,7 +441,7 @@ export function ActivitiesListClient({ activities }: { activities: ActivityItem[
               setSelectedType("ALL");
               setSearchQuery("");
             }}
-            className="mt-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-hover)] transition-colors"
+            className="mt-2 px-3.5 py-1.5 rounded text-xs font-semibold bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-hover)] transition-colors"
           >
             Clear Filters
           </button>

@@ -111,10 +111,10 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
   return (
     <div className="space-y-6">
       {/* 1. Header */}
-      <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 sm:p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1.5">
+            <span className="px-3 py-1 rounded-md text-xs font-mono font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5" />
               <span>Academic Supervision</span>
             </span>
@@ -146,7 +146,7 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
 
       {statusMessage && (
         <div
-          className={`p-4 rounded-2xl border text-sm flex items-center gap-3 ${
+          className={`p-4 rounded-md border text-sm flex items-center gap-3 ${
             statusMessage.type === "success"
               ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-300"
               : "bg-red-500/10 border-red-500/20 text-red-600"
@@ -163,7 +163,7 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
 
       {/* 2. Students Grid */}
       {filteredStudents.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl border border-dashed border-[var(--border)] bg-[var(--surface)]/50 space-y-3">
+        <div className="p-12 text-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)]/50 space-y-3">
           <Users className="w-10 h-10 text-[var(--text-secondary)] mx-auto opacity-40" />
           <p className="text-sm font-semibold text-[var(--text-primary)]">No scholars found</p>
           <p className="text-xs text-[var(--text-secondary)]">
@@ -185,7 +185,7 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
             return (
               <div
                 key={s.id}
-                className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-purple-500/30 transition-all space-y-4 shadow-2xs"
+                className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-purple-500/30 transition-all space-y-4 shadow-2xs"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
@@ -194,17 +194,17 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
                         {s.user.name || "Scholar"}
                       </h3>
                       {isPending && (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                           Pending Approval
                         </span>
                       )}
                       {!isPending && !isRejected && (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                           Active Scholar
                         </span>
                       )}
                       {isRejected && (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">
                           Rejected
                         </span>
                       )}
@@ -221,7 +221,7 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
                         size="sm"
                         onClick={() => handleApprove(s.id)}
                         disabled={processingId === s.id}
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 h-8 rounded-full"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 h-8 rounded-md"
                       >
                         <UserCheck className="w-3.5 h-3.5 mr-1" />
                         <span>Approve</span>
@@ -231,7 +231,7 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
                         variant="outline"
                         onClick={() => handleReject(s.id)}
                         disabled={processingId === s.id}
-                        className="text-xs px-2.5 h-8 rounded-full text-red-600 border-red-500/20 hover:bg-red-500/10"
+                        className="text-xs px-2.5 h-8 rounded-md text-red-600 border-red-500/20 hover:bg-red-500/10"
                       >
                         <UserX className="w-3.5 h-3.5" />
                       </Button>
@@ -240,7 +240,7 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
                 </div>
 
                 {s.thesisTitle && (
-                  <div className="p-3 rounded-xl bg-[var(--surface-raised)]/60 border border-[var(--border)] text-xs space-y-0.5">
+                  <div className="p-3 rounded-md bg-[var(--surface-raised)]/60 border border-[var(--border)] text-xs space-y-0.5">
                     <span className="font-semibold text-[10px] uppercase font-mono text-[var(--text-secondary)]">
                       Thesis / Research Title:
                     </span>
@@ -251,7 +251,7 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
                 )}
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs pt-1">
-                  <div className="p-2.5 rounded-lg bg-[var(--surface-raised)]/40 border border-[var(--border)]">
+                  <div className="p-2.5 rounded-md bg-[var(--surface-raised)]/40 border border-[var(--border)]">
                     <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">
                       Session & Batch
                     </div>
@@ -260,7 +260,7 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
                     </div>
                   </div>
 
-                  <div className="p-2.5 rounded-lg bg-[var(--surface-raised)]/40 border border-[var(--border)]">
+                  <div className="p-2.5 rounded-md bg-[var(--surface-raised)]/40 border border-[var(--border)]">
                     <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">
                       Lab Hours Logged
                     </div>
@@ -269,7 +269,7 @@ export function FacultyStudentsClient({ students: initialStudents }: FacultyStud
                     </div>
                   </div>
 
-                  <div className="p-2.5 rounded-lg bg-[var(--surface-raised)]/40 border border-[var(--border)] col-span-2 sm:col-span-1">
+                  <div className="p-2.5 rounded-md bg-[var(--surface-raised)]/40 border border-[var(--border)] col-span-2 sm:col-span-1">
                     <div className="text-[10px] font-mono text-[var(--text-secondary)] uppercase">
                       Verified Hours
                     </div>

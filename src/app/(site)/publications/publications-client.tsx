@@ -90,7 +90,7 @@ export function PublicationsClient({
       {timeline.length > 0 && <PublicationsHistogram data={timeline} />}
 
       {/* Search and Filters Controls */}
-      <div className="p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2.5 sm:space-y-4 shadow-xs">
+      <div className="p-3 sm:p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-2.5 sm:space-y-4 shadow-xs">
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           {/* Search Bar */}
           <div className="relative flex-1">
@@ -100,7 +100,7 @@ export function PublicationsClient({
               placeholder="Search title, author, journal, or topic..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 sm:pl-10 pr-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] transition-colors font-sans"
+              className="w-full pl-9 sm:pl-10 pr-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--bio-teal)] transition-colors font-sans"
             />
             {search && (
               <button
@@ -118,7 +118,7 @@ export function PublicationsClient({
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
-              className="px-2.5 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-xs font-mono rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--bio-teal)]"
+              className="px-2.5 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-xs font-mono rounded border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--bio-teal)]"
             >
               <option value="ALL">All Years</option>
               {years.map((y) => (
@@ -131,7 +131,7 @@ export function PublicationsClient({
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="px-2.5 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-xs font-mono rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--bio-teal)]"
+              className="px-2.5 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-xs font-mono rounded border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--bio-teal)]"
             >
               <option value="ALL">All Types</option>
               <option value="JOURNAL">Journal</option>
@@ -178,7 +178,7 @@ export function PublicationsClient({
             <StaggerItem key={pub.id} yOffset={16}>
               <InteractiveCard hoverY={-2} className="w-full">
                 <div
-                  className="p-3.5 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all space-y-2 sm:space-y-3"
+                  className="p-3.5 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all space-y-2 sm:space-y-3"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
                     <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
@@ -213,7 +213,7 @@ export function PublicationsClient({
                           href={`https://doi.org/${pub.doi}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-mono border border-[var(--brand-primary)]/30 bg-[var(--brand-primary)]/5 text-[var(--brand-primary)] hover:bg-[var(--brand-primary)] hover:text-white transition-all"
+                          className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-3 sm:py-1 rounded text-[10px] sm:text-xs font-mono border border-[var(--brand-primary)]/30 bg-[var(--brand-primary)]/5 text-[var(--brand-primary)] hover:bg-[var(--brand-primary)] hover:text-white transition-all"
                         >
                           <span>DOI</span>
                           <ExternalLink className="w-3 h-3" />
@@ -239,7 +239,7 @@ export function PublicationsClient({
                       <summary className="font-mono text-[10px] sm:text-[11px] text-[var(--bio-teal)] cursor-pointer hover:underline select-none">
                         View Abstract
                       </summary>
-                      <p className="mt-1.5 sm:mt-2 p-2.5 sm:p-3.5 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-xs font-light">
+                      <p className="mt-1.5 sm:mt-2 p-2.5 sm:p-3.5 rounded border border-[var(--border)] bg-[var(--surface-raised)] text-xs font-light">
                         {pub.abstract}
                       </p>
                     </details>
@@ -251,7 +251,7 @@ export function PublicationsClient({
         })}
 
         {filtered.length === 0 && (
-          <div className="p-6 sm:p-8 text-center rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-xs font-mono text-[var(--text-muted)]">
+          <div className="p-6 sm:p-8 text-center rounded-md border border-[var(--border)] bg-[var(--surface)] text-xs font-mono text-[var(--text-muted)]">
             No publications match your criteria.
           </div>
         )}
@@ -260,7 +260,7 @@ export function PublicationsClient({
       {/* BibTeX Modal */}
       {activeBibtex && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-xl rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-4 shadow-xl">
+          <div className="w-full max-w-xl rounded-md border border-[var(--border)] bg-[var(--surface)] p-6 space-y-4 shadow-xl">
             <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
               <div className="flex items-center gap-2">
                 <span className="specimen-tag text-[10px]">CITATION FORMAT</span>
@@ -282,7 +282,7 @@ export function PublicationsClient({
             </div>
 
             <div className="relative">
-              <pre className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-xs font-mono text-[var(--text-primary)] overflow-x-auto whitespace-pre">
+              <pre className="p-4 rounded border border-[var(--border)] bg-[var(--surface-raised)] text-xs font-mono text-[var(--text-primary)] overflow-x-auto whitespace-pre">
                 {activeBibtex.bibtex}
               </pre>
             </div>
@@ -291,7 +291,7 @@ export function PublicationsClient({
               <button
                 type="button"
                 onClick={() => handleCopyBibtex("modal", activeBibtex.bibtex)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white shadow-xs transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded text-xs font-mono bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white shadow-xs transition-colors"
               >
                 {copiedId === "modal" ? (
                   <>
@@ -309,7 +309,7 @@ export function PublicationsClient({
               <button
                 type="button"
                 onClick={() => setActiveBibtex(null)}
-                className="px-4 py-2 rounded-lg text-xs font-mono border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                className="px-4 py-2 rounded text-xs font-mono border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
               >
                 Close
               </button>

@@ -145,7 +145,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
               <button
                 type="button"
                 onClick={() => setSelectedAlbumId("ALL")}
-                className={`h-9 sm:h-10 px-3.5 sm:px-4 rounded-xl text-xs font-semibold whitespace-nowrap inline-flex items-center gap-2 shrink-0 transition-all border focus:outline-none ${
+                className={`h-9 sm:h-10 px-3.5 sm:px-4 rounded-md text-xs font-semibold whitespace-nowrap inline-flex items-center gap-2 shrink-0 transition-all border focus:outline-none ${
                   selectedAlbumId === "ALL"
                     ? "bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-xs"
                     : "bg-[var(--surface)] text-[var(--text-secondary)] border-[var(--border)] hover:bg-[var(--surface-raised)] hover:text-[var(--text-primary)] hover:border-[var(--brand-primary)]/40"
@@ -165,7 +165,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
                     key={album.id}
                     type="button"
                     onClick={() => setSelectedAlbumId(album.id)}
-                    className={`h-9 sm:h-10 px-3.5 sm:px-4 rounded-xl text-xs font-semibold whitespace-nowrap inline-flex items-center gap-2 shrink-0 transition-all border focus:outline-none ${
+                    className={`h-9 sm:h-10 px-3.5 sm:px-4 rounded-md text-xs font-semibold whitespace-nowrap inline-flex items-center gap-2 shrink-0 transition-all border focus:outline-none ${
                       isSelected
                         ? "bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-xs"
                         : "bg-[var(--surface)] text-[var(--text-secondary)] border-[var(--border)] hover:bg-[var(--surface-raised)] hover:text-[var(--text-primary)] hover:border-[var(--brand-primary)]/40"
@@ -183,11 +183,11 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
         )}
 
         {/* Grid Mode Switcher */}
-        <div className="flex items-center p-1 rounded-xl border border-[var(--border)] bg-[var(--surface)] shrink-0 self-start lg:self-auto">
+        <div className="flex items-center p-1 rounded-md border border-[var(--border)] bg-[var(--surface)] shrink-0 self-start lg:self-auto">
           <button
             type="button"
             onClick={() => setViewMode("bento")}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
               viewMode === "bento"
                 ? "bg-[var(--brand-primary)] text-white shadow-xs"
                 : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -201,7 +201,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
           <button
             type="button"
             onClick={() => setViewMode("masonry")}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
               viewMode === "masonry"
                 ? "bg-[var(--brand-primary)] text-white shadow-xs"
                 : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -215,7 +215,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
           <button
             type="button"
             onClick={() => setViewMode("grid")}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
               viewMode === "grid"
                 ? "bg-[var(--brand-primary)] text-white shadow-xs"
                 : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -233,7 +233,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
         const currentAlbum = validAlbums.find((a) => a.id === selectedAlbumId);
         if (!currentAlbum?.description) return null;
         return (
-          <div className="p-4 sm:p-5 rounded-2xl bg-[var(--surface-raised)] border border-[var(--border)] text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
+          <div className="p-4 sm:p-5 rounded-md bg-[var(--surface-raised)] border border-[var(--border)] text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-light">
             <span className="font-semibold text-[var(--text-primary)] mr-2">Archive Series:</span>
             {currentAlbum.description}
           </div>
@@ -259,7 +259,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
                 <InteractiveCard hoverY={-3} className="w-full h-full">
                   <div
                     onClick={() => setLightboxIndex(idx)}
-                    className="group relative w-full h-full rounded-xl sm:rounded-3xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl transition-all duration-300 shadow-xs flex flex-col justify-end"
+                    className="group relative w-full h-full rounded-md border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl transition-all duration-300 shadow-xs flex flex-col justify-end"
                   >
                     {/* Background Image */}
                     <Image
@@ -283,7 +283,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
                         <span className="truncate max-w-[120px] sm:max-w-[180px]">{img.albumTitle}</span>
                       </span>
 
-                      <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/65 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-70 group-hover:opacity-100 group-hover:scale-110 group-hover:bg-[var(--brand-primary)] transition-all shrink-0">
+                      <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-black/65 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-70 group-hover:opacity-100 group-hover:scale-110 group-hover:bg-[var(--brand-primary)] transition-all shrink-0">
                         <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                       </div>
                     </div>
@@ -343,7 +343,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
               <div
                 key={img.id}
                 onClick={() => setLightboxIndex(idx)}
-                className="break-inside-avoid group relative rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl transition-all duration-300 shadow-xs"
+                className="break-inside-avoid group relative rounded-md border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-xl transition-all duration-300 shadow-xs"
               >
                 <div className={`relative w-full ${aspectStyle} overflow-hidden bg-[var(--surface-raised)]`}>
                   <Image
@@ -360,7 +360,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
                     <span className="px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded text-[9px] sm:text-[10px] font-semibold bg-black/65 backdrop-blur-md text-white border border-white/15 truncate max-w-[120px]">
                       {img.albumTitle.split("&")[0].trim()}
                     </span>
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <Maximize2 className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                     </div>
                   </div>
@@ -392,7 +392,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
             <div
               key={img.id}
               onClick={() => setLightboxIndex(idx)}
-              className="group relative aspect-[16/10] rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-lg transition-all duration-300 shadow-xs"
+              className="group relative aspect-[16/10] rounded-md border border-[var(--border)] bg-[var(--surface)] overflow-hidden cursor-pointer hover:border-[var(--brand-primary)] hover:shadow-lg transition-all duration-300 shadow-xs"
             >
               <Image
                 src={img.url}
@@ -428,7 +428,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
 
       {/* Empty State */}
       {allImages.length === 0 && (
-        <div className="p-16 text-center rounded-3xl border border-[var(--border)] bg-[var(--surface)] space-y-3">
+        <div className="p-16 text-center rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-3">
           <ImageIcon className="w-10 h-10 text-[var(--text-muted)] mx-auto opacity-50" />
           <h4 className="text-base font-bold text-[var(--text-primary)]">No images found in this series</h4>
           <p className="text-xs text-[var(--text-secondary)]">
@@ -437,7 +437,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
           <button
             type="button"
             onClick={() => setSelectedAlbumId("ALL")}
-            className="mt-2 px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-hover)] transition-colors"
+            className="mt-2 px-4 py-2 rounded-md text-xs font-semibold bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-hover)] transition-colors"
           >
             Reset Album Filter
           </button>
@@ -463,7 +463,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
             <button
               type="button"
               onClick={() => setLightboxIndex(null)}
-              className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-all focus:outline-none"
+              className="p-2 sm:p-2.5 rounded-md bg-white/10 hover:bg-white/25 text-white transition-all focus:outline-none"
               aria-label="Close lightbox"
             >
               <X className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -478,7 +478,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
                 prev !== null && prev > 0 ? prev - 1 : allImages.length - 1
               )
             }
-            className="absolute left-3 sm:left-6 p-2.5 sm:p-3 rounded-full bg-white/10 hover:bg-white/25 text-white transition-all z-20 focus:outline-none"
+            className="absolute left-3 sm:left-6 p-2.5 sm:p-3 rounded-md bg-white/10 hover:bg-white/25 text-white transition-all z-20 focus:outline-none"
             aria-label="Previous image"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -492,7 +492,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
                 prev !== null && prev < allImages.length - 1 ? prev + 1 : 0
               )
             }
-            className="absolute right-3 sm:right-6 p-2.5 sm:p-3 rounded-full bg-white/10 hover:bg-white/25 text-white transition-all z-20 focus:outline-none"
+            className="absolute right-3 sm:right-6 p-2.5 sm:p-3 rounded-md bg-white/10 hover:bg-white/25 text-white transition-all z-20 focus:outline-none"
             aria-label="Next image"
           >
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -505,7 +505,7 @@ export function GalleryClient({ albums }: { albums: GalleryAlbumItem[] }) {
               <img
                 src={activeImage.url}
                 alt={activeImage.alt}
-                className="max-h-[72vh] max-w-full rounded-2xl object-contain shadow-2xl border border-white/15"
+                className="max-h-[72vh] max-w-full rounded-md object-contain shadow-2xl border border-white/15"
               />
             </div>
 

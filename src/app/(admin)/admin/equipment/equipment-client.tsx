@@ -218,7 +218,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
         return (
           <div className="flex items-center gap-3">
             {item.imageUrl ? (
-              <div className="w-10 h-10 rounded-lg border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
+              <div className="w-10 h-10 rounded border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.imageUrl}
@@ -227,7 +227,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
                 />
               </div>
             ) : (
-              <div className="w-10 h-10 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
+              <div className="w-10 h-10 rounded border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
                 {isChem ? <FlaskConical className="w-4 h-4 text-amber-500" /> : <Microscope className="w-4 h-4 text-emerald-500" />}
               </div>
             )}
@@ -286,7 +286,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
   return (
     <div className="space-y-6">
       {/* Top Banner & Filter Segment Switcher */}
-      <div className="p-4 sm:p-6 rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4">
+      <div className="p-4 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold font-sans text-[var(--text-primary)] flex items-center gap-2.5">
@@ -328,7 +328,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
           <button
             type="button"
             onClick={() => setActiveTab("ALL")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
               activeTab === "ALL"
                 ? "bg-[var(--brand-primary)] text-white shadow-xs"
                 : "bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -339,7 +339,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
           <button
             type="button"
             onClick={() => setActiveTab("EQUIPMENT")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === "EQUIPMENT"
                 ? "bg-emerald-600 text-white shadow-xs"
                 : "bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -351,7 +351,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
           <button
             type="button"
             onClick={() => setActiveTab("CHEMICALS")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === "CHEMICALS"
                 ? "bg-amber-600 text-white shadow-xs"
                 : "bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -418,7 +418,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
               <button
                 type="button"
                 onClick={() => handleTypeChange("EQUIPMENT")}
-                className={`flex items-center justify-center gap-2 p-3 rounded-xl border text-xs font-bold transition-all ${
+                className={`flex items-center justify-center gap-2 p-3 rounded-md border text-xs font-bold transition-all ${
                   itemType === "EQUIPMENT"
                     ? "border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shadow-xs"
                     : "border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -430,7 +430,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
               <button
                 type="button"
                 onClick={() => handleTypeChange("CHEMICALS")}
-                className={`flex items-center justify-center gap-2 p-3 rounded-xl border text-xs font-bold transition-all ${
+                className={`flex items-center justify-center gap-2 p-3 rounded-md border text-xs font-bold transition-all ${
                   itemType === "CHEMICALS"
                     ? "border-amber-500 bg-amber-500/10 text-amber-600 dark:text-amber-400 shadow-xs"
                     : "border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -473,7 +473,7 @@ export function EquipmentClient({ initialData }: { initialData: EquipmentItem[] 
                     setCategory(e.target.value);
                   }
                 }}
-                className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-xs text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+                className="w-full px-3 py-2 rounded-md border border-[var(--border)] bg-[var(--surface)] text-xs text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
               >
                 {(itemType === "EQUIPMENT" ? EQUIPMENT_DIVISIONS : CHEMICAL_DIVISIONS).map((div) => (
                   <option key={div} value={div}>

@@ -84,8 +84,8 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
 
   if (success) {
     return (
-      <div className="p-8 sm:p-12 rounded-3xl border border-emerald-500/30 bg-emerald-500/5 text-center space-y-5 max-w-xl mx-auto shadow-lg">
-        <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
+      <div className="p-8 sm:p-12 rounded-md border border-emerald-500/30 bg-emerald-500/5 text-center space-y-5 max-w-xl mx-auto shadow-lg">
+        <div className="w-16 h-16 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
           <CheckCircle2 className="w-9 h-9" />
         </div>
         <div className="space-y-2">
@@ -97,7 +97,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
           </p>
         </div>
 
-        <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-left text-xs font-mono text-[var(--text-muted)] space-y-1">
+        <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface)] text-left text-xs font-mono text-[var(--text-muted)] space-y-1">
           <div><span className="text-[var(--text-secondary)]">Student Name:</span> {formData.name}</div>
           <div><span className="text-[var(--text-secondary)]">Student / Roll ID:</span> {formData.studentId}</div>
           <div><span className="text-[var(--text-secondary)]">Supervisor:</span> {formData.supervisorName || "Assigned Faculty"}</div>
@@ -107,7 +107,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
         <div className="pt-2">
           <Link
             href="/login"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white text-xs font-bold transition-all shadow-sm"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white text-xs font-bold transition-all shadow-sm"
           >
             <span>Proceed to Login Portal</span>
             <ArrowRight className="w-4 h-4" />
@@ -120,7 +120,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {error && (
-        <div className="p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-xs text-red-600 dark:text-red-400 flex items-start gap-2.5">
+        <div className="p-4 rounded-md border border-red-500/30 bg-red-500/10 text-xs text-red-600 dark:text-red-400 flex items-start gap-2.5">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
           <span className="leading-relaxed">{error}</span>
         </div>
@@ -142,7 +142,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
               value={formData.name}
               onChange={handleChange}
               disabled={loading}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
           <div className="space-y-1.5">
@@ -155,7 +155,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
               value={formData.email}
               onChange={handleChange}
               disabled={loading}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
           <div className="space-y-1.5">
@@ -169,7 +169,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
               value={formData.password}
               onChange={handleChange}
               disabled={loading}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
           <div className="space-y-1.5">
@@ -182,7 +182,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
               value={formData.phone}
               onChange={handleChange}
               disabled={loading}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
         </div>
@@ -204,7 +204,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
               value={formData.studentId}
               onChange={handleChange}
               disabled={loading}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
           <div className="space-y-1.5">
@@ -214,7 +214,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
               value={formData.program}
               onChange={handleChange}
               disabled={loading}
-              className="w-full h-10 px-3 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+              className="w-full h-10 px-3 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
             >
               <option value={AcademicProgram.BSC_THESIS}>B.Sc (Hons) Thesis Student</option>
               <option value={AcademicProgram.MSC_THESIS}>M.Sc Thesis Scholar</option>
@@ -233,7 +233,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
               value={formData.sessionYear}
               onChange={handleChange}
               disabled={loading}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
         </div>
@@ -247,7 +247,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
               value={formData.batch}
               onChange={handleChange}
               disabled={loading}
-              className="h-10 rounded-xl"
+              className="h-10 rounded-md"
             />
           </div>
           <div className="space-y-1.5">
@@ -257,7 +257,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
               value={formData.supervisorId}
               onChange={handleSupervisorChange}
               disabled={loading}
-              className="w-full h-10 px-3 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+              className="w-full h-10 px-3 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] text-xs text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
             >
               {facultyList.length > 0 ? (
                 facultyList.map((f) => (
@@ -280,12 +280,12 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
             value={formData.thesisTitle}
             onChange={handleChange}
             disabled={loading}
-            className="h-10 rounded-xl"
+            className="h-10 rounded-md"
           />
         </div>
       </div>
 
-      <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]/50 text-xs text-[var(--text-muted)] space-y-1">
+      <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]/50 text-xs text-[var(--text-muted)] space-y-1">
         <div className="font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
           <ShieldCheck className="w-4 h-4 text-emerald-500" />
           <span>Verification & Lab Conduct Policy</span>
@@ -297,7 +297,7 @@ export function RegisterFormClient({ facultyList }: { facultyList: FacultyOption
 
       <Button
         type="submit"
-        className="w-full h-11 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white font-bold transition-all shadow-md"
+        className="w-full h-11 rounded-md bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white font-bold transition-all shadow-md"
         isLoading={loading}
       >
         <GraduationCap className="w-4 h-4 mr-2" />

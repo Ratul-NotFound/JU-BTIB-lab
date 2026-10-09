@@ -225,7 +225,7 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
                 <div
                   key={album.id}
                   onClick={() => setSelectedAlbum(album)}
-                  className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`p-4 rounded-md border transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
                       ? "border-[var(--bio-teal)] bg-[var(--surface-raised)] shadow-xs"
                       : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--bio-teal)]/60"
@@ -276,7 +276,7 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
             })}
 
             {albums.length === 0 && (
-              <div className="p-6 text-center rounded-xl border border-[var(--border)] bg-[var(--surface)] text-xs font-mono text-[var(--text-muted)]">
+              <div className="p-6 text-center rounded-md border border-[var(--border)] bg-[var(--surface)] text-xs font-mono text-[var(--text-muted)]">
                 No albums created yet. Click &quot;New Photo Album&quot; to begin.
               </div>
             )}
@@ -286,7 +286,7 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
         {/* Right Column: Photos in Selected Album */}
         <div className="lg:col-span-8 space-y-4">
           {selectedAlbum ? (
-            <div className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-6">
+            <div className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
                 <div>
                   <h2 className="text-lg font-bold text-[var(--text-primary)]">
@@ -312,7 +312,7 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
                 {selectedAlbum.images.map((img) => (
                   <div
                     key={img.id}
-                    className="relative group rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden"
+                    className="relative group rounded-md border border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden"
                   >
                     <div className="aspect-4/3 overflow-hidden bg-black/5 flex items-center justify-center">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -340,13 +340,13 @@ export function GalleryAdminClient({ initialAlbums }: { initialAlbums: GalleryAl
               </div>
 
               {selectedAlbum.images.length === 0 && (
-                <div className="p-12 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-xl">
+                <div className="p-12 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[var(--border)] rounded-md">
                   This album has no photos yet. Click &quot;Add Photo to Album&quot; to upload or attach images.
                 </div>
               )}
             </div>
           ) : (
-            <div className="p-12 text-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-xs font-mono text-[var(--text-muted)]">
+            <div className="p-12 text-center rounded-md border border-[var(--border)] bg-[var(--surface)] text-xs font-mono text-[var(--text-muted)]">
               Select an album from the left to view and manage its photos.
             </div>
           )}

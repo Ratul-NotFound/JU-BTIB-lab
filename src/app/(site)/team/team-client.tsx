@@ -51,7 +51,7 @@ function TeamMemberCard({
     <InteractiveCard hoverY={-4} className="h-full">
       <Link
         href={`/team/${member.slug}`}
-        className={`group relative flex flex-col w-full h-full rounded-2xl border transition-all duration-300 focus:outline-none overflow-hidden ${
+        className={`group relative flex flex-col w-full h-full rounded-md border transition-all duration-300 focus:outline-none overflow-hidden ${
           isDirector
             ? "border-[var(--brand-primary)] bg-[var(--surface)] shadow-md hover:shadow-lg max-w-sm sm:max-w-md mx-auto"
             : isTeacher

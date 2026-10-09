@@ -22,7 +22,7 @@ export function FacultyAndOpportunities({ piMember }: { piMember?: FacultyOpport
         
         {/* Section Header */}
         <div className="space-y-3 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 text-xs font-semibold tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 text-xs font-semibold tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
             Faculty & Admissions
           </div>
@@ -38,12 +38,12 @@ export function FacultyAndOpportunities({ piMember }: { piMember?: FacultyOpport
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Left Column: Principal Investigator Profile (6 cols on lg) */}
-          <div className="lg:col-span-6 rounded-3xl border border-[var(--border)] bg-[var(--background)] p-6 sm:p-8 flex flex-col justify-between shadow-xs">
+          <div className="lg:col-span-6 rounded-md border border-[var(--border)] bg-[var(--background)] p-6 sm:p-8 flex flex-col justify-between shadow-xs">
             <div className="space-y-6">
               
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shrink-0 shadow-xs">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-md overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shrink-0 shadow-xs">
                   <Image
                     src={photo}
                     alt={`${name}, Principal Investigator at BTIB Lab`}
@@ -74,7 +74,7 @@ export function FacultyAndOpportunities({ piMember }: { piMember?: FacultyOpport
               </p>
 
               {/* Dignified Academic Quote */}
-              <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-xs text-[var(--text-secondary)] italic leading-relaxed relative flex gap-3">
+              <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface)] text-xs text-[var(--text-secondary)] italic leading-relaxed relative flex gap-3">
                 <Quote className="w-5 h-5 text-cyan-600 dark:text-cyan-400 shrink-0 mt-0.5" />
                 <p>
                   &ldquo;Our mission is to translate Bangladesh&apos;s indigenous biological wealth into scalable biotechnological solutions that benefit industry, society, and the environment.&rdquo;
@@ -103,7 +103,7 @@ export function FacultyAndOpportunities({ piMember }: { piMember?: FacultyOpport
           </div>
 
           {/* Right Column: Academic Placements & Industrial Partnerships (6 cols on lg) */}
-          <div className="lg:col-span-6 rounded-3xl border border-[var(--border)] bg-[var(--background)] p-6 sm:p-8 flex flex-col justify-between shadow-xs">
+          <div className="lg:col-span-6 rounded-md border border-[var(--border)] bg-[var(--background)] p-6 sm:p-8 flex flex-col justify-between shadow-xs">
             <div className="space-y-6">
               
               <div className="space-y-2">
@@ -120,8 +120,8 @@ export function FacultyAndOpportunities({ piMember }: { piMember?: FacultyOpport
 
               {/* Two Pathway Cards */}
               <div className="space-y-3">
-                <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex items-start gap-4">
-                  <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 shrink-0 mt-0.5">
+                <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface)] flex items-start gap-4">
+                  <div className="p-2.5 rounded bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 shrink-0 mt-0.5">
                     <GraduationCap className="w-5 h-5" />
                   </div>
                   <div>
@@ -134,8 +134,8 @@ export function FacultyAndOpportunities({ piMember }: { piMember?: FacultyOpport
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex items-start gap-4">
-                  <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
+                <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface)] flex items-start gap-4">
+                  <div className="p-2.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
                     <Building2 className="w-5 h-5" />
                   </div>
                   <div>
@@ -155,13 +155,13 @@ export function FacultyAndOpportunities({ piMember }: { piMember?: FacultyOpport
             <div className="pt-6 mt-6 border-t border-[var(--border)] flex flex-wrap items-center gap-3">
               <Link
                 href="/contact"
-                className="px-5 py-2.5 rounded-xl text-xs font-bold font-sans bg-cyan-600 hover:bg-cyan-500 text-white shadow-xs transition-all active:scale-[0.98]"
+                className="px-5 py-2.5 rounded-md text-xs font-bold font-sans bg-cyan-600 hover:bg-cyan-500 text-white shadow-xs transition-all active:scale-[0.98]"
               >
                 Inquire About Placement
               </Link>
               <Link
                 href="/about"
-                className="px-5 py-2.5 rounded-xl text-xs font-semibold font-sans border border-[var(--border)] bg-[var(--surface-raised)] hover:bg-[var(--surface)] text-[var(--text-primary)] transition-all active:scale-[0.98]"
+                className="px-5 py-2.5 rounded-md text-xs font-semibold font-sans border border-[var(--border)] bg-[var(--surface-raised)] hover:bg-[var(--surface)] text-[var(--text-primary)] transition-all active:scale-[0.98]"
               >
                 Laboratory Facilities
               </Link>

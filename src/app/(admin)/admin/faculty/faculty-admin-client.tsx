@@ -117,7 +117,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
   return (
     <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto">
       {/* 1. Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="specimen-tag text-[10px] py-0 px-2 font-bold uppercase">
@@ -142,7 +142,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
         <div>
           <Button
             onClick={() => setShowGenerator(!showGenerator)}
-            className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-4 py-2.5 rounded-full flex items-center gap-2 shadow-sm font-semibold"
+            className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-4 py-2.5 rounded-md flex items-center gap-2 shadow-sm font-semibold"
           >
             <UserPlus className="w-4 h-4" />
             <span>{showGenerator ? "Hide Generator" : "Provision New Faculty"}</span>
@@ -152,7 +152,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
 
       {/* 2. Success Alert with Copyable Credentials */}
       {successCreds && (
-        <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-200 space-y-3">
+        <div className="p-5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-200 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-emerald-600" />
@@ -177,7 +177,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
               )}
             </Button>
           </div>
-          <div className="p-3 rounded-xl bg-[var(--surface)] text-xs font-mono border border-[var(--border)] text-[var(--text-primary)] space-y-1">
+          <div className="p-3 rounded bg-[var(--surface)] text-xs font-mono border border-[var(--border)] text-[var(--text-primary)] space-y-1">
             <div>
               <span className="text-[var(--text-secondary)]">Login Email: </span>
               <span className="font-semibold">{successCreds.email}</span>
@@ -197,7 +197,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
       {showGenerator && (
         <form
           onSubmit={handleGenerateFaculty}
-          className="p-6 sm:p-8 rounded-2xl border border-purple-500/30 bg-[var(--surface)] shadow-md space-y-6 relative overflow-hidden"
+          className="p-6 sm:p-8 rounded-md border border-purple-500/30 bg-[var(--surface)] shadow-md space-y-6 relative overflow-hidden"
         >
           <div className="space-y-1">
             <h2 className="text-lg font-bold font-sans text-[var(--text-primary)] flex items-center gap-2">
@@ -210,7 +210,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
           </div>
 
           {error && (
-            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 text-xs flex items-center gap-2">
+            <div className="p-4 rounded bg-red-500/10 border border-red-500/20 text-red-600 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
@@ -264,7 +264,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
               <select
                 value={designation}
                 onChange={(e) => setDesignation(e.target.value)}
-                className="w-full h-10 px-3 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] text-sm focus:ring-2 focus:ring-purple-500"
+                className="w-full h-10 px-3 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] text-sm focus:ring-2 focus:ring-purple-500"
                 required
               >
                 <option value="Professor">Professor</option>
@@ -337,7 +337,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
             <Button
               type="submit"
               disabled={submitting}
-              className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-6 py-2.5 rounded-full font-medium"
+              className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-6 py-2.5 rounded-md font-medium"
             >
               {submitting ? "Generating Account..." : "Provision Faculty Account"}
             </Button>
@@ -365,7 +365,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
         </div>
 
         {filteredFaculty.length === 0 ? (
-          <div className="p-12 text-center rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] space-y-2">
+          <div className="p-12 text-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] space-y-2">
             <GraduationCap className="w-10 h-10 text-[var(--text-secondary)] mx-auto opacity-40" />
             <p className="text-sm font-semibold text-[var(--text-primary)]">No faculty accounts found</p>
             <p className="text-xs text-[var(--text-secondary)]">
@@ -373,7 +373,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
             </p>
           </div>
         ) : (
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
+          <div className="rounded-md border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
@@ -430,7 +430,7 @@ export function FacultyAdminClient({ initialFaculty }: FacultyAdminClientProps) 
                         </div>
                       </td>
                       <td className="p-3.5 pr-5">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        <span className="px-2.5 py-1 rounded text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                           ACTIVE
                         </span>
                       </td>

@@ -51,7 +51,7 @@ export default async function ActivityDetailPage({ params }: Props) {
       </div>
 
       {/* Hero Visual Card */}
-      <section className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-[var(--border)] bg-[var(--surface)] shadow-md">
+      <section className="relative rounded-md overflow-hidden border border-[var(--border)] bg-[var(--surface)] shadow-md">
         {/* Cover Photo */}
         <div className="relative w-full h-56 sm:h-96 lg:h-[480px] bg-[var(--surface-raised)]">
           <Image
@@ -100,7 +100,7 @@ export default async function ActivityDetailPage({ params }: Props) {
       </section>
 
       {/* Main Body Article */}
-      <section className="p-4 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 sm:space-y-6">
+      <section className="p-4 sm:p-8 lg:p-12 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 sm:space-y-6">
         <h2 className="text-lg sm:text-2xl font-bold font-sans text-[var(--text-primary)]">
           Activity Summary & Event Briefing
         </h2>
@@ -147,9 +147,9 @@ export default async function ActivityDetailPage({ params }: Props) {
                   {album.images.map((img) => (
                     <div
                       key={img.id}
-                      className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 p-2 sm:p-2.5 space-y-1.5 sm:space-y-2.5"
+                      className="group rounded-md border border-[var(--border)] bg-[var(--surface)] overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 p-2 sm:p-2.5 space-y-1.5 sm:space-y-2.5"
                     >
-                      <div className="relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden bg-[var(--surface-raised)]">
+                      <div className="relative aspect-[4/3] rounded overflow-hidden bg-[var(--surface-raised)]">
                         <Image
                           src={img.url}
                           alt={img.alt || album.title}

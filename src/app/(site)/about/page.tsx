@@ -166,7 +166,7 @@ export default async function AboutPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-16 space-y-8 sm:space-y-16">
         
         {/* 1. Institutional Hero & Overview Banner */}
-        <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs">
+        <section className="p-4 sm:p-8 lg:p-12 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-14 items-center">
             
             <div className="lg:col-span-7 space-y-4 sm:space-y-6">
@@ -206,17 +206,17 @@ export default async function AboutPage() {
               </p>
 
               <div className="pt-1 sm:pt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-xs font-mono text-[var(--text-muted)]">
-                <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <Compass className="w-3.5 h-3.5 text-[var(--brand-primary)]" />
                   <span>Motto: {settings?.tagline || "From bioresource to bioproduct"}</span>
                 </div>
-                <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
+                <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]">
                   <span>Dept. of BGE · Savar, Dhaka-1342</span>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-5 relative aspect-[2.1/1] sm:aspect-[4/3] rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-xs">
+            <div className="lg:col-span-5 relative aspect-[2.1/1] sm:aspect-[4/3] rounded-md overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-xs">
               <Image
                 src={settings?.aboutHeroImage || "/images/facilities/cleanroom-pilot.jpg"}
                 alt="Cleanroom pilot bioprocessing suite at Jahangirnagar University"
@@ -226,7 +226,7 @@ export default async function AboutPage() {
                 sizes="(max-width: 1024px) 100vw, 500px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4 text-[10px] sm:text-xs text-white bg-black/65 backdrop-blur-md px-2.5 sm:px-4 py-1.5 sm:py-3 rounded-lg sm:rounded-xl border border-white/15">
+              <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4 text-[10px] sm:text-xs text-white bg-black/65 backdrop-blur-md px-2.5 sm:px-4 py-1.5 sm:py-3 rounded-md border border-white/15">
                 <span className="font-bold block text-xs sm:text-sm">BTIB Pilot Bioprocessing Suite</span>
                 Savar, Dhaka · Department of Biotechnology & Genetic Engineering
               </div>
@@ -262,7 +262,7 @@ export default async function AboutPage() {
             {/* Left Narrative Column (5 cols) */}
             <div className="lg:col-span-5 space-y-4 sm:space-y-6 lg:sticky lg:top-24">
               <AboutSectionReveal>
-                <div className="p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-3 sm:space-y-5 shadow-xs">
+                <div className="p-4 sm:p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-3 sm:space-y-5 shadow-xs">
                   <h3 className="text-base sm:text-2xl font-bold text-[var(--text-primary)] leading-snug">
                     Transforming Local Biodiversity into Sustainable Bio-Solutions
                   </h3>
@@ -273,7 +273,7 @@ export default async function AboutPage() {
                     Over the past 14 years, the laboratory has systematically isolated and cryopreserved over 120 indigenous microbial strains, trained more than 50 research scholars, and produced patentable bioprocess breakthroughs in enzyme immobilization and photosynthetic microalgal carbon capture.
                   </p>
                   <div className="pt-3 sm:pt-4 border-t border-[var(--border)] flex items-center gap-2.5 sm:gap-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center font-serif font-bold text-xs sm:text-sm text-[var(--brand-primary)] shrink-0">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center font-serif font-bold text-xs sm:text-sm text-[var(--brand-primary)] shrink-0">
                       SR
                     </div>
                     <div className="text-[11px] sm:text-xs">
@@ -329,7 +329,7 @@ export default async function AboutPage() {
 
         {/* 6. Faculty Leadership Spotlight (PI) */}
         {pi && (
-          <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 sm:space-y-8">
+          <section className="p-4 sm:p-8 lg:p-12 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 sm:space-y-8">
             <div className="border-b border-[var(--border)] pb-2 sm:pb-3">
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-sans text-[var(--text-primary)]">
                 Faculty Leadership & Principal Investigator
@@ -338,7 +338,7 @@ export default async function AboutPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 lg:gap-12 items-start">
               <div className="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left space-y-3 sm:space-y-4">
-                <div className="relative w-32 h-32 sm:w-52 sm:h-52 rounded-xl sm:rounded-2xl border border-[var(--border)] overflow-hidden shadow-xs bg-[var(--surface-raised)]">
+                <div className="relative w-32 h-32 sm:w-52 sm:h-52 rounded-md border border-[var(--border)] overflow-hidden shadow-xs bg-[var(--surface-raised)]">
                   <Image
                     src={pi.photoUrl || "/images/team/shahedur-rahman.jpg"}
                     alt={pi.name}
@@ -365,7 +365,7 @@ export default async function AboutPage() {
                   {pi.email && (
                     <a
                       href={`mailto:${pi.email}`}
-                      className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-mono px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] transition-colors"
+                      className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-mono px-3 py-1.5 sm:px-3.5 sm:py-2 rounded border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
                       <span>{pi.email}</span>
@@ -373,7 +373,7 @@ export default async function AboutPage() {
                   )}
                   <Link
                     href="/publications"
-                    className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-mono px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg sm:rounded-xl border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] transition-colors"
+                    className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-mono px-3 py-1.5 sm:px-3.5 sm:py-2 rounded border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] hover:text-[var(--bio-teal)] transition-colors"
                   >
                     <BookOpen className="w-3.5 h-3.5" />
                     <span>Scholarly Output</span>
@@ -401,7 +401,7 @@ export default async function AboutPage() {
                       {pi.interests.map((interest) => (
                         <span
                           key={interest}
-                          className="px-2.5 py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] font-mono"
+                          className="px-2.5 py-1 rounded text-[11px] sm:text-xs border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)] font-mono"
                         >
                           {interest}
                         </span>
@@ -415,7 +415,7 @@ export default async function AboutPage() {
         )}
 
         {/* 7. Thesis Admissions & Collaborations CTA */}
-        <section className="p-4 sm:p-8 lg:p-12 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-xs">
+        <section className="p-4 sm:p-8 lg:p-12 rounded-md border border-[var(--border)] bg-[var(--surface)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 shadow-xs">
           <div className="space-y-1.5 max-w-2xl">
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
               Conduct Thesis Research or Establish Joint R&D Collaborations
@@ -429,7 +429,7 @@ export default async function AboutPage() {
           <div className="shrink-0 pt-2 sm:pt-0">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3.5 rounded text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
             >
               <span>Inquire About Placements</span>
               <ArrowRight className="w-4 h-4" />

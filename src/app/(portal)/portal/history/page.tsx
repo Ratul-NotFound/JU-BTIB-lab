@@ -4,9 +4,9 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { StudentHistoryClient } from "./history-client";
-import { AccountStatus } from "@prisma/client";
+import { AccountStatus, Role } from "@prisma/client";
 import Link from "next/link";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, UserCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -23,9 +23,30 @@ export default async function StudentHistoryPage() {
     redirect("/login");
   }
 
+  // Resolve verified DB user (handles stale session cookies safely)
+  const dbUser = await db.user.findFirst({
+    where: {
+      OR: [
+        ...(session.user.id ? [{ id: session.user.id }] : []),
+        ...(session.user.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
+      ],
+    },
+  });
+
+  if (!dbUser) {
+    redirect("/login");
+  }
+
+  const targetUserId = dbUser.id;
+
+  // Redirect Faculty to their dedicated verification queue
+  if (dbUser.role === Role.FACULTY) {
+    redirect("/faculty/activity");
+  }
+
   // Fetch student profile
-  const profile = await db.studentProfile.findUnique({
-    where: { userId: session.user.id },
+  let profile = await db.studentProfile.findUnique({
+    where: { userId: targetUserId },
     include: {
       supervisor: { include: { user: { select: { name: true } } } },
       workLogs: {
@@ -38,14 +59,79 @@ export default async function StudentHistoryPage() {
     },
   });
 
+  // If user is Admin or Super Admin and has no student profile yet,
+  // auto-provision an active scholar profile so they can test/use scholar logbook
+  if (!profile && (dbUser.role === Role.SUPER_ADMIN || dbUser.role === Role.EDITOR)) {
+    try {
+      const faculty = await db.facultyProfile.findFirst();
+      profile = await db.studentProfile.upsert({
+        where: { userId: targetUserId },
+        create: {
+          userId: targetUserId,
+          studentId: "ADM-" + targetUserId.slice(-6).toUpperCase(),
+          program: "PHD",
+          department: "Department of Biotechnology & Genetic Engineering",
+          institution: "Jahangirnagar University",
+          sessionYear: "2023-2024",
+          batch: "Lead Investigator",
+          phone: "+880 1700-000000",
+          supervisorId: faculty?.id || null,
+          status: AccountStatus.ACTIVE,
+          thesisTitle: "Advanced Bioprocess Engineering & Lab Instrumentation",
+        },
+        update: {},
+        include: {
+          supervisor: { include: { user: { select: { name: true } } } },
+          workLogs: {
+            include: {
+              equipment: { select: { name: true, category: true } },
+              faculty: { include: { user: { select: { name: true } } } },
+            },
+            orderBy: { dateConducted: "desc" },
+          },
+        },
+      });
+    } catch (err) {
+      console.error("Auto provision student profile error:", err);
+    }
+  }
+
   if (!profile) {
-    redirect("/portal");
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
+        <div className="w-16 h-16 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
+          <UserCheck className="w-8 h-8" />
+        </div>
+        <div className="space-y-2">
+          <h1 className="text-2xl font-bold font-sans text-[var(--text-primary)]">
+            Scholar Registration Incomplete
+          </h1>
+          <p className="text-sm text-[var(--text-secondary)] max-w-md mx-auto leading-relaxed">
+            You do not currently have a registered scholar record to attach experimental logbooks to. Please complete your scholar registration or check your portal clearance.
+          </p>
+        </div>
+        <div className="flex justify-center gap-3">
+          <Link
+            href="/portal"
+            className="px-5 py-2.5 rounded-md text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] hover:border-emerald-500/50 transition-all"
+          >
+            Return to Scholar Portal
+          </Link>
+          <Link
+            href="/register"
+            className="px-5 py-2.5 rounded-md text-xs font-semibold bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-hover)] transition-all"
+          >
+            Register Scholar Account
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   if (profile.status === AccountStatus.PENDING_APPROVAL) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
-        <div className="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
           <AlertTriangle className="w-8 h-8" />
         </div>
         <div className="space-y-2">
@@ -59,7 +145,7 @@ export default async function StudentHistoryPage() {
         <div>
           <Link
             href="/portal"
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] hover:border-emerald-500/50 transition-all"
+            className="inline-flex items-center justify-center px-5 py-2.5 rounded-md text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] hover:border-emerald-500/50 transition-all"
           >
             Return to Scholar Portal
           </Link>
@@ -82,7 +168,7 @@ export default async function StudentHistoryPage() {
   const totalHours = profile.workLogs.reduce((sum, log) => sum + log.actualHoursUsed, 0);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
       <StudentHistoryClient
         initialLogs={profile.workLogs}
         totalHours={Math.round(totalHours * 10) / 10}

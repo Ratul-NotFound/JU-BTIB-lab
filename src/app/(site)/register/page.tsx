@@ -21,7 +21,7 @@ export default async function StudentRegisterPage() {
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8">
       {/* Header Banner */}
       <div className="text-center space-y-3">
-        <div className="w-16 h-16 mx-auto relative flex items-center justify-center p-2 rounded-2xl bg-[var(--surface-raised)] border border-[var(--border)] shadow-xs">
+        <div className="w-16 h-16 mx-auto relative flex items-center justify-center p-2 rounded-md bg-[var(--surface-raised)] border border-[var(--border)] shadow-xs">
           <Image
             src="/images/btib-logo.png"
             alt="BTIB Laboratory"
@@ -32,7 +32,7 @@ export default async function StudentRegisterPage() {
           />
         </div>
 
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-[11px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
           <ShieldCheck className="w-3.5 h-3.5" />
           <span>Academic Laboratory Onboarding</span>
         </div>
@@ -46,7 +46,7 @@ export default async function StudentRegisterPage() {
       </div>
 
       {/* Main Registration Form Card */}
-      <div className="p-6 sm:p-10 rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-lg relative overflow-hidden">
+      <div className="p-6 sm:p-10 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-lg relative overflow-hidden">
         <RegisterFormClient facultyList={facultyList} />
       </div>
     </div>

@@ -48,11 +48,11 @@ export function PhotobioreactorInteractive() {
           </div>
 
           {/* Interactive View Switcher */}
-          <div className="flex items-center p-1.5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] self-start md:self-auto shadow-2xs">
+          <div className="flex items-center p-1.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] self-start md:self-auto shadow-2xs">
             <button
               type="button"
               onClick={() => setMode("mechanics")}
-              className={`px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+              className={`px-4 py-2 rounded text-xs font-medium transition-all ${
                 mode === "mechanics"
                   ? "bg-[var(--surface)] text-[var(--bio-teal)] font-semibold shadow-xs border border-[var(--border)]"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"
@@ -63,7 +63,7 @@ export function PhotobioreactorInteractive() {
             <button
               type="button"
               onClick={() => setMode("biology")}
-              className={`px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+              className={`px-4 py-2 rounded text-xs font-medium transition-all ${
                 mode === "biology"
                   ? "bg-[var(--surface)] text-[var(--bio-teal)] font-semibold shadow-xs border border-[var(--border)]"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"
@@ -74,7 +74,7 @@ export function PhotobioreactorInteractive() {
             <button
               type="button"
               onClick={() => setMode("impact")}
-              className={`px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+              className={`px-4 py-2 rounded text-xs font-medium transition-all ${
                 mode === "impact"
                   ? "bg-[var(--surface)] text-[var(--bio-teal)] font-semibold shadow-xs border border-[var(--border)]"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"
@@ -90,7 +90,7 @@ export function PhotobioreactorInteractive() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
         {/* Left Column: Authentic Photography & Visual Telemetry */}
         <div className="lg:col-span-6 space-y-6">
-          <div className="relative aspect-16/10 rounded-3xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-md group">
+          <div className="relative aspect-16/10 rounded-md overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-md group">
             {/* Real verified photography of pilot-scale processing setup */}
             <Image
               src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80"
@@ -103,16 +103,16 @@ export function PhotobioreactorInteractive() {
 
             {/* Overlaid Real-Time Telemetry Badges */}
             <div className="absolute top-4 left-4 right-4 flex items-center justify-between text-xs font-mono">
-              <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-emerald-300 border border-white/20 shadow-xs flex items-center gap-2">
+              <span className="px-3 py-1 rounded bg-black/60 backdrop-blur-md text-emerald-300 border border-white/20 shadow-xs flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 Active Culture Run
               </span>
-              <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 shadow-xs">
+              <span className="px-3 py-1 rounded bg-black/60 backdrop-blur-md text-white border border-white/20 shadow-xs">
                 250 L Working Volume
               </span>
             </div>
 
-            <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-black/70 backdrop-blur-md border border-white/15 text-xs text-white space-y-1">
+            <div className="absolute bottom-4 left-4 right-4 p-4 rounded-md bg-black/70 backdrop-blur-md border border-white/15 text-xs text-white space-y-1">
               <div className="flex items-center justify-between font-mono font-medium">
                 <span>Working Volume: 250 L</span>
                 <span>pH: 7.2 – 7.6</span>
@@ -125,7 +125,7 @@ export function PhotobioreactorInteractive() {
           </div>
 
           {/* Interactive Biological Simulator Controls */}
-          <div className="p-6 sm:p-7 rounded-3xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-5">
+          <div className="p-6 sm:p-7 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-5">
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-[var(--text-primary)] flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-[var(--bio-teal)]" />
@@ -170,19 +170,19 @@ export function PhotobioreactorInteractive() {
 
             {/* Calculated Output Ribbon */}
             <div className="grid grid-cols-3 gap-3 pt-3 border-t border-[var(--border)] text-center">
-              <div className="p-3 rounded-2xl bg-[var(--surface)] border border-[var(--border)]">
+              <div className="p-3 rounded bg-[var(--surface)] border border-[var(--border)]">
                 <div className="text-[11px] uppercase font-mono text-[var(--text-muted)]">CO₂ Fixed</div>
                 <div className="text-base sm:text-lg font-bold text-[var(--bio-emerald)] font-mono">
                   {carbonFixationRateGramsDay} g/day
                 </div>
               </div>
-              <div className="p-3 rounded-2xl bg-[var(--surface)] border border-[var(--border)]">
+              <div className="p-3 rounded bg-[var(--surface)] border border-[var(--border)]">
                 <div className="text-[11px] uppercase font-mono text-[var(--text-muted)]">O₂ Produced</div>
                 <div className="text-base sm:text-lg font-bold text-[var(--bio-cyan)] font-mono">
                   {oxygenProducedLitersDay} L/day
                 </div>
               </div>
-              <div className="p-3 rounded-2xl bg-[var(--surface)] border border-[var(--border)]">
+              <div className="p-3 rounded bg-[var(--surface)] border border-[var(--border)]">
                 <div className="text-[11px] uppercase font-mono text-[var(--text-muted)]">Tree Equiv.</div>
                 <div className="text-base sm:text-lg font-bold text-[var(--text-primary)] font-mono">
                   ~{treeEquivalence} Trees
@@ -208,7 +208,7 @@ export function PhotobioreactorInteractive() {
               </div>
 
               <div className="space-y-3.5">
-                <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-1.5">
+                <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-1.5">
                   <div className="text-sm font-semibold text-[var(--text-primary)] flex items-center gap-2">
                     <Wind className="w-4 h-4 text-[var(--bio-teal)]" />
                     Gas-Liquid Interfacial Mass Transfer
@@ -219,7 +219,7 @@ export function PhotobioreactorInteractive() {
                   </p>
                 </div>
 
-                <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-1.5">
+                <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-1.5">
                   <div className="text-sm font-semibold text-[var(--text-primary)] flex items-center gap-2">
                     <Sun className="w-4 h-4 text-amber-500" />
                     Photoperiod & Light Harvesting
@@ -247,13 +247,13 @@ export function PhotobioreactorInteractive() {
               </div>
 
               <div className="grid grid-cols-2 gap-3.5 text-xs">
-                <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
+                <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
                   <div className="text-[11px] font-mono text-[var(--text-muted)] uppercase">Growth Rate (μmax)</div>
                   <div className="text-base font-bold text-[var(--text-primary)] font-mono">0.052 h⁻¹</div>
                   <div className="text-[11px] text-[var(--text-muted)] font-light">Doubling every ~13.3 hours</div>
                 </div>
 
-                <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
+                <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-1">
                   <div className="text-[11px] font-mono text-[var(--text-muted)] uppercase">Biomass Productivity</div>
                   <div className="text-base font-bold text-[var(--bio-teal)] font-mono">0.38 g/(L·day)</div>
                   <div className="text-[11px] text-[var(--text-muted)] font-light">Dry cell weight metric</div>
@@ -275,7 +275,7 @@ export function PhotobioreactorInteractive() {
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-2">
+              <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-2">
                 <div className="text-sm font-semibold text-[var(--text-primary)] flex items-center gap-2">
                   <Activity className="w-4 h-4 text-emerald-500" />
                   Continuous Biomass Harvest
@@ -289,7 +289,7 @@ export function PhotobioreactorInteractive() {
           )}
 
           {/* PI Quote Card */}
-          <div className="p-6 rounded-3xl border border-[var(--border)] bg-[var(--surface-raised)] space-y-4">
+          <div className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-4">
             <Quote className="w-6 h-6 text-[var(--bio-teal)] opacity-60" />
             <p className="text-sm sm:text-base font-serif italic text-[var(--text-primary)] leading-relaxed">
               &ldquo;Our vision is to move biotechnology out of enclosed laboratories and into the civic landscape. 

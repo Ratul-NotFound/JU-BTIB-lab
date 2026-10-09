@@ -40,7 +40,7 @@ export function CampusHeritageSection({ image }: { image?: string | null }) {
 
             {/* Field Coordinates & Key Indicators */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-[var(--border)]">
-              <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+              <div className="p-4 rounded-md bg-[var(--surface)] border border-[var(--border)] space-y-1">
                 <div className="text-[10px] font-mono uppercase text-[var(--text-muted)] flex items-center gap-1.5">
                   <Trees className="w-3.5 h-3.5 text-emerald-600" />
                   Campus Reserve
@@ -51,7 +51,7 @@ export function CampusHeritageSection({ image }: { image?: string | null }) {
                 <div className="text-[11px] text-[var(--text-muted)]">Subtropical flora & lakes</div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1">
+              <div className="p-4 rounded-md bg-[var(--surface)] border border-[var(--border)] space-y-1">
                 <div className="text-[10px] font-mono uppercase text-[var(--text-muted)] flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-[var(--bio-teal)]" />
                   Coordinates
@@ -62,7 +62,7 @@ export function CampusHeritageSection({ image }: { image?: string | null }) {
                 <div className="text-[11px] text-[var(--text-muted)]">Savar, Dhaka Division</div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-1 col-span-2 sm:col-span-1">
+              <div className="p-4 rounded-md bg-[var(--surface)] border border-[var(--border)] space-y-1 col-span-2 sm:col-span-1">
                 <div className="text-[10px] font-mono uppercase text-[var(--text-muted)] flex items-center gap-1.5">
                   <div className="w-3.5 h-3.5 relative shrink-0">
                     <Image
@@ -94,7 +94,7 @@ export function CampusHeritageSection({ image }: { image?: string | null }) {
           </div>
 
           {/* Right Image Column */}
-          <div className="lg:col-span-5 relative aspect-4/3 rounded-3xl overflow-hidden border border-[var(--border)] shadow-md group">
+          <div className="lg:col-span-5 relative aspect-4/3 rounded-md overflow-hidden border border-[var(--border)] shadow-md group">
             <Image
               src={photo}
               alt="Lush green botanical tree canopy at Jahangirnagar University campus reserve in Savar, Dhaka"
@@ -103,8 +103,8 @@ export function CampusHeritageSection({ image }: { image?: string | null }) {
               sizes="(max-width: 1024px) 100vw, 40vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 p-3.5 sm:p-4 rounded-2xl bg-black/65 backdrop-blur-md border border-white/15 text-xs text-white flex items-center gap-3">
-              <div className="w-9 h-9 relative shrink-0 p-1 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center">
+            <div className="absolute bottom-4 left-4 right-4 p-3.5 sm:p-4 rounded-md bg-black/65 backdrop-blur-md border border-white/15 text-xs text-white flex items-center gap-3">
+              <div className="w-9 h-9 relative shrink-0 p-1 rounded bg-white/10 border border-white/20 flex items-center justify-center">
                 <Image
                   src="/images/ju-logo-white.png"
                   alt="JU Logo"

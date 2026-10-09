@@ -108,7 +108,7 @@ export function ResearchShowcase({ areas }: { areas: ResearchAreaItem[] }) {
             <Link
               key={area.id}
               href={`/research/${area.slug}`}
-              className="group rounded-3xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--bio-teal)] transition-all flex flex-col justify-between overflow-hidden hover:shadow-lg"
+              className="group rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--bio-teal)] transition-all flex flex-col justify-between overflow-hidden hover:shadow-lg"
             >
               {/* Distinct Photographic Header */}
               <div className="relative aspect-16/10 w-full overflow-hidden bg-[var(--surface-raised)]">
@@ -122,12 +122,12 @@ export function ResearchShowcase({ areas }: { areas: ResearchAreaItem[] }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-transparent to-black/10" />
                 
                 <div className="absolute top-3.5 left-3.5">
-                  <span className="text-[11px] font-mono px-3 py-1 rounded-full bg-[var(--surface)]/90 backdrop-blur-md text-[var(--text-secondary)] border border-[var(--border)] shadow-xs">
+                  <span className="text-[11px] font-mono px-3 py-1 rounded bg-[var(--surface)]/90 backdrop-blur-md text-[var(--text-secondary)] border border-[var(--border)] shadow-xs">
                     {photo.tag}
                   </span>
                 </div>
 
-                <div className="absolute bottom-3 right-3.5 p-2 rounded-xl bg-[var(--surface)]/95 backdrop-blur-md border border-[var(--border)] text-[var(--text-secondary)] group-hover:text-[var(--bio-teal)] group-hover:border-[var(--bio-teal)]/40 transition-colors shadow-xs">
+                <div className="absolute bottom-3 right-3.5 p-2 rounded bg-[var(--surface)]/95 backdrop-blur-md border border-[var(--border)] text-[var(--text-secondary)] group-hover:text-[var(--bio-teal)] group-hover:border-[var(--bio-teal)]/40 transition-colors shadow-xs">
                   <ResearchGlyph glyphKey={area.glyphKey} size={18} />
                 </div>
               </div>

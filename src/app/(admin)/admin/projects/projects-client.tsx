@@ -168,7 +168,7 @@ export function ProjectsClient({
       render: (item) => (
         <div className="flex items-center gap-3">
           {item.coverImage ? (
-            <div className="w-12 h-9 rounded-lg border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
+            <div className="w-12 h-9 rounded border border-[var(--border)] overflow-hidden shrink-0 bg-[var(--surface-raised)] relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.coverImage}
@@ -177,7 +177,7 @@ export function ProjectsClient({
               />
             </div>
           ) : (
-            <div className="w-12 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
+            <div className="w-12 h-9 rounded border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center text-[var(--text-muted)] shrink-0">
               <FolderKanban className="w-4 h-4" />
             </div>
           )}

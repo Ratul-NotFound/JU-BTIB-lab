@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileCheck2, Users, LogOut } from "lucide-react";
+import { LayoutDashboard, FileCheck2, Users, Microscope, LogOut } from "lucide-react";
 import { logoutAction } from "@/server/actions/auth";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +11,7 @@ const NAV_TABS = [
   { href: "/faculty", label: "Dashboard", icon: LayoutDashboard },
   { href: "/faculty/activity", label: "Activity Tracer & Sign-off", icon: FileCheck2 },
   { href: "/faculty/students", label: "Supervised Scholars", icon: Users },
+  { href: "/portal/book", label: "Book Equipment", icon: Microscope },
 ];
 
 export function FacultyNavClient() {
@@ -36,7 +37,7 @@ export function FacultyNavClient() {
               key={tab.href}
               href={tab.href}
               className={cn(
-                "flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0",
+                "flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-medium transition-all shrink-0",
                 isActive
                   ? "bg-purple-600 text-white font-semibold shadow-xs"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
@@ -51,7 +52,7 @@ export function FacultyNavClient() {
 
       <button
         onClick={handleSignOut}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-red-600 hover:bg-red-500/10 transition-colors shrink-0"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-red-600 hover:bg-red-500/10 transition-colors shrink-0"
         title="Sign Out"
       >
         <LogOut className="w-3.5 h-3.5" />

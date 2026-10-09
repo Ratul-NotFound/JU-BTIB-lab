@@ -146,7 +146,7 @@ export function ShortGallerySection({ albums }: { albums?: GalleryAlbumInput[] }
                     <p className="text-[11px] sm:text-sm font-bold text-white drop-shadow-xs font-sans truncate pr-1 sm:pr-2">
                       {item.title}
                     </p>
-                    <div className="w-5 h-5 sm:w-8 sm:h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                    <div className="w-5 h-5 sm:w-8 sm:h-8 rounded-md bg-white/20 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                       <Camera className="w-3 h-3 sm:w-4 sm:h-4" />
                     </div>
                   </div>

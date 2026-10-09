@@ -17,8 +17,8 @@ export default function GlobalError({
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
-      <div className="max-w-md w-full p-8 rounded-3xl border border-[var(--danger)]/30 bg-[var(--surface)] text-center space-y-6 shadow-xs">
-        <div className="w-16 h-16 mx-auto rounded-2xl border border-[var(--danger)]/30 bg-[var(--danger-surface)] flex items-center justify-center text-[var(--danger)]">
+      <div className="max-w-md w-full p-8 rounded-md border border-[var(--danger)]/30 bg-[var(--surface)] text-center space-y-6 shadow-xs">
+        <div className="w-16 h-16 mx-auto rounded border border-[var(--danger)]/30 bg-[var(--danger-surface)] flex items-center justify-center text-[var(--danger)]">
           <AlertTriangle className="w-8 h-8" />
         </div>
 
@@ -48,7 +48,7 @@ export default function GlobalError({
           <button
             type="button"
             onClick={() => reset()}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-xs font-mono font-semibold bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white shadow-xs transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-xs font-mono font-semibold bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white shadow-xs transition-colors"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Re-evaluate Sequence</span>
@@ -56,7 +56,7 @@ export default function GlobalError({
 
           <Link
             href="/"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--bio-teal)] transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-xs font-mono border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)] hover:border-[var(--bio-teal)] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return Home</span>

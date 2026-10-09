@@ -94,10 +94,10 @@ export function FacultyDashboardClient({
   return (
     <div className="space-y-8">
       {/* 1. Welcome Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-6 sm:p-8 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1.5">
+            <span className="px-3 py-1 rounded-md text-xs font-mono font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Lab Academic Supervisor</span>
             </span>
@@ -118,14 +118,14 @@ export function FacultyDashboardClient({
         <div className="flex items-center gap-3">
           <Link
             href="/faculty/activity"
-            className="px-4 py-2.5 rounded-full text-xs font-semibold bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2 shadow-xs transition-colors"
+            className="px-4 py-2.5 rounded-md text-xs font-semibold bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2 shadow-xs transition-colors"
           >
             <span>Activity Tracer</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <Link
             href="/faculty/students"
-            className="px-4 py-2.5 rounded-full text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] hover:border-purple-500/50 flex items-center gap-2 transition-colors"
+            className="px-4 py-2.5 rounded-md text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] hover:border-purple-500/50 flex items-center gap-2 transition-colors"
           >
             <span>Supervised Scholars</span>
           </Link>
@@ -134,8 +134,8 @@ export function FacultyDashboardClient({
 
       {/* 2. Analytical Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0">
+        <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
+          <div className="w-12 h-12 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0">
             <Users className="w-6 h-6" />
           </div>
           <div>
@@ -148,8 +148,8 @@ export function FacultyDashboardClient({
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0">
+        <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
+          <div className="w-12 h-12 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0">
             <UserCheck className="w-6 h-6" />
           </div>
           <div>
@@ -162,8 +162,8 @@ export function FacultyDashboardClient({
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0">
+        <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
+          <div className="w-12 h-12 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0">
             <FileCheck2 className="w-6 h-6" />
           </div>
           <div>
@@ -176,8 +176,8 @@ export function FacultyDashboardClient({
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+        <div className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] flex items-center gap-4">
+          <div className="w-12 h-12 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
             <Calendar className="w-6 h-6" />
           </div>
           <div>
@@ -193,7 +193,7 @@ export function FacultyDashboardClient({
 
       {feedbackMsg && (
         <div
-          className={`p-4 rounded-2xl border text-sm flex items-center gap-3 ${
+          className={`p-4 rounded-md border text-sm flex items-center gap-3 ${
             feedbackMsg.type === "success"
               ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-300"
               : "bg-red-500/10 border-red-500/20 text-red-600"
@@ -230,7 +230,7 @@ export function FacultyDashboardClient({
         </div>
 
         {pendingLogs.length === 0 ? (
-          <div className="p-8 text-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] space-y-2">
+          <div className="p-8 text-center rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-2">
             <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
             <p className="text-sm font-semibold text-[var(--text-primary)]">All Logs Verified</p>
             <p className="text-xs text-[var(--text-secondary)]">
@@ -249,7 +249,7 @@ export function FacultyDashboardClient({
               return (
                 <div
                   key={log.id}
-                  className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-purple-500/30 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                  className="p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-purple-500/30 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
                 >
                   <div className="space-y-1.5 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
@@ -280,7 +280,7 @@ export function FacultyDashboardClient({
                     <Button
                       onClick={() => handleSignOff(log.id)}
                       disabled={signingLogId === log.id}
-                      className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-4 py-2 rounded-full font-medium flex items-center gap-1.5 shadow-xs"
+                      className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-4 py-2 rounded-md font-medium flex items-center gap-1.5 shadow-xs"
                     >
                       <Check className="w-3.5 h-3.5" />
                       <span>{signingLogId === log.id ? "Signing..." : "Sign Off & Verify"}</span>
@@ -301,11 +301,11 @@ export function FacultyDashboardClient({
         </h2>
 
         {recentBookings.length === 0 ? (
-          <div className="p-8 text-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-xs text-[var(--text-secondary)]">
+          <div className="p-8 text-center rounded-md border border-[var(--border)] bg-[var(--surface)] text-xs text-[var(--text-secondary)]">
             No equipment bookings recorded yet.
           </div>
         ) : (
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
+          <div className="rounded-md border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
@@ -349,7 +349,7 @@ export function FacultyDashboardClient({
                           {b.purpose}
                         </td>
                         <td className="p-3.5 pr-5">
-                          <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          <span className="px-2.5 py-1 rounded text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                             {b.status}
                           </span>
                         </td>
