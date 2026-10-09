@@ -32,6 +32,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         const user = await db.user.findUnique({
           where: { email },
+          include: {
+            studentProfile: true,
+            facultyProfile: true,
+          },
         });
 
         if (!user) {
@@ -49,6 +53,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
           });
           return null;
+        }
+
+        if (
+          user.studentProfile?.status === "SUSPENDED" ||
+          user.facultyProfile?.status === "SUSPENDED"
+        ) {
+          throw new Error("Your account has been suspended. Please contact the laboratory administration.");
         }
 
         const isValid = await bcrypt.compare(password, user.passwordHash);
@@ -89,15 +100,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             action: "LOGIN",
             entity: "User",
             entityId: user.id,
-            details: { email: user.email },
+            details: { email: user.email, role: user.role },
           },
         });
+
+        const accountStatus =
+          user.studentProfile?.status || user.facultyProfile?.status || "ACTIVE";
+        const profileId =
+          user.studentProfile?.id || user.facultyProfile?.id || null;
 
         return {
           id: user.id,
           name: user.name,
           email: user.email,
           role: user.role,
+          accountStatus,
+          profileId,
         };
       },
     }),

@@ -81,11 +81,11 @@ export function LabIntroSection() {
               <StaggerItem key={pillar.key} yOffset={20}>
                 <InteractiveCard
                   hoverY={-4}
-                  className="h-full p-3 sm:p-6 rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between space-y-2 sm:space-y-3 shadow-xs group"
+                  className="h-full p-3 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between space-y-2 sm:space-y-3 shadow-xs group"
                 >
                   <div className="space-y-1.5 sm:space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center transition-colors group-hover:bg-[var(--brand-primary)]/20">
+                      <div className="w-7 h-7 sm:w-10 sm:h-10 rounded bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center transition-colors group-hover:bg-[var(--brand-primary)]/20">
                         <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                       </div>
                       <span className="text-[10px] sm:text-xs font-mono font-medium text-[var(--brand-primary)] tracking-wide uppercase">

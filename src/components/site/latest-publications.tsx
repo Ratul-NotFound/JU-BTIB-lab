@@ -50,7 +50,7 @@ export function LatestPublications({
           {publications.slice(0, 4).map((pub) => (
             <div
               key={pub.id}
-              className="p-6 sm:p-7 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--bio-teal)] transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-xs group"
+              className="p-6 sm:p-7 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--bio-teal)] transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-xs group"
             >
               <div className="space-y-2.5 max-w-4xl">
                 <div className="flex flex-wrap items-center gap-2 text-xs">

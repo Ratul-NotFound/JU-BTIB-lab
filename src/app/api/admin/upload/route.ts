@@ -6,6 +6,7 @@ import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/auth-guard";
 import { Role } from "@prisma/client";
+import { isSupabaseStorageConfigured, uploadToSupabaseStorage } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
@@ -119,29 +120,49 @@ export async function POST(req: Request) {
     const compressedBuffer = await sharpInstance.toBuffer();
     const metadata = await sharp(compressedBuffer).metadata();
     const compressedSizeKb = Math.round(compressedBuffer.length / 1024);
-
     let publicUrl = "";
-    let cloudPublicId = `local_${randomSuffix}`;
+    let cloudPublicId = `storage_${randomSuffix}`;
+    let storageProvider = "local";
 
-    // 1. If Cloudinary is configured, upload to Cloudinary CDN (production serverless / Vercel safe)
-    if (hasCloudinary) {
+    // 1. Priority: Supabase Storage (500 MB fast CDN storage)
+    if (isSupabaseStorageConfigured()) {
+      try {
+        const storagePath = `${sanitizedFolder}/${outputFilename}.webp`;
+        const supabaseRes = await uploadToSupabaseStorage(compressedBuffer, storagePath, "image/webp");
+        publicUrl = supabaseRes.publicUrl;
+        cloudPublicId = `supabase_${supabaseRes.path}`;
+        storageProvider = "supabase";
+      } catch (supabaseErr) {
+        console.error("Supabase storage upload failed, checking fallbacks:", supabaseErr);
+        if (!hasCloudinary) {
+          throw supabaseErr;
+        }
+      }
+    }
+
+    // 2. Fallback to Cloudinary if Supabase is not configured or failed
+    if (!publicUrl && hasCloudinary) {
       const cloudRes = await uploadToCloudinary(compressedBuffer, sanitizedFolder, outputFilename);
       publicUrl = cloudRes.secure_url;
       cloudPublicId = cloudRes.public_id;
-    } else {
-      // 2. Fallback to local storage (for local dev environments only)
+      storageProvider = "cloudinary";
+    }
+
+    // 3. Fallback to local storage (for local dev environments)
+    if (!publicUrl) {
       try {
         const uploadDir = path.join(process.cwd(), "public", "uploads", sanitizedFolder);
         await fs.mkdir(uploadDir, { recursive: true });
         const outputPath = path.join(uploadDir, `${outputFilename}.webp`);
         await fs.writeFile(outputPath, compressedBuffer);
         publicUrl = `/uploads/${sanitizedFolder}/${outputFilename}.webp`;
+        storageProvider = "local";
       } catch (fsErr) {
         console.error("Local filesystem write failed on serverless:", fsErr);
         return NextResponse.json(
           {
             message:
-              "Serverless storage error: Local filesystem is read-only. Please configure CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in your Vercel/production environment variables.",
+              "Storage error: Could not persist uploaded file. Please configure SUPABASE_SERVICE_ROLE_KEY or CLOUDINARY credentials in environment variables.",
           },
           { status: 500 }
         );
@@ -172,7 +193,7 @@ export async function POST(req: Request) {
           entityId: media.id,
           details: {
             url: publicUrl,
-            storage: hasCloudinary ? "cloudinary" : "local",
+            storage: storageProvider,
             sizeKb: compressedSizeKb,
             originalSizeKb,
             compressionRatio: `${Math.round((1 - compressedSizeKb / originalSizeKb) * 100)}%`,
@@ -193,7 +214,7 @@ export async function POST(req: Request) {
       width: metadata.width,
       height: metadata.height,
       format: "webp",
-      storage: hasCloudinary ? "cloudinary" : "local",
+      storage: storageProvider,
     });
   } catch (error: unknown) {
     console.error("Direct image upload error:", error);

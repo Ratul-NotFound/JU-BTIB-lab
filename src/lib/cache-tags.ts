@@ -18,11 +18,11 @@ export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS];
 
 const TAG_TO_PRIMARY_PATHS: Record<string, string[]> = {
   [CACHE_TAGS.SETTINGS]: ["/"],
-  [CACHE_TAGS.TEAM]: ["/team"],
+  [CACHE_TAGS.TEAM]: ["/team", "/register", "/admin/faculty", "/faculty"],
   [CACHE_TAGS.RESEARCH_AREAS]: ["/research"],
   [CACHE_TAGS.PROJECTS]: ["/projects"],
   [CACHE_TAGS.PUBLICATIONS]: ["/publications"],
-  [CACHE_TAGS.EQUIPMENT]: ["/equipment"],
+  [CACHE_TAGS.EQUIPMENT]: ["/equipment", "/portal/book", "/admin/equipment", "/admin/bookings"],
   [CACHE_TAGS.ACTIVITIES]: ["/activities"],
   [CACHE_TAGS.GALLERY]: ["/gallery"],
   [CACHE_TAGS.BLOG]: ["/blog"],

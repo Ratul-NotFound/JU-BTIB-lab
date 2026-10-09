@@ -12,7 +12,7 @@ export function LiquidTreeFeature({ image }: { image?: string | null }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           {/* Left Column: Authentic Photography of the 250L Column */}
-          <div className="lg:col-span-5 relative aspect-[4/3] lg:aspect-[4/5] rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-sm group">
+          <div className="lg:col-span-5 relative aspect-[4/3] lg:aspect-[4/5] rounded-md overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-sm group">
             <Image
               src={photo}
               alt="250-Liter Liquid-Tree urban microalgal photobioreactor operating on campus grounds"
@@ -21,7 +21,7 @@ export function LiquidTreeFeature({ image }: { image?: string | null }) {
               className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-black/60 backdrop-blur-md border border-white/15 text-xs text-white">
+            <div className="absolute bottom-4 left-4 right-4 p-4 rounded-md bg-black/60 backdrop-blur-md border border-white/15 text-xs text-white">
               <span className="font-bold text-sm block tracking-tight font-sans">
                 250-Liter Pilot Photobioreactor Column
               </span>
@@ -52,8 +52,8 @@ export function LiquidTreeFeature({ image }: { image?: string | null }) {
 
             {/* 3 Clear Engineering Specification Cards */}
             <div className="space-y-3 pt-2">
-              <div className="p-4 sm:p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-start gap-4 transition-colors hover:border-[var(--border-strong)]">
-                <div className="p-2.5 rounded-xl bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] shrink-0 mt-0.5">
+              <div className="p-4 sm:p-5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] flex items-start gap-4 transition-colors hover:border-[var(--border-strong)]">
+                <div className="p-2.5 rounded bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] shrink-0 mt-0.5">
                   <Wind className="w-5 h-5" />
                 </div>
                 <div>
@@ -66,8 +66,8 @@ export function LiquidTreeFeature({ image }: { image?: string | null }) {
                 </div>
               </div>
 
-              <div className="p-4 sm:p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-start gap-4 transition-colors hover:border-[var(--border-strong)]">
-                <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-500 shrink-0 mt-0.5">
+              <div className="p-4 sm:p-5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] flex items-start gap-4 transition-colors hover:border-[var(--border-strong)]">
+                <div className="p-2.5 rounded bg-amber-500/10 text-amber-500 shrink-0 mt-0.5">
                   <Sun className="w-5 h-5" />
                 </div>
                 <div>
@@ -80,8 +80,8 @@ export function LiquidTreeFeature({ image }: { image?: string | null }) {
                 </div>
               </div>
 
-              <div className="p-4 sm:p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface-raised)] flex items-start gap-4 transition-colors hover:border-[var(--border-strong)]">
-                <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 shrink-0 mt-0.5">
+              <div className="p-4 sm:p-5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] flex items-start gap-4 transition-colors hover:border-[var(--border-strong)]">
+                <div className="p-2.5 rounded bg-emerald-500/10 text-emerald-500 shrink-0 mt-0.5">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
                 <div>

@@ -13,41 +13,55 @@ import {
   Settings,
   ShieldAlert,
   ArrowRight,
+  GraduationCap,
+  UserCheck,
+  Clock,
 } from "lucide-react";
 
-import { unstable_cache } from "next/cache";
-import { CACHE_TAGS } from "@/lib/cache-tags";
-
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-const getCachedDashboardData = unstable_cache(
-  async () => {
-    const [countsResult, recentAudits] = await Promise.all([
-      db.$queryRaw<{
-        areasCount: number;
-        projectsCount: number;
-        publicationsCount: number;
-        teamCount: number;
-        activitiesCount: number;
-        postsCount: number;
-        unreadMessagesCount: number;
-      }[]>`
-        SELECT 
-          (SELECT COUNT(*)::int FROM "ResearchArea") as "areasCount",
-          (SELECT COUNT(*)::int FROM "Project") as "projectsCount",
-          (SELECT COUNT(*)::int FROM "Publication") as "publicationsCount",
-          (SELECT COUNT(*)::int FROM "TeamMember") as "teamCount",
-          (SELECT COUNT(*)::int FROM "Activity") as "activitiesCount",
-          (SELECT COUNT(*)::int FROM "BlogPost") as "postsCount",
-          (SELECT COUNT(*)::int FROM "ContactMessage" WHERE status = 'NEW') as "unreadMessagesCount"
-      `,
-      db.auditLog.findMany({
-        take: 6,
-        orderBy: { timestamp: "desc" },
-      }),
-    ]);
+async function getDashboardData() {
+  const [
+    countsResult,
+    recentAudits,
+    facultyCount,
+    studentsCount,
+    pendingStudentsCount,
+    bookingsCount,
+  ] = await Promise.all([
+    db.$queryRaw<{
+      areasCount: number;
+      projectsCount: number;
+      publicationsCount: number;
+      teamCount: number;
+      activitiesCount: number;
+      postsCount: number;
+      unreadMessagesCount: number;
+    }[]>`
+      SELECT 
+        (SELECT COUNT(*)::int FROM "ResearchArea") as "areasCount",
+        (SELECT COUNT(*)::int FROM "Project") as "projectsCount",
+        (SELECT COUNT(*)::int FROM "Publication") as "publicationsCount",
+        (SELECT COUNT(*)::int FROM "TeamMember") as "teamCount",
+        (SELECT COUNT(*)::int FROM "Activity") as "activitiesCount",
+        (SELECT COUNT(*)::int FROM "BlogPost") as "postsCount",
+        (SELECT COUNT(*)::int FROM "ContactMessage" WHERE status = 'NEW') as "unreadMessagesCount"
+    `,
+    db.auditLog.findMany({
+      take: 6,
+      orderBy: { timestamp: "desc" },
+    }),
+    db.facultyProfile.count(),
+    db.studentProfile.count(),
+    db.studentProfile.count({ where: { status: "PENDING_APPROVAL" } }),
+    db.equipmentBooking.count({
+      where: { status: { in: ["CONFIRMED", "IN_PROGRESS"] } },
+    }),
+  ]);
 
-    const counts = countsResult[0] || {
+  const counts = {
+    ...(countsResult[0] || {
       areasCount: 0,
       projectsCount: 0,
       publicationsCount: 0,
@@ -55,28 +69,18 @@ const getCachedDashboardData = unstable_cache(
       activitiesCount: 0,
       postsCount: 0,
       unreadMessagesCount: 0,
-    };
+    }),
+    facultyCount,
+    studentsCount,
+    pendingStudentsCount,
+    bookingsCount,
+  };
 
-    return { counts, recentAudits };
-  },
-  ["admin-dashboard-aggregate"],
-  {
-    tags: [
-      CACHE_TAGS.RESEARCH_AREAS,
-      CACHE_TAGS.PROJECTS,
-      CACHE_TAGS.PUBLICATIONS,
-      CACHE_TAGS.TEAM,
-      CACHE_TAGS.ACTIVITIES,
-      CACHE_TAGS.BLOG,
-      CACHE_TAGS.CONTACT,
-      CACHE_TAGS.SETTINGS,
-    ],
-    revalidate: 60,
-  }
-);
+  return { counts, recentAudits };
+}
 
 export default async function AdminDashboardPage() {
-  const { counts, recentAudits } = await getCachedDashboardData();
+  const { counts, recentAudits } = await getDashboardData();
 
   const {
     areasCount,
@@ -86,9 +90,35 @@ export default async function AdminDashboardPage() {
     activitiesCount,
     postsCount,
     unreadMessagesCount,
+    facultyCount,
+    studentsCount,
+    pendingStudentsCount,
+    bookingsCount,
   } = counts;
 
   const STATS = [
+    {
+      title: "Faculty Supervisors",
+      count: facultyCount,
+      href: "/admin/faculty",
+      icon: GraduationCap,
+      tag: "SUPERVISORS",
+    },
+    {
+      title: "Student Scholars",
+      count: studentsCount,
+      href: "/admin/students",
+      icon: UserCheck,
+      tag: pendingStudentsCount > 0 ? `${pendingStudentsCount} PENDING` : "ACCREDITED",
+      highlight: pendingStudentsCount > 0,
+    },
+    {
+      title: "Equipment Bookings",
+      count: bookingsCount,
+      href: "/admin/bookings",
+      icon: Clock,
+      tag: `${bookingsCount} ACTIVE SLOTS`,
+    },
     {
       title: "Research Areas",
       count: areasCount,

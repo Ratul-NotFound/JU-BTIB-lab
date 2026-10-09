@@ -18,17 +18,23 @@ import {
   ShieldAlert,
   LogOut,
   Sliders,
+  GraduationCap,
+  UserCheck,
+  Clock,
 } from "lucide-react";
 import { logoutAction } from "@/server/actions/auth";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/faculty", label: "Faculty Directory", icon: GraduationCap },
+  { href: "/admin/students", label: "Student Scholars", icon: UserCheck },
+  { href: "/admin/bookings", label: "Bookings & Floor", icon: Clock },
+  { href: "/admin/equipment", label: "Equipment & Instruments", icon: Sliders },
   { href: "/admin/research-areas", label: "Research Areas", icon: FlaskConical },
   { href: "/admin/projects", label: "Projects", icon: FolderGit2 },
   { href: "/admin/publications", label: "Publications", icon: BookOpen },
   { href: "/admin/team", label: "Team Roster", icon: Users },
-  { href: "/admin/equipment", label: "Equipment & Chemicals", icon: Sliders },
   { href: "/admin/activities", label: "Activities", icon: Calendar },
   { href: "/admin/gallery", label: "Photo Gallery", icon: Images },
   { href: "/admin/blog", label: "News & Blog", icon: FileText },

@@ -11,6 +11,31 @@ generator client {
 enum Role {
   SUPER_ADMIN
   EDITOR
+  FACULTY
+  STUDENT
+}
+
+enum AccountStatus {
+  PENDING_APPROVAL
+  ACTIVE
+  REJECTED
+  SUSPENDED
+}
+
+enum AcademicProgram {
+  BSC_THESIS
+  MSC_THESIS
+  MPHIL
+  PHD
+  RESEARCH_ASSISTANT
+  VISITING_FELLOW
+}
+
+enum BookingStatus {
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }
 
 enum ProjectStatus {
@@ -69,14 +94,16 @@ enum AuditAction {
 }
 
 model User {
-  id           String     @id @default(cuid())
-  email        String     @unique
-  name         String
-  passwordHash String
-  role         Role       @default(EDITOR)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  auditLogs    AuditLog[]
+  id             String          @id @default(cuid())
+  email          String          @unique
+  name           String
+  passwordHash   String
+  role           Role            @default(STUDENT)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  auditLogs      AuditLog[]
+  facultyProfile FacultyProfile?
+  studentProfile StudentProfile?
 }
 
 model SiteSetting {
@@ -244,16 +271,18 @@ model TeamMembersOnPublications {
 }
 
 model Equipment {
-  id             String   @id @default(cuid())
+  id             String             @id @default(cuid())
   name           String
   category       String
-  description    String?  @db.Text
+  description    String?            @db.Text
   specifications Json?
   imageUrl       String?
-  order          Int      @default(0)
-  published      Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  order          Int                @default(0)
+  published      Boolean            @default(true)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  bookings       EquipmentBooking[]
+  experimentLogs ExperimentLog[]
 
   @@index([published, order])
 }
@@ -408,4 +437,105 @@ model LoginAttempt {
   lastAttemptAt DateTime  @default(now())
 
   @@index([identifier])
+}
+
+model FacultyProfile {
+  id                 String             @id @default(cuid())
+  userId             String             @unique
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  designation        String             @default("Professor")
+  department         String             @default("Department of Biotechnology & Genetic Engineering")
+  institution        String             @default("Jahangirnagar University")
+  employeeId         String?
+  phone              String?
+  officeRoom         String?
+  researchFocus      String?            @db.Text
+  status             AccountStatus      @default(ACTIVE)
+  supervisedStudents StudentProfile[]   @relation("FacultySupervisor")
+  verifiedLogs       ExperimentLog[]    @relation("FacultyVerifiedLogs")
+  facultyBookings    EquipmentBooking[] @relation("FacultyBookings")
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  @@index([status])
+}
+
+model StudentProfile {
+  id              String             @id @default(cuid())
+  userId          String             @unique
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studentId       String             @unique // JU Registration / Roll No. (e.g. 2020365012)
+  program         AcademicProgram    @default(BSC_THESIS)
+  department      String             @default("Department of Biotechnology & Genetic Engineering")
+  institution     String             @default("Jahangirnagar University")
+  sessionYear     String             // e.g. "2020-2021"
+  batch           String?            // e.g. "49th Batch"
+  supervisorId    String?
+  supervisor      FacultyProfile?    @relation("FacultySupervisor", fields: [supervisorId], references: [id], onDelete: SetNull)
+  supervisorName  String?            // Fallback text name
+  thesisTitle     String?            @db.Text
+  phone           String
+  idCardPhotoUrl  String?
+  status          AccountStatus      @default(PENDING_APPROVAL)
+  rejectionReason String?            @db.Text
+  approvedAt      DateTime?
+  approvedBy      String?
+  bookings        EquipmentBooking[]
+  workLogs        ExperimentLog[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@index([status])
+  @@index([studentId])
+  @@index([supervisorId])
+}
+
+model EquipmentBooking {
+  id               String          @id @default(cuid())
+  studentProfileId String?
+  studentProfile   StudentProfile? @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+  facultyProfileId String?
+  facultyProfile   FacultyProfile? @relation("FacultyBookings", fields: [facultyProfileId], references: [id], onDelete: Cascade)
+  equipmentId      String
+  equipment        Equipment       @relation(fields: [equipmentId], references: [id], onDelete: Restrict)
+  startTime        DateTime
+  endTime          DateTime
+  purpose          String          @db.Text
+  samples          String?         @db.Text
+  status           BookingStatus   @default(CONFIRMED)
+  adminNotes       String?         @db.Text
+  experimentLog    ExperimentLog?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([equipmentId, startTime, endTime])
+  @@index([status])
+  @@index([studentProfileId])
+  @@index([facultyProfileId])
+}
+
+model ExperimentLog {
+  id               String            @id @default(cuid())
+  studentProfileId String
+  studentProfile   StudentProfile    @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+  bookingId        String?           @unique
+  booking          EquipmentBooking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  equipmentId      String
+  equipment        Equipment         @relation(fields: [equipmentId], references: [id], onDelete: Restrict)
+  title            String
+  protocolSummary  String            @db.Text
+  observations     String?           @db.Text
+  actualHoursUsed  Float
+  dateConducted    DateTime          @default(now())
+  verifiedBy       String?
+  verifiedAt       DateTime?
+  facultyId        String?
+  faculty          FacultyProfile?   @relation("FacultyVerifiedLogs", fields: [facultyId], references: [id], onDelete: SetNull)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([studentProfileId])
+  @@index([equipmentId])
+  @@index([dateConducted])
+  @@index([facultyId])
 }

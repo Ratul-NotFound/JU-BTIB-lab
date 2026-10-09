@@ -9,7 +9,7 @@ Jahangirnagar University, Savar, Dhaka-1342, Bangladesh.
 
 ## 1. System Overview
 
-The **BTIB Lab Web Platform** is an institutional academic portal and research management system built with Next.js 15 (App Router), React 19, Prisma 6, Neon PostgreSQL, Auth.js v5 (NextAuth v5 beta), Tailwind CSS v4, and TipTap.
+The **BTIB Lab Web Platform** is an institutional academic portal and research management system built with Next.js 15 (App Router), React 19, Prisma 6, Supabase PostgreSQL & Storage, Auth.js v5 (NextAuth v5 beta), Tailwind CSS v4, and TipTap.
 
 The site is designed with a strict scientific aesthetic (Bio-Teal `#0D9488`, Bio-Cyan `#0284C7`, specimen tags, and micrometer scale bars), zero fabricated facts, and an administrative CMS for dynamic research publication.
 
@@ -20,7 +20,7 @@ The site is designed with a strict scientific aesthetic (Bio-Teal `#0D9488`, Bio
 - **Innovation Showcase**: Liquid-Tree 250L microalgae photobioreactor column visualization with live kinetic indicators and bubbling simulation.
 - **Living Colony Simulation**: High-DPI Canvas 2D hero simulation of growing microbial colonies with automated `IntersectionObserver` pause and `prefers-reduced-motion` accessibility fallbacks.
 - **Interactive Scrollytelling Pipeline**: 5-stage laboratory workflow (*Isolate → Culture → Optimise → Analyse → Apply*) detailing inputs, stage deliverables, and operating parameters.
-- **Production Admin Panel**: Role-based access control (`SUPER_ADMIN` and `EDITOR`), TipTap rich-text editor, Cloudinary media picker, drag-and-drop reordering, rate-limited login, and audit log history.
+- **Production Admin Panel**: Role-based access control (`SUPER_ADMIN` and `EDITOR`), TipTap rich-text editor, Supabase CDN media picker, drag-and-drop reordering, rate-limited login, and audit log history.
 - **Secure Contact System**: Privacy-compliant, SHA-256 hashed IP throttling (max 5/hr) with honeypot bot trap and database logging.
 
 ---
@@ -32,7 +32,8 @@ The site is designed with a strict scientific aesthetic (Bio-Teal `#0D9488`, Bio
 | **Framework** | Next.js App Router | 15.5+ | Hybrid Server/Client Components, Server Actions |
 | **UI Library** | React | 19.0 | Core view layer |
 | **Styling** | Tailwind CSS | v4.0 | Modern utility classes, CSS variables, dark mode |
-| **Database** | Neon PostgreSQL | v16+ | Serverless relational database with pooled and direct URLs |
+| **Database** | Supabase PostgreSQL | v16+ | Enterprise relational database with connection pooling |
+| **Object Storage**| Supabase Storage | S3 / CDN | High-speed global asset delivery with WebP compression |
 | **ORM** | Prisma ORM | 6.19+ | Type-safe schema, migrations, and query generation |
 | **Authentication** | Auth.js (NextAuth) | 5.0 Beta | Edge-safe JWT sessions, bcrypt password hashing |
 | **Rich Text Editor**| TipTap | 2.11+ | Headless WYSIWYG editor with image/link extensions |
@@ -69,8 +70,11 @@ Create a `.env.local` file in the root directory. Prisma CLI reads `.env`, while
 
 | Variable | Required | Description | Example |
 | :--- | :--- | :--- | :--- |
-| `DATABASE_URL` | **Yes** | Neon pooled connection string | `postgresql://user:pass@ep-xyz-pooler.region.neon.tech/neondb?sslmode=require` |
-| `DIRECT_URL` | **Yes** | Neon direct connection string (migrations) | `postgresql://user:pass@ep-xyz.region.neon.tech/neondb?sslmode=require` |
+| `DATABASE_URL` | **Yes** | Supabase pooled connection string (Port 6543) | `postgresql://postgres.[ref]:pass@aws-0-ap-southeast-2.pooler.supabase.com:6543/postgres?pgbouncer=true` |
+| `DIRECT_URL` | **Yes** | Supabase direct connection string (Port 5432) | `postgresql://postgres.[ref]:pass@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres` |
+| `NEXT_PUBLIC_SUPABASE_URL` | **Yes** | Supabase Project URL | `https://[ref].supabase.co` |
+| `SUPABASE_SERVICE_ROLE_KEY` | **Yes** | Supabase Secret API key for storage uploads | `sb_secret_...` |
+| `SUPABASE_STORAGE_BUCKET` | Optional | Public bucket name (defaults to `media`) | `media` |
 | `AUTH_SECRET` | **Yes** | 32+ byte cryptographic secret for JWT signing | Generate with `openssl rand -base64 32` |
 | `NEXTAUTH_URL` | Local | Base URL for authentication callbacks | `http://localhost:3000` |
 | `NEXT_PUBLIC_APP_URL` | Local | Public application URL for SEO and canonicals | `http://localhost:3000` |

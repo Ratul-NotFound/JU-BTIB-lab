@@ -113,7 +113,7 @@ export function ResearchPillars({ areas }: { areas?: ResearchPillarItem[] }) {
               <InteractiveCard hoverY={-4} className="h-full">
                 <Link
                   href={`/research/${pillar.slug}`}
-                  className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--background)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs h-full"
+                  className="group rounded-md border border-[var(--border)] bg-[var(--background)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs h-full"
                 >
                   {/* Image Container with Responsive Aspect Ratio */}
                   <div className="relative aspect-[1.8/1] sm:aspect-[16/10] w-full overflow-hidden bg-[var(--surface-raised)]">

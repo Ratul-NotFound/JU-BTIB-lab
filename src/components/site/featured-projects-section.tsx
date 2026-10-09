@@ -134,7 +134,7 @@ export function FeaturedProjectsSection({ projects }: { projects?: FeaturedProje
                 <InteractiveCard hoverY={-4} className="h-full">
                   <Link
                     href={project.href}
-                    className="group rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs h-full"
+                    className="group rounded-md border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--brand-primary)]/60 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden shadow-xs h-full"
                   >
                     {/* Image Header with Responsive Aspect Ratio */}
                     <div

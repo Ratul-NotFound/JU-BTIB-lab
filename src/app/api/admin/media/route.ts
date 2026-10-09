@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/auth-guard";
 import { Role } from "@prisma/client";
+import { deleteFromSupabaseStorage } from "@/lib/supabase";
 
 export async function POST(req: Request) {
   try {
@@ -111,6 +112,11 @@ export async function DELETE(req: Request) {
         },
         { status: 409 }
       );
+    }
+
+    // Delete from Supabase Storage bucket if hosted there
+    if (media.url.includes("supabase.co")) {
+      await deleteFromSupabaseStorage(media.url);
     }
 
     await db.media.delete({ where: { id } });

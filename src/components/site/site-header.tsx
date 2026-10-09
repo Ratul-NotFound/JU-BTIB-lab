@@ -105,8 +105,17 @@ export function SiteHeader() {
           <ThemeToggle />
 
           <Link
+            href="/portal"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--surface-raised)] hover:bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] transition-all shadow-xs"
+            title="Student & Faculty Lab Portal"
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Portal</span>
+          </Link>
+
+          <Link
             href="/contact"
-            className="hidden sm:inline-flex items-center px-4 py-2.5 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
+            className="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
           >
             Contact Lab
           </Link>
@@ -153,6 +162,13 @@ export function SiteHeader() {
                 </Link>
               );
             })}
+            <Link
+              href="/portal"
+              className={`col-span-2 px-3 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-2 border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-primary)]`}
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Lab Scholar & Faculty Portal</span>
+            </Link>
             <Link
               href="/contact"
               className={`col-span-2 px-3 py-2 rounded-lg text-xs font-semibold transition-colors text-center ${

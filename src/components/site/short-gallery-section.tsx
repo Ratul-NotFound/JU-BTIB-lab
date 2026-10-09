@@ -125,7 +125,7 @@ export function ShortGallerySection({ albums }: { albums?: GalleryAlbumInput[] }
             >
               <InteractiveCard hoverY={-3} className="w-full h-full">
                 <div
-                  className="group relative w-full h-full overflow-hidden rounded-xl sm:rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs min-h-[140px] sm:min-h-[180px]"
+                  className="group relative w-full h-full overflow-hidden rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs min-h-[140px] sm:min-h-[180px]"
                 >
                   <Image
                     src={item.photo}
