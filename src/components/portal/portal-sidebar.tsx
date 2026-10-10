@@ -26,6 +26,20 @@ import { Role, AccountStatus } from "@prisma/client";
 import { logoutAction } from "@/server/actions/auth";
 import { cn } from "@/lib/utils";
 
+export interface NavItem {
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  exact?: boolean;
+  badge?: string;
+  badgeColor?: string;
+}
+
+export interface NavGroup {
+  title: string;
+  items: NavItem[];
+}
+
 export interface PortalSidebarProps {
   user: {
     id: string;
@@ -86,43 +100,59 @@ export function PortalSidebar({
   const isPending = studentProfile?.status === AccountStatus.PENDING_APPROVAL;
   const isSuspended = studentProfile?.status === AccountStatus.SUSPENDED;
 
-  // Role-specific navigation items
-  const navItems = React.useMemo(() => {
+  // Section-based navigation items
+  const navGroups: NavGroup[] = React.useMemo(() => {
     if (isFaculty) {
       return [
         {
-          href: "/faculty",
-          label: "Supervisor Dashboard",
-          icon: LayoutDashboard,
-          exact: true,
-          badge: stats?.pendingVerificationsCount ? `${stats.pendingVerificationsCount} Pending` : undefined,
-          badgeColor: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
+          title: "Faculty Supervisor Suite",
+          items: [
+            {
+              href: "/faculty",
+              label: "Supervisor Dashboard",
+              icon: LayoutDashboard,
+              exact: true,
+              badge: stats?.pendingVerificationsCount ? `${stats.pendingVerificationsCount} Pending` : undefined,
+              badgeColor: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
+            },
+            {
+              href: "/faculty/students",
+              label: "Supervised Scholars",
+              icon: GraduationCap,
+              badge: stats?.supervisedStudentsCount ? `${stats.supervisedStudentsCount}` : undefined,
+            },
+            {
+              href: "/faculty/activity",
+              label: "Verify & Sign Logs",
+              icon: CheckSquare,
+            },
+          ],
         },
         {
-          href: "/portal/notices",
-          label: "Notices & Bulletins",
-          icon: Bell,
-        },
-        {
-          href: "/faculty/students",
-          label: "Supervised Scholars",
-          icon: GraduationCap,
-          badge: stats?.supervisedStudentsCount ? `${stats.supervisedStudentsCount}` : undefined,
-        },
-        {
-          href: "/faculty/activity",
-          label: "Verify & Sign Logs",
-          icon: CheckSquare,
-        },
-        {
-          href: "/portal/book",
-          label: "Reserve Instruments",
-          icon: Microscope,
-        },
-        {
-          href: "/portal",
-          label: "Scholar Portal View",
-          icon: UserCheck,
+          title: "Lab Resources",
+          items: [
+            {
+              href: "/portal/notices",
+              label: "Notices & Bulletins",
+              icon: Bell,
+            },
+            {
+              href: "/portal/book",
+              label: "Reserve Instruments",
+              icon: Microscope,
+            },
+            {
+              href: "/portal",
+              label: "Scholar Portal View",
+              icon: UserCheck,
+              exact: true,
+            },
+            {
+              href: "/portal/sops",
+              label: "Lab Safety & SOPs",
+              icon: ShieldCheck,
+            },
+          ],
         },
       ];
     }
@@ -130,47 +160,76 @@ export function PortalSidebar({
     if (isAdmin) {
       return [
         {
-          href: "/portal",
-          label: "Scholar Dashboard",
-          icon: LayoutDashboard,
-          exact: true,
+          title: "Faculty Supervisor Suite",
+          items: [
+            {
+              href: "/faculty",
+              label: "Supervisor Dashboard",
+              icon: LayoutDashboard,
+              exact: true,
+            },
+            {
+              href: "/faculty/students",
+              label: "Supervised Scholars",
+              icon: GraduationCap,
+              badge: stats?.supervisedStudentsCount ? `${stats.supervisedStudentsCount}` : undefined,
+            },
+            {
+              href: "/faculty/activity",
+              label: "Verify & Sign Logs",
+              icon: CheckSquare,
+              badge: stats?.pendingVerificationsCount ? `${stats.pendingVerificationsCount} Pending` : undefined,
+              badgeColor: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
+            },
+          ],
         },
         {
-          href: "/portal/notices",
-          label: "Notices & Bulletins",
-          icon: Bell,
+          title: "Scholar Portal Suite",
+          items: [
+            {
+              href: "/portal",
+              label: "Scholar Dashboard",
+              icon: LayoutDashboard,
+              exact: true,
+            },
+            {
+              href: "/portal/book",
+              label: "Book Equipment",
+              icon: Microscope,
+            },
+            {
+              href: "/portal/history",
+              label: "Thesis Logbook",
+              icon: BookOpen,
+            },
+            {
+              href: "/portal/profile",
+              label: "Scholar Profile",
+              icon: User,
+            },
+            {
+              href: "/portal/sops",
+              label: "Safety & SOPs",
+              icon: ShieldCheck,
+            },
+          ],
         },
         {
-          href: "/portal/book",
-          label: "Book Equipment",
-          icon: Microscope,
-        },
-        {
-          href: "/portal/history",
-          label: "Thesis Logbook",
-          icon: BookOpen,
-        },
-        {
-          href: "/portal/profile",
-          label: "Scholar Profile",
-          icon: User,
-        },
-        {
-          href: "/portal/sops",
-          label: "Safety & SOPs",
-          icon: ShieldCheck,
-        },
-        {
-          href: "/faculty",
-          label: "Faculty Supervisor Suite",
-          icon: GraduationCap,
-        },
-        {
-          href: "/admin",
-          label: "Admin Management Console",
-          icon: ShieldAlert,
-          badge: "Root",
-          badgeColor: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
+          title: "Administration",
+          items: [
+            {
+              href: "/portal/notices",
+              label: "Notices & Bulletins",
+              icon: Bell,
+            },
+            {
+              href: "/admin",
+              label: "Admin Management Console",
+              icon: ShieldAlert,
+              badge: "Root",
+              badgeColor: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
+            },
+          ],
         },
       ];
     }
@@ -178,38 +237,43 @@ export function PortalSidebar({
     // Default: Scholar (STUDENT)
     return [
       {
-        href: "/portal",
-        label: "Overview & Dashboard",
-        icon: LayoutDashboard,
-        exact: true,
-      },
-      {
-        href: "/portal/notices",
-        label: "Notices & Bulletins",
-        icon: Bell,
-      },
-      {
-        href: "/portal/book",
-        label: "Book Instrumentation",
-        icon: Microscope,
-        badge: isPending ? "Locked" : undefined,
-        badgeColor: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-      },
-      {
-        href: "/portal/history",
-        label: "Thesis Logbook & Hours",
-        icon: BookOpen,
-        badge: stats?.totalHours ? `${Math.round(stats.totalHours * 10) / 10}h` : undefined,
-      },
-      {
-        href: "/portal/profile",
-        label: "Scholar & Supervisor Profile",
-        icon: User,
-      },
-      {
-        href: "/portal/sops",
-        label: "Lab Safety Rules & SOPs",
-        icon: ShieldCheck,
+        title: "Scholar Workspace",
+        items: [
+          {
+            href: "/portal",
+            label: "Overview & Dashboard",
+            icon: LayoutDashboard,
+            exact: true,
+          },
+          {
+            href: "/portal/notices",
+            label: "Notices & Bulletins",
+            icon: Bell,
+          },
+          {
+            href: "/portal/book",
+            label: "Book Instrumentation",
+            icon: Microscope,
+            badge: isPending ? "Locked" : undefined,
+            badgeColor: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+          },
+          {
+            href: "/portal/history",
+            label: "Thesis Logbook & Hours",
+            icon: BookOpen,
+            badge: stats?.totalHours ? `${Math.round(stats.totalHours * 10) / 10}h` : undefined,
+          },
+          {
+            href: "/portal/profile",
+            label: "Scholar & Supervisor Profile",
+            icon: User,
+          },
+          {
+            href: "/portal/sops",
+            label: "Lab Safety Rules & SOPs",
+            icon: ShieldCheck,
+          },
+        ],
       },
     ];
   }, [isFaculty, isAdmin, isPending, stats]);
@@ -276,60 +340,65 @@ export function PortalSidebar({
           </div>
         </div>
 
-        {/* Primary Role Navigation */}
-        <div className="space-y-1">
-          <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)] flex items-center justify-between">
-            <span>
-              {isFaculty ? "Faculty Supervision" : isAdmin ? "System Navigation" : "Scholar Workspace"}
-            </span>
-            <span className="text-[9px] text-[var(--text-muted)]">JU BTIB</span>
-          </div>
+        {/* Primary Role Navigation Groups */}
+        <div className="space-y-4">
+          {navGroups.map((group) => (
+            <div key={group.title} className="space-y-1">
+              <div className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)] flex items-center justify-between">
+                <span>{group.title}</span>
+                <span className="text-[9px] text-[var(--text-muted)]">JU BTIB</span>
+              </div>
 
-          <nav className="space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = item.exact
-                ? pathname === item.href
-                : pathname === item.href || (item.href !== "/portal" && pathname.startsWith(`${item.href}/`));
+              <nav className="space-y-1">
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = item.exact
+                    ? pathname === item.href
+                    : pathname === item.href ||
+                      (item.href !== "/portal" && item.href !== "/faculty" && pathname.startsWith(`${item.href}/`));
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={onCloseMobile}
-                  prefetch={false}
-                  onMouseEnter={() => router.prefetch(item.href)}
-                  className={cn(
-                    "flex items-center justify-between px-3 py-2.5 rounded-md text-xs font-medium transition-all group",
-                    isActive
-                      ? "bg-[var(--surface-raised)] text-[var(--brand-primary)] font-semibold border border-[var(--brand-primary)]/30 shadow-xs"
-                      : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
-                  )}
-                >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <Icon
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={onCloseMobile}
+                      prefetch={false}
+                      onMouseEnter={() => router.prefetch(item.href)}
                       className={cn(
-                        "w-4 h-4 shrink-0 transition-colors",
-                        isActive ? "text-[var(--brand-primary)]" : "text-[var(--text-muted)] group-hover:text-[var(--text-primary)]"
-                      )}
-                    />
-                    <span className="truncate">{item.label}</span>
-                  </div>
-
-                  {item.badge && (
-                    <span
-                      className={cn(
-                        "px-1.5 py-0.2 rounded text-[10px] font-mono font-semibold border shrink-0",
-                        item.badgeColor || "bg-[var(--surface-raised)] text-[var(--text-muted)] border-[var(--border)]"
+                        "flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-all group",
+                        isActive
+                          ? "bg-[var(--surface-raised)] text-[var(--brand-primary)] font-semibold border border-[var(--brand-primary)]/30 shadow-xs"
+                          : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)]"
                       )}
                     >
-                      {item.badge}
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <Icon
+                          className={cn(
+                            "w-4 h-4 shrink-0 transition-colors",
+                            isActive
+                              ? "text-[var(--brand-primary)]"
+                              : "text-[var(--text-muted)] group-hover:text-[var(--text-primary)]"
+                          )}
+                        />
+                        <span className="truncate">{item.label}</span>
+                      </div>
+
+                      {item.badge && (
+                        <span
+                          className={cn(
+                            "px-1.5 py-0.2 rounded text-[10px] font-mono font-semibold border shrink-0",
+                            item.badgeColor || "bg-[var(--surface-raised)] text-[var(--text-muted)] border-[var(--border)]"
+                          )}
+                        >
+                          {item.badge}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+          ))}
         </div>
 
         {/* Quick Role Telemetry Widget in Sidebar */}
@@ -379,7 +448,7 @@ export function PortalSidebar({
           </div>
         )}
 
-        {isFaculty && (
+        {(isFaculty || (isAdmin && pathname.startsWith("/faculty"))) && (
           <div className="p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]/40 space-y-2.5 text-xs">
             <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)]">
               <span>Supervised Scholars:</span>

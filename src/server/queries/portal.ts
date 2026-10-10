@@ -23,8 +23,8 @@ export interface PortalData {
     status: AccountStatus;
     supervisor?: {
       id?: string;
-      designation?: string;
-      department?: string;
+      designation?: string | null;
+      department?: string | null;
       officeRoom?: string | null;
       user: {
         name: string;
@@ -74,6 +74,67 @@ export interface PortalData {
   };
 }
 
+interface RawPortalBookingJson {
+  id: string;
+  startTime: string;
+  endTime: string;
+  purpose: string;
+  samples: string | null;
+  status: string;
+  equipment: {
+    id: string;
+    name: string;
+    category: string;
+    imageUrl: string | null;
+  };
+  experimentLog?: {
+    id: string;
+    title: string;
+    actualHoursUsed: number;
+    protocolSummary: string;
+    observations: string | null;
+    verifiedBy: string | null;
+    verifiedAt: string | null;
+  } | null;
+}
+
+interface RawFacultyProfileJson {
+  id: string;
+  designation: string;
+  department: string;
+  officeRoom: string | null;
+  supervisedStudentsCount: number;
+}
+
+interface RawPortalRow {
+  user_id: string;
+  user_name: string | null;
+  user_email: string;
+  user_role: Role;
+  student_profile_id: string | null;
+  student_id: string | null;
+  student_program: string | null;
+  student_department: string | null;
+  student_institution: string | null;
+  session_year: string | null;
+  student_batch: string | null;
+  student_phone: string | null;
+  thesis_title: string | null;
+  fallback_supervisor_name: string | null;
+  profile_status: AccountStatus | null;
+  supervisor_id: string | null;
+  supervisor_designation: string | null;
+  supervisor_department: string | null;
+  supervisor_office: string | null;
+  supervisor_name: string | null;
+  supervisor_email: string | null;
+  total_hours: number | string | null;
+  bookings_json: RawPortalBookingJson[] | null;
+  faculty_profile_json: RawFacultyProfileJson | null;
+  pending_verifications_count: number | string | null;
+  all_students_count: number | string | null;
+}
+
 /**
  * Ultra-fast, single-roundtrip portal data loader.
  * Employs a single optimized PostgreSQL query with JSON aggregation
@@ -86,7 +147,7 @@ export const getPortalData = cache(
     try {
       const emailFilter = userEmail ? userEmail.toLowerCase().trim() : "";
 
-      const rows: any[] = await db.$queryRaw`
+      const rows = await db.$queryRaw<RawPortalRow[]>`
         SELECT
           u.id AS user_id,
           u.name AS user_name,
@@ -187,7 +248,7 @@ export const getPortalData = cache(
       const r = rows[0];
       const now = new Date();
 
-      const bookings = (r.bookings_json || []).map((b: any) => ({
+      const bookings = (r.bookings_json || []).map((b: RawPortalBookingJson) => ({
         ...b,
         startTime: new Date(b.startTime),
         endTime: new Date(b.endTime),
@@ -200,21 +261,21 @@ export const getPortalData = cache(
       }));
 
       const upcomingBookingsCount = bookings.filter(
-        (b: any) => b.endTime >= now && b.status === BookingStatus.CONFIRMED
+        (b) => b.endTime >= now && b.status === BookingStatus.CONFIRMED
       ).length;
 
       const totalHours = Number(r.total_hours) || 0;
 
-      const studentProfile = r.student_profile_id
+      const studentProfile = r.student_profile_id && r.student_id
         ? {
             id: r.student_profile_id,
             studentId: r.student_id,
-            program: r.student_program,
+            program: r.student_program || "BSC_THESIS",
             department: r.student_department || "Department of Biotechnology & Genetic Engineering",
             institution: r.student_institution || "Jahangirnagar University",
-            sessionYear: r.session_year,
+            sessionYear: r.session_year || "",
             batch: r.student_batch,
-            phone: r.student_phone,
+            phone: r.student_phone || "",
             thesisTitle: r.thesis_title,
             supervisorName: r.fallback_supervisor_name,
             status: r.profile_status as AccountStatus,
@@ -261,7 +322,7 @@ export const getPortalData = cache(
         stats: {
           totalHours,
           upcomingBookingsCount,
-          totalLogsCount: bookings.filter((b: any) => Boolean(b.experimentLog)).length,
+          totalLogsCount: bookings.filter((b) => Boolean(b.experimentLog)).length,
           supervisedStudentsCount: isAdmin ? Number(r.all_students_count) || 0 : fp?.supervisedStudentsCount || 0,
           pendingVerificationsCount: isFaculty || isAdmin ? Number(r.pending_verifications_count) || 0 : 0,
         },

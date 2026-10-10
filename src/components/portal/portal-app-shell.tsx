@@ -88,7 +88,12 @@ export function PortalAppShell({
                 <span className="font-extrabold text-sm tracking-tight text-[var(--text-primary)] group-hover:text-[var(--brand-primary)] transition-colors leading-none">
                   BTIB Laboratory
                 </span>
-                {isFaculty ? (
+                {pathname.startsWith("/faculty") ? (
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1">
+                    <Award className="w-3 h-3" />
+                    <span>FACULTY SUPERVISOR SUITE</span>
+                  </span>
+                ) : isFaculty ? (
                   <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1">
                     <Award className="w-3 h-3" />
                     <span>FACULTY PORTAL</span>
