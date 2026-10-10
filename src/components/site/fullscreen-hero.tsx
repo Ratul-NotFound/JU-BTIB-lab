@@ -114,15 +114,15 @@ export function FullscreenHero({
               fill
               priority
               sizes="100vw"
-              className="object-cover object-center scale-[1.02] opacity-85 dark:opacity-100 transition-opacity duration-500"
+              className="object-cover object-center scale-[1.02] transition-transform duration-700"
             />
           </div>
         ))}
 
-        {/* Multi-layer contrast overlay ensuring 100% theme synchronisation and text readability */}
-        <div className="absolute inset-0 z-20 bg-slate-50/80 dark:bg-[#070D18]/80 pointer-events-none transition-colors duration-500" />
-        <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/50 to-[#F8FAFC]/80 dark:from-[#070D18] dark:via-transparent dark:to-[#070D18]/80 pointer-events-none transition-colors duration-500" />
-        <div className="absolute inset-0 z-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/40 via-white/80 to-[#F8FAFC]/95 dark:from-transparent dark:via-[#070D18]/40 dark:to-[#070D18]/90 pointer-events-none transition-colors duration-500" />
+        {/* Balanced contrast overlay providing rich background image visibility while maintaining WCAG AAA text readability */}
+        <div className="absolute inset-0 z-20 bg-white/50 dark:bg-[#070D18]/70 pointer-events-none transition-colors duration-500" />
+        <div className="absolute inset-0 z-20 bg-gradient-to-b from-[#F8FAFC]/70 via-transparent to-[#F8FAFC]/85 dark:from-[#070D18]/80 dark:via-transparent dark:to-[#070D18]/90 pointer-events-none transition-colors duration-500" />
+        <div className="absolute inset-0 z-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/25 via-transparent to-transparent dark:from-transparent dark:via-transparent dark:to-transparent pointer-events-none transition-colors duration-500" />
       </div>
 
       {/* 2. Hero Content: Clean, Centered Academic Typography */}
@@ -188,7 +188,7 @@ export function FullscreenHero({
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: easeCurve }}
-          className="text-xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-sans font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12] max-w-4xl transition-colors duration-300"
+          className="text-xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-sans font-extrabold tracking-tight text-slate-950 dark:text-white leading-[1.12] max-w-4xl drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] transition-colors duration-300"
         >
           Bioresources Technology &amp; Industrial Biotechnology Laboratory
         </motion.h1>
@@ -198,7 +198,7 @@ export function FullscreenHero({
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.18, ease: easeCurve }}
-          className="mt-2.5 sm:mt-4 text-xs sm:text-base lg:text-lg text-slate-700 dark:text-slate-200 font-light leading-relaxed max-w-3xl line-clamp-3 sm:line-clamp-none transition-colors duration-300"
+          className="mt-2.5 sm:mt-4 text-xs sm:text-base lg:text-lg text-slate-800 dark:text-slate-100 font-normal leading-relaxed max-w-3xl line-clamp-3 sm:line-clamp-none drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)] dark:drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] transition-colors duration-300"
         >
           {heroSubheading ||
             "Pioneering microbial bioprocess kinetics, urban microalgae photobioreactors, and circular bioproducts from Bangladesh's rich ecological bioresources."}
@@ -231,9 +231,9 @@ export function FullscreenHero({
           >
             <Link
               href="/publications"
-              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-md text-xs sm:text-sm font-semibold border border-slate-300 bg-white/85 hover:bg-white text-slate-800 shadow-2xs hover:border-slate-400 dark:border-white/20 dark:bg-white/10 dark:hover:bg-white/15 dark:text-white dark:shadow-none backdrop-blur-md transition-all duration-200"
+              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-md text-xs sm:text-sm font-semibold border border-slate-300/90 bg-white/90 hover:bg-white text-slate-900 shadow-xs hover:border-slate-400 dark:border-white/20 dark:bg-white/10 dark:hover:bg-white/15 dark:text-white dark:shadow-none backdrop-blur-md transition-all duration-200"
             >
-              <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-600 dark:text-slate-300 transition-colors" />
+              <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-700 dark:text-slate-300 transition-colors" />
               <span>Publications</span>
             </Link>
           </motion.div>
@@ -247,34 +247,34 @@ export function FullscreenHero({
           className="mt-4 sm:mt-7 pt-3 sm:pt-5 border-t border-slate-300/80 dark:border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-6 w-full max-w-2xl text-center transition-colors duration-300"
         >
           <div className="py-0.5 sm:py-1">
-            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-[var(--brand-primary)] font-sans">
+            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-[var(--brand-primary)] font-sans drop-shadow-xs">
               {totalDivisions}
             </div>
-            <div className="text-[10px] sm:text-xs font-sans text-slate-600 dark:text-slate-300 mt-0.5 font-medium transition-colors duration-300">
+            <div className="text-[10px] sm:text-xs font-sans text-slate-700 dark:text-slate-200 mt-0.5 font-medium transition-colors duration-300">
               Research Divisions
             </div>
           </div>
           <div className="py-0.5 sm:py-1">
-            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white font-sans transition-colors duration-300">
+            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-slate-950 dark:text-white font-sans transition-colors duration-300 drop-shadow-xs">
               250 <span className="text-[var(--brand-primary)] text-xs sm:text-base">L</span>
             </div>
-            <div className="text-[10px] sm:text-xs font-sans text-slate-600 dark:text-slate-300 mt-0.5 font-medium transition-colors duration-300">
+            <div className="text-[10px] sm:text-xs font-sans text-slate-700 dark:text-slate-200 mt-0.5 font-medium transition-colors duration-300">
               Photobioreactor
             </div>
           </div>
           <div className="py-0.5 sm:py-1">
-            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-[var(--brand-primary)] font-sans">
+            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-[var(--brand-primary)] font-sans drop-shadow-xs">
               2012
             </div>
-            <div className="text-[10px] sm:text-xs font-sans text-slate-600 dark:text-slate-300 mt-0.5 font-medium transition-colors duration-300">
+            <div className="text-[10px] sm:text-xs font-sans text-slate-700 dark:text-slate-200 mt-0.5 font-medium transition-colors duration-300">
               Established
             </div>
           </div>
           <div className="py-0.5 sm:py-1">
-            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white font-sans transition-colors duration-300">
+            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-slate-950 dark:text-white font-sans transition-colors duration-300 drop-shadow-xs">
               {totalPublications}+
             </div>
-            <div className="text-[10px] sm:text-xs font-sans text-slate-600 dark:text-slate-300 mt-0.5 font-medium transition-colors duration-300">
+            <div className="text-[10px] sm:text-xs font-sans text-slate-700 dark:text-slate-200 mt-0.5 font-medium transition-colors duration-300">
               Indexed Papers
             </div>
           </div>
