@@ -65,7 +65,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const isValid = await bcrypt.compare(password, user.passwordHash);
 
         if (!isValid) {
-          const currentCount = (attempt?.failedCount || 0) + 1;
+          const isExpiredLock = attempt?.lockedUntil && attempt.lockedUntil <= new Date();
+          const currentCount = isExpiredLock ? 1 : (attempt?.failedCount || 0) + 1;
           const lock = currentCount >= 5;
 
           await db.loginAttempt.upsert({

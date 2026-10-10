@@ -28,8 +28,8 @@ export default function UnifiedLoginPage() {
       if (!res.success) {
         setError(res.error || "Invalid credentials or account suspended.");
       } else {
-        // Next.js middleware and auth.config.ts will redirect based on role
-        window.location.href = "/portal";
+        const destination = res.destination || "/portal";
+        window.location.href = destination;
       }
     } catch {
       setError("An unexpected error occurred during authentication.");

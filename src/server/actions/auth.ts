@@ -9,12 +9,26 @@ import { AuditAction } from "@prisma/client";
 
 export async function loginAction(formData: { email: string; password: string }) {
   try {
+    const email = formData.email.toLowerCase().trim();
     await signIn("credentials", {
-      email: formData.email,
+      email,
       password: formData.password,
       redirect: false,
     });
-    return { success: true };
+
+    const user = await db.user.findUnique({
+      where: { email },
+      select: { role: true },
+    });
+
+    const destination =
+      user?.role === "SUPER_ADMIN" || user?.role === "EDITOR"
+        ? "/admin"
+        : user?.role === "FACULTY"
+        ? "/faculty"
+        : "/portal";
+
+    return { success: true, destination, role: user?.role };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
