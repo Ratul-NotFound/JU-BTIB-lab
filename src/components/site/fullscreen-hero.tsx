@@ -13,7 +13,9 @@ interface FullscreenHeroProps {
   heroBgImage?: string | null;
   heroBgImageAlt?: string | null;
   bannerImages?: unknown;
+  labLogoUrl?: string | null;
   labLogoWhiteUrl?: string | null;
+  universityLogoUrl?: string | null;
   universityLogoWhiteUrl?: string | null;
 }
 
@@ -47,7 +49,9 @@ export function FullscreenHero({
   heroBgImage,
   heroBgImageAlt,
   bannerImages,
+  labLogoUrl,
   labLogoWhiteUrl,
+  universityLogoUrl,
   universityLogoWhiteUrl,
 }: FullscreenHeroProps) {
   const [currentIndex, setCurrentIndex] = React.useState(0);
@@ -110,15 +114,15 @@ export function FullscreenHero({
               fill
               priority
               sizes="100vw"
-              className="object-cover object-center scale-[1.02]"
+              className="object-cover object-center scale-[1.02] opacity-85 dark:opacity-100 transition-opacity duration-500"
             />
           </div>
         ))}
 
-        {/* Multi-layer contrast overlay ensuring 100% text readability */}
-        <div className="absolute inset-0 z-20 bg-[#070D18]/80 pointer-events-none" />
-        <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#070D18] via-transparent to-[#070D18]/80 pointer-events-none" />
-        <div className="absolute inset-0 z-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#070D18]/40 to-[#070D18]/90 pointer-events-none" />
+        {/* Multi-layer contrast overlay ensuring 100% theme synchronisation and text readability */}
+        <div className="absolute inset-0 z-20 bg-slate-50/80 dark:bg-[#070D18]/80 pointer-events-none transition-colors duration-500" />
+        <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/50 to-[#F8FAFC]/80 dark:from-[#070D18] dark:via-transparent dark:to-[#070D18]/80 pointer-events-none transition-colors duration-500" />
+        <div className="absolute inset-0 z-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/40 via-white/80 to-[#F8FAFC]/95 dark:from-transparent dark:via-[#070D18]/40 dark:to-[#070D18]/90 pointer-events-none transition-colors duration-500" />
       </div>
 
       {/* 2. Hero Content: Clean, Centered Academic Typography */}
@@ -131,28 +135,50 @@ export function FullscreenHero({
           transition={{ duration: 0.6, ease: easeCurve }}
           className="flex items-center justify-center gap-3 sm:gap-5 mb-2.5 sm:mb-4"
         >
+          {/* BTIB Laboratory Logo */}
           <div className="relative w-10 h-10 sm:w-14 sm:h-14 shrink-0 flex items-center justify-center">
+            {/* Light Mode Logo */}
+            <Image
+              src={labLogoUrl || "/images/btib-logo.png"}
+              alt="BTIB Laboratory Logo"
+              width={56}
+              height={56}
+              priority
+              className="w-full h-full object-contain drop-shadow-sm dark:hidden"
+            />
+            {/* Dark Mode Logo */}
             <Image
               src={labLogoWhiteUrl || "/images/btib-logo-white.png"}
               alt="BTIB Laboratory Logo"
               width={56}
               height={56}
               priority
-              className="w-full h-full object-contain drop-shadow-md"
+              className="w-full h-full object-contain drop-shadow-md hidden dark:block"
             />
           </div>
 
           {/* Vertical Divider Line */}
-          <div className="w-px h-6 sm:h-9 bg-white/30 shrink-0" aria-hidden="true" />
+          <div className="w-px h-6 sm:h-9 bg-slate-300 dark:bg-white/30 shrink-0 transition-colors duration-300" aria-hidden="true" />
 
+          {/* Jahangirnagar University Logo */}
           <div className="relative w-9 h-9 sm:w-13 sm:h-13 shrink-0 flex items-center justify-center">
+            {/* Light Mode Logo */}
+            <Image
+              src={universityLogoUrl || "/images/ju-logo.png"}
+              alt="Jahangirnagar University Logo"
+              width={52}
+              height={52}
+              priority
+              className="w-full h-full object-contain drop-shadow-sm dark:hidden"
+            />
+            {/* Dark Mode Logo */}
             <Image
               src={universityLogoWhiteUrl || "/images/ju-logo-white.png"}
               alt="Jahangirnagar University Logo"
               width={52}
               height={52}
               priority
-              className="w-full h-full object-contain drop-shadow-md"
+              className="w-full h-full object-contain drop-shadow-md hidden dark:block"
             />
           </div>
         </motion.div>
@@ -162,7 +188,7 @@ export function FullscreenHero({
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: easeCurve }}
-          className="text-xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-sans font-extrabold tracking-tight text-white leading-[1.12] max-w-4xl"
+          className="text-xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-sans font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12] max-w-4xl transition-colors duration-300"
         >
           Bioresources Technology &amp; Industrial Biotechnology Laboratory
         </motion.h1>
@@ -172,7 +198,7 @@ export function FullscreenHero({
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.18, ease: easeCurve }}
-          className="mt-2.5 sm:mt-4 text-xs sm:text-base lg:text-lg text-slate-200 font-light leading-relaxed max-w-3xl line-clamp-3 sm:line-clamp-none"
+          className="mt-2.5 sm:mt-4 text-xs sm:text-base lg:text-lg text-slate-700 dark:text-slate-200 font-light leading-relaxed max-w-3xl line-clamp-3 sm:line-clamp-none transition-colors duration-300"
         >
           {heroSubheading ||
             "Pioneering microbial bioprocess kinetics, urban microalgae photobioreactors, and circular bioproducts from Bangladesh's rich ecological bioresources."}
@@ -205,9 +231,9 @@ export function FullscreenHero({
           >
             <Link
               href="/publications"
-              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-md text-xs sm:text-sm font-semibold border border-white/20 bg-white/10 hover:bg-white/15 text-white backdrop-blur-md transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 rounded-md text-xs sm:text-sm font-semibold border border-slate-300 bg-white/85 hover:bg-white text-slate-800 shadow-2xs hover:border-slate-400 dark:border-white/20 dark:bg-white/10 dark:hover:bg-white/15 dark:text-white dark:shadow-none backdrop-blur-md transition-all duration-200"
             >
-              <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
+              <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-600 dark:text-slate-300 transition-colors" />
               <span>Publications</span>
             </Link>
           </motion.div>
@@ -218,21 +244,21 @@ export function FullscreenHero({
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.38, ease: easeCurve }}
-          className="mt-4 sm:mt-7 pt-3 sm:pt-5 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-6 w-full max-w-2xl text-center"
+          className="mt-4 sm:mt-7 pt-3 sm:pt-5 border-t border-slate-300/80 dark:border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-6 w-full max-w-2xl text-center transition-colors duration-300"
         >
           <div className="py-0.5 sm:py-1">
             <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-[var(--brand-primary)] font-sans">
               {totalDivisions}
             </div>
-            <div className="text-[10px] sm:text-xs font-sans text-slate-300 mt-0.5 font-medium">
+            <div className="text-[10px] sm:text-xs font-sans text-slate-600 dark:text-slate-300 mt-0.5 font-medium transition-colors duration-300">
               Research Divisions
             </div>
           </div>
           <div className="py-0.5 sm:py-1">
-            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-white font-sans">
+            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white font-sans transition-colors duration-300">
               250 <span className="text-[var(--brand-primary)] text-xs sm:text-base">L</span>
             </div>
-            <div className="text-[10px] sm:text-xs font-sans text-slate-300 mt-0.5 font-medium">
+            <div className="text-[10px] sm:text-xs font-sans text-slate-600 dark:text-slate-300 mt-0.5 font-medium transition-colors duration-300">
               Photobioreactor
             </div>
           </div>
@@ -240,15 +266,15 @@ export function FullscreenHero({
             <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-[var(--brand-primary)] font-sans">
               2012
             </div>
-            <div className="text-[10px] sm:text-xs font-sans text-slate-300 mt-0.5 font-medium">
+            <div className="text-[10px] sm:text-xs font-sans text-slate-600 dark:text-slate-300 mt-0.5 font-medium transition-colors duration-300">
               Established
             </div>
           </div>
           <div className="py-0.5 sm:py-1">
-            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-white font-sans">
+            <div className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white font-sans transition-colors duration-300">
               {totalPublications}+
             </div>
-            <div className="text-[10px] sm:text-xs font-sans text-slate-300 mt-0.5 font-medium">
+            <div className="text-[10px] sm:text-xs font-sans text-slate-600 dark:text-slate-300 mt-0.5 font-medium transition-colors duration-300">
               Indexed Papers
             </div>
           </div>

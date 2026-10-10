@@ -2,8 +2,8 @@ import * as React from "react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { AccountStatus } from "@prisma/client";
+import { getPortalData } from "@/server/queries/portal";
 import {
   User,
   GraduationCap,
@@ -33,41 +33,17 @@ export default async function ScholarProfilePage() {
     redirect("/login");
   }
 
-  // Resolve verified DB user (handles stale session cookies safely)
-  const dbUser = await db.user.findFirst({
-    where: {
-      OR: [
-        ...(session.user.id ? [{ id: session.user.id }] : []),
-        ...(session.user.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
-      ],
-    },
-  });
+  // portalData is already memoized in memory by PortalLayout (0ms duplicate cost)
+  const portalData = await getPortalData(session.user.id, session.user.email);
 
-  if (!dbUser) {
+  if (!portalData) {
     redirect("/login");
   }
 
-  // Fetch Student Profile
-  const profile = await db.studentProfile.findUnique({
-    where: { userId: dbUser.id },
-    include: {
-      supervisor: {
-        include: {
-          user: { select: { name: true, email: true } },
-        },
-      },
-      workLogs: {
-        select: { actualHoursUsed: true },
-      },
-      bookings: {
-        select: { id: true },
-      },
-    },
-  });
-
+  const profile = portalData.studentProfile;
   const isPending = profile?.status === AccountStatus.PENDING_APPROVAL;
   const isSuspended = profile?.status === AccountStatus.SUSPENDED;
-  const totalHours = profile?.workLogs?.reduce((sum, log) => sum + log.actualHoursUsed, 0) || 0;
+  const totalHours = portalData.stats.totalHours;
 
   return (
     <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">

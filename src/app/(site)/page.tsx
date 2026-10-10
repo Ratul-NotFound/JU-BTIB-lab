@@ -31,7 +31,9 @@ export default async function HomePage() {
         heroBgImage={settings?.heroBgImage}
         heroBgImageAlt={settings?.heroBgImageAlt}
         bannerImages={settings?.bannerImages}
+        labLogoUrl={settings?.labLogoUrl}
         labLogoWhiteUrl={settings?.labLogoWhiteUrl}
+        universityLogoUrl={settings?.universityLogoUrl}
         universityLogoWhiteUrl={settings?.universityLogoWhiteUrl}
       />
 

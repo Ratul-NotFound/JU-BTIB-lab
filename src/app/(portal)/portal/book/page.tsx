@@ -2,11 +2,12 @@ import * as React from "react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { BookEquipmentClient } from "./book-client";
 import { AlertTriangle, Lock } from "lucide-react";
 import Link from "next/link";
 import { AccountStatus } from "@prisma/client";
+import { getPortalData } from "@/server/queries/portal";
+import { getEquipmentList } from "@/server/queries/equipment";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -23,24 +24,19 @@ export default async function BookEquipmentPage() {
     redirect("/login");
   }
 
-  // Resolve verified DB user (handles stale session cookies safely)
-  const dbUser = await db.user.findFirst({
-    where: {
-      OR: [
-        ...(session.user.id ? [{ id: session.user.id }] : []),
-        ...(session.user.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
-      ],
-    },
-  });
+  // Fetch portal data and cached equipment list in parallel.
+  // portalData is already memoized in memory by PortalLayout (0ms duplicate cost).
+  // getEquipmentList() is served from next/cache unstable_cache (0ms).
+  const [portalData, equipment] = await Promise.all([
+    getPortalData(session.user.id, session.user.email),
+    getEquipmentList(),
+  ]);
 
-  if (!dbUser) {
+  if (!portalData) {
     redirect("/login");
   }
 
-  // Check student profile status
-  const profile = await db.studentProfile.findUnique({
-    where: { userId: dbUser.id },
-  });
+  const profile = portalData.studentProfile;
 
   if (profile && profile.status === AccountStatus.PENDING_APPROVAL) {
     return (
@@ -85,19 +81,6 @@ export default async function BookEquipmentPage() {
       </div>
     );
   }
-
-  // Fetch all published equipment
-  const equipment = await db.equipment.findMany({
-    where: { published: true },
-    orderBy: { order: "asc" },
-    select: {
-      id: true,
-      name: true,
-      category: true,
-      description: true,
-      imageUrl: true,
-    },
-  });
 
   return (
     <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">

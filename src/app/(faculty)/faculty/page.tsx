@@ -27,12 +27,11 @@ export default async function FacultyDashboardPage() {
     redirect("/portal");
   }
 
-  // Get Faculty Profile if exists
-  const facultyProfile = await db.facultyProfile.findUnique({
-    where: { userId: session.user.id },
-  });
-
-  const [dashboardRes, noticesRes] = await Promise.all([
+  // Fetch faculty profile, dashboard data, and active notices in parallel
+  const [facultyProfile, dashboardRes, noticesRes] = await Promise.all([
+    db.facultyProfile.findUnique({
+      where: { userId: session.user.id },
+    }),
     getFacultyDashboardDataAction(),
     getActivePortalNoticesAction(Role.FACULTY),
   ]);

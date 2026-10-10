@@ -41,8 +41,16 @@ export const getEquipmentList = cache(async function getEquipmentList(includeUnp
     }
 
     return await getCachedEquipmentList();
-  } catch (error) {
-    console.error("Error fetching equipment list:", error);
-    return [];
+  } catch {
+    // Graceful fallback to direct db query if running outside incremental cache context
+    try {
+      return await db.equipment.findMany({
+        where: includeUnpublished ? undefined : { published: true },
+        orderBy: [{ category: "asc" }, { order: "asc" }],
+      });
+    } catch (fallbackErr) {
+      console.error("Error fetching equipment list fallback:", fallbackErr);
+      return [];
+    }
   }
 });

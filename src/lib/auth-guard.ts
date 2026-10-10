@@ -54,23 +54,50 @@ export async function requireRole(allowedRoles: Role[] = [Role.SUPER_ADMIN, Role
 }
 
 /**
- * Requires an active, verified student profile.
+ * Requires an active, verified student profile in a single query.
  */
 export async function requireActiveStudent() {
-  const user = await requireAuth();
+  const session = await auth();
+  if (!session?.user?.id && !session?.user?.email) {
+    throw new AuthError("Authentication required to perform this action.", 401);
+  }
+
+  const dbUser = await db.user.findFirst({
+    where: {
+      OR: [
+        ...(session.user?.id ? [{ id: session.user.id }] : []),
+        ...(session.user?.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
+      ],
+    },
+    include: {
+      studentProfile: true,
+    },
+  });
+
+  if (!dbUser) {
+    throw new AuthError("User account not found. Please log in again.", 401);
+  }
+
   if (
-    user.role !== Role.STUDENT &&
-    user.role !== Role.SUPER_ADMIN &&
-    user.role !== Role.EDITOR
+    dbUser.role !== Role.STUDENT &&
+    dbUser.role !== Role.SUPER_ADMIN &&
+    dbUser.role !== Role.EDITOR
   ) {
     throw new AuthError("Student access required.", 403);
   }
 
+  const user = {
+    ...session.user,
+    id: dbUser.id,
+    name: dbUser.name,
+    email: dbUser.email,
+    role: dbUser.role,
+  };
+
+  let profile = dbUser.studentProfile;
+
   // Super admins and editors bypass student verification check and auto-provision profile if needed
   if (user.role === Role.SUPER_ADMIN || user.role === Role.EDITOR) {
-    let profile = await db.studentProfile.findFirst({
-      where: { userId: user.id },
-    });
     if (!profile) {
       const faculty = await db.facultyProfile.findFirst();
       profile = await db.studentProfile.create({
@@ -92,10 +119,6 @@ export async function requireActiveStudent() {
     return { user, profile };
   }
 
-  const profile = await db.studentProfile.findUnique({
-    where: { userId: user.id },
-  });
-
   if (!profile) {
     throw new AuthError("Student profile record not found.", 404);
   }
@@ -111,17 +134,41 @@ export async function requireActiveStudent() {
 }
 
 /**
- * Requires a Faculty or Super Admin account.
+ * Requires a Faculty or Super Admin account in a single query.
  */
 export async function requireFacultyOrAdmin() {
-  const user = await requireAuth();
-  if (user.role !== Role.FACULTY && user.role !== Role.SUPER_ADMIN) {
+  const session = await auth();
+  if (!session?.user?.id && !session?.user?.email) {
+    throw new AuthError("Authentication required to perform this action.", 401);
+  }
+
+  const dbUser = await db.user.findFirst({
+    where: {
+      OR: [
+        ...(session.user?.id ? [{ id: session.user.id }] : []),
+        ...(session.user?.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
+      ],
+    },
+    include: {
+      facultyProfile: true,
+    },
+  });
+
+  if (!dbUser) {
+    throw new AuthError("User account not found. Please log in again.", 401);
+  }
+
+  if (dbUser.role !== Role.FACULTY && dbUser.role !== Role.SUPER_ADMIN) {
     throw new AuthError("Faculty or administrator access required.", 403);
   }
 
-  const facultyProfile = await db.facultyProfile.findUnique({
-    where: { userId: user.id },
-  });
+  const user = {
+    ...session.user,
+    id: dbUser.id,
+    name: dbUser.name,
+    email: dbUser.email,
+    role: dbUser.role,
+  };
 
-  return { user, facultyProfile };
+  return { user, facultyProfile: dbUser.facultyProfile };
 }

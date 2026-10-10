@@ -12,6 +12,7 @@ export const CACHE_TAGS = {
   BLOG: "blog",
   CONTENT_BLOCKS: "content-blocks",
   CONTACT: "contact",
+  NOTICES: "notices",
 } as const;
 
 export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS];
@@ -27,6 +28,7 @@ const TAG_TO_PRIMARY_PATHS: Record<string, string[]> = {
   [CACHE_TAGS.GALLERY]: ["/gallery"],
   [CACHE_TAGS.BLOG]: ["/blog"],
   [CACHE_TAGS.CONTENT_BLOCKS]: ["/"],
+  [CACHE_TAGS.NOTICES]: ["/portal/notices", "/portal", "/faculty", "/admin/notices"],
 };
 
 /**

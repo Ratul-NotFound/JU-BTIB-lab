@@ -2,8 +2,8 @@ import * as React from "react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { Role, AccountStatus } from "@prisma/client";
+import { getPortalData } from "@/server/queries/portal";
 import { getActivePortalNoticesAction } from "@/server/actions/notices";
 import { ScholarDashboardClient } from "./scholar-dashboard-client";
 
@@ -22,119 +22,33 @@ export default async function StudentPortalPage() {
     redirect("/login");
   }
 
-  // Resolve verified DB user (handles stale session cookies safely)
-  const dbUser = await db.user.findFirst({
-    where: {
-      OR: [
-        ...(session.user.id ? [{ id: session.user.id }] : []),
-        ...(session.user.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
-      ],
-    },
-  });
+  // Fetch portal data and active notices in parallel.
+  // Because getPortalData is wrapped in React cache(), it reuses the exact same
+  // in-memory promise initiated by PortalLayout with 0 duplicate DB round-trips.
+  const [portalData, noticesRes] = await Promise.all([
+    getPortalData(session.user.id, session.user.email),
+    getActivePortalNoticesAction(session.user.role),
+  ]);
 
-  if (!dbUser) {
+  if (!portalData) {
     redirect("/login");
   }
 
-  const targetUserId = dbUser.id;
-
   // Redirect Faculty to their dedicated portal
-  if (dbUser.role === Role.FACULTY) {
+  if (portalData.user.role === Role.FACULTY) {
     redirect("/faculty");
   }
 
-  // Fetch Student Profile & associated bookings and logs
-  let profile = await db.studentProfile.findUnique({
-    where: { userId: targetUserId },
-    include: {
-      supervisor: { include: { user: { select: { name: true, email: true } } } },
-      bookings: {
-        include: {
-          equipment: { select: { id: true, name: true, category: true, imageUrl: true } },
-          experimentLog: {
-            select: {
-              id: true,
-              title: true,
-              actualHoursUsed: true,
-              protocolSummary: true,
-              observations: true,
-              verifiedBy: true,
-              verifiedAt: true,
-            },
-          },
-        },
-        orderBy: { startTime: "desc" },
-      },
-      workLogs: {
-        select: { actualHoursUsed: true },
-      },
-    },
-  });
-
-  // If user is Admin or Super Admin and has no student profile yet,
-  // auto-provision an active scholar profile so they can test/use scholar features
-  if (!profile && (dbUser.role === Role.SUPER_ADMIN || dbUser.role === Role.EDITOR)) {
-    try {
-      const faculty = await db.facultyProfile.findFirst();
-      profile = await db.studentProfile.upsert({
-        where: { userId: targetUserId },
-        create: {
-          userId: targetUserId,
-          studentId: "ADM-" + targetUserId.slice(-6).toUpperCase(),
-          program: "PHD",
-          department: "Department of Biotechnology & Genetic Engineering",
-          institution: "Jahangirnagar University",
-          sessionYear: "2023-2024",
-          batch: "Lead Investigator",
-          phone: "+880 1700-000000",
-          supervisorId: faculty?.id || null,
-          status: AccountStatus.ACTIVE,
-          thesisTitle: "Advanced Bioprocess Engineering & Lab Instrumentation",
-        },
-        update: {},
-        include: {
-          supervisor: { include: { user: { select: { name: true, email: true } } } },
-          bookings: {
-            include: {
-              equipment: { select: { id: true, name: true, category: true, imageUrl: true } },
-              experimentLog: {
-                select: {
-                  id: true,
-                  title: true,
-                  actualHoursUsed: true,
-                  protocolSummary: true,
-                  observations: true,
-                  verifiedBy: true,
-                  verifiedAt: true,
-                },
-              },
-            },
-            orderBy: { startTime: "desc" },
-          },
-          workLogs: {
-            select: { actualHoursUsed: true },
-          },
-        },
-      });
-    } catch (err) {
-      console.error("Auto provision student profile error:", err);
-    }
-  }
-
+  const profile = portalData.studentProfile;
   const isPending = profile?.status === AccountStatus.PENDING_APPROVAL;
   const isRejected = profile?.status === AccountStatus.REJECTED;
-
-  // Calculate cumulative stats
-  const totalHours = profile?.workLogs?.reduce((sum, log) => sum + log.actualHoursUsed, 0) || 0;
-
-  // Active notices for student role
-  const noticesRes = await getActivePortalNoticesAction(dbUser.role);
+  const totalHours = portalData.stats.totalHours;
   const notices = noticesRes.success && noticesRes.data ? noticesRes.data : [];
 
   return (
     <ScholarDashboardClient
-      userName={session.user.name || "Scholar"}
-      userEmail={session.user.email || ""}
+      userName={session.user.name || portalData.user.name || "Scholar"}
+      userEmail={session.user.email || portalData.user.email || ""}
       profile={profile}
       isPending={isPending}
       isRejected={isRejected}

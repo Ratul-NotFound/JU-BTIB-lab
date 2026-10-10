@@ -7,6 +7,8 @@ import { StudentHistoryClient } from "./history-client";
 import { AccountStatus, Role } from "@prisma/client";
 import Link from "next/link";
 import { AlertTriangle, UserCheck } from "lucide-react";
+import { getPortalData } from "@/server/queries/portal";
+import { getEquipmentList } from "@/server/queries/equipment";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -23,78 +25,19 @@ export default async function StudentHistoryPage() {
     redirect("/login");
   }
 
-  // Resolve verified DB user (handles stale session cookies safely)
-  const dbUser = await db.user.findFirst({
-    where: {
-      OR: [
-        ...(session.user.id ? [{ id: session.user.id }] : []),
-        ...(session.user.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
-      ],
-    },
-  });
+  // portalData is already memoized in memory by PortalLayout (0ms duplicate cost)
+  const portalData = await getPortalData(session.user.id, session.user.email);
 
-  if (!dbUser) {
+  if (!portalData) {
     redirect("/login");
   }
 
-  const targetUserId = dbUser.id;
-
   // Redirect Faculty to their dedicated verification queue
-  if (dbUser.role === Role.FACULTY) {
+  if (portalData.user.role === Role.FACULTY) {
     redirect("/faculty/activity");
   }
 
-  // Fetch student profile
-  let profile = await db.studentProfile.findUnique({
-    where: { userId: targetUserId },
-    include: {
-      supervisor: { include: { user: { select: { name: true } } } },
-      workLogs: {
-        include: {
-          equipment: { select: { name: true, category: true } },
-          faculty: { include: { user: { select: { name: true } } } },
-        },
-        orderBy: { dateConducted: "desc" },
-      },
-    },
-  });
-
-  // If user is Admin or Super Admin and has no student profile yet,
-  // auto-provision an active scholar profile so they can test/use scholar logbook
-  if (!profile && (dbUser.role === Role.SUPER_ADMIN || dbUser.role === Role.EDITOR)) {
-    try {
-      const faculty = await db.facultyProfile.findFirst();
-      profile = await db.studentProfile.upsert({
-        where: { userId: targetUserId },
-        create: {
-          userId: targetUserId,
-          studentId: "ADM-" + targetUserId.slice(-6).toUpperCase(),
-          program: "PHD",
-          department: "Department of Biotechnology & Genetic Engineering",
-          institution: "Jahangirnagar University",
-          sessionYear: "2023-2024",
-          batch: "Lead Investigator",
-          phone: "+880 1700-000000",
-          supervisorId: faculty?.id || null,
-          status: AccountStatus.ACTIVE,
-          thesisTitle: "Advanced Bioprocess Engineering & Lab Instrumentation",
-        },
-        update: {},
-        include: {
-          supervisor: { include: { user: { select: { name: true } } } },
-          workLogs: {
-            include: {
-              equipment: { select: { name: true, category: true } },
-              faculty: { include: { user: { select: { name: true } } } },
-            },
-            orderBy: { dateConducted: "desc" },
-          },
-        },
-      });
-    } catch (err) {
-      console.error("Auto provision student profile error:", err);
-    }
-  }
+  const profile = portalData.studentProfile;
 
   if (!profile) {
     return (
@@ -154,26 +97,28 @@ export default async function StudentHistoryPage() {
     );
   }
 
-  // Equipment options for dropdown
-  const equipment = await db.equipment.findMany({
-    where: { published: true },
-    orderBy: { order: "asc" },
-    select: {
-      id: true,
-      name: true,
-      category: true,
-    },
-  });
+  // Fetch cached equipment list and detailed work logs in parallel
+  const [equipment, workLogs] = await Promise.all([
+    getEquipmentList(),
+    db.experimentLog.findMany({
+      where: { studentProfileId: profile.id },
+      include: {
+        equipment: { select: { name: true, category: true } },
+        faculty: { include: { user: { select: { name: true } } } },
+      },
+      orderBy: { dateConducted: "desc" },
+    }),
+  ]);
 
-  const totalHours = profile.workLogs.reduce((sum, log) => sum + log.actualHoursUsed, 0);
+  const totalHours = workLogs.reduce((sum, log) => sum + log.actualHoursUsed, 0);
 
   return (
     <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
       <StudentHistoryClient
-        initialLogs={profile.workLogs}
+        initialLogs={workLogs}
         totalHours={Math.round(totalHours * 10) / 10}
         equipmentList={equipment}
-        studentName={session.user.name || "Scholar"}
+        studentName={session.user.name || portalData.user.name || "Scholar"}
         studentId={profile.studentId}
         program={profile.program}
         supervisorName={profile.supervisor?.user?.name || profile.supervisorName || "Assigned Faculty"}

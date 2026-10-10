@@ -2,7 +2,7 @@ import * as React from "react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { getPortalData } from "@/server/queries/portal";
 import { getActivePortalNoticesAction } from "@/server/actions/notices";
 import { PortalNoticesClient } from "./portal-notices-client";
 
@@ -21,21 +21,15 @@ export default async function PortalNoticesPage() {
     redirect("/login");
   }
 
-  const dbUser = await db.user.findFirst({
-    where: {
-      OR: [
-        ...(session.user.id ? [{ id: session.user.id }] : []),
-        ...(session.user.email ? [{ email: session.user.email.toLowerCase().trim() }] : []),
-      ],
-    },
-  });
+  // portalData is already memoized in memory by PortalLayout (0ms duplicate cost)
+  const portalData = await getPortalData(session.user.id, session.user.email);
 
-  if (!dbUser) {
+  if (!portalData) {
     redirect("/login");
   }
 
-  const res = await getActivePortalNoticesAction(dbUser.role);
+  const res = await getActivePortalNoticesAction(portalData.user.role);
   const notices = res.success && res.data ? res.data : [];
 
-  return <PortalNoticesClient notices={notices} userRole={dbUser.role} />;
+  return <PortalNoticesClient notices={notices} userRole={portalData.user.role} />;
 }

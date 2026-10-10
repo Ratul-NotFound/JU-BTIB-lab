@@ -1,9 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_cache } from "next/cache";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/auth-guard";
 import { Role, NoticeCategory, NoticePriority, NoticeAudience } from "@prisma/client";
+import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
 import { z } from "zod";
 
 const noticeSchema = z.object({
@@ -63,6 +64,7 @@ export async function createNoticeAction(input: NoticeInput) {
       },
     });
 
+    invalidateCache(CACHE_TAGS.NOTICES);
     revalidatePath("/admin/notices");
     revalidatePath("/portal");
     revalidatePath("/portal/notices");
@@ -126,6 +128,7 @@ export async function updateNoticeAction(id: string, input: Partial<NoticeInput>
       },
     });
 
+    invalidateCache(CACHE_TAGS.NOTICES);
     revalidatePath("/admin/notices");
     revalidatePath("/portal");
     revalidatePath("/portal/notices");
@@ -172,6 +175,7 @@ export async function deleteNoticeAction(id: string) {
       },
     });
 
+    invalidateCache(CACHE_TAGS.NOTICES);
     revalidatePath("/admin/notices");
     revalidatePath("/portal");
     revalidatePath("/portal/notices");
@@ -202,6 +206,7 @@ export async function togglePinNoticeAction(id: string) {
       data: { pinned: !notice.pinned },
     });
 
+    invalidateCache(CACHE_TAGS.NOTICES);
     revalidatePath("/admin/notices");
     revalidatePath("/portal");
     revalidatePath("/portal/notices");
@@ -236,6 +241,7 @@ export async function togglePublishNoticeAction(id: string) {
       data: { published: !notice.published },
     });
 
+    invalidateCache(CACHE_TAGS.NOTICES);
     revalidatePath("/admin/notices");
     revalidatePath("/portal");
     revalidatePath("/portal/notices");
@@ -271,36 +277,58 @@ export async function getAllAdminNoticesAction() {
   }
 }
 
-/**
- * Fetch active, published notices for the Portal (Students, Faculty, or Admin view).
- * Automatically filters out expired notices and honors targetAudience.
- */
-export async function getActivePortalNoticesAction(userRole?: Role) {
-  try {
-    const now = new Date();
+async function fetchDirectPortalNotices(userRole?: Role) {
+  const now = new Date();
 
-    const audienceFilter = userRole === Role.FACULTY
+  const audienceFilter =
+    userRole === Role.FACULTY
       ? { in: [NoticeAudience.ALL, NoticeAudience.FACULTY_ONLY] }
       : userRole === Role.STUDENT
       ? { in: [NoticeAudience.ALL, NoticeAudience.STUDENTS_ONLY] }
       : undefined;
 
-    const notices = await db.labNotice.findMany({
-      where: {
-        published: true,
-        OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
-        ...(audienceFilter ? { targetAudience: audienceFilter } : {}),
-      },
-      orderBy: [
-        { pinned: "desc" },
-        { priority: "desc" },
-        { createdAt: "desc" },
-      ],
-    });
+  return await db.labNotice.findMany({
+    where: {
+      published: true,
+      OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
+      ...(audienceFilter ? { targetAudience: audienceFilter } : {}),
+    },
+    orderBy: [
+      { pinned: "desc" },
+      { priority: "desc" },
+      { createdAt: "desc" },
+    ],
+    take: 30,
+  });
+}
 
+const getCachedPortalNotices = (userRole?: Role) =>
+  unstable_cache(
+    () => fetchDirectPortalNotices(userRole),
+    [`active-portal-notices-${userRole || "ALL"}`],
+    {
+      tags: [CACHE_TAGS.NOTICES],
+      revalidate: 180, // 3 minutes cache
+    }
+  )();
+
+/**
+ * Fetch active, published notices for the Portal (Students, Faculty, or Admin view).
+ * Automatically filters out expired notices and honors targetAudience.
+ * Cached in-memory with tag revalidation.
+ */
+export async function getActivePortalNoticesAction(userRole?: Role) {
+  try {
+    const notices = await getCachedPortalNotices(userRole);
     return { success: true, data: notices };
-  } catch (error: unknown) {
-    console.error("Get portal notices error:", error);
-    return { success: false, data: [] };
+  } catch {
+    // Graceful fallback if executing outside incremental cache context
+    try {
+      const directNotices = await fetchDirectPortalNotices(userRole);
+      return { success: true, data: directNotices };
+    } catch (fallbackError) {
+      console.error("Get portal notices fallback error:", fallbackError);
+      return { success: false, data: [] };
+    }
   }
 }
