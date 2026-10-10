@@ -104,6 +104,7 @@ model User {
   auditLogs      AuditLog[]
   facultyProfile FacultyProfile?
   studentProfile StudentProfile?
+  notices        LabNotice[]
 }
 
 model SiteSetting {
@@ -539,3 +540,46 @@ model ExperimentLog {
   @@index([dateConducted])
   @@index([facultyId])
 }
+
+enum NoticeCategory {
+  GENERAL
+  SAFETY_ALERT
+  EQUIPMENT_DOWNTIME
+  SEMINAR_EVENT
+  DEADLINE
+}
+
+enum NoticePriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum NoticeAudience {
+  ALL
+  STUDENTS_ONLY
+  FACULTY_ONLY
+}
+
+model LabNotice {
+  id             String         @id @default(cuid())
+  title          String
+  content        String         @db.Text
+  category       NoticeCategory @default(GENERAL)
+  priority       NoticePriority @default(NORMAL)
+  targetAudience NoticeAudience @default(ALL)
+  pinned         Boolean        @default(false)
+  published      Boolean        @default(true)
+  expiresAt      DateTime?
+  authorName     String?        @default("Lab Administration")
+  userId         String?
+  user           User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([published, pinned, createdAt(sort: Desc)])
+  @@index([category])
+  @@index([targetAudience])
+}
+

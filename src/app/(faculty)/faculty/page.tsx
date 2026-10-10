@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Role } from "@prisma/client";
 import { getFacultyDashboardDataAction } from "@/server/actions/faculty";
+import { getActivePortalNoticesAction } from "@/server/actions/notices";
 import { FacultyDashboardClient } from "./faculty-dashboard-client";
 
 export const dynamic = "force-dynamic";
@@ -31,7 +32,10 @@ export default async function FacultyDashboardPage() {
     where: { userId: session.user.id },
   });
 
-  const dashboardRes = await getFacultyDashboardDataAction();
+  const [dashboardRes, noticesRes] = await Promise.all([
+    getFacultyDashboardDataAction(),
+    getActivePortalNoticesAction(Role.FACULTY),
+  ]);
 
   if (!dashboardRes.success || !dashboardRes.data) {
     return (
@@ -43,6 +47,8 @@ export default async function FacultyDashboardPage() {
 
   const { supervisedStudents, pendingStudentsCount, recentBookings, pendingLogs } =
     dashboardRes.data;
+
+  const notices = noticesRes.success && noticesRes.data ? noticesRes.data : [];
 
   type DashboardProps = React.ComponentProps<typeof FacultyDashboardClient>;
 
@@ -59,6 +65,7 @@ export default async function FacultyDashboardPage() {
       }}
       pendingLogs={pendingLogs as unknown as DashboardProps["pendingLogs"]}
       recentBookings={recentBookings as unknown as DashboardProps["recentBookings"]}
+      notices={notices}
     />
   );
 }

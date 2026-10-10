@@ -3,12 +3,13 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileCheck2, Users, Microscope, LogOut } from "lucide-react";
+import { LayoutDashboard, FileCheck2, Users, Microscope, LogOut, Bell } from "lucide-react";
 import { logoutAction } from "@/server/actions/auth";
 import { cn } from "@/lib/utils";
 
 const NAV_TABS = [
   { href: "/faculty", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/portal/notices", label: "Notices & Bulletins", icon: Bell },
   { href: "/faculty/activity", label: "Activity Tracer & Sign-off", icon: FileCheck2 },
   { href: "/faculty/students", label: "Supervised Scholars", icon: Users },
   { href: "/portal/book", label: "Book Equipment", icon: Microscope },

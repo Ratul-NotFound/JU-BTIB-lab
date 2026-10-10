@@ -16,8 +16,26 @@ import {
   PlusCircle,
   FileCheck2,
   Edit3,
+  Bell,
+  Pin,
 } from "lucide-react";
+import { NoticeCategory, NoticePriority, NoticeAudience } from "@prisma/client";
 import { PostRunLogModal, BookingToLog } from "@/components/portal/post-run-log-modal";
+
+export interface DashboardNoticeItem {
+  id: string;
+  title: string;
+  content: string;
+  category: NoticeCategory;
+  priority: NoticePriority;
+  targetAudience: NoticeAudience;
+  pinned: boolean;
+  published: boolean;
+  expiresAt: Date | string | null;
+  authorName: string | null;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
 
 interface BookingItem {
   id: string;
@@ -66,6 +84,7 @@ interface ScholarDashboardClientProps {
   isRejected: boolean;
   totalHours: number;
   bookings: BookingItem[];
+  notices?: DashboardNoticeItem[];
 }
 
 export function ScholarDashboardClient({
@@ -76,12 +95,18 @@ export function ScholarDashboardClient({
   isRejected,
   totalHours,
   bookings,
+  notices = [],
 }: ScholarDashboardClientProps) {
   const [selectedBookingForLog, setSelectedBookingForLog] = React.useState<BookingToLog | null>(null);
   const [logModalOpen, setLogModalOpen] = React.useState(false);
   const [activeFilter, setActiveFilter] = React.useState<"ALL" | "UPCOMING" | "AWAITING_LOG" | "COMPLETED">("ALL");
 
   const now = React.useMemo(() => new Date(), []);
+
+  // Filter urgent or pinned notices for the prominent alert bar
+  const urgentOrPinnedNotices = React.useMemo(() => {
+    return notices.filter((n) => n.pinned || n.priority === "URGENT" || n.priority === "HIGH");
+  }, [notices]);
 
   // Bookings that need post-run logging (slot ended or completed, but no log yet)
   const awaitingLogBookings = bookings.filter((b) => {
@@ -174,6 +199,45 @@ export function ScholarDashboardClient({
           </Link>
         </div>
       </div>
+
+      {/* Notice Alert Banner: Pinned or Urgent Notices */}
+      {urgentOrPinnedNotices.length > 0 && (
+        <div className="p-4 sm:p-5 rounded-md border border-[var(--brand-primary)]/30 bg-[var(--surface-raised)]/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-md bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center shrink-0 mt-0.5">
+              <Bell className="w-4 h-4" />
+            </div>
+            <div className="space-y-0.5 min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-bold text-xs sm:text-sm text-[var(--text-primary)]">
+                  {urgentOrPinnedNotices[0].title}
+                </span>
+                {urgentOrPinnedNotices[0].priority === "URGENT" && (
+                  <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-rose-500 text-white animate-pulse">
+                    URGENT
+                  </span>
+                )}
+                {urgentOrPinnedNotices[0].pinned && (
+                  <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-semibold bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20 flex items-center gap-1">
+                    <Pin className="w-2.5 h-2.5 fill-current rotate-45" />
+                    <span>PINNED</span>
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-[var(--text-secondary)] line-clamp-2 font-light">
+                {urgentOrPinnedNotices[0].content}
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/portal/notices"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold bg-[var(--surface)] hover:bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] transition-all shrink-0 self-start sm:self-center shadow-2xs"
+          >
+            <span>View All Notices ({notices.length})</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      )}
 
       {/* 2. Urgent Callout: Sessions Awaiting Post-Run Work Log */}
       {awaitingLogBookings.length > 0 && (
@@ -435,65 +499,129 @@ export function ScholarDashboardClient({
           )}
         </div>
 
-        {/* 6. Scholar Academic Profile Card */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-black font-sans text-[var(--text-primary)] flex items-center gap-2">
-            <User className="w-5 h-5 text-sky-500" />
-            <span>Academic Dossier</span>
-          </h2>
+        {/* 6. Right Column: Notices Widget & Scholar Academic Profile Card */}
+        <div className="space-y-6">
+          {/* Lab Announcements & Bulletins Widget */}
+          {notices.length > 0 && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-black font-sans text-[var(--text-primary)] flex items-center gap-2">
+                  <Bell className="w-5 h-5 text-[var(--brand-primary)]" />
+                  <span>Lab Bulletins</span>
+                </h2>
+                <Link
+                  href="/portal/notices"
+                  className="text-xs font-semibold text-[var(--brand-primary)] hover:underline inline-flex items-center gap-1"
+                >
+                  <span>View all ({notices.length})</span>
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
 
-          <div className="p-5 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 text-xs">
-            <div className="space-y-1">
-              <span className="text-xs font-mono text-[var(--text-muted)] block uppercase">Research Thesis Topic</span>
-              <p className="font-semibold text-[var(--text-primary)] leading-relaxed">
-                {profile?.thesisTitle || "Microbial Bioproducts and Bioprocess Kinetics"}
-              </p>
+              <div className="p-4 sm:p-5 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-3.5 text-xs">
+                {notices.slice(0, 3).map((n) => (
+                  <div
+                    key={n.id}
+                    className="pb-3 border-b border-[var(--border)] last:border-0 last:pb-0 space-y-1"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[10px] font-mono text-[var(--text-muted)]">
+                        {new Date(n.createdAt).toLocaleDateString()}
+                      </span>
+                      {n.pinned ? (
+                        <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20">
+                          PINNED
+                        </span>
+                      ) : n.priority === "URGENT" ? (
+                        <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-rose-500 text-white">
+                          URGENT
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <Link
+                      href="/portal/notices"
+                      className="font-bold text-xs text-[var(--text-primary)] hover:text-[var(--brand-primary)] transition-colors block line-clamp-1"
+                    >
+                      {n.title}
+                    </Link>
+
+                    <p className="text-[11px] text-[var(--text-secondary)] line-clamp-2 font-light leading-relaxed">
+                      {n.content}
+                    </p>
+                  </div>
+                ))}
+
+                <Link
+                  href="/portal/notices"
+                  className="w-full pt-2 border-t border-[var(--border)] text-center text-xs font-semibold text-[var(--brand-primary)] hover:underline block"
+                >
+                  Browse all notices &amp; updates →
+                </Link>
+              </div>
             </div>
+          )}
 
-            <div className="pt-3 border-t border-[var(--border)] space-y-2 font-mono text-[11px]">
-              <div className="flex justify-between">
-                <span className="text-[var(--text-muted)]">Department:</span>
-                <span className="text-[var(--text-primary)] text-right">BGE, JU</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[var(--text-muted)]">Session:</span>
-                <span className="text-[var(--text-primary)]">{profile?.sessionYear}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[var(--text-muted)]">Batch:</span>
-                <span className="text-[var(--text-primary)]">{profile?.batch || "N/A"}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[var(--text-muted)]">Email:</span>
-                <span className="text-[var(--text-primary)] truncate max-w-[150px]">{userEmail}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[var(--text-muted)]">Phone:</span>
-                <span className="text-[var(--text-primary)]">{profile?.phone}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[var(--text-muted)]">Supervisor:</span>
-                <span className="text-[var(--brand-primary)] font-sans font-medium text-right truncate max-w-[150px]">
-                  {profile?.supervisor?.user.name || profile?.supervisorName || "Assigned Faculty"}
-                </span>
-              </div>
-            </div>
+          {/* Scholar Academic Profile Card */}
+          <div className="space-y-3">
+            <h2 className="text-lg font-black font-sans text-[var(--text-primary)] flex items-center gap-2">
+              <User className="w-5 h-5 text-sky-500" />
+              <span>Academic Dossier</span>
+            </h2>
 
-            <div className="pt-3 border-t border-[var(--border)] flex flex-col gap-2">
-              <Link
-                href="/portal/profile"
-                className="w-full py-2.5 rounded-md text-xs font-semibold bg-[var(--surface-raised)] hover:bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] transition-all flex items-center justify-center gap-1.5"
-              >
-                <span>View Full Academic Profile</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+            <div className="p-5 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4 text-xs">
+              <div className="space-y-1">
+                <span className="text-xs font-mono text-[var(--text-muted)] block uppercase">Research Thesis Topic</span>
+                <p className="font-semibold text-[var(--text-primary)] leading-relaxed">
+                  {profile?.thesisTitle || "Microbial Bioproducts and Bioprocess Kinetics"}
+                </p>
+              </div>
 
-              <Link
-                href="/portal/sops"
-                className="w-full py-2 rounded-md text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)] transition-all text-center"
-              >
-                Lab Safety SOPs &amp; Guidelines →
-              </Link>
+              <div className="pt-3 border-t border-[var(--border)] space-y-2 font-mono text-[11px]">
+                <div className="flex justify-between">
+                  <span className="text-[var(--text-muted)]">Department:</span>
+                  <span className="text-[var(--text-primary)] text-right">BGE, JU</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[var(--text-muted)]">Session:</span>
+                  <span className="text-[var(--text-primary)]">{profile?.sessionYear}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[var(--text-muted)]">Batch:</span>
+                  <span className="text-[var(--text-primary)]">{profile?.batch || "N/A"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[var(--text-muted)]">Email:</span>
+                  <span className="text-[var(--text-primary)] truncate max-w-[150px]">{userEmail}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[var(--text-muted)]">Phone:</span>
+                  <span className="text-[var(--text-primary)]">{profile?.phone}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[var(--text-muted)]">Supervisor:</span>
+                  <span className="text-[var(--brand-primary)] font-sans font-medium text-right truncate max-w-[150px]">
+                    {profile?.supervisor?.user.name || profile?.supervisorName || "Assigned Faculty"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-[var(--border)] flex flex-col gap-2">
+                <Link
+                  href="/portal/profile"
+                  className="w-full py-2.5 rounded-md text-xs font-semibold bg-[var(--surface-raised)] hover:bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] transition-all flex items-center justify-center gap-1.5"
+                >
+                  <span>View Full Academic Profile</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+
+                <Link
+                  href="/portal/sops"
+                  className="w-full py-2 rounded-md text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)] transition-all text-center"
+                >
+                  Lab Safety SOPs &amp; Guidelines →
+                </Link>
+              </div>
             </div>
           </div>
         </div>

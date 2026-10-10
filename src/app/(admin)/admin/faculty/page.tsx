@@ -10,8 +10,8 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "Faculty Directory & Account Generator | Admin Console",
-  description: "Direct provisioning and supervision controls for faculty members.",
+  title: "Faculty Supervisors & Account Generator | Admin Console",
+  description: "Direct provisioning, supervision controls, and public team roster synchronization for faculty members.",
 };
 
 export default async function AdminFacultyPage() {

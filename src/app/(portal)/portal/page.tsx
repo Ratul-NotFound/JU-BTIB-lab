@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Role, AccountStatus } from "@prisma/client";
+import { getActivePortalNoticesAction } from "@/server/actions/notices";
 import { ScholarDashboardClient } from "./scholar-dashboard-client";
 
 export const dynamic = "force-dynamic";
@@ -126,6 +127,10 @@ export default async function StudentPortalPage() {
   // Calculate cumulative stats
   const totalHours = profile?.workLogs?.reduce((sum, log) => sum + log.actualHoursUsed, 0) || 0;
 
+  // Active notices for student role
+  const noticesRes = await getActivePortalNoticesAction(dbUser.role);
+  const notices = noticesRes.success && noticesRes.data ? noticesRes.data : [];
+
   return (
     <ScholarDashboardClient
       userName={session.user.name || "Scholar"}
@@ -135,6 +140,7 @@ export default async function StudentPortalPage() {
       isRejected={isRejected}
       totalHours={totalHours}
       bookings={profile?.bookings || []}
+      notices={notices}
     />
   );
 }

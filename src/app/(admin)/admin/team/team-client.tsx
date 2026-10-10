@@ -30,6 +30,7 @@ import {
   GraduationCap,
   Award,
   Loader2,
+  Users,
 } from "lucide-react";
 
 export interface PersonalProject {
@@ -91,6 +92,7 @@ export interface TeamItem {
   awards?: AwardItem[];
   projectIds: string[];
   publicationIds: string[];
+  hasFacultyPortalAccount?: boolean;
 }
 
 export interface AvailableProject {
@@ -536,9 +538,28 @@ export function TeamClient({
       key: "category",
       header: "Academic Role",
       render: (item) => (
-        <Badge variant={item.category === "PI_FACULTY" ? "teal" : "default"}>
-          {CATEGORY_LABELS[item.category] || item.category}
-        </Badge>
+        <div className="space-y-1">
+          <Badge variant={item.category === "PI_FACULTY" ? "teal" : "default"}>
+            {CATEGORY_LABELS[item.category] || item.category}
+          </Badge>
+          {item.category === "PI_FACULTY" && (
+            <div>
+              {item.hasFacultyPortalAccount ? (
+                <span className="inline-flex items-center gap-1 text-[10px] font-mono font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded">
+                  🎓 Portal Supervisor Linked
+                </span>
+              ) : (
+                <Link
+                  href="/admin/faculty"
+                  className="inline-flex items-center gap-1 text-[10px] font-mono font-medium text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded hover:underline"
+                  title="No supervisor portal account exists. Click to manage in Faculty Supervisors."
+                >
+                  ⚠️ No Portal Account →
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
       ),
     },
     {
@@ -594,8 +615,41 @@ export function TeamClient({
 
   return (
     <div className="space-y-6">
+      {/* Architecture Guidance Banner */}
+      <div className="p-4 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]/60 text-xs flex flex-col md:flex-row md:items-center justify-between gap-3 text-[var(--text-secondary)]">
+        <div className="flex items-start gap-2.5">
+          <div className="p-1.5 rounded bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] shrink-0 mt-0.5">
+            <Users className="w-4 h-4" />
+          </div>
+          <div className="space-y-0.5">
+            <span className="font-semibold text-[var(--text-primary)]">
+              Public Team Roster vs. Faculty Supervisors:
+            </span>
+            <p className="leading-relaxed">
+              This roster manages <strong>public website researcher profiles</strong> across all categories (PIs, postdocs, graduate students, thesis scholars, and alumni) displayed on the public{" "}
+              <Link href="/team" target="_blank" className="text-[var(--bio-teal)] font-medium underline underline-offset-2">
+                /team
+              </Link>{" "}
+              website. For professors and Principal Investigators, institutional login accounts and thesis supervision rights are managed in{" "}
+              <Link href="/admin/faculty" className="text-[var(--bio-teal)] font-medium underline underline-offset-2">
+                Faculty Supervisors
+              </Link>.
+            </p>
+          </div>
+        </div>
+        <div className="shrink-0 flex items-center gap-2">
+          <Link
+            href="/admin/faculty"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] hover:bg-[var(--surface-raised)] transition-colors shadow-xs"
+          >
+            <GraduationCap className="w-3.5 h-3.5 text-purple-600" />
+            <span>Manage Faculty Supervisors</span>
+          </Link>
+        </div>
+      </div>
+
       <DataTable
-        title="Team Directory & Researcher Profiles"
+        title="Public Team Directory & Researcher Profiles"
         description="Manage faculty, scholars, personal projects, publications, degrees, and dynamic repository links."
         columns={columns}
         data={data}

@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 const getCachedAdminTeamPageData = unstable_cache(
   async () => {
-    const [members, memberProjects, memberPubs, projects, publications] = await Promise.all([
+    const [members, memberProjects, memberPubs, projects, publications, facultyProfiles] = await Promise.all([
       db.teamMember.findMany({
         orderBy: [{ order: "asc" }, { joinYear: "asc" }],
       }),
@@ -44,6 +44,10 @@ const getCachedAdminTeamPageData = unstable_cache(
         },
         orderBy: [{ year: "desc" }, { title: "asc" }],
       }),
+      db.facultyProfile.findMany({
+        where: { status: "ACTIVE" },
+        include: { user: { select: { email: true, name: true } } },
+      }),
     ]);
 
     const projMap = new Map<string, string[]>();
@@ -57,6 +61,13 @@ const getCachedAdminTeamPageData = unstable_cache(
       if (!pubMap.has(mp.teamMemberId)) pubMap.set(mp.teamMemberId, []);
       pubMap.get(mp.teamMemberId)!.push(mp.publicationId);
     }
+
+    const facultyEmailSet = new Set(
+      facultyProfiles.map((fp) => fp.user.email.toLowerCase().trim())
+    );
+    const facultyNameSet = new Set(
+      facultyProfiles.map((fp) => fp.user.name.toLowerCase().trim())
+    );
 
     const formattedMembers = (members || []).map((m) => ({
       id: m.id,
@@ -72,6 +83,9 @@ const getCachedAdminTeamPageData = unstable_cache(
       interests: Array.isArray(m.interests) ? m.interests : [],
       order: m.order,
       published: m.published,
+      hasFacultyPortalAccount:
+        Boolean(m.email && facultyEmailSet.has(m.email.toLowerCase().trim())) ||
+        facultyNameSet.has(m.name.toLowerCase().trim()),
       profileLinks:
         m.profileLinks && typeof m.profileLinks === "object"
           ? (m.profileLinks as Record<string, string>)

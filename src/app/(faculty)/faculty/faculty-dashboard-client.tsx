@@ -15,7 +15,25 @@ import {
   ShieldCheck,
   Check,
   UserCheck,
+  Bell,
+  Pin,
 } from "lucide-react";
+import { NoticeCategory, NoticePriority, NoticeAudience } from "@prisma/client";
+
+interface FacultyNoticeItem {
+  id: string;
+  title: string;
+  content: string;
+  category: NoticeCategory;
+  priority: NoticePriority;
+  targetAudience: NoticeAudience;
+  pinned: boolean;
+  published: boolean;
+  expiresAt: Date | string | null;
+  authorName: string | null;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
 
 interface PendingLog {
   id: string;
@@ -56,6 +74,7 @@ interface FacultyDashboardProps {
   };
   pendingLogs: PendingLog[];
   recentBookings: RecentBooking[];
+  notices?: FacultyNoticeItem[];
 }
 
 export function FacultyDashboardClient({
@@ -65,6 +84,7 @@ export function FacultyDashboardClient({
   stats,
   pendingLogs: initialPendingLogs,
   recentBookings,
+  notices = [],
 }: FacultyDashboardProps) {
   const router = useRouter();
   const [pendingLogs, setPendingLogs] = React.useState<PendingLog[]>(initialPendingLogs);
@@ -131,6 +151,45 @@ export function FacultyDashboardClient({
           </Link>
         </div>
       </div>
+
+      {/* Lab Notices Banner */}
+      {notices.length > 0 && (
+        <div className="p-4 sm:p-5 rounded-md border border-purple-500/30 bg-purple-500/5 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 mt-0.5">
+              <Bell className="w-4 h-4" />
+            </div>
+            <div className="space-y-0.5 min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-bold text-xs sm:text-sm text-[var(--text-primary)]">
+                  {notices[0].title}
+                </span>
+                {notices[0].priority === "URGENT" && (
+                  <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-rose-500 text-white animate-pulse">
+                    URGENT
+                  </span>
+                )}
+                {notices[0].pinned && (
+                  <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1">
+                    <Pin className="w-2.5 h-2.5 fill-current rotate-45" />
+                    <span>PINNED</span>
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-[var(--text-secondary)] line-clamp-2 font-light">
+                {notices[0].content}
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/portal/notices"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-semibold bg-[var(--surface)] hover:bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] transition-all shrink-0 self-start sm:self-center shadow-2xs"
+          >
+            <span>View All Notices ({notices.length})</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      )}
 
       {/* 2. Analytical Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

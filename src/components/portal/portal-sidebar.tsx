@@ -20,6 +20,7 @@ import {
   AlertTriangle,
   CheckCircle2,
   PlusCircle,
+  Bell,
 } from "lucide-react";
 import { Role, AccountStatus } from "@prisma/client";
 import { logoutAction } from "@/server/actions/auth";
@@ -98,6 +99,11 @@ export function PortalSidebar({
           badgeColor: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20",
         },
         {
+          href: "/portal/notices",
+          label: "Notices & Bulletins",
+          icon: Bell,
+        },
+        {
           href: "/faculty/students",
           label: "Supervised Scholars",
           icon: GraduationCap,
@@ -128,6 +134,11 @@ export function PortalSidebar({
           label: "Scholar Dashboard",
           icon: LayoutDashboard,
           exact: true,
+        },
+        {
+          href: "/portal/notices",
+          label: "Notices & Bulletins",
+          icon: Bell,
         },
         {
           href: "/portal/book",
@@ -171,6 +182,11 @@ export function PortalSidebar({
         label: "Overview & Dashboard",
         icon: LayoutDashboard,
         exact: true,
+      },
+      {
+        href: "/portal/notices",
+        label: "Notices & Bulletins",
+        icon: Bell,
       },
       {
         href: "/portal/book",

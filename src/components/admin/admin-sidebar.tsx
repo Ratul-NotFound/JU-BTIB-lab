@@ -21,20 +21,22 @@ import {
   GraduationCap,
   UserCheck,
   Clock,
+  Bell,
 } from "lucide-react";
 import { logoutAction } from "@/server/actions/auth";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/faculty", label: "Faculty Directory", icon: GraduationCap },
+  { href: "/admin/notices", label: "Notices & Announcements", icon: Bell },
+  { href: "/admin/faculty", label: "Faculty Supervisors", icon: GraduationCap },
   { href: "/admin/students", label: "Student Scholars", icon: UserCheck },
   { href: "/admin/bookings", label: "Equipment Bookings", icon: Clock },
   { href: "/admin/equipment", label: "Equipment & Instruments", icon: Sliders },
   { href: "/admin/research-areas", label: "Research Areas", icon: FlaskConical },
   { href: "/admin/projects", label: "Projects", icon: FolderGit2 },
   { href: "/admin/publications", label: "Publications", icon: BookOpen },
-  { href: "/admin/team", label: "Team Roster", icon: Users },
+  { href: "/admin/team", label: "Public Team Roster", icon: Users },
   { href: "/admin/activities", label: "Activities", icon: Calendar },
   { href: "/admin/gallery", label: "Photo Gallery", icon: Images },
   { href: "/admin/blog", label: "News & Blog", icon: FileText },
