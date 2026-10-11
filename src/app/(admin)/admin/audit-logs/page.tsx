@@ -7,10 +7,15 @@ import { AuditPruneButton } from "./audit-prune-button";
 export const dynamic = "force-dynamic";
 
 export default async function AdminAuditLogsPage() {
-  const logs = await db.auditLog.findMany({
-    orderBy: { timestamp: "desc" },
-    take: 100,
-  });
+  let logs: Awaited<ReturnType<typeof db.auditLog.findMany>> = [];
+  try {
+    logs = await db.auditLog.findMany({
+      orderBy: { timestamp: "desc" },
+      take: 100,
+    });
+  } catch (error) {
+    console.error("Error loading audit logs:", error);
+  }
 
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-6">

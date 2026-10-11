@@ -7,6 +7,7 @@ import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
 import { formatActionError } from "@/lib/action-error";
 import { logAuditAsync } from "@/lib/audit";
 import { Role } from "@prisma/client";
+import { sanitizeRichHtml } from "@/lib/sanitize";
 
 export async function createActivity(input: ActivityInput) {
   try {
@@ -14,7 +15,10 @@ export async function createActivity(input: ActivityInput) {
     const validated = activitySchema.parse(input);
 
     const activity = await db.activity.create({
-      data: validated,
+      data: {
+        ...validated,
+        bodyHtml: validated.bodyHtml ? sanitizeRichHtml(validated.bodyHtml) : null,
+      },
     });
 
     logAuditAsync({
@@ -41,7 +45,12 @@ export async function updateActivity(id: string, input: Partial<ActivityInput>) 
 
     const updated = await db.activity.update({
       where: { id },
-      data: validated,
+      data: {
+        ...validated,
+        ...(validated.bodyHtml !== undefined && {
+          bodyHtml: validated.bodyHtml ? sanitizeRichHtml(validated.bodyHtml) : null,
+        }),
+      },
     });
 
     logAuditAsync({

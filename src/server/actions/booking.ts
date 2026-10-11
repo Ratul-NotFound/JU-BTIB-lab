@@ -158,20 +158,39 @@ export async function autoBookEquipmentAction(input: BookEquipmentInput) {
         : `Waste: ${validated.wasteNotes.trim()}`;
     }
 
-    const booking = await db.equipmentBooking.create({
-      data: {
-        equipmentId: validated.equipmentId,
-        studentProfileId,
-        facultyProfileId,
-        startTime: start,
-        endTime: end,
-        purpose: finalPurpose,
-        samples: finalSamples,
-        status: BookingStatus.CONFIRMED,
-      },
-      include: {
-        equipment: { select: { name: true, category: true } },
-      },
+    // 3. Atomically check and create confirmed booking in a single transaction
+    const booking = await db.$transaction(async (tx) => {
+      // Re-verify slot inside the atomic transaction to prevent concurrent double-booking
+      const conflict = await tx.equipmentBooking.findFirst({
+        where: {
+          equipmentId: validated.equipmentId,
+          status: { in: [BookingStatus.CONFIRMED, BookingStatus.IN_PROGRESS] },
+          startTime: { lt: end },
+          endTime: { gt: start },
+        },
+      });
+
+      if (conflict) {
+        throw new Error(
+          "Slot Conflict: This slot was just reserved by another user. Please choose another time."
+        );
+      }
+
+      return await tx.equipmentBooking.create({
+        data: {
+          equipmentId: validated.equipmentId,
+          studentProfileId,
+          facultyProfileId,
+          startTime: start,
+          endTime: end,
+          purpose: finalPurpose,
+          samples: finalSamples,
+          status: BookingStatus.CONFIRMED,
+        },
+        include: {
+          equipment: { select: { name: true, category: true } },
+        },
+      });
     });
 
     // 4. Record in Audit Log

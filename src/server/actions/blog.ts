@@ -7,7 +7,7 @@ import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
 import { formatActionError } from "@/lib/action-error";
 import { logAuditAsync } from "@/lib/audit";
 import { Role, PostStatus } from "@prisma/client";
-import sanitizeHtml from "sanitize-html";
+import { sanitizeRichHtml } from "@/lib/sanitize";
 
 export async function createBlogPost(input: BlogPostInput) {
   try {
@@ -15,16 +15,7 @@ export async function createBlogPost(input: BlogPostInput) {
     const validated = blogPostSchema.parse(input);
 
     // Sanitize HTML body to prevent XSS attacks before storage
-    const cleanBody = sanitizeHtml(validated.bodyHtml, {
-      allowedTags: sanitizeHtml.defaults.allowedTags.concat([
-        "h1", "h2", "h3", "img", "figure", "figcaption", "table", "tbody", "thead", "tr", "td", "th",
-      ]),
-      allowedAttributes: {
-        ...sanitizeHtml.defaults.allowedAttributes,
-        img: ["src", "alt", "title", "width", "height", "class"],
-        a: ["href", "name", "target", "rel"],
-      },
-    });
+    const cleanBody = sanitizeRichHtml(validated.bodyHtml);
 
     const { tagIds = [], ...data } = validated;
 
@@ -66,17 +57,8 @@ export async function updateBlogPost(id: string, input: Partial<BlogPostInput>) 
     const user = await requireRole([Role.SUPER_ADMIN, Role.EDITOR]);
     const validated = blogPostSchema.partial().parse(input);
 
-    const cleanBody = validated.bodyHtml
-      ? sanitizeHtml(validated.bodyHtml, {
-          allowedTags: sanitizeHtml.defaults.allowedTags.concat([
-            "h1", "h2", "h3", "img", "figure", "figcaption", "table", "tbody", "thead", "tr", "td", "th",
-          ]),
-          allowedAttributes: {
-            ...sanitizeHtml.defaults.allowedAttributes,
-            img: ["src", "alt", "title", "width", "height", "class"],
-            a: ["href", "name", "target", "rel"],
-          },
-        })
+    const cleanBody = validated.bodyHtml !== undefined
+      ? sanitizeRichHtml(validated.bodyHtml)
       : undefined;
 
     const { tagIds, ...data } = validated;

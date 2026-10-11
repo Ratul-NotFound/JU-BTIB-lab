@@ -11,9 +11,22 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const [showDiagnostics, setShowDiagnostics] = React.useState(false);
+  const [retryCount, setRetryCount] = React.useState(0);
+
   React.useEffect(() => {
     console.error("Runtime exception captured by error boundary:", error);
   }, [error]);
+
+  const handleRetry = () => {
+    if (retryCount >= 1) {
+      // If segment reset already attempted, execute a full fresh page reload
+      window.location.reload();
+    } else {
+      setRetryCount((prev) => prev + 1);
+      reset();
+    }
+  };
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
@@ -37,21 +50,27 @@ export default function GlobalError({
           </h1>
 
           <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
-            An unexpected runtime error occurred while processing this scientific dataset. Our error
+            An unexpected runtime error occurred while processing this request. Our error
             telemetry has recorded the event.
           </p>
         </div>
+
+        {error?.digest && (
+          <div className="text-[11px] font-mono text-[var(--text-muted)] bg-[var(--surface-raised)] py-1.5 px-3 rounded border border-[var(--border)] inline-block">
+            REF ID: <span className="text-[var(--text-primary)]">{error.digest}</span>
+          </div>
+        )}
 
         <div className="scale-bar" />
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <button
             type="button"
-            onClick={() => reset()}
+            onClick={handleRetry}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-xs font-mono font-semibold bg-[var(--bio-teal)] hover:bg-[var(--bio-teal-hover)] text-white shadow-xs transition-colors"
           >
             <RefreshCw className="w-4 h-4" />
-            <span>Re-evaluate Sequence</span>
+            <span>{retryCount >= 1 ? "Hard Reload Page" : "Re-evaluate Sequence"}</span>
           </button>
 
           <Link
@@ -61,6 +80,36 @@ export default function GlobalError({
             <ArrowLeft className="w-4 h-4" />
             <span>Return Home</span>
           </Link>
+        </div>
+
+        {/* Collapsible diagnostic telemetry */}
+        <div className="pt-2">
+          <button
+            type="button"
+            onClick={() => setShowDiagnostics(!showDiagnostics)}
+            className="text-[10px] font-mono text-[var(--text-muted)] hover:text-[var(--bio-teal)] underline transition-colors"
+          >
+            {showDiagnostics ? "Hide Diagnostic Telemetry" : "View Diagnostic Telemetry"}
+          </button>
+
+          {showDiagnostics && (
+            <div className="mt-3 p-3 rounded bg-[var(--surface-raised)] border border-[var(--border)] text-left text-[11px] font-mono text-[var(--text-secondary)] space-y-1.5 overflow-x-auto">
+              <div>
+                <span className="text-[var(--text-muted)]">Error Name: </span>
+                {error.name || "Error"}
+              </div>
+              <div>
+                <span className="text-[var(--text-muted)]">Message: </span>
+                {error.message || "Unknown runtime exception"}
+              </div>
+              {error.digest && (
+                <div>
+                  <span className="text-[var(--text-muted)]">Digest: </span>
+                  {error.digest}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

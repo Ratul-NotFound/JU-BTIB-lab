@@ -25,7 +25,10 @@ export default async function AdminFacultyPage() {
     redirect("/portal");
   }
 
-  const faculty = await getActiveFacultyList();
+  const faculty = await getActiveFacultyList().catch((err) => {
+    console.error("Error fetching faculty list:", err);
+    return [];
+  });
 
   type FacultyProps = React.ComponentProps<typeof FacultyAdminClient>;
   return (

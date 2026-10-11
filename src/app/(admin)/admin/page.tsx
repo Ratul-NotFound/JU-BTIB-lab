@@ -22,61 +22,81 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 async function getDashboardData() {
-  const [
-    countsResult,
-    recentAudits,
-    facultyCount,
-    studentsCount,
-    pendingStudentsCount,
-    bookingsCount,
-  ] = await Promise.all([
-    db.$queryRaw<{
-      areasCount: number;
-      projectsCount: number;
-      publicationsCount: number;
-      teamCount: number;
-      activitiesCount: number;
-      postsCount: number;
-      unreadMessagesCount: number;
-    }[]>`
-      SELECT 
-        (SELECT COUNT(*)::int FROM "ResearchArea") as "areasCount",
-        (SELECT COUNT(*)::int FROM "Project") as "projectsCount",
-        (SELECT COUNT(*)::int FROM "Publication") as "publicationsCount",
-        (SELECT COUNT(*)::int FROM "TeamMember") as "teamCount",
-        (SELECT COUNT(*)::int FROM "Activity") as "activitiesCount",
-        (SELECT COUNT(*)::int FROM "BlogPost") as "postsCount",
-        (SELECT COUNT(*)::int FROM "ContactMessage" WHERE status = 'NEW') as "unreadMessagesCount"
-    `,
-    db.auditLog.findMany({
-      take: 6,
-      orderBy: { timestamp: "desc" },
-    }),
-    db.facultyProfile.count(),
-    db.studentProfile.count(),
-    db.studentProfile.count({ where: { status: "PENDING_APPROVAL" } }),
-    db.equipmentBooking.count({
-      where: { status: { in: ["CONFIRMED", "IN_PROGRESS"] } },
-    }),
-  ]);
+  try {
+    const [
+      countsResult,
+      recentAudits,
+      facultyCount,
+      studentsCount,
+      pendingStudentsCount,
+      bookingsCount,
+    ] = await Promise.all([
+      db.$queryRaw<{
+        areasCount: number;
+        projectsCount: number;
+        publicationsCount: number;
+        teamCount: number;
+        activitiesCount: number;
+        postsCount: number;
+        unreadMessagesCount: number;
+      }[]>`
+        SELECT 
+          (SELECT COUNT(*)::int FROM "ResearchArea") as "areasCount",
+          (SELECT COUNT(*)::int FROM "Project") as "projectsCount",
+          (SELECT COUNT(*)::int FROM "Publication") as "publicationsCount",
+          (SELECT COUNT(*)::int FROM "TeamMember") as "teamCount",
+          (SELECT COUNT(*)::int FROM "Activity") as "activitiesCount",
+          (SELECT COUNT(*)::int FROM "BlogPost") as "postsCount",
+          (SELECT COUNT(*)::int FROM "ContactMessage" WHERE status = 'NEW') as "unreadMessagesCount"
+      `,
+      db.auditLog.findMany({
+        take: 6,
+        orderBy: { timestamp: "desc" },
+      }),
+      db.facultyProfile.count(),
+      db.studentProfile.count(),
+      db.studentProfile.count({ where: { status: "PENDING_APPROVAL" } }),
+      db.equipmentBooking.count({
+        where: { status: { in: ["CONFIRMED", "IN_PROGRESS"] } },
+      }),
+    ]);
 
-  const counts = {
-    ...(countsResult[0] || {
-      areasCount: 0,
-      projectsCount: 0,
-      publicationsCount: 0,
-      teamCount: 0,
-      activitiesCount: 0,
-      postsCount: 0,
-      unreadMessagesCount: 0,
-    }),
-    facultyCount,
-    studentsCount,
-    pendingStudentsCount,
-    bookingsCount,
-  };
+    const counts = {
+      ...(countsResult[0] || {
+        areasCount: 0,
+        projectsCount: 0,
+        publicationsCount: 0,
+        teamCount: 0,
+        activitiesCount: 0,
+        postsCount: 0,
+        unreadMessagesCount: 0,
+      }),
+      facultyCount,
+      studentsCount,
+      pendingStudentsCount,
+      bookingsCount,
+    };
 
-  return { counts, recentAudits };
+    return { counts, recentAudits };
+  } catch (error) {
+    console.error("Error loading admin dashboard metrics:", error);
+    return {
+      counts: {
+        areasCount: 0,
+        projectsCount: 0,
+        publicationsCount: 0,
+        teamCount: 0,
+        activitiesCount: 0,
+        postsCount: 0,
+        unreadMessagesCount: 0,
+        facultyCount: 0,
+        studentsCount: 0,
+        pendingStudentsCount: 0,
+        bookingsCount: 0,
+      },
+      recentAudits: [],
+    };
+  }
 }
 
 export default async function AdminDashboardPage() {

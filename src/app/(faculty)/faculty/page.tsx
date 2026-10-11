@@ -29,9 +29,14 @@ export default async function FacultyDashboardPage() {
 
   // Fetch faculty profile, dashboard data, and active notices in parallel
   const [facultyProfile, dashboardRes, noticesRes] = await Promise.all([
-    db.facultyProfile.findUnique({
-      where: { userId: session.user.id },
-    }),
+    db.facultyProfile
+      .findUnique({
+        where: { userId: session.user.id },
+      })
+      .catch((err) => {
+        console.error("Error fetching faculty profile:", err);
+        return null;
+      }),
     getFacultyDashboardDataAction(),
     getActivePortalNoticesAction(Role.FACULTY),
   ]);

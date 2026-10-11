@@ -26,8 +26,14 @@ export default async function AdminBookingsPage() {
   }
 
   const [floorSessions, scheduleRes] = await Promise.all([
-    getActiveLabFloorActivity(),
-    getMasterScheduleAction({ includeCancelled: true }),
+    getActiveLabFloorActivity().catch((err) => {
+      console.error("Error fetching floor activity:", err);
+      return [];
+    }),
+    getMasterScheduleAction({ includeCancelled: true }).catch((err) => {
+      console.error("Error fetching master schedule:", err);
+      return { success: false, bookings: [] };
+    }),
   ]);
 
   return (

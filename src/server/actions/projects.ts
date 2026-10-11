@@ -7,6 +7,7 @@ import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
 import { formatActionError } from "@/lib/action-error";
 import { logAuditAsync } from "@/lib/audit";
 import { Role } from "@prisma/client";
+import { sanitizeRichHtml } from "@/lib/sanitize";
 
 export async function createProject(input: ProjectInput) {
   try {
@@ -18,6 +19,7 @@ export async function createProject(input: ProjectInput) {
     const project = await db.project.create({
       data: {
         ...data,
+        bodyHtml: sanitizeRichHtml(data.bodyHtml),
         areas: {
           create: areaIds.map((areaId) => ({
             researchAreaId: areaId,
@@ -60,6 +62,7 @@ export async function updateProject(id: string, input: Partial<ProjectInput>) {
       where: { id },
       data: {
         ...data,
+        ...(data.bodyHtml !== undefined && { bodyHtml: sanitizeRichHtml(data.bodyHtml) }),
         ...(areaIds !== undefined && {
           areas: {
             deleteMany: {},

@@ -25,7 +25,10 @@ export default async function AdminStudentsPage() {
     redirect("/portal");
   }
 
-  const res = await getStudentsListAction();
+  const res = await getStudentsListAction().catch((err) => {
+    console.error("Error fetching students list:", err);
+    return { success: false, students: [] };
+  });
 
   type StudentsProps = React.ComponentProps<typeof StudentsAdminClient>;
   return (

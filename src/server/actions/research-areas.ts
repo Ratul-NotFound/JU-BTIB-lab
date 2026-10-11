@@ -7,6 +7,7 @@ import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
 import { formatActionError } from "@/lib/action-error";
 import { logAuditAsync } from "@/lib/audit";
 import { Role } from "@prisma/client";
+import { sanitizeRichHtml } from "@/lib/sanitize";
 
 export async function createResearchArea(input: ResearchAreaInput) {
   try {
@@ -14,7 +15,10 @@ export async function createResearchArea(input: ResearchAreaInput) {
     const validated = researchAreaSchema.parse(input);
 
     const area = await db.researchArea.create({
-      data: validated,
+      data: {
+        ...validated,
+        bodyHtml: validated.bodyHtml ? sanitizeRichHtml(validated.bodyHtml) : null,
+      },
     });
 
     logAuditAsync({
@@ -43,7 +47,12 @@ export async function updateResearchArea(id: string, input: Partial<ResearchArea
 
     const updated = await db.researchArea.update({
       where: { id },
-      data: validated,
+      data: {
+        ...validated,
+        ...(validated.bodyHtml !== undefined && {
+          bodyHtml: validated.bodyHtml ? sanitizeRichHtml(validated.bodyHtml) : null,
+        }),
+      },
     });
 
     logAuditAsync({
