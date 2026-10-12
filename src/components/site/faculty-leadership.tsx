@@ -2,6 +2,10 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, ArrowRight, Quote } from "lucide-react";
+import {
+  type FacultyLeadershipContentData,
+  DEFAULT_FACULTY_LEADERSHIP,
+} from "@/server/queries/settings";
 
 export interface FacultyLeadershipData {
   name?: string;
@@ -10,11 +14,30 @@ export interface FacultyLeadershipData {
   email?: string | null;
 }
 
-export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipData | null }) {
-  const photo = piMember?.photoUrl || "/images/team/shahedur-rahman.jpg";
-  const name = piMember?.name || "Prof. Mohammad Shahedur Rahman";
-  const title = piMember?.title || "Principal Investigator & Professor";
-  const email = piMember?.email || "rahmanms@bgeju.edu.bd";
+export function FacultyLeadership({
+  data,
+  piMember,
+}: {
+  data?: FacultyLeadershipContentData | null;
+  piMember?: FacultyLeadershipData | null;
+}) {
+  const merged = {
+    ...DEFAULT_FACULTY_LEADERSHIP,
+    ...(data || {}),
+    ...(piMember
+      ? {
+          name: piMember.name || data?.name || DEFAULT_FACULTY_LEADERSHIP.name,
+          photoUrl: piMember.photoUrl || data?.photoUrl || DEFAULT_FACULTY_LEADERSHIP.photoUrl,
+          title: piMember.title || data?.title || DEFAULT_FACULTY_LEADERSHIP.title,
+          email: piMember.email || data?.email || DEFAULT_FACULTY_LEADERSHIP.email,
+        }
+      : {}),
+  };
+
+  const photo = merged.photoUrl || "/images/team/shahedur-rahman.jpg";
+  const name = merged.name;
+  const title = merged.title;
+  const email = merged.email;
 
   return (
     <section className="w-full bg-[var(--surface)] py-20 sm:py-28 border-b border-[var(--border)]">
@@ -41,9 +64,9 @@ export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipDa
                 {title}
               </p>
               <p className="text-xs text-[var(--text-muted)] mt-1 font-light leading-relaxed">
-                Department of Biotechnology & Genetic Engineering
+                {merged.department}
                 <br />
-                Jahangirnagar University, Savar, Dhaka-1342
+                {merged.institution}, {merged.address}
               </p>
             </div>
 
@@ -70,17 +93,17 @@ export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipDa
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <span className="editorial-kicker">Faculty Leadership</span>
+                <span className="editorial-kicker">{merged.kicker}</span>
                 <span className="text-[var(--border-strong)]">•</span>
                 <span className="text-xs font-mono text-[var(--bio-teal)] font-medium">
-                  RESEARCH DIRECTION
+                  {merged.subKicker}
                 </span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
-                Academic Direction & Research Philosophy
+                {merged.heading}
               </h2>
               <p className="text-base text-[var(--text-secondary)] leading-relaxed font-light">
-                Professor Rahman directs the Bioresources Technology and Industrial Biotechnology Laboratory within the Department of Biotechnology &amp; Genetic Engineering. His research program investigates microbial biodiversity bioprospecting, fermentation kinetics, and urban microalgae photobioreactors, training doctoral, master’s, and undergraduate thesis scholars in translational biotechnology.
+                {merged.philosophy}
               </p>
             </div>
 
@@ -88,7 +111,7 @@ export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipDa
             <div className="p-6 rounded-md border border-[var(--border)] bg-[var(--surface-raised)] space-y-3 relative">
               <Quote className="w-5 h-5 text-[var(--bio-teal)] opacity-60" />
               <p className="text-sm sm:text-base font-serif italic text-[var(--text-primary)] leading-relaxed">
-                &ldquo;Our mission is to translate Bangladesh&apos;s indigenous biological wealth into scalable biotechnological solutions that benefit our industry, environment, and scientific community.&rdquo;
+                &ldquo;{merged.quote}&rdquo;
               </p>
             </div>
 
@@ -98,7 +121,7 @@ export function FacultyLeadership({ piMember }: { piMember?: FacultyLeadershipDa
                 Primary Supervisory Fields
               </span>
               <div className="flex flex-wrap gap-2">
-                {["Microbial Bioprocess Kinetics", "Enzymatic Biocatalysis", "Photobioreactor Design", "Bioresources Valorization"].map((tag) => (
+                {merged.supervisoryFields.map((tag) => (
                   <span
                     key={tag}
                     className="px-3.5 py-1.5 rounded text-xs font-medium border border-[var(--border)] bg-[var(--surface-raised)] text-[var(--text-secondary)]"

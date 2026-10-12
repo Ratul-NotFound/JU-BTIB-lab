@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   createNoticeAction,
@@ -16,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog } from "@/components/ui/dialog";
+import { MediaPicker } from "@/components/admin/media-picker";
 import {
   Bell,
   PlusCircle,
@@ -33,6 +35,8 @@ import {
   GraduationCap,
   ExternalLink,
   Megaphone,
+  Paperclip,
+  Image as ImageIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -47,6 +51,9 @@ export interface LabNoticeItem {
   published: boolean;
   expiresAt: Date | string | null;
   authorName: string | null;
+  imageUrl?: string | null;
+  attachmentUrl?: string | null;
+  attachmentName?: string | null;
   createdAt: Date | string;
   updatedAt: Date | string;
 }
@@ -122,6 +129,9 @@ export function NoticesAdminClient({ initialNotices, adminName }: NoticesAdminCl
   const [published, setPublished] = React.useState(true);
   const [expiresAt, setExpiresAt] = React.useState("");
   const [authorName, setAuthorName] = React.useState(adminName || "Lab Administration");
+  const [imageUrl, setImageUrl] = React.useState("");
+  const [attachmentUrl, setAttachmentUrl] = React.useState("");
+  const [attachmentName, setAttachmentName] = React.useState("");
 
   const [submitting, setSubmitting] = React.useState(false);
   const [actionMessage, setActionMessage] = React.useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -137,6 +147,9 @@ export function NoticesAdminClient({ initialNotices, adminName }: NoticesAdminCl
     setPublished(true);
     setExpiresAt("");
     setAuthorName(adminName || "Lab Administration");
+    setImageUrl("");
+    setAttachmentUrl("");
+    setAttachmentName("");
   };
 
   const handleOpenCreate = () => {
@@ -155,6 +168,9 @@ export function NoticesAdminClient({ initialNotices, adminName }: NoticesAdminCl
     setPublished(n.published);
     setExpiresAt(n.expiresAt ? new Date(n.expiresAt).toISOString().split("T")[0] : "");
     setAuthorName(n.authorName || adminName || "Lab Administration");
+    setImageUrl(n.imageUrl || "");
+    setAttachmentUrl(n.attachmentUrl || "");
+    setAttachmentName(n.attachmentName || "");
     setDialogOpen(true);
   };
 
@@ -174,6 +190,9 @@ export function NoticesAdminClient({ initialNotices, adminName }: NoticesAdminCl
         published,
         expiresAt: expiresAt ? expiresAt : null,
         authorName,
+        imageUrl: imageUrl.trim() || null,
+        attachmentUrl: attachmentUrl.trim() || null,
+        attachmentName: attachmentName.trim() || null,
       };
 
       if (editingNotice) {
@@ -493,27 +512,54 @@ export function NoticesAdminClient({ initialNotices, adminName }: NoticesAdminCl
 
                       {/* Title & Preview */}
                       <td className="p-3 max-w-sm">
-                        <div className="font-bold text-sm text-[var(--text-primary)] flex items-center gap-1.5">
-                          {n.pinned && (
-                            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/25">
-                              PINNED
-                            </span>
+                        <div className="flex items-start gap-2.5">
+                          {n.imageUrl && (
+                            <div className="relative w-10 h-10 shrink-0 rounded overflow-hidden border border-[var(--border)] bg-black/20">
+                              <Image
+                                src={n.imageUrl}
+                                alt={n.title}
+                                fill
+                                sizes="40px"
+                                className="object-cover"
+                              />
+                            </div>
                           )}
-                          <span className="truncate">{n.title}</span>
-                        </div>
-                        <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
-                          {n.content}
-                        </p>
-                        <div className="text-[10px] text-[var(--text-muted)] mt-1 font-mono flex items-center gap-1.5">
-                          <span>By {n.authorName || "Lab Administration"}</span>
-                          {n.expiresAt && (
-                            <>
-                              <span>•</span>
-                              <span className="text-amber-600 dark:text-amber-400">
-                                Expires {new Date(n.expiresAt).toLocaleDateString()}
-                              </span>
-                            </>
-                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-sm text-[var(--text-primary)] flex items-center gap-1.5 flex-wrap">
+                              {n.pinned && (
+                                <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/25">
+                                  PINNED
+                                </span>
+                              )}
+                              <span className="truncate">{n.title}</span>
+                              {n.imageUrl && (
+                                <span className="inline-flex items-center gap-0.5 px-1 py-0.2 rounded text-[8px] font-mono bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20" title="Has Poster Image">
+                                  <ImageIcon className="w-2.5 h-2.5" />
+                                  <span>IMG</span>
+                                </span>
+                              )}
+                              {n.attachmentUrl && (
+                                <span className="inline-flex items-center gap-0.5 px-1 py-0.2 rounded text-[8px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" title={`Attachment: ${n.attachmentName || "File"}`}>
+                                  <Paperclip className="w-2.5 h-2.5" />
+                                  <span>DOC</span>
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-[var(--text-muted)] line-clamp-1 mt-0.5">
+                              {n.content}
+                            </p>
+                            <div className="text-[10px] text-[var(--text-muted)] mt-1 font-mono flex items-center gap-1.5">
+                              <span>By {n.authorName || "Lab Administration"}</span>
+                              {n.expiresAt && (
+                                <>
+                                  <span>•</span>
+                                  <span className="text-amber-600 dark:text-amber-400">
+                                    Expires {new Date(n.expiresAt).toLocaleDateString()}
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </td>
 
@@ -729,6 +775,49 @@ export function NoticesAdminClient({ initialNotices, adminName }: NoticesAdminCl
                 required
                 className="bg-[var(--surface-raised)] border-[var(--border)] text-xs leading-relaxed"
               />
+            </div>
+            {/* Optional Banner / Poster Picture */}
+            <div className="space-y-2 p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]/40">
+              <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
+                <ImageIcon className="w-3.5 h-3.5 text-[var(--bio-teal)]" />
+                <span>Notice Poster / Circular Picture (Optional)</span>
+              </div>
+              <MediaPicker
+                label="Poster / Flyer Image"
+                value={imageUrl}
+                onChange={setImageUrl}
+              />
+              <p className="text-[10px] text-[var(--text-muted)]">
+                Attach an official seminar poster, safety diagram, or circular flyer.
+              </p>
+            </div>
+
+            {/* Optional Official Document / Circular Attachment */}
+            <div className="space-y-2 p-3.5 rounded-md border border-[var(--border)] bg-[var(--surface-raised)]/40">
+              <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
+                <Paperclip className="w-3.5 h-3.5 text-[var(--bio-teal)]" />
+                <span>Document / PDF Attachment (Optional)</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-[11px] text-[var(--text-muted)]">Attachment Document Name</label>
+                  <Input
+                    value={attachmentName}
+                    onChange={(e) => setAttachmentName(e.target.value)}
+                    placeholder="e.g. Official_Lab_Protocol_2026.pdf"
+                    className="bg-[var(--surface)] border-[var(--border)] text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[11px] text-[var(--text-muted)]">Attachment URL / File Link</label>
+                  <Input
+                    value={attachmentUrl}
+                    onChange={(e) => setAttachmentUrl(e.target.value)}
+                    placeholder="https://... or /documents/circular.pdf"
+                    className="bg-[var(--surface)] border-[var(--border)] text-xs"
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Checkboxes: Pinned & Published */}

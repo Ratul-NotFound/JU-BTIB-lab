@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { NoticeCategory, NoticePriority, NoticeAudience, Role } from "@prisma/client";
 import {
   Bell,
@@ -16,6 +17,8 @@ import {
   ArrowRight,
   CalendarDays,
   UserCheck,
+  Paperclip,
+  ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +33,9 @@ export interface PortalNoticeItem {
   published: boolean;
   expiresAt: Date | string | null;
   authorName: string | null;
+  imageUrl?: string | null;
+  attachmentUrl?: string | null;
+  attachmentName?: string | null;
   createdAt: Date | string;
   updatedAt: Date | string;
 }
@@ -427,6 +433,19 @@ function NoticeCard({
           {notice.title}
         </h2>
 
+        {/* Poster Image / Flyer if present */}
+        {notice.imageUrl && (
+          <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] max-h-72 rounded-md overflow-hidden border border-[var(--border)] bg-black/40">
+            <Image
+              src={notice.imageUrl}
+              alt={notice.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 700px"
+              className="object-cover"
+            />
+          </div>
+        )}
+
         {/* Content Body */}
         <div className="text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed">
           <p
@@ -449,6 +468,22 @@ function NoticeCard({
             </button>
           )}
         </div>
+
+        {/* Document / Circular Attachment Button if present */}
+        {notice.attachmentUrl && (
+          <div className="pt-1">
+            <a
+              href={notice.attachmentUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--brand-primary)] text-[var(--text-primary)] hover:text-[var(--brand-primary)] transition-all shadow-xs"
+            >
+              <Paperclip className="w-3.5 h-3.5 text-[var(--brand-primary)]" />
+              <span>{notice.attachmentName || "View Circular Attachment"}</span>
+              <ExternalLink className="w-3 h-3 opacity-60 ml-0.5" />
+            </a>
+          </div>
+        )}
 
         {/* Author / Origin Signature */}
         <div className="pt-3 border-t border-[var(--border)] flex items-center justify-between text-[11px] text-[var(--text-muted)]">

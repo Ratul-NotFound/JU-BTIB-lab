@@ -73,7 +73,7 @@ export default async function ContactPage() {
             {/* Campus Image Header */}
             <div className="relative aspect-[2.1/1] sm:aspect-[16/9] rounded-md overflow-hidden border border-[var(--border)]">
               <Image
-                src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80"
+                src={settings?.heritageCampusImage || "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80"}
                 alt="Jahangirnagar University Campus grounds"
                 fill
                 className="object-cover"

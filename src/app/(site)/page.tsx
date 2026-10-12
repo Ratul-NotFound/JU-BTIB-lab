@@ -1,5 +1,9 @@
 import * as React from "react";
-import { getSiteSettings } from "@/server/queries/settings";
+import {
+  getSiteSettings,
+  getLandingPillarsSection,
+  getHomepageSections,
+} from "@/server/queries/settings";
 import { getResearchAreas } from "@/server/queries/research-areas";
 import { getPublicationsCount } from "@/server/queries/publications";
 import { getProjects } from "@/server/queries/projects";
@@ -13,18 +17,29 @@ import { ShortGallerySection } from "@/components/site/short-gallery-section";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [settings, researchAreas, totalPublications, featuredProjects, galleryAlbums] = await Promise.all([
+  const [
+    settings,
+    researchAreas,
+    totalPublications,
+    featuredProjects,
+    galleryAlbums,
+    pillarsData,
+    homepageSections,
+  ] = await Promise.all([
     getSiteSettings(),
     getResearchAreas(),
     getPublicationsCount(),
     getProjects({ featuredOnly: true }),
     getGalleryAlbums(),
+    getLandingPillarsSection(),
+    getHomepageSections(),
   ]);
 
   return (
     <div className="w-full flex flex-col">
       {/* Hero: Clean fullscreen with full name of the lab in the middle */}
       <FullscreenHero
+        heroHeading={settings?.heroHeading}
         heroSubheading={settings?.heroSubheading}
         totalDivisions={researchAreas.length || 8}
         totalPublications={totalPublications}
@@ -38,16 +53,35 @@ export default async function HomePage() {
       />
 
       {/* Section 1: Short About, Motto, Mission, Target & Motive */}
-      <LabIntroSection />
+      <LabIntroSection data={pillarsData} />
 
       {/* Section 2: Research Areas & Works */}
-      <ResearchPillars areas={researchAreas.slice(0, 4)} />
+      <ResearchPillars
+        areas={researchAreas.slice(0, 4)}
+        sectionTitle={homepageSections.disciplinesTitle}
+        sectionSubtitle={homepageSections.disciplinesSubtitle}
+        actionText={homepageSections.disciplinesLinkText}
+        actionLink={homepageSections.disciplinesLinkHref}
+      />
 
       {/* Section 3: Flagship Research Projects */}
-      <FeaturedProjectsSection projects={featuredProjects.slice(0, 3)} />
+      <FeaturedProjectsSection
+        projects={featuredProjects.slice(0, 3)}
+        sectionTitle={homepageSections.projectsTitle}
+        sectionSubtitle={homepageSections.projectsSubtitle}
+        actionText={homepageSections.projectsLinkText}
+        actionLink={homepageSections.projectsLinkHref}
+      />
 
       {/* Section 4: Short Authentic Gallery */}
-      <ShortGallerySection albums={galleryAlbums} />
+      <ShortGallerySection
+        albums={galleryAlbums}
+        sectionTitle={homepageSections.galleryTitle}
+        sectionSubtitle={homepageSections.gallerySubtitle}
+        actionText={homepageSections.galleryLinkText}
+        actionLink={homepageSections.galleryLinkHref}
+        customPreviews={homepageSections.galleryCards}
+      />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { ArrowRight, BookOpen } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
 interface FullscreenHeroProps {
+  heroHeading?: string;
   heroSubheading?: string;
   totalDivisions?: number;
   totalPublications?: number;
@@ -43,6 +44,7 @@ const DEFAULT_HERO_IMAGES = [
 ];
 
 export function FullscreenHero({
+  heroHeading,
   heroSubheading,
   totalDivisions = 8,
   totalPublications = 15,
@@ -190,7 +192,7 @@ export function FullscreenHero({
           transition={{ duration: 0.7, delay: 0.08, ease: easeCurve }}
           className="text-xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-sans font-extrabold tracking-tight text-slate-950 dark:text-white leading-[1.12] max-w-4xl drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)] dark:drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] transition-colors duration-300"
         >
-          Bioresources Technology &amp; Industrial Biotechnology Laboratory
+          {heroHeading || "Bioresources Technology & Industrial Biotechnology Laboratory"}
         </motion.h1>
 
         {/* Concise Description */}

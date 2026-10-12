@@ -61,7 +61,21 @@ export interface ResearchPillarItem {
   glyphKey?: string;
 }
 
-export function ResearchPillars({ areas }: { areas?: ResearchPillarItem[] }) {
+export interface ResearchPillarsProps {
+  areas?: ResearchPillarItem[];
+  sectionTitle?: string;
+  sectionSubtitle?: string;
+  actionText?: string;
+  actionLink?: string;
+}
+
+export function ResearchPillars({
+  areas,
+  sectionTitle = "Core Research Disciplines",
+  sectionSubtitle = "From indigenous microbial screening to continuous photobioreactor operation, our investigations bridge fundamental biological discovery and scalable industrial application.",
+  actionText = "View all 8 divisions",
+  actionLink = "/research",
+}: ResearchPillarsProps) {
   const displayItems = React.useMemo(() => {
     if (areas && areas.length > 0) {
       return areas.map((area) => ({
@@ -84,19 +98,18 @@ export function ResearchPillars({ areas }: { areas?: ResearchPillarItem[] }) {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
             <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
-                Core Research Disciplines
+                {sectionTitle}
               </h2>
               <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">
-                From indigenous microbial screening to continuous photobioreactor operation, our investigations
-                bridge fundamental biological discovery and scalable industrial application.
+                {sectionSubtitle}
               </p>
             </div>
 
             <Link
-              href="/research"
+              href={actionLink}
               className="text-xs font-bold font-sans text-[var(--brand-primary)] hover:underline inline-flex items-center gap-1.5 shrink-0 self-start sm:self-auto group"
             >
-              <span>View all 8 divisions</span>
+              <span>{actionText}</span>
               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>

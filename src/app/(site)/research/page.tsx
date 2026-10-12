@@ -4,6 +4,10 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { ChevronRight, FlaskConical, Atom, Dna, ArrowRight } from "lucide-react";
 import { getResearchAreas } from "@/server/queries/research-areas";
+import {
+  getResearchCapabilitiesSection,
+  getLiquidTreeInnovationSection,
+} from "@/server/queries/settings";
 import { ResearchGlyph } from "@/components/visuals/research-glyphs";
 
 export const metadata: Metadata = {
@@ -82,27 +86,12 @@ const AREA_METADATA: Record<
   },
 };
 
-const RESEARCH_CAPABILITIES = [
-  {
-    title: "Kinetic Fermentation Modeling",
-    description: "Multi-parameter digital monitoring of Monod kinetic rates, oxygen uptake rates (OUR), and volumetric productivity in stirred-tank fermentors.",
-  },
-  {
-    title: "Photobioreactor Engineering",
-    description: "Gas sparging dynamics, photosynthetic photon flux density (PPFD) regulation, and high-density microalgal cultivation for carbon capture.",
-  },
-  {
-    title: "Multi-Enzyme Immobilization",
-    description: "Covalent bonding onto natural polysaccharide and chitosan carriers to enhance thermal stability and catalytic reusability over 20+ cycles.",
-  },
-  {
-    title: "Indigenous Bioprospecting",
-    description: "Systematic screening of extremophilic and wetland bacterial isolates across Bangladesh for novel hydrolytic enzymes and antimicrobial metabolites.",
-  },
-];
-
 export default async function ResearchPage() {
-  const researchAreas = await getResearchAreas();
+  const [researchAreas, capabilitiesData, liquidTreeData] = await Promise.all([
+    getResearchAreas(),
+    getResearchCapabilitiesSection(),
+    getLiquidTreeInnovationSection(),
+  ]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-16 space-y-8 sm:space-y-16">
@@ -142,35 +131,35 @@ export default async function ResearchPage() {
           <div className="lg:col-span-7 space-y-3 sm:space-y-4">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded text-[11px] sm:text-xs font-semibold bg-[var(--bio-teal)]/10 text-[var(--bio-teal)] border border-[var(--bio-teal)]/30">
-                Flagship Research Initiative
+                {liquidTreeData.badge}
               </span>
               <span className="text-[11px] sm:text-xs text-[var(--text-muted)] font-medium">
-                Campus Deployment · Savar
+                {liquidTreeData.locationBadge}
               </span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
-              250L Liquid-Tree Urban Microalgae Photobioreactor
+              {liquidTreeData.title}
             </h2>
 
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
-              Pioneering Bangladesh&apos;s first operational urban microalgal carbon sequestration column. Operating on the Jahangirnagar University campus, the unit continuously fixes ambient CO2 and produces clean oxygen equivalent to two mature 10-year-old trees.
+              {liquidTreeData.description}
             </p>
 
             <div className="pt-1 sm:pt-2 flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] sm:text-xs font-mono text-[var(--text-muted)]">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>Microalgae: Chlorella vulgaris</span>
+                <span>Microalgae: {liquidTreeData.microalgaeSpecies}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[var(--bio-teal)]" />
-                <span>Volumetric Capacity: 250 Liters</span>
+                <span>Volumetric Capacity: {liquidTreeData.volumetricCapacity}</span>
               </div>
             </div>
 
             <div className="pt-1 sm:pt-2">
               <Link
-                href="/projects/liquid-tree-photobioreactor"
+                href={liquidTreeData.dossierLink}
                 className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded text-xs font-semibold bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-hover)] text-white shadow-sm hover:shadow-md transition-all active:scale-[0.98]"
               >
                 <span>Read Full Technical Dossier</span>
@@ -181,15 +170,15 @@ export default async function ResearchPage() {
 
           <div className="lg:col-span-5 relative aspect-[2.1/1] sm:aspect-[16/10] rounded-md overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-xs">
             <Image
-              src="/images/domains/algae-carbon.jpg"
-              alt="Liquid-Tree photobioreactor column in Savar"
+              src={liquidTreeData.coverImage}
+              alt={liquidTreeData.title}
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 500px"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
             <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 text-[10px] sm:text-xs text-white bg-black/60 backdrop-blur-md px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded border border-white/15">
-              <span>Operational Unit #01 · Savar Campus</span>
+              <span>{liquidTreeData.unitTag}</span>
             </div>
           </div>
         </div>
@@ -212,6 +201,9 @@ export default async function ResearchPage() {
               facility: "BTIB Analytical Suite",
               cluster: "General Biotech",
             };
+
+            const facility = area.facility || meta.facility;
+            const focusTags = area.focusTags && area.focusTags.length > 0 ? area.focusTags : meta.focusTags;
 
             return (
               <Link
@@ -240,7 +232,7 @@ export default async function ResearchPage() {
                   {/* Facility Name Badge */}
                   <div className="absolute top-2.5 sm:top-3.5 right-2.5 sm:right-3.5">
                     <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[10px] font-mono font-medium bg-black/50 backdrop-blur-md border border-white/10 text-slate-200">
-                      {meta.facility}
+                      {facility}
                     </span>
                   </div>
 
@@ -263,7 +255,7 @@ export default async function ResearchPage() {
 
                     {/* Research Focus Tags */}
                     <div className="flex flex-wrap gap-1 sm:gap-1.5 pt-0.5 sm:pt-1">
-                      {meta.focusTags.map((tag) => (
+                      {focusTags.map((tag) => (
                         <span
                           key={tag}
                           className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--surface-raised)] text-[var(--text-muted)] border border-[var(--border)]"
@@ -295,17 +287,17 @@ export default async function ResearchPage() {
       <section className="space-y-3.5 sm:space-y-6">
         <div className="space-y-1">
           <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
-            Core Scientific & Engineering Capabilities
+            {capabilitiesData.sectionTitle}
           </h2>
           <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
-            Standard operating procedures and analytical methodologies established across our laboratory units.
+            {capabilitiesData.sectionSubtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
-          {RESEARCH_CAPABILITIES.map((cap) => (
+          {capabilitiesData.items.map((cap) => (
             <div
-              key={cap.title}
+              key={cap.id || cap.title}
               className="p-3 sm:p-6 rounded-md border border-[var(--border)] bg-[var(--surface)] space-y-1.5 sm:space-y-2.5 shadow-xs"
             >
               <h3 className="font-bold text-xs sm:text-base text-[var(--text-primary)]">

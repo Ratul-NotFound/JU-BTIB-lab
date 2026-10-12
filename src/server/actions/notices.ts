@@ -17,6 +17,9 @@ const noticeSchema = z.object({
   published: z.boolean().default(true),
   expiresAt: z.string().optional().nullable(),
   authorName: z.string().optional().nullable(),
+  imageUrl: z.string().optional().nullable(),
+  attachmentUrl: z.string().optional().nullable(),
+  attachmentName: z.string().optional().nullable(),
 });
 
 export type NoticeInput = z.infer<typeof noticeSchema>;
@@ -42,6 +45,9 @@ export async function createNoticeAction(input: NoticeInput) {
         published: validated.published,
         expiresAt: validated.expiresAt ? new Date(validated.expiresAt) : null,
         authorName: author,
+        imageUrl: validated.imageUrl?.trim() || null,
+        attachmentUrl: validated.attachmentUrl?.trim() || null,
+        attachmentName: validated.attachmentName?.trim() || null,
         userId: adminUser.id,
       },
     });
@@ -113,6 +119,9 @@ export async function updateNoticeAction(id: string, input: Partial<NoticeInput>
           expiresAt: validated.expiresAt ? new Date(validated.expiresAt) : null,
         }),
         ...(validated.authorName !== undefined && { authorName: validated.authorName?.trim() || null }),
+        ...(validated.imageUrl !== undefined && { imageUrl: validated.imageUrl?.trim() || null }),
+        ...(validated.attachmentUrl !== undefined && { attachmentUrl: validated.attachmentUrl?.trim() || null }),
+        ...(validated.attachmentName !== undefined && { attachmentName: validated.attachmentName?.trim() || null }),
       },
     });
 

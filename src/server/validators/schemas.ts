@@ -46,6 +46,9 @@ export const researchAreaSchema = z.object({
   bodyHtml: z.string().optional().nullable(),
   glyphKey: z.string().min(1, "Glyph key is required"),
   coverImage: z.string().optional().nullable().or(z.literal("")),
+  facility: z.string().optional().nullable(),
+  cluster: z.string().optional().nullable(),
+  focusTags: z.array(z.string()).default([]),
   order: z.coerce.number().int().default(0),
   published: z.boolean().default(true),
 });

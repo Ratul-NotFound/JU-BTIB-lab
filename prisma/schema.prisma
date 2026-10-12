@@ -150,6 +150,9 @@ model ResearchArea {
   bodyHtml     String?                       @db.Text
   glyphKey     String
   coverImage   String?
+  facility     String?
+  cluster      String?
+  focusTags    String[]                      @default([])
   order        Int                           @default(0)
   published    Boolean                       @default(true)
   createdAt    DateTime                      @default(now())
@@ -573,6 +576,9 @@ model LabNotice {
   published      Boolean        @default(true)
   expiresAt      DateTime?
   authorName     String?        @default("Lab Administration")
+  imageUrl       String?
+  attachmentUrl  String?
+  attachmentName String?
   userId         String?
   user           User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
   createdAt      DateTime       @default(now())

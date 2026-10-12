@@ -24,6 +24,9 @@ export interface AreaItem {
   summary: string;
   glyphKey: string;
   coverImage?: string | null;
+  facility?: string | null;
+  cluster?: string | null;
+  focusTags?: string[];
   order: number;
   published: boolean;
 }
@@ -56,6 +59,9 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
   const [summary, setSummary] = React.useState("");
   const [glyphKey, setGlyphKey] = React.useState("microbe");
   const [coverImage, setCoverImage] = React.useState("");
+  const [facility, setFacility] = React.useState("");
+  const [cluster, setCluster] = React.useState("");
+  const [focusTagsStr, setFocusTagsStr] = React.useState("");
   const [order, setOrder] = React.useState(0);
   const [published, setPublished] = React.useState(true);
   const [submitting, setSubmitting] = React.useState(false);
@@ -67,6 +73,9 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
     setSummary("");
     setGlyphKey("microbe");
     setCoverImage("");
+    setFacility("");
+    setCluster("");
+    setFocusTagsStr("");
     setOrder(initialData.length + 1);
     setPublished(true);
     setDialogOpen(true);
@@ -79,6 +88,9 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
     setSummary(item.summary);
     setGlyphKey(item.glyphKey);
     setCoverImage(item.coverImage || "");
+    setFacility(item.facility || "");
+    setCluster(item.cluster || "");
+    setFocusTagsStr(Array.isArray(item.focusTags) ? item.focusTags.join(", ") : "");
     setOrder(item.order);
     setPublished(item.published);
     setDialogOpen(true);
@@ -88,6 +100,11 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
     e.preventDefault();
     setSubmitting(true);
 
+    const tags = focusTagsStr
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+
     try {
       if (editingItem) {
         await updateResearchArea(editingItem.id, {
@@ -96,6 +113,9 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
           summary,
           glyphKey,
           coverImage: coverImage || null,
+          facility: facility.trim() || null,
+          cluster: cluster.trim() || null,
+          focusTags: tags,
           order,
           published,
         });
@@ -107,6 +127,9 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
           summary,
           glyphKey,
           coverImage: coverImage || null,
+          facility: facility.trim() || null,
+          cluster: cluster.trim() || null,
+          focusTags: tags,
           order,
           published,
         });
@@ -296,6 +319,35 @@ export function ResearchAreasClient({ initialData }: { initialData: AreaItem[] }
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
               placeholder="Concise overview of research objectives and experimental focus..."
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-mono text-[var(--text-secondary)]">FACILITY / LAB SUITE</label>
+              <Input
+                value={facility}
+                onChange={(e) => setFacility(e.target.value)}
+                placeholder="e.g. Microbiology Suite"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-mono text-[var(--text-secondary)]">RESEARCH CLUSTER</label>
+              <Input
+                value={cluster}
+                onChange={(e) => setCluster(e.target.value)}
+                placeholder="e.g. Microbial & Environmental"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-mono text-[var(--text-secondary)]">RESEARCH FOCUS TAGS (COMMA-SEPARATED)</label>
+            <Input
+              value={focusTagsStr}
+              onChange={(e) => setFocusTagsStr(e.target.value)}
+              placeholder="e.g. Enzyme Bioprospecting, Wetland Isolates, Metabolic Screening"
             />
           </div>
 

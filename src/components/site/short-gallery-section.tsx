@@ -51,8 +51,39 @@ export interface GalleryAlbumInput {
   }>;
 }
 
-export function ShortGallerySection({ albums }: { albums?: GalleryAlbumInput[] }) {
+export interface ShortGallerySectionProps {
+  albums?: GalleryAlbumInput[];
+  sectionTitle?: string;
+  sectionSubtitle?: string;
+  actionText?: string;
+  actionLink?: string;
+  customPreviews?: Array<{
+    title: string;
+    tag: string;
+    photo: string;
+    alt: string;
+  }>;
+}
+
+export function ShortGallerySection({
+  albums,
+  sectionTitle = "Laboratory Facilities in Action",
+  sectionSubtitle = "Authentic photographic archive documenting our bioreactor pilots, microbial cultures, and experimental benchwork.",
+  actionText = "View complete archive",
+  actionLink = "/gallery",
+  customPreviews,
+}: ShortGallerySectionProps) {
   const items = React.useMemo(() => {
+    if (customPreviews && customPreviews.length > 0) {
+      return customPreviews.slice(0, 4).map((p, idx) => ({
+        title: p.title,
+        tag: p.tag || "Pilot Facility",
+        photo: p.photo,
+        alt: p.alt || p.title,
+        span: idx === 0 || idx === 3 ? "col-span-1 md:col-span-2 aspect-[4/3] md:aspect-[16/10]" : "col-span-1 md:col-span-1 aspect-[4/3] md:aspect-auto",
+      }));
+    }
+
     if (albums && albums.length > 0) {
       const extracted: Array<{ title: string; tag: string; photo: string; alt: string; span: string }> = [];
       for (const album of albums) {
@@ -84,7 +115,7 @@ export function ShortGallerySection({ albums }: { albums?: GalleryAlbumInput[] }
       if (extracted.length > 0) return extracted.slice(0, 4);
     }
     return DEFAULT_GALLERY_PREVIEWS;
-  }, [albums]);
+  }, [albums, customPreviews]);
 
   return (
     <section className="w-full bg-[var(--background)] py-6 sm:py-16 lg:py-24 border-b border-[var(--border)]">
@@ -94,18 +125,18 @@ export function ShortGallerySection({ albums }: { albums?: GalleryAlbumInput[] }
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
             <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
-                Laboratory Facilities in Action
+                {sectionTitle}
               </h2>
               <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">
-                Authentic photographic archive documenting our bioreactor pilots, microbial cultures, and experimental benchwork.
+                {sectionSubtitle}
               </p>
             </div>
 
             <Link
-              href="/gallery"
+              href={actionLink}
               className="text-xs font-bold font-sans text-[var(--brand-primary)] hover:underline inline-flex items-center gap-1.5 shrink-0 self-start sm:self-auto group"
             >
-              <span>View complete archive</span>
+              <span>{actionText}</span>
               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>

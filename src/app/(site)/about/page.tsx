@@ -8,7 +8,14 @@ import {
   Compass,
   Mail,
 } from "lucide-react";
-import { getSiteSettings, getContentBlocks } from "@/server/queries/settings";
+import {
+  getSiteSettings,
+  getContentBlocks,
+  getAboutMilestonesSection,
+  getAboutAchievementsSection,
+  getAboutFacilitiesSection,
+  getFacultyLeadershipSection,
+} from "@/server/queries/settings";
 import { getTeamMembers } from "@/server/queries/team";
 import { MemberCategory } from "@prisma/client";
 import { getOrganizationJsonLd } from "@/lib/seo";
@@ -36,119 +43,23 @@ function getBlockText(content: unknown): string | null {
   return null;
 }
 
-const MILESTONES = [
-  {
-    year: "2012",
-    title: "Laboratory Foundation & Inception",
-    tag: "Established",
-    description:
-      "Founded by Professor Mohammad Shahedur Rahman within the Department of Biotechnology & Genetic Engineering at Jahangirnagar University. Initiated systematic bioprospecting of indigenous microbial strains from wetland and riverine ecosystems across Bangladesh.",
-  },
-  {
-    year: "2016",
-    title: "Bioprocess Kinetics & Fermentation Suite",
-    tag: "Expansion",
-    description:
-      "Commissioned automated 5-liter stirred-tank bioreactor systems (Sartorius Biostat), establishing closed-loop dissolved oxygen control and fermentation kinetic modeling for industrial enzymes.",
-  },
-  {
-    year: "2019",
-    title: "Enzyme Immobilization Breakthrough",
-    tag: "Research Milestone",
-    description:
-      "Engineered novel multi-enzyme immobilized matrices for the production of high-fructose corn syrup (HFCS) and secondary metabolite conversion, bridging molecular chemistry and industrial catalysis.",
-  },
-  {
-    year: "2021",
-    title: "Environmental Biosorption & Genomic Surveillance",
-    tag: "Civic Contribution",
-    description:
-      "Pioneered microbial biosorption filters for hexavalent chromium in Savar industrial runoff and contributed to national SARS-CoV-2 genomic epidemiology sequencing.",
-  },
-  {
-    year: "2024",
-    title: "250L Liquid-Tree Photobioreactor Deployment",
-    tag: "Flagship Innovation",
-    description:
-      "Constructed and deployed Bangladesh's first operational 250-liter microalgal photobioreactor column, achieving continuous volumetric carbon sequestration equivalent to 2 mature urban trees.",
-  },
-  {
-    year: "2026",
-    title: "Circular Bioeconomy & Biopolymer Scaling",
-    tag: "Current Horizon",
-    description:
-      "Expanding translational research into compostable agricultural-waste bioplastics, microbial biofertilizers, and high-cell-density pilot production for local industrial adoption.",
-  },
-];
-
-const ACHIEVEMENTS: Array<{
-  iconKey: "calendar" | "flask" | "award" | "users";
-  metric: string;
-  label: string;
-  detail: string;
-}> = [
-  {
-    iconKey: "calendar",
-    metric: "2012",
-    label: "Year Established",
-    detail: "14+ years of continuous translational biotechnology research at Jahangirnagar University.",
-  },
-  {
-    iconKey: "flask",
-    metric: "250 L",
-    label: "Liquid-Tree Photobioreactor",
-    detail: "First operational urban microalgae carbon capture and oxygenation column in Bangladesh.",
-  },
-  {
-    iconKey: "award",
-    metric: "15+",
-    label: "Peer-Reviewed Discoveries",
-    detail: "Published across high-impact international journals indexed in PubMed, Elsevier, and Springer.",
-  },
-  {
-    iconKey: "users",
-    metric: "50+",
-    label: "Alumni & Scholars Trained",
-    detail: "B.Sc., M.Sc., and Ph.D. scholars now serving across global academic and industrial laboratories.",
-  },
-];
-
-const CORE_FACILITIES: Array<{
-  iconKey: "flask" | "cpu" | "microscope" | "layers";
-  title: string;
-  description: string;
-}> = [
-  {
-    iconKey: "flask",
-    title: "Fermentation Kinetics Cleanroom",
-    description:
-      "Equipped with automated stirred-tank bioreactor systems with digital control loops for dissolved oxygen, agitation, pH, and nutrient feed kinetics.",
-  },
-  {
-    iconKey: "cpu",
-    title: "Liquid-Tree Photobioreactor Yard",
-    description:
-      "Pilot-scale cultivation columns utilizing Chlorella vulgaris for volumetric carbon mitigation, microalgal biomass harvesting, and urban oxygenation.",
-  },
-  {
-    iconKey: "microscope",
-    title: "Microbial Culture & Cryo Repository",
-    description:
-      "Deep-freeze -80°C strain preservation bank cataloging indigenous bacterial, fungal, and microalgal isolates collected from diverse ecological zones.",
-  },
-  {
-    iconKey: "layers",
-    title: "Analytical & Enzyme Assay Suite",
-    description:
-      "Dedicated chromatography, gel electrophoresis, and spectrophotometric instrumentation for catalytic rate determination and biopolymer characterization.",
-  },
-];
-
 export default async function AboutPage() {
-  const [settings, contentBlocks, teamMembers] = await Promise.all([
+  const [
+    settings,
+    contentBlocks,
+    teamMembers,
+    milestonesData,
+    achievementsData,
+    facilitiesData,
+    leadershipData,
+  ] = await Promise.all([
     getSiteSettings(),
     getContentBlocks(),
     getTeamMembers({ category: MemberCategory.PI_FACULTY }),
+    getAboutMilestonesSection(),
+    getAboutAchievementsSection(),
+    getAboutFacilitiesSection(),
+    getFacultyLeadershipSection(),
   ]);
 
   const blockMap = new Map(contentBlocks.map((b) => [b.key, b]));
@@ -239,21 +150,26 @@ export default async function AboutPage() {
         <AboutSectionReveal className="space-y-3.5 sm:space-y-6">
           <div className="space-y-1">
             <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
-              Laboratory Benchmarks & Impact
+              {achievementsData.sectionTitle}
             </h2>
+            {achievementsData.sectionSubtitle && (
+              <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
+                {achievementsData.sectionSubtitle}
+              </p>
+            )}
           </div>
 
-          <AboutImpactMetrics achievements={ACHIEVEMENTS} />
+          <AboutImpactMetrics achievements={achievementsData.items} />
         </AboutSectionReveal>
 
         {/* 3. Balanced 2-Column History: Narrative on Left, Chronological Milestones on Right */}
         <section className="space-y-4 sm:space-y-8">
           <AboutSectionReveal className="space-y-1.5 max-w-3xl">
             <h2 className="text-xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
-              Full History: 2012 to Present
+              {milestonesData.sectionTitle}
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
-              From an exploratory academic screening initiative to a national center for bioprocess engineering and urban photobioreactors in Bangladesh.
+              {milestonesData.sectionSubtitle}
             </p>
           </AboutSectionReveal>
 
@@ -277,8 +193,12 @@ export default async function AboutPage() {
                       SR
                     </div>
                     <div className="text-[11px] sm:text-xs">
-                      <span className="font-bold block text-[var(--text-primary)]">Prof. Mohammad Shahedur Rahman</span>
-                      <span className="text-[var(--text-muted)]">Founding Director & Principal Investigator</span>
+                      <span className="font-bold block text-[var(--text-primary)]">
+                        {leadershipData?.name || "Prof. Mohammad Shahedur Rahman"}
+                      </span>
+                      <span className="text-[var(--text-muted)]">
+                        {leadershipData?.title || "Founding Director & Principal Investigator"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -287,7 +207,7 @@ export default async function AboutPage() {
 
             {/* Right Milestones Column (7 cols) */}
             <div className="lg:col-span-7">
-              <AboutMilestonesList milestones={MILESTONES} />
+              <AboutMilestonesList milestones={milestonesData.items} />
             </div>
 
           </div>
@@ -317,14 +237,14 @@ export default async function AboutPage() {
         <section className="space-y-3.5 sm:space-y-6">
           <AboutSectionReveal className="space-y-1">
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-tight">
-              Core Facilities & Laboratory Suites
+              {facilitiesData.sectionTitle}
             </h2>
             <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light">
-              Situated in the Department of Biotechnology & Genetic Engineering, BTIB Lab houses specialized suites for benchtop fermentation, molecular screening, and pilot-scale photobioreactors.
+              {facilitiesData.sectionSubtitle}
             </p>
           </AboutSectionReveal>
 
-          <AboutFacilitiesGrid facilities={CORE_FACILITIES} />
+          <AboutFacilitiesGrid facilities={facilitiesData.items} />
         </section>
 
         {/* 6. Faculty Leadership Spotlight (PI) */}

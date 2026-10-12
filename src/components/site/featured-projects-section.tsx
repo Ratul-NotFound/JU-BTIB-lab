@@ -59,7 +59,21 @@ export interface FeaturedProjectInput {
   }>;
 }
 
-export function FeaturedProjectsSection({ projects }: { projects?: FeaturedProjectInput[] }) {
+export interface FeaturedProjectsProps {
+  projects?: FeaturedProjectInput[];
+  sectionTitle?: string;
+  sectionSubtitle?: string;
+  actionText?: string;
+  actionLink?: string;
+}
+
+export function FeaturedProjectsSection({
+  projects,
+  sectionTitle = "Flagship Research & Field Deployments",
+  sectionSubtitle = "Translating fundamental bioresource research into functional prototypes, bioprocess platforms, and sustainable materials.",
+  actionText = "View all active projects",
+  actionLink = "/projects",
+}: FeaturedProjectsProps) {
   const displayProjects = React.useMemo(() => {
     if (projects && projects.length > 0) {
       return projects.map((p, idx) => {
@@ -99,18 +113,18 @@ export function FeaturedProjectsSection({ projects }: { projects?: FeaturedProje
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 sm:gap-6 pb-1 sm:pb-2">
             <div className="space-y-1.5 sm:space-y-3 max-w-3xl">
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-sans tracking-tight text-[var(--text-primary)] leading-[1.14]">
-                Flagship Research & Field Deployments
+                {sectionTitle}
               </h2>
               <p className="text-xs sm:text-base text-[var(--text-secondary)] leading-relaxed font-light max-w-2xl">
-                Translating fundamental bioresource research into functional prototypes, bioprocess platforms, and sustainable materials.
+                {sectionSubtitle}
               </p>
             </div>
 
             <Link
-              href="/projects"
+              href={actionLink}
               className="text-xs font-bold font-sans text-[var(--brand-primary)] hover:underline inline-flex items-center gap-1.5 shrink-0 self-start sm:self-auto group"
             >
-              <span>View all active projects</span>
+              <span>{actionText}</span>
               <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>

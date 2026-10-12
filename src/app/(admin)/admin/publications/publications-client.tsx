@@ -16,7 +16,7 @@ import {
 } from "@/server/actions/publications";
 import { fetchPublicationMetadataByDoi } from "@/server/actions/doi";
 import { PublicationType } from "@prisma/client";
-import { Edit2, Trash2, ExternalLink, Sparkles, Loader2 } from "lucide-react";
+import { Edit2, Trash2, ExternalLink, Sparkles, Loader2, FileText } from "lucide-react";
 
 export interface PublicationItem {
   id: string;
@@ -58,6 +58,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
   const [type, setType] = React.useState<PublicationType>(PublicationType.JOURNAL);
   const [doi, setDoi] = React.useState("");
   const [url, setUrl] = React.useState("");
+  const [pdfUrl, setPdfUrl] = React.useState("");
   const [abstract, setAbstract] = React.useState("");
   const [bibtex, setBibtex] = React.useState("");
   const [featured, setFeatured] = React.useState(false);
@@ -75,6 +76,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
     setType(PublicationType.JOURNAL);
     setDoi("");
     setUrl("");
+    setPdfUrl("");
     setAbstract("");
     setBibtex("");
     setFeatured(false);
@@ -93,6 +95,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
     setType(item.type);
     setDoi(item.doi || "");
     setUrl(item.url || "");
+    setPdfUrl(item.pdfUrl || "");
     setAbstract(item.abstract || "");
     setBibtex(item.bibtex || "");
     setFeatured(item.featured);
@@ -150,6 +153,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
           type,
           doi: doi || null,
           url: url || null,
+          pdfUrl: pdfUrl.trim() || null,
           abstract: abstract || null,
           bibtex: bibtex || null,
           featured,
@@ -168,6 +172,7 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
           type,
           doi: doi || null,
           url: url || null,
+          pdfUrl: pdfUrl.trim() || null,
           abstract: abstract || null,
           bibtex: bibtex || null,
           featured,
@@ -245,13 +250,25 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
       key: "status",
       header: "Review Flag",
       render: (item) => (
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 flex-wrap">
           {item.needsReview ? (
             <Badge variant="warning">Needs Review</Badge>
           ) : (
             <Badge variant="teal">Verified</Badge>
           )}
           {item.featured && <Badge variant="cyan">Featured</Badge>}
+          {item.pdfUrl && (
+            <a
+              href={item.pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20"
+              title="Open full-text document"
+            >
+              <FileText className="w-3 h-3" />
+              <span>PDF</span>
+            </a>
+          )}
         </div>
       ),
     },
@@ -404,6 +421,17 @@ export function PublicationsClient({ initialData }: { initialData: PublicationIt
                 placeholder="https://..."
               />
             </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-mono text-[var(--text-secondary)]">
+              FULL-TEXT PDF DOCUMENT / PREPRINT URL (OPTIONAL)
+            </label>
+            <Input
+              value={pdfUrl}
+              onChange={(e) => setPdfUrl(e.target.value)}
+              placeholder="https://... or direct document link"
+            />
           </div>
 
           <div className="space-y-1">
