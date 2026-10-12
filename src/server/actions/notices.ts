@@ -4,7 +4,7 @@ import { revalidatePath, unstable_cache } from "next/cache";
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/auth-guard";
 import { Role, NoticeCategory, NoticePriority, NoticeAudience } from "@prisma/client";
-import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
+import { invalidateCache, CACHE_TAGS } from "@/server/cache";
 import { z } from "zod";
 
 const noticeSchema = z.object({

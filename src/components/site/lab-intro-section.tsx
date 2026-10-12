@@ -26,7 +26,7 @@ import { Reveal, StaggerContainer, StaggerItem, InteractiveCard } from "@/compon
 import {
   type LandingPillarsSectionData,
   DEFAULT_LANDING_PILLARS,
-} from "@/server/queries/settings";
+} from "@/types/settings-sections";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   compass: Compass,

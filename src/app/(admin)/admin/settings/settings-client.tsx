@@ -60,7 +60,7 @@ import {
   type AboutFacilitiesSectionData,
   type AboutFacilityItem,
   DEFAULT_ABOUT_FACILITIES,
-} from "@/server/queries/settings";
+} from "@/types/settings-sections";
 import type { Prisma } from "@prisma/client";
 
 const ABOUT_ICON_OPTIONS = [

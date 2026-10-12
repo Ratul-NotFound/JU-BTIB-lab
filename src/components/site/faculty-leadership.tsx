@@ -5,7 +5,7 @@ import { Mail, ArrowRight, Quote } from "lucide-react";
 import {
   type FacultyLeadershipContentData,
   DEFAULT_FACULTY_LEADERSHIP,
-} from "@/server/queries/settings";
+} from "@/types/settings-sections";
 
 export interface FacultyLeadershipData {
   name?: string;

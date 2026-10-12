@@ -9,7 +9,7 @@ import {
   type GalleryImageInput,
 } from "@/server/validators/schemas";
 import { Role } from "@prisma/client";
-import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
+import { invalidateCache, CACHE_TAGS } from "@/server/cache";
 import { formatActionError } from "@/lib/action-error";
 import { logAuditAsync } from "@/lib/audit";
 

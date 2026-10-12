@@ -3,7 +3,7 @@
 import { db } from "@/lib/db";
 import { requireRole } from "@/lib/auth-guard";
 import { publicationSchema, type PublicationInput } from "@/server/validators/schemas";
-import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
+import { invalidateCache, CACHE_TAGS } from "@/server/cache";
 import { formatActionError } from "@/lib/action-error";
 import { logAuditAsync } from "@/lib/audit";
 import { Role } from "@prisma/client";

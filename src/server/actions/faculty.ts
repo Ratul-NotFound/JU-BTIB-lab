@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requireRole, requireFacultyOrAdmin } from "@/lib/auth-guard";
 import { Role, AccountStatus, MemberCategory } from "@prisma/client";
-import { invalidateCache, CACHE_TAGS } from "@/lib/cache-tags";
+import { invalidateCache, CACHE_TAGS } from "@/server/cache";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
